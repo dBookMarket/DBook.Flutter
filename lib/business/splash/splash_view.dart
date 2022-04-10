@@ -1,0 +1,18 @@
+import 'dart:math';
+
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+
+import 'splash_logic.dart';
+
+class SplashPage extends StatelessWidget {
+  final logic = Get.put(SplashLogic());
+  final state = Get.find<SplashLogic>().state;
+  final random = Random().nextInt(100).toString();
+
+  @override
+  Widget build(BuildContext context) {
+    return Obx(() => SafeArea(child: Container(color: Colors.red,)));
+  }
+}
