@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
+import 'logger.dart';
+
 class Loading {
-  Loading() {
+  static init() {
     EasyLoading.instance
       ..displayDuration = const Duration(milliseconds: 2000)
       ..indicatorType = EasyLoadingIndicatorType.ring
@@ -19,18 +21,38 @@ class Loading {
       ..dismissOnTap = false
       ..maskType = EasyLoadingMaskType.custom;
   }
+}
 
-  static void show([String? text]) {
-    EasyLoading.instance.userInteractions = false;
-    EasyLoading.show(status: text ?? 'Loading...');
-  }
 
-  static void toast(String text) {
-    EasyLoading.showToast(text);
-  }
+showLoading({String? t = '加载中...'}) {
+  EasyLoading.instance.userInteractions = false;
+  EasyLoading.show(status: t ?? 'Loading...');
+}
 
-  static void dismiss() {
-    EasyLoading.instance.userInteractions = true;
-    EasyLoading.dismiss();
-  }
+showSuccess({String? t}) {
+  EasyLoading.showSuccess(t ?? '加载成功!', dismissOnTap: false);
+  logX.d('加载成功>>>>$t');
+}
+
+showProgress(double progress,{String? status,}) {
+  EasyLoading.instance..userInteractions = false;
+  EasyLoading.showProgress(progress,status: status);
+}
+
+showError({String? t}) {
+  EasyLoading.showError(t ?? '加载失败!', dismissOnTap: false);
+  logX.d('加载失败>>>>$t');
+}
+
+showInfo({String? t}) {
+  EasyLoading.showInfo(t ?? '', dismissOnTap: false);
+}
+
+dismissLoading() {
+  EasyLoading.instance.userInteractions = true;
+  EasyLoading.dismiss();
+}
+
+showToast(String value) {
+  EasyLoading.showToast(value, dismissOnTap: false);
 }

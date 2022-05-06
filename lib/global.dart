@@ -5,6 +5,8 @@ import 'package:dbook/common/store/store.dart';
 import 'package:dbook/common/utils/utils.dart';
 import 'package:get/get.dart';
 
+import 'common/key_manager/keystore_manager.dart';
+
 /// 全局静态数据
 class Global {
   /// 初始化
@@ -14,6 +16,8 @@ class Global {
 
     setSystemUi();
     Loading();
+
+    await Web3KeychainManager.init();
 
     await Get.putAsync<StorageService>(() => StorageService().init());
 

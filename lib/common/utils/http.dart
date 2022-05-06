@@ -82,7 +82,7 @@ class HttpUtil {
       },
       onError: (DioError e, handler) {
         // Do something with response error
-        Loading.dismiss();
+        dismissLoading();
         ErrorEntity eInfo = createErrorEntity(e);
         onError(eInfo);
         return handler.next(e); //continue
