@@ -134,7 +134,7 @@ class LogInterceptorX extends Interceptor {
 
       responseStr =responseStr+'*** headers start***\n';
       var appToken = StorageService.to.getString(BaseFrameConstant.APP_TOKEN);
-      responseStr = responseStr + 'token'+': '+(appToken??'null')+'\n';
+      responseStr = responseStr + 'token'+': '+appToken+'\n';
       response.headers.forEach((key, v) => responseStr =responseStr+key+':  '+v.toString()+'\n');
       responseStr =responseStr+'*** headers end***\n';
     }

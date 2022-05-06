@@ -22,7 +22,7 @@ AppBar transparentAppBar({
 }
 
 /// 10像素 Divider
-Widget divider10Px({Color bgColor = AppColors.primaryMain}) {
+Widget divider10Px({Color bgColor = ColorX.primaryMain}) {
   return Container(
     height: 10.w,
     decoration: BoxDecoration(

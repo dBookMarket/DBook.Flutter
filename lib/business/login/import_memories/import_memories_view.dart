@@ -1,15 +1,19 @@
-import 'package:dbook/common/widgets/appBar.dart';
-import 'package:dbook/common/widgets/base_container_view.dart';
-import 'package:dbook/common/widgets/button.dart';
+import 'package:dbook/business/login/setting_password/setting_password_view.dart';
+import 'package:dbook/common/values/values.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-import 'import_private_key_logic.dart';
+import '../../../common/widgets/appBar.dart';
+import '../../../common/widgets/base_container_view.dart';
+import '../../../common/widgets/button.dart';
+import 'import_memories_logic.dart';
 
-class ImportPrivateKeyPage extends StatelessWidget {
-  final logic = Get.put(ImportPrivateKeyLogic());
-  final state = Get.find<ImportPrivateKeyLogic>().state;
+class ImportMemoriesPage extends StatelessWidget {
+  final logic = Get.put(ImportMemoriesLogic());
+  final state = Get
+      .find<ImportMemoriesLogic>()
+      .state;
 
   @override
   Widget build(BuildContext context) {
@@ -20,10 +24,23 @@ class ImportPrivateKeyPage extends StatelessWidget {
     );
   }
 
-  Widget _body() => BaseContainer(
+  Widget _body() =>
+      BaseContainer(
         padding: EdgeInsets.symmetric(horizontal: 30.w),
         child: Column(
-          children: [_input(), Expanded(child: SizedBox()), ButtonX('下一步'), SizedBox(height: 36.h)],
+          children: [
+            _input(),
+            Expanded(child: SizedBox()),
+            Obx(() {
+              return ButtonX(
+                '下一步',
+                enable: state.memories.value.isNotEmpty,
+                backgroundColor: state.memories.isNotEmpty ? ColorX.buttonValid : ColorX.buttonInValid,
+                onPressed: () => Get.to(SettingPasswordPage(), arguments: Map.of({'memories': state.memories.value})),
+              );
+            }),
+            SizedBox(height: 36.h)
+          ],
         ),
       );
 
@@ -31,11 +48,10 @@ class ImportPrivateKeyPage extends StatelessWidget {
     return TextField(
       maxLines: 10,
       maxLength: 300,
-      focusNode: state.memoriesFocus,
+      controller: state.controller,
       textAlignVertical: TextAlignVertical.bottom,
       textAlign: TextAlign.start,
       onChanged: logic.onMemoriesInput,
-      controller: state.memoriesInputController,
       decoration: InputDecoration(
         isCollapsed: true,
         contentPadding: EdgeInsets.fromLTRB(32.w, 30.h, 32.w, 30.h),

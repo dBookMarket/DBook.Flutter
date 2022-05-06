@@ -1,15 +1,18 @@
+import 'package:dbook/common/widgets/text.dart';
 import 'package:flutter/material.dart';
 import 'package:dbook/common/values/values.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../config/app_config.dart';
 
 /// 扁平圆角按钮
 Widget btnFlatButtonWidget({
   required VoidCallback onPressed,
   double width = 140,
   double height = 44,
-  Color gbColor = AppColors.primaryBackground,
+  Color gbColor = ColorX.primaryBackground,
   String title = "button",
-  Color fontColor = AppColors.txtTitle,
+  Color fontColor = ColorX.txtTitle,
   double fontSize = 18,
   String fontName = "Montserrat",
   FontWeight fontWeight = FontWeight.w400,
@@ -101,4 +104,72 @@ Widget btnFlatButtonBorderOnlyWidget({
       onPressed: onPressed,
     ),
   );
+}
+
+// ignore: must_be_immutable
+class ButtonX extends StatelessWidget {
+  String txt;
+  Color textColor;
+  double? fontSize;
+  VoidCallback? onPressed;
+  bool? enable = true;
+  Color? backgroundColor;
+  EdgeInsets? padding;
+  EdgeInsets? margin;
+  double? borderRadius;
+  double? width;
+  Color? primary;
+  FontWeight? fontWeight;
+  bool? autoWidth;
+  Color? borderColor;
+  double? borderWidth;
+  LinearGradient? linearGradient;
+
+  ButtonX(
+      this.txt, {
+        Key? key,
+        this.onPressed,
+        this.enable,
+        this.backgroundColor = ColorX.buttonValid,
+        this.textColor = ColorX.buttonText,
+        this.fontSize,
+        this.padding,
+        this.width,
+        this.margin,
+        this.borderRadius,
+        this.primary,
+        this.fontWeight,
+        this.autoWidth,
+        this.borderColor,
+        this.borderWidth,
+        this.linearGradient,
+      });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: width,
+      margin: margin ?? EdgeInsets.all(0),
+      constraints: BoxConstraints(minWidth: autoWidth ?? false ? 0.1 : 1.sw-42.w*2),
+      padding: padding ??
+          EdgeInsets.symmetric(
+            horizontal: 20.h,
+            vertical: 30.h,
+          ),
+      decoration: BoxDecoration(
+          color: backgroundColor,
+          borderRadius: BorderRadius.circular(borderRadius ?? 20.r),
+          border: Border.all(color: borderColor ?? Colors.transparent, width: borderWidth ?? 1.r),
+          gradient: linearGradient
+      ),
+      child: GestureDetector(
+        child: TextX(txt, color: this.textColor, fontSize: this.fontSize ?? 36.sp, height: 1.1, fontWeight: fontWeight),
+        onTap: () {
+          if (this.enable ?? true && this.onPressed != null) {
+            this.onPressed!();
+          }
+        },
+      ),
+    );
+  }
 }

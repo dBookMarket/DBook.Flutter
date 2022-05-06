@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-import '../import_private_key/import_private_key_view.dart';
+import '../import_memories/import_memories_view.dart';
 import 'logic.dart';
 
 class GuidePage extends StatelessWidget {
@@ -70,23 +70,23 @@ class GuidePage extends StatelessWidget {
   Widget _importButton() {
     return GestureDetector(
       onTap: () {
-        Get.to(()=>ImportPrivateKeyPage());
+        Get.to(()=>ImportMemoriesPage());
       },
       child: Container(
         margin: EdgeInsets.only(left: 45.w, right: 45.w, bottom: 36.h, top: 64.h),
         padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
-        decoration: BoxDecoration(borderRadius: BorderRadius.circular(15.r), border: Border.all(width: 1.r, color: AppColors.primaryMain)),
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(15.r), border: Border.all(width: 1.r, color: ColorX.primaryMain)),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
               '导入助记词',
-              style: TextStyle(color: AppColors.primaryMain, fontSize: 30.sp, height: 1.2),
+              style: TextStyle(color: ColorX.primaryMain, fontSize: 30.sp, height: 1.2),
             ),
             Icon(
               Icons.chevron_right_sharp,
-              color: AppColors.primaryMain,
+              color: ColorX.primaryMain,
             )
           ],
         ),

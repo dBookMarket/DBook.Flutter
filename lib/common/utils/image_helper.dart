@@ -21,7 +21,7 @@ class ImageHelper {
   }
 
   static String wrapAssetsIcon(String url, {bool need1x = false, String fileExtensions = extensionsType}) {
-    return 'assets/images/icons/${need1x ? "/1.0x" : ""}' + url + fileExtensions;
+    return 'assets/icons/${need1x ? "/1.0x" : ""}' + url + fileExtensions;
   }
 
   static String wrapAssetsBG(String url, {String fileExtensions = extensionsType}) {

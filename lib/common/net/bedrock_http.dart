@@ -58,13 +58,14 @@ class ApiInterceptor extends InterceptorsWrapper {
     if (response.requestOptions.path.toString().contains('http')) {
       return super.onResponse(response, handler);
     }
-    response.data = ResponseData.fromJson(response.data);
-    if (response.data.success) {
-      apiServer._currentTime = response.data.currentTime;
-      return super.onResponse(response, handler);
-    } else {
-      ///抛出业务异常
-      throw ExceptionPitcher().transformException(response.data);
-    }
+    return super.onResponse(response, handler);
+    // response.data = ResponseData.fromJson(response.data);
+    // if (response.data.success) {
+    //   apiServer._currentTime = response.data.currentTime;
+    //   return super.onResponse(response, handler);
+    // } else {
+    //   ///抛出业务异常
+    //   throw ExceptionPitcher().transformException(response.data);
+    // }
   }
 }
