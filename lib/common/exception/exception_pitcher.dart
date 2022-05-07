@@ -27,30 +27,16 @@ class ExceptionPitcher with _ExceptionNotifyBinding{
 
 
   /// * 根据code 转换Exception
-  BaseException transformException(ResponseData? responseData){
-    assert(responseData!=null,'responseData can not be null!');
-    final BaseException exception = _transferException(responseData!);
-
-    return exception;
-
-  }
-  /// 异常分拣
-  BaseException _transferException(ResponseData responseData){
-    switch(responseData.code){
+  BaseException transformException(int? code,{String? detail}){
+    assert(code!=null,'responseData can not be null!');
+    switch(code){
     ///仅为以下测试代码
-      case 501://登录过期
+      case 401://登录过期
         return UnAuthorizedException(message: '登录失效,请重新登录');
-      case 503://接口需要登录
-        return UnAuthorizedException(message: '请先登录');
-      case 502:
-        return AbnormalUserException(responseData.code!, responseData.message);
-      case 701:
-        return AbnormalUserException(responseData.code!, '用户未注册');
       default:
-        return UnHandleException(responseData.code,responseData.message??"un handle exception");
+        return UnHandleException(code,detail??"un handle exception");
     }
   }
-
 }
 
 /// mixin [_ExceptionNotifyBinding] can notified a Exception to all the [ExceptionListener] listener.

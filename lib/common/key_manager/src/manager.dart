@@ -7,13 +7,13 @@ abstract class Web3KeychainManagerInterface {
   /// 重新扫描目录刷新地址存储情况
   void rescanStorage();
 
-  /// 倒入keystore
+  /// 导入keystore
   Future<EthereumAddress> importKeystore(String json, String pwd);
 
-  /// 倒入私钥
+  /// 导入私钥
   Future<EthereumAddress> importPrivateKey(String pkHex, String encryptoPwd);
 
-  /// 倒入助记词
+  /// 导入助记词
   Future<EthereumAddress> importMemories(String memo, String encryptoPwd);
 
   /// 指定地址导出Keystore文件
@@ -25,7 +25,7 @@ abstract class Web3KeychainManagerInterface {
   /// 导出地址的助记词（如果有）
   Future<String> exportMemories(EthereumAddress address, String pwd);
 
-  /// 检测对应的地址是否有存储助记词（是否是BIP32创建，或者从助记词倒入）
+  /// 检测对应的地址是否有存储助记词（是否是BIP32创建，或者从助记词导入）
   Future<bool> existMemories(EthereumAddress address);
   bool existMemoriesSync(EthereumAddress address);
 
@@ -54,9 +54,6 @@ abstract class Web3KeychainManagerInterface {
   /// 验证后删除
   Future<bool> remove(EthereumAddress address, String pwd,
       {bool removeStorage = false});
-
-
-  String uint8ToHex(Uint8List byteArr);
 }
 
 
@@ -91,16 +88,13 @@ class Web3KeychainManager implements Web3KeychainManagerInterface {
     return _instance!;
   }
 
-  /// 当前设备下对所有地址
-  List<EthereumAddress> addresses() => _addresses;
-
-  /// wallet缓存
-  Cacher<EthereumAddress, WalletCache> _walletCacher =
-      Cacher<EthereumAddress, WalletCache>();
+  Web3KeychainManager() {
+    this.rescanStorage();
+  }
 
   void rescanStorage() {
     List<FileSystemEntity> entityList =
-        _keystoreStorageRootDirectory.listSync();
+    _keystoreStorageRootDirectory.listSync();
     _addresses.clear();
     for (var entity in entityList) {
       /// 对应的路径不是一个json文件直接跳过
@@ -120,9 +114,16 @@ class Web3KeychainManager implements Web3KeychainManagerInterface {
     }
   }
 
-  /// 倒入keystore
+  /// 当前设备下对所有地址
+  List<EthereumAddress> addresses() => _addresses;
+
+  /// wallet缓存
+  Cacher<EthereumAddress, WalletCache> _walletCacher =
+      Cacher<EthereumAddress, WalletCache>();
+
+  /// 导入keystore
   Future<EthereumAddress> importKeystore(String json, String pwd) async {
-    /// 不允许空密码的keystore倒入
+    /// 不允许空密码的keystore导入
     if (pwd.length <= 0) {
       throw Web3KeychainManagerError.errorMissPassword;
     }
@@ -143,7 +144,7 @@ class Web3KeychainManager implements Web3KeychainManagerInterface {
     return address;
   }
 
-  /// 倒入私钥
+  /// 导入私钥
   Future<EthereumAddress> importPrivateKey(
       String pkHex, String encryptoPwd) async {
     if (encryptoPwd.length <= 0) {
@@ -166,7 +167,7 @@ class Web3KeychainManager implements Web3KeychainManagerInterface {
     return address;
   }
 
-  /// 倒入助记词
+  /// 导入助记词
   Future<EthereumAddress> importMemories(
       String mnemonic, String encryptoPwd) async {
     if (encryptoPwd.length <= 0) {
@@ -255,7 +256,7 @@ class Web3KeychainManager implements Web3KeychainManagerInterface {
       throw Web3KeychainManagerError.errorMissPassword;
     }
 
-    /// 对应的地址不是通过BIP32创建，或者不是通过助记词倒入的，无法导出
+    /// 对应的地址不是通过BIP32创建，或者不是通过助记词导入的，无法导出
     if (!this.existMemoriesSync(address)) {
       throw Web3KeychainManagerError.errorNotFoundMemories;
     }
@@ -412,9 +413,7 @@ class Web3KeychainManager implements Web3KeychainManagerInterface {
     return Future.value(wallet.privateKey);
   }
 
-  Web3KeychainManager() {
-    this.rescanStorage();
-  }
+
 
   Future<bool> _storageWallet(Wallet wallet, {String? memories}) async {
     if (memories == null) {
@@ -553,24 +552,5 @@ class Web3KeychainManager implements Web3KeychainManagerInterface {
     assert(offset == cipherText.length);
 
     return paddedPlainText;
-  }
-
-  String uint8ToHex(Uint8List byteArr) {
-    if (byteArr.length == 0) {
-      return "";
-    }
-    Uint8List result = Uint8List(byteArr.length << 1);//创建一个byteArr.length两倍大的数组以存储16进制字符
-    var hexTable = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F']; //16进制字符表
-    //下面的for循环是通过codeUnitAt()方法取byteArr每一位对应的字符串的“UTF-16代码单元”，如果去掉.codeUnitAt()其实也就直接是16进制字符串
-    for (var i = 0; i < byteArr.length; i++) {
-      var bit = byteArr[i]; //取传入的byteArr的每一位
-      var index = bit >> 4 & 15; //右移4位,取剩下四位,&15相当于&F,也就是&1111
-      var i2 = i << 1; //byteArr的每一位对应结果的两位,所以对于结果的操作位数要乘2
-      result[i2] = hexTable[index].codeUnitAt(0); //左边的值取字符表,转为Unicode放进resut数组
-      index = bit & 15; //取右边四位,相当于01011010&00001111=1010
-      result[i2 + 1] = hexTable[index].codeUnitAt(0); //右边的值取字符表,转为Unicode放进resut数组
-    }
-    //这里为了优化转换成一整个String的效率，所以就在上面的循环中先转成codeUnit再通过String的实例方法来生成字符串，否则需要用result.join("")，这个join()方法的效率低于String.fromCharCodes()方法
-    return String.fromCharCodes(result); //Unicode转回为对应字符,生成字符串返回
   }
 }

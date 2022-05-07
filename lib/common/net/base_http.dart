@@ -8,6 +8,8 @@ import 'package:dbook/common/config/frame_constant.dart';
 import 'package:dbook/common/services/services.dart';
 import 'package:dbook/common/utils/utils.dart';
 
+import '../values/storage.dart';
+
 
 // 必须是顶层函数
 _parseAndDecode(String response) {
@@ -57,7 +59,7 @@ class HeaderInterceptor extends InterceptorsWrapper {
     var appVersion = await PlatformUtils.getAppVersion();
     var appNumber = await PlatformUtils.getBuildNum();
     var deviceInfo = StorageService.to.getString(BaseFrameConstant.DEVICE_UUID);
-    var appToken = StorageService.to.getString(BaseFrameConstant.APP_TOKEN);
+    var appToken = StorageService.to.getString(STORAGE_USER_TOKEN_KEY);
 
     //var token = CookieManager.getCookies(cookies);
 
@@ -66,7 +68,7 @@ class HeaderInterceptor extends InterceptorsWrapper {
         'appVersion': appVersion,
         'appNumber': appNumber,
       });
-    options.headers['app_token'] = appToken;
+    options.headers['token'] = appToken;
     options.headers['version'] = jsonEncode(version);
     options.headers['platform'] = Platform.operatingSystem;
     options.headers['clint_id'] = deviceInfo;

@@ -13,6 +13,6 @@ class SplashPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => SafeArea(child: Container(color: Colors.red,)));
+    return Container(width: 1.sw,height: 1.sh,color: Color(0xFF6782E8),);
   }
 }

@@ -9,4 +9,3 @@ export 'logger.dart';
 export 'loading.dart';
 export 'directory.dart';
 export 'platform.dart';
-export 'wallet.dart';

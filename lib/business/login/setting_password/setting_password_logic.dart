@@ -1,4 +1,6 @@
+import 'package:dbook/business/assets/assets_view.dart';
 import 'package:dbook/business/service_api/base/net_work.dart';
+import 'package:dbook/common/store/store.dart';
 import 'package:dbook/common/utils/logger.dart';
 import 'package:get/get.dart';
 import 'package:web3dart/credentials.dart';
@@ -49,6 +51,8 @@ class SettingPasswordLogic extends GetxController {
   }
 
   Future login(String address, String signature) async {
-    await NetWork.getInstance().login(address: address, signature: signature);
+    String token = await NetWork.getInstance().login(address: address, signature: signature);
+    await UserStore.to.setToken(token);
+    Get.to(()=>AssetsPage());
   }
 }

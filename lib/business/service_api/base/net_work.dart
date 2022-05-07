@@ -3,6 +3,7 @@
 * Date : 2021/3/10
 */
 
+import 'package:dbook/common/entities/assets_entity.dart';
 import 'package:dbook/common/utils/logger.dart';
 
 import '../../../common/net/bedrock_http.dart';
@@ -49,5 +50,24 @@ class NetWork {
     return response['token'];
   }
 
+  Future<String> logout() async {
+    Map<String, dynamic> params = Map();
+    var response = await httpX.post(ApiConstants.logout, data: params);
+    return response;
+  }
+
+
+  /// 获取团购列表
+  Future<List<AssetsEntity>> assets() async {
+    var response = await httpX.get(ApiConstants.assets);
+    List<AssetsEntity>? assets;
+    try {
+      assets = (response['results'] as List).map((value) => AssetsEntity.fromJson(value)).toList();
+    } catch (e) {
+      logX.e(e);
+      throw 'parse error';
+    }
+    return assets;
+  }
 
 }

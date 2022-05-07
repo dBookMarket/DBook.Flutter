@@ -1,3 +1,4 @@
+import 'package:dbook/business/splash/splash_view.dart';
 import 'package:flutter/material.dart';
 import 'package:dbook/common/langs/translation_service.dart';
 import 'package:dbook/common/routes/pages.dart';
@@ -36,7 +37,7 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           // initialRoute: AppPages.INITIAL,
           // getPages: AppPages.routes,
-          home: GuidePage(),
+          home: SplashPage(),
           builder: EasyLoading.init(),
           translations: TranslationService(),
           navigatorObservers: [AppPages.observer],

@@ -1,26 +1,42 @@
 import 'dart:math';
 import 'dart:ui';
 
+import 'package:dbook/business/assets/assets_view.dart';
+import 'package:dbook/business/login/import_memories/import_memories_view.dart';
+import 'package:dbook/common/key_manager/keystore_manager.dart';
+import 'package:dbook/common/store/store.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../login/guide/view.dart';
 import 'splash_state.dart';
 
 class SplashLogic extends GetxController {
   final SplashState state = SplashState();
 
-  toggleColor() {
+  @override
+  void onInit() {
+
+    super.onInit();
+  }
+
+
+
+  _checkLoginState(){
+    if(UserStore.to.isLogin){
+      Get.to(()=>AssetsPage());
+    }else{
+      if(Web3KeychainManager().addresses().length>0){
+        // Get.to(()=>ImportMemoriesPage());
+      }else{
+        Get.to(()=>GuidePage());
+      }
+    }
   }
 
   @override
   void onReady() {
-    // TODO: implement onReady
+    _checkLoginState();
     super.onReady();
-  }
-
-  @override
-  void onClose() {
-    // TODO: implement onClose
-    super.onClose();
   }
 }

@@ -25,9 +25,13 @@ class BedRock extends BaseHttp {
     interceptors
       ..add(CookieManager(PersistCookieJar(storage: FileStorage(DirectoryUtil.getAppDocPath()))))
       ..add(ApiInterceptor())
-      ..add(LogInterceptorX(requestHeader: true, requestBody: true,responseBody: true,));
-      // ..add(LogInterceptorX(
-      //     request: false, requestHeader: false, requestBody: false, responseBody: true, responseHeader: true));
+      ..add(LogInterceptorX(
+        requestHeader: true,
+        requestBody: true,
+        responseBody: true,
+      ));
+    // ..add(LogInterceptorX(
+    //     request: false, requestHeader: false, requestBody: false, responseBody: true, responseHeader: true));
   }
 }
 
@@ -58,6 +62,11 @@ class ApiInterceptor extends InterceptorsWrapper {
     if (response.requestOptions.path.toString().contains('http')) {
       return super.onResponse(response, handler);
     }
+
+    if (response.statusCode != 200) {
+      // throw ExceptionPitcher().transformException(response.statusCode);
+    }
+
     return super.onResponse(response, handler);
     // response.data = ResponseData.fromJson(response.data);
     // if (response.data.success) {
