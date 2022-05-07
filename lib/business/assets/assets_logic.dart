@@ -39,7 +39,7 @@ class AssetsLogic extends GetxController {
     logX.d(error);
     state.refreshController.refreshCompleted();
     if(error is DioError && error.response?.statusCode == 401){
-      var result = await Get.dialog(VerifyPasswordPage(),barrierDismissible: false);
+      var result = await Get.dialog(VerifyPasswordPage(verifyType: VerifyType.reLogin,),barrierDismissible: false);
       if(result) refresh();
     }
 

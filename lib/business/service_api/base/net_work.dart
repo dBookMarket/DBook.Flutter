@@ -51,7 +51,7 @@ class NetWork {
     return response['token'];
   }
 
-  Future<String> logout() async {
+  Future logout() async {
     Map<String, dynamic> params = Map();
     var response = await httpX.post(ApiConstants.logout, data: params);
     return response;

@@ -12,13 +12,20 @@ import 'package:get/get.dart';
 import '../../../common/values/colors.dart';
 import 'verify_password_logic.dart';
 
+
+enum VerifyType{
+  reLogin,
+  verifyPassword
+}
+
 class VerifyPasswordPage extends StatelessWidget {
   final logic = Get.put(VerifyPasswordLogic());
   final state = Get.find<VerifyPasswordLogic>().state;
 
   final String? title;
+  final VerifyType verifyType;
 
-  VerifyPasswordPage({this.title});
+  VerifyPasswordPage({required this.verifyType,this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -145,7 +152,7 @@ class VerifyPasswordPage extends StatelessWidget {
         Get.back();
         break;
       case 'confirm':
-        logic.onConfirm();
+        logic.onConfirm(this.verifyType);
         break;
     }
   }

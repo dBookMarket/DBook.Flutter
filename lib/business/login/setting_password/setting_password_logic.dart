@@ -19,11 +19,13 @@ class SettingPasswordLogic extends GetxController {
   }
 
   Future importMemories() async {
+    logX.d('message');
+    showLoading();
     if (!isPasswordValid()) {
       showError(t: '请输入正确的密码');
       return;
     }
-    showLoading();
+    await Future.delayed(Duration(milliseconds: 200));
     var address = await Web3KeychainManager.getInstance()
         .importMemories('upon session bone daughter blue surge reason rigid rally party inform state', state.passwordController.text)
         .onError((error, stackTrace) => showError(t: error.toString()));
@@ -54,6 +56,6 @@ class SettingPasswordLogic extends GetxController {
     String token = await NetWork.getInstance().login(address: address, signature: signature);
     await UserStore.to.setToken(token);
     Web3KeychainManager.getInstance().rescanStorage();
-    Get.to(()=>AssetsPage());
+    Get.offAll(()=>AssetsPage());
   }
 }

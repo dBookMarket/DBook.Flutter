@@ -68,7 +68,7 @@ class HeaderInterceptor extends InterceptorsWrapper {
         'appVersion': appVersion,
         'appNumber': appNumber,
       });
-    options.headers['authorization'] = "Bearer $appToken";
+    if(appToken.isNotEmpty) options.headers['authorization'] = "Bearer $appToken";
     options.headers['version'] = jsonEncode(version);
     options.headers['platform'] = Platform.operatingSystem;
     options.headers['clint_id'] = deviceInfo;

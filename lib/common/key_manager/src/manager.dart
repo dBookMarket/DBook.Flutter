@@ -431,7 +431,7 @@ class Web3KeychainManager implements Web3KeychainManagerInterface {
     }
   }
 
-  static Future<bool> _isolateStorageWallet(List<dynamic> parmas) {
+  static Future<bool> _isolateStorageWallet(List<dynamic> parmas) async{
     final Wallet wallet = parmas[0] as Wallet;
     final File ksFile = File(parmas[1] as String);
     String? memories;
@@ -442,6 +442,9 @@ class Web3KeychainManager implements Web3KeychainManagerInterface {
     }
 
     /// 判断文件, 一般不可能存在，因为这个断言如果成立，说明不同的私钥对应了一个相同的地址，几率微乎其微
+    if(ksFile.existsSync()){
+      await ksFile.delete();
+    }
     assert(!ksFile.existsSync());
 
     /// 创建文件

@@ -30,7 +30,7 @@ class SettingPasswordPage extends StatelessWidget {
           SizedBox(height: 28.h),
           _input(controller: state.passwordAgainController, hint: '请再次输入密码'),
           Expanded(child: SizedBox()),
-          ButtonX('下一步',onPressed: logic.importMemories,)
+          ButtonX('下一步',onPressed: ()=>logic.importMemories())
         ],
       ));
 

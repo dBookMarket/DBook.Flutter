@@ -24,12 +24,12 @@ class SplashLogic extends GetxController {
 
   _checkLoginState(){
     if(UserStore.to.isLogin){
-      Get.to(()=>AssetsPage());
+      Get.off(()=>AssetsPage());
     }else{
       if(Web3KeychainManager().addresses().length>0){
-        // Get.to(()=>ImportMemoriesPage());
+        Get.off(()=>AssetsPage());
       }else{
-        Get.to(()=>GuidePage());
+        Get.off(()=>GuidePage());
       }
     }
   }

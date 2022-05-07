@@ -1,3 +1,4 @@
+import 'package:dbook/business/login/verify_password/verify_password_view.dart';
 import 'package:get/get.dart';
 import 'package:web3dart/credentials.dart';
 import 'package:web3dart/crypto.dart';
@@ -17,7 +18,7 @@ class VerifyPasswordLogic extends GetxController {
     state.password = txt;
   }
 
-  onConfirm()async{
+  onConfirm(VerifyType type)async{
     if(state.password.isEmpty){
       showError(t: 'password is empty');
       return;
@@ -28,6 +29,10 @@ class VerifyPasswordLogic extends GetxController {
     dismissLoading();
     if(!valid){
       showError(t: Web3KeychainManagerError.errorInvaildPassword.message);
+      return;
+    }
+    if(type == VerifyType.verifyPassword){
+      Get.back(result: state.password);
       return;
     }
     _getNonce(Web3KeychainManager.getInstance().addresses()[0]);

@@ -1,3 +1,4 @@
+import 'package:dbook/common/utils/keyboard.dart';
 import 'package:dbook/common/widgets/text.dart';
 import 'package:flutter/material.dart';
 import 'package:dbook/common/values/values.dart';
@@ -166,6 +167,7 @@ class ButtonX extends StatelessWidget {
         child: TextX(txt, color: this.textColor, fontSize: this.fontSize ?? 36.sp, height: 1.1, fontWeight: fontWeight),
         onTap: () {
           if (this.enable ?? true && this.onPressed != null) {
+            KeyboardX.keyboardBack();
             this.onPressed!();
           }
         },
