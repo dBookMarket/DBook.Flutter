@@ -1,5 +1,7 @@
+import 'package:dbook/business/login/verify_password/verify_password_view.dart';
 import 'package:dbook/business/service_api/base/net_work.dart';
 import 'package:dbook/common/entities/assets_entity.dart';
+import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 
 import '../../common/utils/logger.dart';
@@ -11,11 +13,11 @@ class AssetsLogic extends GetxController {
 
 
 
-  Future<List<AssetsEntity>?> refresh({bool init = false, bool enableLoading = true}) async {
+  refresh({bool init = false, bool enableLoading = true}) async {
+    state.refreshController.resetNoData();
+    var data = await NetWork.getInstance().assets().onError((error, stackTrace) => handleError(error));
     try {
       // state.currentPageNum = state.pageNumFirst;
-      state.refreshController.resetNoData();
-      var data = await NetWork.getInstance().assets();
       if (data == null || data.isEmpty || data.length == 0) {
         state.list.clear();
         state.refreshController.refreshCompleted();
@@ -28,9 +30,22 @@ class AssetsLogic extends GetxController {
 
       }
     } catch (e) {
+      state.refreshController.refreshCompleted();
       logX.e(e);
     }
   }
+
+  handleError(error)async{
+    logX.d(error);
+    state.refreshController.refreshCompleted();
+    if(error is DioError && error.response?.statusCode == 401){
+      var result = await Get.dialog(VerifyPasswordPage(),barrierDismissible: false);
+      if(result) refresh();
+    }
+
+  }
+
+
 
   @override
   void onInit() {

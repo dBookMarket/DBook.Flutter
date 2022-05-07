@@ -5,6 +5,7 @@
 
 import 'package:dbook/common/entities/assets_entity.dart';
 import 'package:dbook/common/utils/logger.dart';
+import 'package:dio/dio.dart';
 
 import '../../../common/net/bedrock_http.dart';
 import '../../../common/net/http_x.dart';
@@ -61,6 +62,7 @@ class NetWork {
   Future<List<AssetsEntity>> assets() async {
     var response = await httpX.get(ApiConstants.assets);
     List<AssetsEntity>? assets;
+
     try {
       assets = (response['results'] as List).map((value) => AssetsEntity.fromJson(value)).toList();
     } catch (e) {

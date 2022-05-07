@@ -24,10 +24,19 @@ AppBar transparentAppBar({
   );
 }
 
-AppBar appBar({required String title, List<Widget>? actions, PreferredSizeWidget? bottom, Color? backgroundColor, Color? txtColor, Color? backColor, bool? canPop = true, goBack}) {
+AppBar appBar(
+    {required String title,
+    bool? centerTitle,
+    List<Widget>? actions,
+    PreferredSizeWidget? bottom,
+    Color? backgroundColor,
+    Color? txtColor,
+    Color? backColor,
+    bool? canPop = true,
+    goBack}) {
   // statusBarColor = backgroundColor??ColorX.appbar_bg_color;
   return AppBar(
-    centerTitle: false,
+    centerTitle: centerTitle ?? false,
     // elevation: 0.2,
     toolbarHeight: ScreenConfig.appBarHeight,
     // backgroundColor: backgroundColor ?? Colors.red,
@@ -47,14 +56,17 @@ AppBar appBar({required String title, List<Widget>? actions, PreferredSizeWidget
   );
 }
 
-Widget appBarLeading({required VoidCallback onTap,Color? color}){
+Widget appBarLeading({required VoidCallback onTap, Color? color}) {
   return IconButton(
     onPressed: onTap,
-    padding: EdgeInsets.only(left: 0,top: 4),
-    icon: ImageX('ic_back',color: Colors.black,width: 20.w,height: 34.h),
+    padding: EdgeInsets.only(left: 0, top: 4),
+    icon: ImageX('ic_back', color: Colors.black, width: 20.w, height: 34.h),
   );
 }
 
-Widget appBarTitle({Key? key,required String title,Color? titleColor}){
-  return Text(title,style: TextStyle(color: titleColor??Colors.black,fontSize: 36.sp,fontWeight: FontWeight.w500),);
+Widget appBarTitle({Key? key, required String title, Color? titleColor}) {
+  return Text(
+    title,
+    style: TextStyle(color: titleColor ?? Colors.black, fontSize: 36.sp, fontWeight: FontWeight.w500),
+  );
 }

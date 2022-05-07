@@ -68,13 +68,14 @@ class HeaderInterceptor extends InterceptorsWrapper {
         'appVersion': appVersion,
         'appNumber': appNumber,
       });
-    options.headers['token'] = appToken;
+    options.headers['authorization'] = "Bearer $appToken";
     options.headers['version'] = jsonEncode(version);
     options.headers['platform'] = Platform.operatingSystem;
     options.headers['clint_id'] = deviceInfo;
     super.onRequest(options, handler);
   }
 }
+
 
 /// 子类需要重写
 abstract class BaseResponseData<T> {

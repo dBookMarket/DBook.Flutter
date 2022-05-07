@@ -53,6 +53,7 @@ class SettingPasswordLogic extends GetxController {
   Future login(String address, String signature) async {
     String token = await NetWork.getInstance().login(address: address, signature: signature);
     await UserStore.to.setToken(token);
+    Web3KeychainManager.getInstance().rescanStorage();
     Get.to(()=>AssetsPage());
   }
 }
