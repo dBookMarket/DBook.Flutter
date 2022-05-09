@@ -1,4 +1,5 @@
 import 'package:cookie_jar/cookie_jar.dart';
+import 'package:dbook/common/store/store.dart';
 import 'package:dbook/common/utils/logger.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
@@ -77,6 +78,14 @@ class ApiInterceptor extends InterceptorsWrapper {
     //   ///抛出业务异常
     //   throw ExceptionPitcher().transformException(response.data);
     // }
+  }
+
+  @override
+  void onError(DioError err, ErrorInterceptorHandler handler) {
+    if(err.response?.statusCode == 401){
+      UserStore.to.removeToken();
+    }
+    super.onError(err, handler);
   }
 
 }

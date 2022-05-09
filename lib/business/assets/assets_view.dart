@@ -1,3 +1,4 @@
+import 'package:dbook/business/asset_detail/asset_detail_view.dart';
 import 'package:dbook/business/login/verify_password/verify_password_view.dart';
 import 'package:dbook/common/entities/assets_entity.dart';
 import 'package:dbook/common/key_manager/keystore_manager.dart';
@@ -14,6 +15,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
+import '../../common/entities/assets_info_entity.dart';
 import '../../common/utils/loading.dart';
 import 'assets_logic.dart';
 
@@ -33,6 +35,7 @@ class AssetsPage extends StatelessWidget {
               height: 63.h,
             ),
             _appbar(),
+            SizedBox(height: 20.h),
             Expanded(child: _list())
           ],
         ),
@@ -91,59 +94,72 @@ class AssetsPage extends StatelessWidget {
           // onLoading: logic.loadMore,
           // enablePullUp: state.canLoadMore,
           enablePullDown: true,
-          child: GridView.count(
-            shrinkWrap: true,
-            //水平子Widget之间间距
-            crossAxisSpacing: 40.w,
-            //垂直子Widget之间间距
-            mainAxisSpacing: 40.h,
-            //一行的Widget数量
-            crossAxisCount: 2,
-            //子Widget宽高比例
-            childAspectRatio: 0.825,
-            //子Widget列表
-            children: state.list.map((item) => _item(item)).toList(),
-          ),
+          child: ListView.builder(
+              itemCount: state.list.length,
+              itemBuilder: (ctx, index) {
+                return _item(state.list[index]);
+              }),
         );
       }),
     );
   }
 
-  Widget _item(AssetsEntity item) {
-    return Container(
+  Widget _item(AssetsInfoResults item) {
+    return GestureDetector(child: Container(
+      padding: EdgeInsets.symmetric(horizontal: 42.w, vertical: 25.h),
+      color: Colors.white,
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ImageHelper.network(item.issue?.cover, width: 164.w, height: 205.h),
+          ClipRRect(
+            child: ImageHelper.network(item.issue?.coverUrl, width: 164.w, height: 205.h),
+            borderRadius: BorderRadius.circular(12.r),
+          ),
           SizedBox(width: 35.w),
-          Column(
-            children: [
-              TextX(
-                item.issue?.name,
-                maxLines: 2,
-                color: ColorX.txtTitle,
-                fontSize: 26.sp,
-              ),
-              SizedBox(height: 26.h),
-              Container(
-                decoration: BoxDecoration(color: Color(0xFFE1E1E1), borderRadius: BorderRadius.circular(5.r)),
-                padding: EdgeInsets.symmetric(horizontal: 10.w),
-                child: TextX(
-                  item.issue?.authorName,
-                  fontSize: 19.sp,
-                  color: ColorX.txtHint,
+          Expanded(
+              child: Container(
+                height: 205.h,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    TextX(
+                      item.issue?.name,
+                      maxLines: 2,
+                      color: ColorX.txtTitle,
+                      textAlign: TextAlign.start,
+                      fontSize: 26.sp,
+                    ),
+                    // SizedBox(height: 26.h),
+                    Container(
+                      decoration: BoxDecoration(color: Color(0xFFE1E1E1), borderRadius: BorderRadius.circular(5.r)),
+                      padding: EdgeInsets.symmetric(horizontal: 10.w),
+                      child: TextX(
+                        item.issue?.authorName,
+                        fontSize: 19.sp,
+                        color: ColorX.txtHint,
+                      ),
+                    ),
+                    // SizedBox(height: 20.h),
+                    Row(
+                      children: [
+                        ImageX(ImageConstants.tag, width: 17.w, height: 24.h),
+                        SizedBox(width: 12.w),
+                        TextX(
+                          '阅读标签：${item.bookmark?.currentPage}/${item.issue?.nPages}',
+                          fontSize: 19.sp,
+                        )
+                      ],
+                    )
+                  ],
                 ),
-              ),
-              Row(
-                children: [ImageX(ImageConstants.tag, width: 17.w, height: 24.h), SizedBox(width: 12.w), TextX('阅读标签：${item.issue?.nPages}/${item.amount}')],
-              )
-            ],
-          )
+              ))
         ],
       ),
-    );
+    ),onTap: ()=>_onClick('进入详情',param: item.id),);
   }
 
-  _onClick(event) async {
+  _onClick(event,{param}) async {
     switch (event) {
       case '复制地址':
         Clipboard.setData(ClipboardData(text: Web3KeychainManager.getInstance().addresses()[0].hex));
@@ -152,6 +168,9 @@ class AssetsPage extends StatelessWidget {
       case '断开连接':
       case '切换账户':
         disconnect();
+        break;
+      case '进入详情':
+        Get.to(()=>AssetDetailPage(),arguments: Map.of({'id':param}));
         break;
     }
   }
@@ -164,7 +183,7 @@ class AssetsPage extends StatelessWidget {
           verifyType: VerifyType.verifyPassword,
         ),
         barrierDismissible: false);
-    if (result.isNotEmpty) {
+    if (result != null && result.isNotEmpty) {
       await Web3KeychainManager.getInstance().remove(Web3KeychainManager.getInstance().addresses()[0], result);
       await UserStore.to.onLogout();
     }

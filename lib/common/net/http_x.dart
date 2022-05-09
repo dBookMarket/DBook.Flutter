@@ -71,6 +71,18 @@ class HttpX{
     return _handleResponse(response,handle: enableHandle);
   }
 
+  Future<dynamic> patch<T>(
+      String path, {
+        data,
+        Map<String, dynamic>? queryParameters,
+        Options? options,
+        CancelToken? cancelToken,
+        bool enableHandle = true
+      }) async{
+    Response response = await apiServer.patch<T>(path,data:data,queryParameters: queryParameters,options: options,cancelToken: cancelToken);
+    return _handleResponse(response,handle: enableHandle);
+  }
+
 
 
 

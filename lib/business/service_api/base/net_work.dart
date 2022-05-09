@@ -4,6 +4,7 @@
 */
 
 import 'package:dbook/common/entities/assets_entity.dart';
+import 'package:dbook/common/entities/assets_info_entity.dart';
 import 'package:dbook/common/utils/logger.dart';
 import 'package:dio/dio.dart';
 
@@ -58,18 +59,53 @@ class NetWork {
   }
 
 
-  /// 获取团购列表
-  Future<List<AssetsEntity>> assets() async {
-    var response = await httpX.get(ApiConstants.assets);
-    List<AssetsEntity>? assets;
+  // /// 获取我的资产
+  // Future<List<AssetsEntity>> assets() async {
+  //   var response = await httpX.get(ApiConstants.assets);
+  //   List<AssetsEntity>? assets;
+  //
+  //   try {
+  //     assets = (response['results'] as List).map((value) => AssetsEntity.fromJson(value)).toList();
+  //   } catch (e) {
+  //     logX.e(e);
+  //     throw 'parse error';
+  //   }
+  //   return assets;
+  // }
 
+  /// 获取我的资产
+  Future<AssetsInfoEntity> assets() async {
+    var response = await httpX.get(ApiConstants.assets);
+    AssetsInfoEntity assets;
     try {
-      assets = (response['results'] as List).map((value) => AssetsEntity.fromJson(value)).toList();
+      assets = assets = AssetsInfoEntity.fromJson(response);
     } catch (e) {
       logX.e(e);
       throw 'parse error';
     }
     return assets;
+  }
+
+  Future<AssetsInfoResults> assetsDetail(int id) async {
+    var response = await httpX.get('${ApiConstants.assets}/$id/${ApiConstants.read}');
+    AssetsInfoResults assets;
+    try {
+      assets = assets = AssetsInfoResults.fromJson(response);
+    } catch (e) {
+      logX.e(e);
+      throw 'parse error';
+    }
+    return assets;
+  }
+
+
+  Future mark({required int issue,required int page,required int markId}) async {
+
+    Map<String, dynamic> params = Map();
+    params['issue'] = issue;
+    params['current_page'] = page;
+    var response = await httpX.patch('${ApiConstants.bookmarks}/$markId',data: params);
+    return response;
   }
 
 }
