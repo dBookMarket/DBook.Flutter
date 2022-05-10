@@ -24,7 +24,7 @@ class Loading {
 }
 
 
-showLoading({String? t = '加载中...'}) {
+showLoading({String? t = 'loading...'}) {
   EasyLoading.instance.userInteractions = false;
   EasyLoading.show(status: t ?? 'Loading...');
 }

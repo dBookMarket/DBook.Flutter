@@ -27,7 +27,7 @@ class SettingPasswordLogic extends GetxController {
     }
     await Future.delayed(Duration(milliseconds: 200));
     var address = await Web3KeychainManager.getInstance()
-        .importMemories('upon session bone daughter blue surge reason rigid rally party inform state', state.passwordController.text)
+        .importMemories(state.memories, state.passwordController.text)
         .onError((error, stackTrace) => showError(t: error.toString()));
     await getNonce(address);
     dismissLoading();

@@ -23,7 +23,7 @@ class AssetDetailLogic extends GetxController {
 
   @override
   void onInit() {
-    setMark();
+    // getDetail();
     super.onInit();
   }
 }

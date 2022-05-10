@@ -156,7 +156,7 @@ class AssetsPage extends StatelessWidget {
               ))
         ],
       ),
-    ),onTap: ()=>_onClick('进入详情',param: item.id),);
+    ),onTap: ()=>_onClick('进入详情',param: item.issue?.id),);
   }
 
   _onClick(event,{param}) async {

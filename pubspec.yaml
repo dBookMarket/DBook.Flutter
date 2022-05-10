@@ -33,7 +33,7 @@ dependencies:
   # GetX
   get: ^4.6.1
 
-  # 日期
+  # 国际化
   intl: ^0.17.0
 
   # 屏幕适配
@@ -55,23 +55,14 @@ dependencies:
 
   # 缓存
   get_storage: ^2.0.3
-  cached_network_image: ^3.2.0
-  flutter_cache_manager: ^3.3.0
+#  cached_network_image: ^3.2.0
+#  flutter_cache_manager: ^3.3.0
 
   # 加密安全 SHA
-  crypto: ^3.0.1
+#  crypto: ^3.0.1
 
-  # webView
-  webview_flutter: ^3.0.1
+  synchronized: ^3.0.0+2
 
-  # loading
-  loading_animations: ^2.2.0
-
-  # share
-  share_plus: ^3.1.0
-
-  # 设备信息
-  device_info_plus: ^3.2.2
 
   # 包信息
   package_info_plus: ^1.4.0
@@ -82,15 +73,6 @@ dependencies:
   # permission 权限
   permission_handler: ^9.2.0
 
-  # 错误收集
-  sentry: ^6.3.0
-
-  # 通过 scheme 打开APP 获取 参数
-  uni_links: ^0.5.1
-
-  # 工具类
-  common_utils: ^2.1.0
-
   #网络状态
   connectivity: ^3.0.2
 
@@ -100,8 +82,6 @@ dependencies:
   # 启动页快捷生成
   flutter_native_splash: ^2.1.1
 
-  # 图片压缩
-  flutter_native_image: ^0.0.6+1
 
   # 网络图片加载
   extended_image: ^6.0.1
@@ -110,6 +90,9 @@ dependencies:
   bip39: ^1.0.6
   bip32: ^2.0.0
   hex: ^0.2.0
+
+
+  carousel_slider: ^4.1.1
 
 dev_dependencies:
   flutter_test:

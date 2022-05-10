@@ -1,11 +1,13 @@
 import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 
 class ImportMemoriesState {
   ImportMemoriesState() {
-    controller.text = testM;
+    if(kDebugMode) controller.text = testM;
+    // controller.text = testM;
   }
 
   final memories = ''.obs;
