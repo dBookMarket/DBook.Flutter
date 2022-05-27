@@ -27,7 +27,7 @@ class AssetsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       // appBar: _appbar(),
-      body: SizedBox(
+      body: OrientationBuilder(builder: (c,o)=>SizedBox(
         height: 1.sh,
         child: Column(
           children: [
@@ -39,7 +39,7 @@ class AssetsPage extends StatelessWidget {
             Expanded(child: _list())
           ],
         ),
-      ),
+      ),),
     );
   }
 
@@ -65,9 +65,9 @@ class AssetsPage extends StatelessWidget {
         color: ColorX.primaryMain,
         itemBuilder: (BuildContext context) {
           return [
-            _menuItem(ImageConstants.copy, '复制地址'),
-            _menuItem(ImageConstants.toggle, '切换账户'),
-            _menuItem(ImageConstants.disconnect, '断开连接'),
+            _menuItem(ImageConstants.copy, 'Copy'),
+            _menuItem(ImageConstants.toggle, 'Switch'),
+            _menuItem(ImageConstants.disconnect, 'Disconnect'),
           ];
         },
       );
@@ -76,9 +76,9 @@ class AssetsPage extends StatelessWidget {
         // padding: EdgeInsets.zero,
         onTap: () => _onClick(txt),
         child: Container(
-          constraints: BoxConstraints(maxWidth: 200.w),
+          constraints: BoxConstraints(maxWidth: 150.w),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [ImageX(image, width: 25.r, height: 25.r), SizedBox(width: 27.w), TextX(txt, color: Colors.white, fontSize: 26.sp)],
           ),
         ),
@@ -146,7 +146,7 @@ class AssetsPage extends StatelessWidget {
                         ImageX(ImageConstants.tag, width: 17.w, height: 24.h),
                         SizedBox(width: 12.w),
                         TextX(
-                          '阅读标签：${item.bookmark?.currentPage}/${item.issue?.nPages}',
+                          'mark：${item.bookmark?.currentPage}/${item.issue?.nPages}',
                           fontSize: 19.sp,
                         )
                       ],
@@ -156,17 +156,17 @@ class AssetsPage extends StatelessWidget {
               ))
         ],
       ),
-    ),onTap: ()=>_onClick('进入详情',param: item.issue?.id),);
+    ),onTap: ()=>_onClick('进入详情',param: item.id),);
   }
 
   _onClick(event,{param}) async {
     switch (event) {
-      case '复制地址':
+      case 'Copy':
         Clipboard.setData(ClipboardData(text: Web3KeychainManager.getInstance().addresses()[0].hex));
-        showSuccess(t: '复制成功！');
+        showSuccess(t: 'Copy succeeded！');
         break;
-      case '断开连接':
-      case '切换账户':
+      case 'Disconnect':
+      case 'Switch':
         disconnect();
         break;
       case '进入详情':

@@ -19,10 +19,10 @@ class SettingPasswordLogic extends GetxController {
   }
 
   Future importMemories() async {
-    logX.d('message');
+    logX.d('message',state.memories);
     showLoading();
     if (!isPasswordValid()) {
-      showError(t: '请输入正确的密码');
+      showError(t: 'Please enter the correct password');
       return;
     }
     await Future.delayed(Duration(milliseconds: 200));

@@ -94,6 +94,10 @@ dependencies:
 
   carousel_slider: ^4.1.1
 
+  dbook_cryptology_plugin:
+    git:
+      url: git@github.com:onlyYU/dbook_cryptology_plugin.git
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

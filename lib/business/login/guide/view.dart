@@ -33,7 +33,9 @@ class GuidePage extends StatelessWidget {
   }
 
   Widget _contentDesc() {
-    String txt = 'D-BOOK购买的书籍可直接在当前阅读器中进行解码阅读，\n因版权保护问题，所以暂不支持对外阅读，\n若有不便敬请谅解';
+    // String txt = 'D-BOOK购买的书籍可直接在当前阅读器中进行解码阅读，\n因版权保护问题，所以暂不支持对外阅读，\n若有不便敬请谅解';
+    String txt = 'D-BOOK purchased books can be decoded and read directly in the current reader,due to copyright protection problems, so it does not support external reading, '
+        'If there is any inconvenience, please understand';
     return Column(
       children: [
         SizedBox(
@@ -54,15 +56,19 @@ class GuidePage extends StatelessWidget {
         SizedBox(
           height: 33.h,
         ),
-        Text(
+        Container(
+          width: 1.sw,
+          padding: EdgeInsets.symmetric(horizontal: 50.w),
+          child: Center(child: Text(
           txt,
           style: TextStyle(
             color: Colors.white,
             fontSize: 22.sp,
             fontWeight: FontWeight.bold,
+            height: 1.8
           ),
-          textAlign: TextAlign.center,
-        )
+          textAlign: TextAlign.start,
+        ),),)
       ],
     );
   }
@@ -81,7 +87,7 @@ class GuidePage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              '导入助记词',
+              'Import mnemonics',
               style: TextStyle(color: ColorX.primaryMain, fontSize: 30.sp, height: 1.2),
             ),
             Icon(

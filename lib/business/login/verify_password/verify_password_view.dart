@@ -51,7 +51,7 @@ class VerifyPasswordPage extends StatelessWidget {
                 children: [
                   Expanded(
                       child: ButtonX(
-                        '取消',
+                        'Cancel',
                         backgroundColor: Colors.transparent,
                         textColor: ColorX.txtHint,
                         autoWidth: true,
@@ -64,7 +64,7 @@ class VerifyPasswordPage extends StatelessWidget {
                   ),
                   Expanded(
                       child: ButtonX(
-                        '确定',
+                        'OK',
                         backgroundColor: Colors.transparent,
                         textColor: ColorX.txtTitle,
                         autoWidth: true,
@@ -88,7 +88,7 @@ class VerifyPasswordPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Expanded(child: SizedBox()),
-            TextX(this.title ?? '密码验证'),
+            TextX(this.title ?? 'Password verification'),
             Expanded(
                 child: Row(
               mainAxisAlignment: MainAxisAlignment.end,

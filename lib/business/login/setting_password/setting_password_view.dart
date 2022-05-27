@@ -17,7 +17,7 @@ class SettingPasswordPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBar(title: '设置密码'),
+      appBar: appBar(title: 'Set a password'),
       body: _body(),
     );
   }
@@ -26,11 +26,11 @@ class SettingPasswordPage extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 36.h),
       child: Column(
         children: [
-          _input(controller: state.passwordController, hint: '请输入密码'),
+          _input(controller: state.passwordController, hint: 'Please enter a password'),
           SizedBox(height: 28.h),
-          _input(controller: state.passwordAgainController, hint: '请再次输入密码'),
+          _input(controller: state.passwordAgainController, hint: 'Please enter the password again'),
           Expanded(child: SizedBox()),
-          ButtonX('下一步',onPressed: ()=>logic.importMemories())
+          ButtonX('Next',onPressed: ()=>logic.importMemories())
         ],
       ));
 

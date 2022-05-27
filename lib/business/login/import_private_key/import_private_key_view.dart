@@ -23,7 +23,7 @@ class ImportPrivateKeyPage extends StatelessWidget {
   Widget _body() => BaseContainer(
         padding: EdgeInsets.symmetric(horizontal: 30.w),
         child: Column(
-          children: [_input(), Expanded(child: SizedBox()), ButtonX('下一步'), SizedBox(height: 36.h)],
+          children: [_input(), Expanded(child: SizedBox()), ButtonX('Next'), SizedBox(height: 36.h)],
         ),
       );
 
@@ -41,7 +41,7 @@ class ImportPrivateKeyPage extends StatelessWidget {
         contentPadding: EdgeInsets.fromLTRB(32.w, 30.h, 32.w, 30.h),
         fillColor: Color(0xFFF6F6F6),
         filled: true,
-        hintText: '请输入12位助记词，按照备份时的顺序填写，每个单次用空格隔开。',
+        hintText: 'Please enter 12 mnemonics, in the order in which they were backed up, separated by spaces for each single time.',
         hintStyle: TextStyle(color: Color(0xFF999999), fontSize: 36.sp),
         counterText: '',
         enabledBorder: OutlineInputBorder(

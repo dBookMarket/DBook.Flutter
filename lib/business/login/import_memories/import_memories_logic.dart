@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:web3dart/crypto.dart';
 
@@ -12,7 +13,8 @@ class ImportMemoriesLogic extends GetxController {
   final ImportMemoriesState state = ImportMemoriesState();
 
   onMemoriesInput(String txt) {
-    state.memories.value = txt;
+    if (kDebugMode) state.memories.value = txt;
+    logX.d(txt);
   }
 
   @override
@@ -26,12 +28,4 @@ class ImportMemoriesLogic extends GetxController {
     //
     // logX.d(Web3KeychainManager.getInstance().uint8ToHex(sign));
   }
-
-
-
-
-
-
 }
-
-

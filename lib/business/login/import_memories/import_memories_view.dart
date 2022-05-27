@@ -33,10 +33,10 @@ class ImportMemoriesPage extends StatelessWidget {
             Expanded(child: SizedBox()),
             Obx(() {
               return ButtonX(
-                '下一步',
+                'Next',
                 enable: state.memories.value.isNotEmpty,
                 backgroundColor: state.memories.isNotEmpty ? ColorX.buttonValid : ColorX.buttonInValid,
-                onPressed: () => Get.to(SettingPasswordPage(), arguments: Map.of({'memories': state.memories.value})),
+                onPressed: () => Get.to(()=>SettingPasswordPage(), arguments: Map.of({'memories': state.memories.value})),
               );
             }),
             SizedBox(height: 36.h)
@@ -57,7 +57,7 @@ class ImportMemoriesPage extends StatelessWidget {
         contentPadding: EdgeInsets.fromLTRB(32.w, 30.h, 32.w, 30.h),
         fillColor: Color(0xFFF6F6F6),
         filled: true,
-        hintText: '请输入12位助记词，按照备份时的顺序填写，每个单次用空格隔开。',
+        hintText: 'Please enter 12 mnemonics, in the order in which they were backed up, separated by spaces for each single time.',
         hintStyle: TextStyle(color: Color(0xFF999999), fontSize: 36.sp),
         counterText: '',
         enabledBorder: OutlineInputBorder(

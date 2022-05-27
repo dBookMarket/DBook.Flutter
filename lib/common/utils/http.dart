@@ -108,7 +108,7 @@ class HttpUtil {
         EasyLoading.showError(eInfo.message);
         break;
       default:
-        EasyLoading.showError('未知错误');
+        EasyLoading.showError('Unknown error');
         break;
     }
   }
@@ -117,15 +117,15 @@ class HttpUtil {
   ErrorEntity createErrorEntity(DioError error) {
     switch (error.type) {
       case DioErrorType.cancel:
-        return ErrorEntity(code: -1, message: "请求取消");
+        return ErrorEntity(code: -1, message: "cancel");
       case DioErrorType.connectTimeout:
-        return ErrorEntity(code: -1, message: "连接超时");
+        return ErrorEntity(code: -1, message: "timeout");
       case DioErrorType.sendTimeout:
-        return ErrorEntity(code: -1, message: "请求超时");
+        return ErrorEntity(code: -1, message: "timeout");
       case DioErrorType.receiveTimeout:
-        return ErrorEntity(code: -1, message: "响应超时");
+        return ErrorEntity(code: -1, message: "timeout");
       case DioErrorType.cancel:
-        return ErrorEntity(code: -1, message: "请求取消");
+        return ErrorEntity(code: -1, message: "cancel");
       case DioErrorType.response:
         {
           try {
@@ -154,7 +154,7 @@ class HttpUtil {
                 return ErrorEntity(code: errCode, message: "不支持HTTP协议请求");
               default:
                 {
-                  // return ErrorEntity(code: errCode, message: "未知错误");
+                  // return ErrorEntity(code: errCode, message: "Unknown error");
                   return ErrorEntity(
                     code: errCode,
                     message: error.response != null
@@ -164,7 +164,7 @@ class HttpUtil {
                 }
             }
           } on Exception catch (_) {
-            return ErrorEntity(code: -1, message: "未知错误");
+            return ErrorEntity(code: -1, message: "Unknown error");
           }
         }
       default:

@@ -30,8 +30,8 @@ showLoading({String? t = 'loading...'}) {
 }
 
 showSuccess({String? t}) {
-  EasyLoading.showSuccess(t ?? '加载成功!', dismissOnTap: false);
-  logX.d('加载成功>>>>$t');
+  EasyLoading.showSuccess(t ?? 'Load successful!', dismissOnTap: false);
+  logX.d('Load successful>>>>$t');
 }
 
 showProgress(double progress,{String? status,}) {
@@ -40,7 +40,7 @@ showProgress(double progress,{String? status,}) {
 }
 
 showError({String? t}) {
-  EasyLoading.showError(t ?? '加载失败!', dismissOnTap: false);
+  EasyLoading.showError(t ?? 'Loading failed!', dismissOnTap: false);
   logX.d('加载失败>>>>$t');
 }
 
