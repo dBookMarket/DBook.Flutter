@@ -141,20 +141,21 @@ flutter:
   assets:
     - assets/images/
     - assets/icons/
+    - assets/files/
 #    - assets/images/logos/
 #    - assets/images/backgrounds/
 
-  fonts:
-    - family: Avenir
-      fonts:
-        - asset: assets/fonts/Avenir-Book.ttf
-          weight: 400 # normal
-    - family: Montserrat
-      fonts:
-        - asset: assets/fonts/Montserrat-Medium.ttf
-          weight: 500
-        - asset: assets/fonts/Montserrat-SemiBold.ttf
-          weight: 600
-    - family: Iconfont
-      fonts:
-        - asset: assets/fonts/iconfont.ttf
+#  fonts:
+#    - family: Avenir
+#      fonts:
+#        - asset: assets/fonts/Avenir-Book.ttf
+#          weight: 400 # normal
+#    - family: Montserrat
+#      fonts:
+#        - asset: assets/fonts/Montserrat-Medium.ttf
+#          weight: 500
+#        - asset: assets/fonts/Montserrat-SemiBold.ttf
+#          weight: 600
+#    - family: Iconfont
+#      fonts:
+#        - asset: assets/fonts/iconfont.ttf

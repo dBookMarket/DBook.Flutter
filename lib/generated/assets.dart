@@ -2,6 +2,8 @@
 class Assets {
   Assets._();
 
+  static const String filesBaseBlock = 'assets/files/base_block.stk';
+  static const String filesResPng = 'assets/files/res_png.sse';
   static const String fontsDemoIndex = 'assets/fonts/demo_index.html';
   static const String fontsIconfont = 'assets/fonts/iconfont.ttf';
   static const String iconsIcBack = 'assets/icons/ic_back.png';

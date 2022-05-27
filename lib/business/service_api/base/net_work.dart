@@ -5,6 +5,7 @@
 
 import 'package:dbook/common/entities/assets_entity.dart';
 import 'package:dbook/common/entities/assets_info_entity.dart';
+import 'package:dbook/common/entities/read_info_entity.dart';
 import 'package:dbook/common/utils/logger.dart';
 import 'package:dio/dio.dart';
 
@@ -86,16 +87,16 @@ class NetWork {
     return assets;
   }
 
-  Future<AssetsInfoResults> assetsDetail(int id) async {
+  Future<ReadInfoEntity> assetsDetail(int id) async {
     var response = await httpX.get('${ApiConstants.assets}/$id/${ApiConstants.read}');
-    AssetsInfoResults assets;
+    ReadInfoEntity info;
     try {
-      assets = assets = AssetsInfoResults.fromJson(response);
+      info = ReadInfoEntity.fromJson(response);
     } catch (e) {
       logX.e(e);
       throw 'parse error';
     }
-    return assets;
+    return info;
   }
 
 

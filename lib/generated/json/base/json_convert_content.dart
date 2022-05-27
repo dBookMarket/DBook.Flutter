@@ -6,6 +6,7 @@
 import 'package:flutter/material.dart';
 import 'package:dbook/common/entities/assets_entity.dart';
 import 'package:dbook/common/entities/assets_info_entity.dart';
+import 'package:dbook/common/entities/read_info_entity.dart';
 
 JsonConvert jsonConvert = JsonConvert();
 typedef JsonConvertFunction<T> = T Function(Map<String, dynamic> json);
@@ -19,6 +20,7 @@ class JsonConvert {
 		(AssetsInfoResults).toString(): AssetsInfoResults.fromJson,
 		(AssetsInfoResultsIssue).toString(): AssetsInfoResultsIssue.fromJson,
 		(AssetsInfoResultsBookmark).toString(): AssetsInfoResultsBookmark.fromJson,
+		(ReadInfoEntity).toString(): ReadInfoEntity.fromJson,
 	};
 
   T? convert<T>(dynamic value) {
@@ -114,6 +116,9 @@ class JsonConvert {
 		}
 		if(<AssetsInfoResultsBookmark>[] is M){
 			return data.map<AssetsInfoResultsBookmark>((Map<String, dynamic> e) => AssetsInfoResultsBookmark.fromJson(e)).toList() as M;
+		}
+		if(<ReadInfoEntity>[] is M){
+			return data.map<ReadInfoEntity>((Map<String, dynamic> e) => ReadInfoEntity.fromJson(e)).toList() as M;
 		}
 
 		debugPrint("${M.toString()} not found");

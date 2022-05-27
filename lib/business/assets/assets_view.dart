@@ -27,19 +27,21 @@ class AssetsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       // appBar: _appbar(),
-      body: OrientationBuilder(builder: (c,o)=>SizedBox(
-        height: 1.sh,
-        child: Column(
-          children: [
-            SizedBox(
-              height: 63.h,
-            ),
-            _appbar(),
-            SizedBox(height: 20.h),
-            Expanded(child: _list())
-          ],
+      body: OrientationBuilder(
+        builder: (c, o) => SizedBox(
+          height: 1.sh,
+          child: Column(
+            children: [
+              SizedBox(
+                height: 63.h,
+              ),
+              _appbar(),
+              SizedBox(height: 20.h),
+              Expanded(child: _list())
+            ],
+          ),
         ),
-      ),),
+      ),
     );
   }
 
@@ -105,61 +107,64 @@ class AssetsPage extends StatelessWidget {
   }
 
   Widget _item(AssetsInfoResults item) {
-    return GestureDetector(child: Container(
-      padding: EdgeInsets.symmetric(horizontal: 42.w, vertical: 25.h),
-      color: Colors.white,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ClipRRect(
-            child: ImageHelper.network(item.issue?.coverUrl, width: 164.w, height: 205.h),
-            borderRadius: BorderRadius.circular(12.r),
-          ),
-          SizedBox(width: 35.w),
-          Expanded(
-              child: Container(
-                height: 205.h,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    TextX(
-                      item.issue?.name,
-                      maxLines: 2,
-                      color: ColorX.txtTitle,
-                      textAlign: TextAlign.start,
-                      fontSize: 26.sp,
+    return GestureDetector(
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 42.w, vertical: 25.h),
+        color: Colors.white,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ClipRRect(
+              child: ImageHelper.network(item.issue?.coverUrl, width: 164.w, height: 205.h),
+              borderRadius: BorderRadius.circular(12.r),
+            ),
+            SizedBox(width: 35.w),
+            Expanded(
+                child: Container(
+              height: 205.h,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  TextX(
+                    item.issue?.name,
+                    maxLines: 2,
+                    color: ColorX.txtTitle,
+                    textAlign: TextAlign.start,
+                    fontSize: 26.sp,
+                  ),
+                  // SizedBox(height: 26.h),
+                  Container(
+                    decoration: BoxDecoration(color: Color(0xFFE1E1E1), borderRadius: BorderRadius.circular(5.r)),
+                    padding: EdgeInsets.symmetric(horizontal: 10.w),
+                    child: TextX(
+                      item.issue?.authorName,
+                      fontSize: 19.sp,
+                      color: ColorX.txtHint,
                     ),
-                    // SizedBox(height: 26.h),
-                    Container(
-                      decoration: BoxDecoration(color: Color(0xFFE1E1E1), borderRadius: BorderRadius.circular(5.r)),
-                      padding: EdgeInsets.symmetric(horizontal: 10.w),
-                      child: TextX(
-                        item.issue?.authorName,
+                  ),
+                  // SizedBox(height: 20.h),
+                  Row(
+                    children: [
+                      ImageX(ImageConstants.tag, width: 17.w, height: 24.h),
+                      SizedBox(width: 12.w),
+                      TextX(
+                        'mark：${(item.bookmark?.currentPage??0)+1}/${item.issue?.nPages}',
                         fontSize: 19.sp,
-                        color: ColorX.txtHint,
-                      ),
-                    ),
-                    // SizedBox(height: 20.h),
-                    Row(
-                      children: [
-                        ImageX(ImageConstants.tag, width: 17.w, height: 24.h),
-                        SizedBox(width: 12.w),
-                        TextX(
-                          'mark：${item.bookmark?.currentPage}/${item.issue?.nPages}',
-                          fontSize: 19.sp,
-                        )
-                      ],
-                    )
-                  ],
-                ),
-              ))
-        ],
+                      )
+                    ],
+                  )
+                ],
+              ),
+            ))
+          ],
+        ),
       ),
-    ),onTap: ()=>_onClick('进入详情',param: item.id),);
+      onTap: () => _onClick('进入详情', param: item),
+    );
   }
 
-  _onClick(event,{param}) async {
+  _onClick(event, {param}) async {
     switch (event) {
       case 'Copy':
         Clipboard.setData(ClipboardData(text: Web3KeychainManager.getInstance().addresses()[0].hex));
@@ -170,7 +175,14 @@ class AssetsPage extends StatelessWidget {
         disconnect();
         break;
       case '进入详情':
-        Get.to(()=>AssetDetailPage(),arguments: Map.of({'id':param}));
+        Get.to(() => AssetDetailPage(),
+            arguments: Map.of({
+              'bookName': param.issue.name,
+              'bookId': param.id,
+              'currentPage': param.bookmark.currentPage,
+              'markId': param.bookmark.id,
+              'markIssue':param.bookmark.issue,
+            }));
         break;
     }
   }
