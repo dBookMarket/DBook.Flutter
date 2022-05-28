@@ -64,11 +64,13 @@ class AssetDetailLogic extends GetxController {
     File tempFile = File(tempPath);
     if (tempFile.existsSync()) return tempPath;
 
-    var bytes = await rootBundle.load(Assets.filesResPng);
-    ByteBuffer buffer =  bytes.buffer;
-    tempFile.writeAsBytes(buffer.asUint8List(bytes.offsetInBytes,
-        bytes.lengthInBytes));
-    return tempPath;
+    // test
+    // var bytes = await rootBundle.load(Assets.filesResPng);
+    // ByteBuffer buffer =  bytes.buffer;
+    // tempFile.writeAsBytes(buffer.asUint8List(bytes.offsetInBytes,
+    //     bytes.lengthInBytes));
+    // return tempPath;
+    //
     await Dio()
         .download(state.readInfo.value.files![index], tempPath)
         .onError((error, stackTrace) => logX.d(error));
@@ -80,11 +82,12 @@ class AssetDetailLogic extends GetxController {
     File tempFile = File(tempPath);
     if (tempFile.existsSync()) return tempPath;
 
-    var bytes = await rootBundle.load(Assets.filesBaseBlock);
-    ByteBuffer buffer =  bytes.buffer;
-    tempFile.writeAsBytes(buffer.asUint8List(bytes.offsetInBytes,
-        bytes.lengthInBytes));
-    return tempPath;
+    // test
+    // var bytes = await rootBundle.load(Assets.filesBaseBlock);
+    // ByteBuffer buffer =  bytes.buffer;
+    // tempFile.writeAsBytes(buffer.asUint8List(bytes.offsetInBytes,
+    //     bytes.lengthInBytes));
+    // return tempPath;
 
     await Dio()
         .download(state.readInfo.value.sk??'', tempPath)

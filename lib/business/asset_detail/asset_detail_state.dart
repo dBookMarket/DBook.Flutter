@@ -34,8 +34,8 @@ class AssetDetailState {
   }
 
   initFilePath()async{
-    // var parentPath = await getExternalStorageDirectory();
-    var parentPath = Directory('data/data/com.ddid.dbook/files');
+    var parentPath = await getExternalStorageDirectory();
+    // var parentPath = Directory('data/data/com.ddid.dbook/files');
     decryptPath = Directory('${parentPath?.path}/${bookName}_$bookId');
     /// 判断文件夹是否存在
     if (!decryptPath!.existsSync()) {
