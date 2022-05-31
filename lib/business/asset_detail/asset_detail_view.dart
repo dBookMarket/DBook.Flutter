@@ -88,7 +88,8 @@ class AssetDetailPage extends StatelessWidget {
       child: Image.file(
         image,
         width: 1.sw,
-        fit: BoxFit.cover,
+        // height: 1.sw/1.78,
+        fit: BoxFit.fill,
         errorBuilder: (c, o, e) => Container(
           width: 1.sw,
           height: 1.sh,
