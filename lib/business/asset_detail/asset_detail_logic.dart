@@ -18,17 +18,16 @@ import 'asset_detail_state.dart';
 class AssetDetailLogic extends GetxController {
   final AssetDetailState state = AssetDetailState();
 
-  onPageChanged(index,_){
+  onPageChanged(index, _) {
     logX.d('切换页面$index');
     state.currentIndex.value = index;
     loadingImage();
-    createMark();
   }
 
   getDetail() async {
     showLoading();
     state.readInfo.value = await NetWork.getInstance().assetsDetail(state.bookId).onError((error, stackTrace) => dismissLoading());
-    for (var i in state.readInfo.value.files??[]) {
+    for (var i in state.readInfo.value.files ?? []) {
       state.localFile.add(i);
     }
     logX.d(state.localFile);
@@ -39,9 +38,9 @@ class AssetDetailLogic extends GetxController {
   loadingImage() async {
     logX.d('开始加载第${state.currentIndex.value}页');
     await Future.wait([
-      download(state.currentIndex.value - 1),
+      downloadSSE(state.currentIndex.value - 1),
       download(state.currentIndex.value),
-      download(state.currentIndex.value + 1),
+      downloadSSE(state.currentIndex.value + 1),
     ]).whenComplete(() => dismissLoading());
   }
 
@@ -49,17 +48,21 @@ class AssetDetailLogic extends GetxController {
     if (index < 0 || index + 1 > (state.readInfo.value.files?.length ?? 0)) return;
     var tempImagePath = '${state.imagesPath?.path}/$index.png';
     File tempFile = File(tempImagePath);
+
     if (tempFile.existsSync()) {
       state.localFile[index] = tempFile;
       return;
     }
     var ssePath = await downloadSSE(index);
     var skPath = await downloadSK(index);
-    var file = await DBookCryptologyPlugin.decryptImage(filePath: tempImagePath, encFile: ssePath, skFile: skPath);
-    state.localFile[index] = file;
+    await DBookCryptologyPlugin.decryptImage(filePath: tempImagePath, encFile: ssePath, skFile: skPath);
+    await Future.delayed(Duration(milliseconds: 200));
+    final File? image = File(tempImagePath);
+    state.localFile[index] = image;
   }
 
-  downloadSSE(int index)async{
+  Future downloadSSE(int index) async {
+    if (index < 0 || index + 1 > (state.readInfo.value.files?.length ?? 0)) return;
     var tempPath = '${state.decryptPath?.path}/$index.sse';
     File tempFile = File(tempPath);
     if (tempFile.existsSync()) return tempPath;
@@ -71,13 +74,17 @@ class AssetDetailLogic extends GetxController {
     //     bytes.lengthInBytes));
     // return tempPath;
     //
-    await Dio()
-        .download(state.readInfo.value.files![index], tempPath)
-        .onError((error, stackTrace) => logX.d(error));
+    await Dio().download(state.readInfo.value.files![index], tempPath, onReceiveProgress: (int count, int total) {
+      if (count == total) {
+        print('downloadSSE>>>>>>>>$index下载完成');
+        state.localFile.refresh();
+      }
+    }).onError((error, stackTrace) => logX.d(error));
+    print('downloadSSE>>>>>>>>$index路径返回');
     return tempPath;
   }
 
-  downloadSK(int index)async{
+  downloadSK(int index) async {
     var tempPath = '${state.decryptPath?.path}/${state.bookName}.stk';
     File tempFile = File(tempPath);
     if (tempFile.existsSync()) return tempPath;
@@ -89,9 +96,7 @@ class AssetDetailLogic extends GetxController {
     //     bytes.lengthInBytes));
     // return tempPath;
 
-    await Dio()
-        .download(state.readInfo.value.sk??'', tempPath)
-        .onError((error, stackTrace) => logX.d(error));
+    await Dio().download(state.readInfo.value.sk ?? '', tempPath).onError((error, stackTrace) => logX.d(error));
     return tempPath;
   }
 
@@ -107,7 +112,6 @@ class AssetDetailLogic extends GetxController {
   /// 重置书签
   resetMark() {}
 
-
   @override
   void onInit() {
     getDetail();
@@ -119,6 +123,7 @@ class AssetDetailLogic extends GetxController {
   @override
   void onClose() {
     // state.imagesPath?.deleteSync(recursive: true);
+    createMark();
     state.decryptPath?.deleteSync(recursive: true);
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
     dismissLoading();
