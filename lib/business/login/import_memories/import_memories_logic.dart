@@ -13,7 +13,7 @@ class ImportMemoriesLogic extends GetxController {
   final ImportMemoriesState state = ImportMemoriesState();
 
   onMemoriesInput(String txt) {
-    if (kDebugMode) state.memories.value = txt;
+    state.memories.value = txt;
     logX.d(txt);
   }
 
