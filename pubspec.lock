@@ -175,7 +175,7 @@ packages:
       name: convert
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.1"
+    version: "3.0.2"
   cookie_jar:
     dependency: "direct main"
     description:
@@ -196,7 +196,7 @@ packages:
       name: cupertino_icons
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.4"
+    version: "1.0.5"
   dart_style:
     dependency: transitive
     description:
@@ -209,7 +209,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "89e004da147c83169203bb38b4bffb13f1acbdd3"
+      resolved-ref: e2d768fd56a4ad4c96e8623a67482246367b5f13
       url: "git@github.com:onlyYU/dbook_cryptology_plugin.git"
     source: git
     version: "0.0.1"

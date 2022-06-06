@@ -28,7 +28,7 @@ class AssetDetailLogic extends GetxController {
     showLoading();
     state.readInfo.value = await NetWork.getInstance().assetsDetail(state.bookId).onError((error, stackTrace) => dismissLoading());
     for (var i in state.readInfo.value.files ?? []) {
-      state.localFile.add(i);
+      state.localFile.add('loading');
     }
     logX.d(state.localFile);
     await loadingImage();
@@ -55,10 +55,15 @@ class AssetDetailLogic extends GetxController {
     }
     var ssePath = await downloadSSE(index);
     var skPath = await downloadSK(index);
-    await DBookCryptologyPlugin.decryptImage(filePath: tempImagePath, encFile: ssePath, skFile: skPath);
+    if(ssePath == null || skPath == null) return;
+    final File? image = await DBookCryptologyPlugin.decryptImage(filePath: tempImagePath, encFile: ssePath, skFile: skPath);
+    //等待
     await Future.delayed(Duration(milliseconds: 200));
-    final File? image = File(tempImagePath);
-    state.localFile[index] = image;
+    if (image != null) {
+      state.localFile[index] = image;
+    } else {
+      loadingError(index);
+    }
   }
 
   Future downloadSSE(int index) async {
@@ -67,19 +72,14 @@ class AssetDetailLogic extends GetxController {
     File tempFile = File(tempPath);
     if (tempFile.existsSync()) return tempPath;
 
-    // test
-    // var bytes = await rootBundle.load(Assets.filesResPng);
-    // ByteBuffer buffer =  bytes.buffer;
-    // tempFile.writeAsBytes(buffer.asUint8List(bytes.offsetInBytes,
-    //     bytes.lengthInBytes));
-    // return tempPath;
-    //
     await Dio().download(state.readInfo.value.files![index], tempPath, onReceiveProgress: (int count, int total) {
-      if (count == total) {
-        print('downloadSSE>>>>>>>>$index下载完成');
-        state.localFile.refresh();
-      }
-    }).onError((error, stackTrace) => logX.d(error));
+      //进度
+      var progress = count / total * 100;
+      // state.localFile[index] = '${progress.round()}%';
+      // if(progress == 100){
+      //   state.localFile[index] = 'loading';
+      // }
+    }).onError((error, stackTrace) => loadingError(index));
     print('downloadSSE>>>>>>>>$index路径返回');
     return tempPath;
   }
@@ -98,6 +98,10 @@ class AssetDetailLogic extends GetxController {
 
     await Dio().download(state.readInfo.value.sk ?? '', tempPath).onError((error, stackTrace) => logX.d(error));
     return tempPath;
+  }
+
+  loadingError(index){
+    state.localFile[index] = 'load error';
   }
 
   /// 新建书签

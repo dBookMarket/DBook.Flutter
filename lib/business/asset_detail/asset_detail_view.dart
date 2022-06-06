@@ -77,7 +77,7 @@ class AssetDetailPage extends StatelessWidget {
     if (image is String) {
       return Center(
         child: TextX(
-          'Loading',
+          image,
           color: Colors.blue,
         ),
       );
