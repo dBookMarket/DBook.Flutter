@@ -98,6 +98,10 @@ dependencies:
     git:
       url: git@github.com:onlyYU/dbook_cryptology_plugin.git
 
+
+  lottie: ^1.4.0
+
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

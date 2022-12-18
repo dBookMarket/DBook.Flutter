@@ -2,10 +2,12 @@
 class Assets {
   Assets._();
 
-  static const String filesBaseBlock = 'assets/files/base_block.stk';
-  static const String filesResPng = 'assets/files/res_png.sse';
+  static const String assetsLoading = 'assets/loading.json';
+  static const String fontsAvenirBook = 'assets/fonts/Avenir-Book.ttf';
   static const String fontsDemoIndex = 'assets/fonts/demo_index.html';
   static const String fontsIconfont = 'assets/fonts/iconfont.ttf';
+  static const String fontsMontserratMedium = 'assets/fonts/Montserrat-Medium.ttf';
+  static const String fontsMontserratSemiBold = 'assets/fonts/Montserrat-SemiBold.ttf';
   static const String iconsIcBack = 'assets/icons/ic_back.png';
   static const String iconsIcClose = 'assets/icons/ic_close.png';
   static const String iconsIcCloseEye = 'assets/icons/ic_close_eye.png';
@@ -15,6 +17,9 @@ class Assets {
   static const String iconsIcOpenEye = 'assets/icons/ic_open_eye.png';
   static const String iconsIcTag = 'assets/icons/ic_tag.png';
   static const String iconsIcToggle = 'assets/icons/ic_toggle.png';
+  static const String iconsNoData = 'assets/icons/no_data.png';
+  static const String iconsNoNet = 'assets/icons/no_net.png';
+  static const String iconsRetry = 'assets/icons/retry.png';
   static const String imagesBgGuide = 'assets/images/bg_guide.png';
   static const String imagesLogo = 'assets/images/logo.png';
   static const String imagesTemp1 = 'assets/images/temp1.PNG';
