@@ -8,6 +8,7 @@ import 'package:web3dart/crypto.dart';
 
 import '../../../common/key_manager/keystore_manager.dart';
 import '../../../common/utils/loading.dart';
+import '../../main/view.dart';
 import 'setting_password_state.dart';
 
 class SettingPasswordLogic extends GetxController {
@@ -56,6 +57,6 @@ class SettingPasswordLogic extends GetxController {
     String token = await NetWork.getInstance().login(address: address, signature: signature);
     await UserStore.to.setToken(token);
     Web3KeychainManager.getInstance().rescanStorage();
-    Get.offAll(()=>AssetsPage());
+    Get.offAll(()=>MainPage());
   }
 }

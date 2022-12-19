@@ -10,6 +10,10 @@ class StorageService extends GetxService {
     return this;
   }
 
+  Future setInt(String key, int value) async {
+    return await box.write(key, value);
+  }
+
   Future setString(String key, String value) async {
     return await box.write(key, value);
   }
@@ -22,6 +26,10 @@ class StorageService extends GetxService {
     return await box.write(key, value);
   }
 
+  int getInt(String key,{required int defValue}){
+    return box.read(key)??defValue;
+  }
+  
   String getString(String key) {
     return box.read(key) ?? '';
   }

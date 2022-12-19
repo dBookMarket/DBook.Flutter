@@ -1,5 +1,5 @@
 import 'package:dbook/common/widgets/appBar.dart';
-import 'package:dbook/common/widgets/base_container_view.dart';
+import 'package:dbook/common/widgets/view_state/base_container_view.dart';
 import 'package:dbook/common/widgets/button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -21,6 +21,7 @@ class ImportPrivateKeyPage extends StatelessWidget {
   }
 
   Widget _body() => BaseContainer(
+        viewState: state.viewState,
         padding: EdgeInsets.symmetric(horizontal: 30.w),
         child: Column(
           children: [_input(), Expanded(child: SizedBox()), ButtonX('Next'), SizedBox(height: 36.h)],

@@ -1,10 +1,11 @@
 import 'dart:async';
 
+import 'package:dbook/common/widgets/view_state/view_state.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 
-class ImportMemoriesState {
+class ImportMemoriesState extends BaseState{
   ImportMemoriesState() {
     if(kDebugMode) controller.text = testM;
     // controller.text = testM;

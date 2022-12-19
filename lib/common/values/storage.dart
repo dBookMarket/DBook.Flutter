@@ -7,3 +7,6 @@ const String STORAGE_DEVICE_FIRST_OPEN_KEY = 'device_first_open';
 
 /// 多语言
 const String STORAGE_LANGUAGE_CODE = 'language_code';
+
+/// 冷启动加载页面
+const String PAGE_INDEX_STR = 'last_page_index';

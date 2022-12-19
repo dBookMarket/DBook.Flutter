@@ -49,7 +49,7 @@ class BaseContainer extends StatelessWidget {
   }
 
   Widget _childContainer() => Container(
-        color: background ?? ColorX.primaryMain,
+        color: background ?? ColorX.primaryBackground,
         margin: margin,
         padding: padding,
         child: child,

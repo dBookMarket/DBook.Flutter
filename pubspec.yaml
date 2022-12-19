@@ -101,6 +101,8 @@ dependencies:
 
   lottie: ^1.4.0
 
+  flutter_svg: ^1.1.6
+
 
 dev_dependencies:
   flutter_test:
@@ -145,6 +147,7 @@ flutter:
   assets:
     - assets/images/
     - assets/icons/
+    - assets/svg/
 #    - assets/images/logos/
 #    - assets/images/backgrounds/
 

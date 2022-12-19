@@ -1,7 +1,7 @@
 import 'package:dbook/common/utils/image_helper.dart';
 import 'package:dbook/common/values/images.dart';
 import 'package:dbook/common/widgets/appBar.dart';
-import 'package:dbook/common/widgets/base_container_view.dart';
+import 'package:dbook/common/widgets/view_state/base_container_view.dart';
 import 'package:dbook/common/widgets/button.dart';
 import 'package:dbook/common/widgets/line_widget.dart';
 import 'package:dbook/common/widgets/text.dart';
@@ -30,6 +30,7 @@ class VerifyPasswordPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(body: BaseContainer(
+      viewState: state.viewState,
       child: Center(
         child: Container(
           width: 0.8.sw,

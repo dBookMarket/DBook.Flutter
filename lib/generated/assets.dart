@@ -3,6 +3,8 @@ class Assets {
   Assets._();
 
   static const String assetsLoading = 'assets/loading.json';
+  static const String filesBaseBlock = 'assets/files/base_block.stk';
+  static const String filesResPng = 'assets/files/res_png.sse';
   static const String fontsAvenirBook = 'assets/fonts/Avenir-Book.ttf';
   static const String fontsDemoIndex = 'assets/fonts/demo_index.html';
   static const String fontsIconfont = 'assets/fonts/iconfont.ttf';
@@ -30,5 +32,12 @@ class Assets {
   static const String imagesTemp6 = 'assets/images/temp6.PNG';
   static const String imagesTemp7 = 'assets/images/temp7.PNG';
   static const String imagesTemp8 = 'assets/images/temp8.PNG';
+  static const String svgBack = 'assets/svg/back.svg';
+  static const String svgHomeBook = 'assets/svg/home_book.svg';
+  static const String svgHomeLogo = 'assets/svg/home_logo.svg';
+  static const String svgHomeSearch = 'assets/svg/home_search.svg';
+  static const String svgTabBooks = 'assets/svg/tab_books.svg';
+  static const String svgTabMine = 'assets/svg/tab_mine.svg';
+  static const String svgTabSearch = 'assets/svg/tab_search.svg';
 
 }

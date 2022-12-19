@@ -2,7 +2,7 @@ import 'package:dbook/common/config/app_config.dart';
 import 'package:dbook/common/utils/image_helper.dart';
 import 'package:dbook/common/values/images.dart';
 import 'package:dbook/common/widgets/appBar.dart';
-import 'package:dbook/common/widgets/base_container_view.dart';
+import 'package:dbook/common/widgets/view_state/base_container_view.dart';
 import 'package:dbook/common/widgets/button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -23,6 +23,7 @@ class SettingPasswordPage extends StatelessWidget {
   }
 
   Widget _body() => BaseContainer(
+      viewState: state.viewState,
       padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 36.h),
       child: Column(
         children: [
@@ -30,7 +31,7 @@ class SettingPasswordPage extends StatelessWidget {
           SizedBox(height: 28.h),
           _input(controller: state.passwordAgainController, hint: 'Please enter the password again'),
           Expanded(child: SizedBox()),
-          ButtonX('Next',onPressed: ()=>logic.importMemories())
+          ButtonX('Next', onPressed: () => logic.importMemories())
         ],
       ));
 

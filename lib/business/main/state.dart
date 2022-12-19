@@ -1,30 +1,33 @@
+import 'package:dbook/business/books/books_view.dart';
+import 'package:dbook/business/mine/mine_view.dart';
+import 'package:dbook/business/search/search_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
+
+import '../../common/services/storage.dart';
+import '../../common/values/storage.dart';
+import '../../common/widgets/keep_alive_wrapper.dart';
+import '../../common/widgets/view_state/view_state.dart';
+import '../../generated/assets.dart';
 
 class MainState extends BaseState {
   late PageController pageController = PageController(initialPage: selectIndex, keepPage: true);
   List<Widget> pages = [];
   List<String> icons = [
-    'ic_tab_home',
-    'ic_tab_shop',
-    'ic_tab_shop',
-    'ic_tab_goods',
-    'ic_tab_mine',
+    Assets.svgTabSearch,
+    Assets.svgTabBooks,
+    Assets.svgTabMine,
   ];
 
   List<String> tabTitles = [
-    '首页',
-    '商户',
-    '',
-    '限时购',
-    '我的',
+    'Search',
+    'Books',
+    'Mine',
   ];
 
   MainState() {
-    this.pages.add(KeepAliveWrapper(child: HomePage()));
-    this.pages.add(KeepAliveWrapper(child: ShopPage()));
-    this.pages.add(SizedBox());
-    this.pages.add(KeepAliveWrapper(child: GrouponPage()));
+    this.pages.add(KeepAliveWrapper(child: SearchPage()));
+    this.pages.add(KeepAliveWrapper(child: BooksPage()));
     this.pages.add(KeepAliveWrapper(child: MinePage()));
   }
 

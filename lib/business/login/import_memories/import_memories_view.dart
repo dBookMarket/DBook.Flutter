@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../../common/widgets/appBar.dart';
-import '../../../common/widgets/base_container_view.dart';
+import '../../../common/widgets/view_state/base_container_view.dart';
 import '../../../common/widgets/button.dart';
 import 'import_memories_logic.dart';
 
@@ -26,6 +26,8 @@ class ImportMemoriesPage extends StatelessWidget {
 
   Widget _body() =>
       BaseContainer(
+        viewState: state.viewState,
+        background: Colors.white,
         padding: EdgeInsets.symmetric(horizontal: 30.w),
         child: Column(
           children: [

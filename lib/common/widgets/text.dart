@@ -1,9 +1,13 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import '../values/colors.dart';
 
 class TextX extends StatelessWidget {
+  static final FontWeight bold = Platform.isAndroid?FontWeight.bold:FontWeight.w500;
+  static final double h = Platform.isAndroid ? 1.25 : 1.3;
   final Color? color;
   final double? fontSize;
   final double? height;
@@ -26,7 +30,7 @@ class TextX extends StatelessWidget {
               color: color ?? ColorX.txtTitle,
               fontSize: fontSize,
               fontWeight: fontWeight,
-              height: height ?? 1.3,
+              height: height ?? h,
               overflow: overflow ?? TextOverflow.ellipsis,
               fontFamily: this.fontFamily),
       maxLines: maxLines,
@@ -35,7 +39,7 @@ class TextX extends StatelessWidget {
       strutStyle: StrutStyle(
         fontSize: fontSize,
         leading: 0,
-        height: height ?? 1.3,
+        height: height ?? h,
         // 1.1更居中
         forceStrutHeight: true, // 关键属性 强制改为文字高度
       ),

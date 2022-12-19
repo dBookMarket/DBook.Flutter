@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 23.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" [
+	<!ENTITY ns_extend "http://ns.adobe.com/Extensibility/1.0/">
+	<!ENTITY ns_ai "http://ns.adobe.com/AdobeIllustrator/10.0/">
+	<!ENTITY ns_graphs "http://ns.adobe.com/Graphs/1.0/">
+	<!ENTITY ns_vars "http://ns.adobe.com/Variables/1.0/">
+	<!ENTITY ns_imrep "http://ns.adobe.com/ImageReplacement/1.0/">
+	<!ENTITY ns_sfw "http://ns.adobe.com/SaveForWeb/1.0/">
+	<!ENTITY ns_custom "http://ns.adobe.com/GenericCustomNamespace/1.0/">
+	<!ENTITY ns_adobe_xpath "http://ns.adobe.com/XPath/1.0/">
+	<!ENTITY st0 "fill:#7D5321;">
+]>
+<svg version="1.1" id="图层_1" xmlns:x="&ns_extend;" xmlns:i="&ns_ai;" xmlns:graph="&ns_graphs;"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 200 200"
+	 style="enable-background:new 0 0 200 200;" xml:space="preserve">
+<metadata>
+	<sfw  xmlns="&ns_sfw;">
+		<slices></slices>
+		<sliceSourceBounds  bottomLeftOrigin="true" height="153.1" width="174.56" x="12.72" y="20.16"></sliceSourceBounds>
+	</sfw>
+</metadata>
+<path style="&st0;" d="M57,68.72c0,6.16,5,11.16,11.16,11.16c6.16,0,11.16-5,11.16-11.16c0-6.16-5-11.16-11.16-11.16
+	C62,57.56,57,62.55,57,68.72z"/>
+<path style="&st0;" d="M168.11,82.62l17.13-17.13c2.72-2.72,2.72-7.12,0-9.84c-1.56-1.56-3.68-2.19-5.72-1.96
+	c-0.25-0.03-0.5-0.08-0.76-0.08l-15.46,0c-1.65-15.08-14.45-26.86-29.97-26.86l-90.46,0c-16.63,0-30.16,13.53-30.16,30.16v92.78
+	c0,16.63,13.53,30.16,30.16,30.16h90.46c16.63,0,30.16-13.53,30.16-30.16V111.6l15.27,0c0.2,0,0.4-0.04,0.6-0.06
+	c0.32,0.04,0.64,0.09,0.96,0.09c1.78,0,3.56-0.68,4.92-2.04c2.72-2.72,2.72-7.12,0-9.84L168.11,82.62z M142.94,97.68
+	c-0.85,0-1.66,0.18-2.42,0.46l0-31.07c0.76,0.28,1.56,0.46,2.42,0.46l20.58,0L153.35,77.7c-1.36,1.36-2.04,3.14-2.04,4.92
+	c0,1.78,0.68,3.56,2.04,4.92c0,0,0,0,0.01,0l10.14,10.14L142.94,97.68z M149.24,53.61l-6.3,0c-0.85,0-1.66,0.18-2.42,0.46V43.8
+	c0-0.53-0.07-1.04-0.18-1.53C144.84,44.43,148.21,48.59,149.24,53.61z M42.88,40.66h84.51c-0.48,0.95-0.78,2-0.78,3.14v85.01H42.88
+	c-5.84,0-11.46,1.72-16.24,4.77l0-76.68C26.64,47.95,33.92,40.66,42.88,40.66z M149.58,149.68c0,8.95-7.29,16.24-16.24,16.24H42.88
+	c-7.86,0-14.43-5.61-15.92-13.04c0.71-0.54,1.36-1.18,1.83-2.01c2.89-5.03,8.29-8.15,14.08-8.15h85.82c0.74,0,1.44-0.15,2.11-0.36
+	c0.84,0.36,1.77,0.57,2.75,0.57c3.84,0,6.96-3.12,6.96-6.96v-24.83c0.76,0.28,1.56,0.46,2.42,0.46l6.64,0L149.58,149.68
+	L149.58,149.68z"/>
+</svg>
