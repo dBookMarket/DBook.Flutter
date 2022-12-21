@@ -33,9 +33,13 @@ class Assets {
   static const String imagesTemp7 = 'assets/images/temp7.PNG';
   static const String imagesTemp8 = 'assets/images/temp8.PNG';
   static const String svgBack = 'assets/svg/back.svg';
+  static const String svgComingTime = 'assets/svg/coming_time.svg';
   static const String svgHomeBook = 'assets/svg/home_book.svg';
   static const String svgHomeLogo = 'assets/svg/home_logo.svg';
   static const String svgHomeSearch = 'assets/svg/home_search.svg';
+  static const String svgLogoDiscord = 'assets/svg/logo_discord.svg';
+  static const String svgLogoTwitter = 'assets/svg/logo_twitter.svg';
+  static const String svgLogoWeb = 'assets/svg/logo_web.svg';
   static const String svgTabBooks = 'assets/svg/tab_books.svg';
   static const String svgTabMine = 'assets/svg/tab_mine.svg';
   static const String svgTabSearch = 'assets/svg/tab_search.svg';

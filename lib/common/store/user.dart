@@ -40,7 +40,7 @@ class UserStore extends GetxController {
 
   // 注销
   Future<void> onLogout() async {
-    if (_isLogin.value) await NetWork.getInstance().logout();
+    if (_isLogin.value) await NetWork.getInstance().user.logout();
     await StorageService.to.remove(STORAGE_USER_TOKEN_KEY);
     _isLogin.value = false;
     token = '';

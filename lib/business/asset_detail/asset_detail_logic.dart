@@ -26,7 +26,7 @@ class AssetDetailLogic extends GetxController {
 
   getDetail() async {
     showLoading();
-    state.readInfo.value = await NetWork.getInstance().assetsDetail(state.bookId).onError((error, stackTrace) => dismissLoading());
+    state.readInfo.value = await NetWork.getInstance().assets.assetsDetail(state.bookId).onError((error, stackTrace) => dismissLoading());
     for (var i in state.readInfo.value.files ?? []) {
       state.localFile.add('loading');
     }
@@ -110,7 +110,7 @@ class AssetDetailLogic extends GetxController {
     // 更新列表书签
     listState.list.where((p0) => p0.id == state.bookId).first.bookmark?.currentPage = state.currentIndex.value;
     listState.list.refresh();
-    await NetWork.getInstance().mark(issue: state.markIssue, page: state.currentIndex.value, markId: state.markId).onError((error, stackTrace) => showError(t: error.toString()));
+    await NetWork.getInstance().assets.mark(issue: state.markIssue, page: state.currentIndex.value, markId: state.markId).onError((error, stackTrace) => showError(t: error.toString()));
   }
 
   /// 重置书签

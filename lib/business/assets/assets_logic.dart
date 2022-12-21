@@ -47,7 +47,7 @@ class AssetsLogic extends GetxController {
   }
 
   Future<AssetsInfoEntity> loadData({int? pageNum})async{
-    return await NetWork.getInstance().assets().onError((error, stackTrace) => handleError(error));
+    return await NetWork.getInstance().assets.assets().onError((error, stackTrace) => handleError(error));
   }
 
   refresh({bool init = false, bool enableLoading = true}) async {

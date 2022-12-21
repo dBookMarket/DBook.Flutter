@@ -11,6 +11,7 @@ class ColorX {
   static const Color txtDesc = Color(0xFF676767);
   static const Color txtHint = Color(0xFF999999);
   static const Color txtRed = Color(0xFFDA4B4B);
+  static const Color txtBrown = Color(0xFF8B5E28);
 
 
 

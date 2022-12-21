@@ -1,4 +1,3 @@
-import 'package:dbook/business/books/books_view.dart';
 import 'package:dbook/business/mine/mine_view.dart';
 import 'package:dbook/business/search/search_view.dart';
 import 'package:flutter/cupertino.dart';
@@ -9,6 +8,8 @@ import '../../common/values/storage.dart';
 import '../../common/widgets/keep_alive_wrapper.dart';
 import '../../common/widgets/view_state/view_state.dart';
 import '../../generated/assets.dart';
+import '../assets/assets_view.dart';
+import '../issues/issues_view.dart';
 
 class MainState extends BaseState {
   late PageController pageController = PageController(initialPage: selectIndex, keepPage: true);
@@ -27,7 +28,7 @@ class MainState extends BaseState {
 
   MainState() {
     this.pages.add(KeepAliveWrapper(child: SearchPage()));
-    this.pages.add(KeepAliveWrapper(child: BooksPage()));
+    this.pages.add(KeepAliveWrapper(child: IssuesPage()));
     this.pages.add(KeepAliveWrapper(child: MinePage()));
   }
 

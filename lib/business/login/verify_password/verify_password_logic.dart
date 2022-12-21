@@ -40,7 +40,7 @@ class VerifyPasswordLogic extends GetxController {
 
   _getNonce(EthereumAddress address) async {
     showLoading();
-    var nonce = await NetWork.getInstance().nonce(address: address.toString()).onError((error, stackTrace) => showError(t: error.toString()));
+    var nonce = await NetWork.getInstance().user.nonce(address: address.toString()).onError((error, stackTrace) => showError(t: error.toString()));
     await _sign(address, nonce);
     dismissLoading();
   }
@@ -57,7 +57,7 @@ class VerifyPasswordLogic extends GetxController {
   }
 
   Future _login(String address, String signature) async {
-    String token = await NetWork.getInstance().login(address: address, signature: signature).onError((error, stackTrace) => showError(t: error.toString()));
+    String token = await NetWork.getInstance().user.login(address: address, signature: signature).onError((error, stackTrace) => showError(t: error.toString()));
     await UserStore.to.setToken(token);
     // Get.to(()=>AssetsPage());
     Get.back(result: true);

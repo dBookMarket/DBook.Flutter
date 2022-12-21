@@ -34,7 +34,7 @@ class GuidePage extends StatelessWidget {
 
   Widget _contentDesc() {
     // String txt = 'D-BOOK购买的书籍可直接在当前阅读器中进行解码阅读，\n因版权保护问题，所以暂不支持对外阅读，\n若有不便敬请谅解';
-    String txt = 'D-BOOK purchased books can be decoded and read directly in the current reader,due to copyright protection problems, so it does not support external reading, '
+    String txt = 'D-BOOK purchased issues can be decoded and read directly in the current reader,due to copyright protection problems, so it does not support external reading, '
         'If there is any inconvenience, please understand';
     return Column(
       children: [

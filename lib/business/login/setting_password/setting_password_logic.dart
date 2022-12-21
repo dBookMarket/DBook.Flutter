@@ -41,7 +41,7 @@ class SettingPasswordLogic extends GetxController {
 
   getNonce(EthereumAddress address) async {
     showLoading();
-    var nonce = await NetWork.getInstance().nonce(address: address.toString()).onError((error, stackTrace) => showError(t: error.toString()));
+    var nonce = await NetWork.getInstance().user.nonce(address: address.toString()).onError((error, stackTrace) => showError(t: error.toString()));
     await sign(address, nonce);
     dismissLoading();
   }
@@ -54,7 +54,7 @@ class SettingPasswordLogic extends GetxController {
   }
 
   Future login(String address, String signature) async {
-    String token = await NetWork.getInstance().login(address: address, signature: signature);
+    String token = await NetWork.getInstance().user.login(address: address, signature: signature);
     await UserStore.to.setToken(token);
     Web3KeychainManager.getInstance().rescanStorage();
     Get.offAll(()=>MainPage());
