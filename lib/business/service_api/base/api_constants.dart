@@ -20,4 +20,6 @@ class ApiConstants {
 
   static final String issues = "issues";
 
+  static final String trades = "trades";
+
 }

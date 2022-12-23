@@ -4,6 +4,7 @@
 */
 
 import 'package:dbook/business/service_api/assets_api.dart';
+import 'package:dbook/business/service_api/market_api.dart';
 import 'package:dbook/business/service_api/user_api.dart';
 import 'package:dbook/common/entities/assets_entity.dart';
 import 'package:dbook/common/entities/assets_info_entity.dart';
@@ -32,5 +33,6 @@ class NetWork {
   }
 
   AssetsApi get assets => AssetsApi();
+  MarketApi get market => MarketApi();
   UserApi get user => UserApi();
 }

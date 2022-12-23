@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:add_2_calendar/add_2_calendar.dart';
 import 'package:common_utils/common_utils.dart';
+import 'package:dbook/business/issues/secondary_market/secondary_market_view.dart';
 import 'package:dbook/common/config/app_config.dart';
 import 'package:dbook/common/utils/logger.dart';
 import 'package:dbook/common/values/values.dart';
@@ -55,6 +56,8 @@ class IssuesDetailPage extends StatelessWidget {
             SizedBox(height: 20.h),
             _trialButton(),
             _publication(),
+            _destroyed(),
+            SecondaryMarketPage(issueId: state.issuesInfo.id??'',)
           ],
         ),
       ));
@@ -97,47 +100,41 @@ class IssuesDetailPage extends StatelessWidget {
       );
 
   //region 出版信息
-  Widget _publication() => Container(
-        margin: EdgeInsets.only(top: 30.h),
-        padding: EdgeInsets.all(26.r),
-        decoration: BoxDecoration(
-          border: Border.all(width: 1.r, color: Colors.black),
-        ),
-        child: Column(
-          children: [
-            Row(
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Container(
-                          width: 10.r,
-                          height: 10.r,
-                          decoration: BoxDecoration(color: Colors.black, borderRadius: BorderRadius.circular(100)),
-                        ),
-                        SizedBox(width: 20.w),
-                        TextX('Publication', fontSize: FontSizeX.s16, color: Color(0xFF42392B), fontWeight: TextX.bold)
-                      ],
-                    ),
-                    SizedBox(height: 12.h),
-                    _comingDay(state.issuesInfo.publishedAt)
-                  ],
-                ),
-                Expanded(child: SizedBox()),
-                _publicationTime(),
-              ],
-            ),
-            LineH(margin: EdgeInsets.only(top: 30.h, bottom: 20.h)),
-            _publicChain(),
-            LineH(margin: EdgeInsets.only(top: 30.h, bottom: 20.h)),
-            _publicCount(),
-            SizedBox(height: 20.h),
-            _tradeButton(),
-          ],
-        ),
-      );
+  Widget _publication() => _boxContainer(
+          child: Column(
+        children: [
+          Row(
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Container(
+                        width: 10.r,
+                        height: 10.r,
+                        decoration: BoxDecoration(color: Colors.black, borderRadius: BorderRadius.circular(100)),
+                      ),
+                      SizedBox(width: 20.w),
+                      TextX('Publication', fontSize: FontSizeX.s16, color: Color(0xFF42392B), fontWeight: TextX.bold)
+                    ],
+                  ),
+                  SizedBox(height: 12.h),
+                  _comingDay(state.issuesInfo.publishedAt)
+                ],
+              ),
+              Expanded(child: SizedBox()),
+              _publicationTime(),
+            ],
+          ),
+          LineH(margin: EdgeInsets.only(top: 30.h, bottom: 20.h)),
+          _publicChain(),
+          LineH(margin: EdgeInsets.only(top: 30.h, bottom: 20.h)),
+          _publicCount(),
+          SizedBox(height: 20.h),
+          _tradeButton(),
+        ],
+      ));
 
   Widget _comingDay(time) {
     return Row(children: [
@@ -274,6 +271,38 @@ class IssuesDetailPage extends StatelessWidget {
 
   //endregion
 
+  Widget _destroyed() => _boxContainer(
+      child: TextX((state.issuesInfo.destroyLog == null || state.issuesInfo.destroyLog!.isEmpty) ? 'None' : state.issuesInfo.destroyLog),
+      title: 'Destroyed');
+
+  Widget _boxContainer({required Widget child, String? title,EdgeInsets? padding}) => Container(
+        margin: EdgeInsets.only(top: 30.h),
+        padding: padding??EdgeInsets.all(26.r),
+        decoration: BoxDecoration(
+          border: Border.all(width: 1.r, color: Colors.black),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            title == null
+                ? SizedBox()
+                : Row(
+                    children: [
+                      Container(
+                        width: 10.r,
+                        height: 10.r,
+                        decoration: BoxDecoration(color: Colors.black, borderRadius: BorderRadius.circular(100)),
+                      ),
+                      SizedBox(width: 20.w),
+                      TextX(title, fontSize: FontSizeX.s16, color: Color(0xFF42392B), fontWeight: TextX.bold)
+                    ],
+                  ),
+            SizedBox(height: title == null ? 0 : 12.h),
+            child
+          ],
+        ),
+      );
+
   _onClick(String type, {param}) async {
     logX.d('点击了>>>>$type');
     switch (type) {
@@ -294,8 +323,8 @@ class IssuesDetailPage extends StatelessWidget {
         if (time == null) return;
 
         final Event event = Event(
-          title: state.issuesInfo.book?.title??'New Book',
-          description: '${state.issuesInfo.book?.title??'New Book'} publish notification',
+          title: state.issuesInfo.book?.title ?? 'New Book',
+          description: '${state.issuesInfo.book?.title ?? 'New Book'} publish notification',
           location: '',
           startDate: time,
           endDate: time.add(Duration(days: 1)),

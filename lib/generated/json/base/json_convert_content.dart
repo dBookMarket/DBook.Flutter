@@ -8,6 +8,7 @@ import 'package:dbook/common/entities/assets_entity.dart';
 import 'package:dbook/common/entities/assets_info_entity.dart';
 import 'package:dbook/common/entities/issues_entity.dart';
 import 'package:dbook/common/entities/read_info_entity.dart';
+import 'package:dbook/common/entities/trades_list_entity.dart';
 
 JsonConvert jsonConvert = JsonConvert();
 typedef JsonConvertFunction<T> = T Function(Map<String, dynamic> json);
@@ -29,6 +30,8 @@ class JsonConvert {
 		(IssuesTrade).toString(): IssuesTrade.fromJson,
 		(IssuesBookmark).toString(): IssuesBookmark.fromJson,
 		(ReadInfoEntity).toString(): ReadInfoEntity.fromJson,
+		(TradesListEntity).toString(): TradesListEntity.fromJson,
+		(TradesListUser).toString(): TradesListUser.fromJson,
 	};
 
   T? convert<T>(dynamic value) {
@@ -151,6 +154,12 @@ class JsonConvert {
 		}
 		if(<ReadInfoEntity>[] is M){
 			return data.map<ReadInfoEntity>((Map<String, dynamic> e) => ReadInfoEntity.fromJson(e)).toList() as M;
+		}
+		if(<TradesListEntity>[] is M){
+			return data.map<TradesListEntity>((Map<String, dynamic> e) => TradesListEntity.fromJson(e)).toList() as M;
+		}
+		if(<TradesListUser>[] is M){
+			return data.map<TradesListUser>((Map<String, dynamic> e) => TradesListUser.fromJson(e)).toList() as M;
 		}
 
 		debugPrint("${M.toString()} not found");
