@@ -105,6 +105,12 @@ dependencies:
 
   webview_flutter: ^3.0.1
 
+  # 工具类
+  common_utils: ^2.1.0
+
+  # 添加提醒到本地日历
+  add_2_calendar: ^2.2.3
+
 
 dev_dependencies:
   flutter_test:

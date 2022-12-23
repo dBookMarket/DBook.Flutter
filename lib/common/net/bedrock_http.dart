@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dbook/common/store/store.dart';
 import 'package:dbook/common/utils/logger.dart';
@@ -7,6 +9,7 @@ import 'package:dbook/business/service_api/base/api_constants.dart';
 import 'package:dbook/common/exception/exception_pitcher.dart';
 import 'package:dbook/common/utils/directory.dart';
 
+import '../services/global_time.dart';
 import 'base_http.dart';
 import 'log_intercepter_x.dart';
 
@@ -64,6 +67,9 @@ class ApiInterceptor extends InterceptorsWrapper {
     if (response.requestOptions.path.toString().contains('http')) {
       return super.onResponse(response, handler);
     }
+
+    DateTime serviceTime = HttpDate.parse(response.headers['date'].toString().replaceAll('[', '').replaceAll(']', ''));
+    GlobalTimeService.to.resetTime(serviceTime.millisecondsSinceEpoch);
 
     if (response.statusCode != 200) {
       // throw ExceptionPitcher().transformException(response.statusCode);

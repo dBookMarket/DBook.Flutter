@@ -1,5 +1,8 @@
+import 'package:common_utils/common_utils.dart';
+import 'package:dbook/business/assets/assets_state.dart';
 import 'package:get/get.dart';
 
+import '../../../common/services/global_time.dart';
 import 'issues_detail_state.dart';
 
 class IssuesDetailLogic extends GetxController {
@@ -7,5 +10,25 @@ class IssuesDetailLogic extends GetxController {
 
   getBookDetail()async{
 
+  }
+
+
+  Duration comingTime() {
+    DateTime? endTime;
+    if(state.issuesInfo.status == IssuesStatus.pre_sale.name){
+      endTime = DateUtil.getDateTime(state.issuesInfo.publishedAt??'');
+    }else if(state.issuesInfo.status == IssuesStatus.on_sale.name){
+      endTime = DateUtil.getDateTime(state.issuesInfo.publishedAt??'')?.add(Duration(seconds: state.issuesInfo.duration??0));
+    }else{
+      return Duration();
+    }
+
+    DateTime? cTime = DateUtil.getDateTimeByMs(GlobalTimeService.to.globalTime.value);
+    Duration? countDown = endTime?.difference(cTime);
+
+    if(countDown == null || countDown.inSeconds<0){
+      return Duration();
+    }
+    return countDown;
   }
 }

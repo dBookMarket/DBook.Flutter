@@ -13,6 +13,7 @@ import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../common/entities/issues_entity.dart';
+import '../../../common/utils/date.dart';
 import '../../../common/widgets/text.dart';
 import '../../../generated/assets.dart';
 import '../../issues/issues_detail/issues_detail_view.dart';
@@ -156,7 +157,7 @@ class SearchResultPage extends StatelessWidget {
       return Row(children: [
         SvgPicture.asset(Assets.svgComingTime, width: 20.w, color: ColorX.txtBrown),
         SizedBox(width: 11.w),
-        TextX(time, fontSize: FontSizeX.s11, color: ColorX.txtBrown),
+        TextX(bookPublicationTimeFormat(time), fontSize: FontSizeX.s11, color: ColorX.txtBrown),
       ]);
     }else{
       return SizedBox();

@@ -1,6 +1,7 @@
 import 'package:flutter/rendering.dart';
 
 class FontSizeX {
+  static const double s7 = 7;
   static const double s11 = 11;
   static const double s13 = 13;
   static const double s14 = 14;

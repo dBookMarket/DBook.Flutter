@@ -73,7 +73,6 @@ class AssetsApi {
 
     List<IssuesEntity>? issues;
     try {
-      logX.e(response['results']);
       issues = (response['results'] as List).map((value) => IssuesEntity.fromJson(value)).toList();
     } catch (e) {
       logX.e(e);

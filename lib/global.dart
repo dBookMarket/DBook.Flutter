@@ -6,6 +6,7 @@ import 'package:dbook/common/utils/utils.dart';
 import 'package:get/get.dart';
 
 import 'common/key_manager/keystore_manager.dart';
+import 'common/services/global_time.dart';
 
 /// 全局静态数据
 class Global {
@@ -20,6 +21,7 @@ class Global {
     await Web3KeychainManager.init();
 
     await Get.putAsync<StorageService>(() => StorageService().init());
+    await Get.putAsync(() async => GlobalTimeService().init());
 
     Get.put<ConfigStore>(ConfigStore());
     Get.put<UserStore>(UserStore());
