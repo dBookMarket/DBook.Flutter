@@ -1,4 +1,5 @@
 import 'package:dbook/common/config/app_config.dart';
+import 'package:dbook/common/utils/logger.dart';
 import 'package:dbook/common/utils/string_helper.dart';
 import 'package:dbook/common/values/values.dart';
 import 'package:dbook/common/widgets/line_widget.dart';
@@ -23,10 +24,19 @@ class SecondaryMarketActivityPage extends StatelessWidget {
     return BaseContainer(
       viewState: state.viewState,
       retry: logic.refresh,
+      emptyView: _noData(),
       child: _list(),
     );
   }
 
+  Widget _noData() => Column(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      SvgPicture.asset(Assets.svgIssuesDetailNoData, width: 50.w),
+      SizedBox(height: 20.h),
+      TextX('no data', color: ColorX.txtHint),
+    ],
+  );
   Widget _list() {
     return Column(
       children: [

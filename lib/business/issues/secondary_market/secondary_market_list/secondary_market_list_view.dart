@@ -6,12 +6,14 @@ import 'package:dbook/common/widgets/line_widget.dart';
 import 'package:dbook/common/widgets/text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
 import '../../../../common/entities/trades_list_entity.dart';
 import '../../../../common/utils/string_helper.dart';
 import '../../../../common/widgets/view_state/base_container_view.dart';
+import '../../../../generated/assets.dart';
 import 'secondary_market_list_logic.dart';
 
 class SecondaryMarketListPage extends StatelessWidget {
@@ -23,9 +25,19 @@ class SecondaryMarketListPage extends StatelessWidget {
     return BaseContainer(
       viewState: state.viewState,
       retry: logic.refresh,
+      emptyView: _noData(),
       child: _list(),
     );
   }
+
+  Widget _noData() => Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SvgPicture.asset(Assets.svgIssuesDetailNoData, width: 50.w),
+          SizedBox(height: 20.h),
+          TextX('no data', color: ColorX.txtHint),
+        ],
+      );
 
   Widget _list() {
     return Obx(() {

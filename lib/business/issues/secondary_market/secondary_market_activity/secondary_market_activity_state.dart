@@ -7,8 +7,8 @@ class SecondaryMarketActivityState extends RefreshListViewState {
   late IssuesEntity issuesInfo;
 
   SecondaryMarketActivityState() {
-    this.initRefresh = false;
-    this.disableShimmer = true;
+    this.initRefresh = true;
+    this.disableShimmer = false;
     this.initData = true;
     issuesInfo = Get.arguments?['detail'] ?? IssuesEntity();
   }

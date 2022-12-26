@@ -24,4 +24,6 @@ class ApiConstants {
 
   static final String transactions = "transactions";
 
+  static final String trendList = "transactions/trend";
+
 }

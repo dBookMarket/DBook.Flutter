@@ -62,6 +62,7 @@ class SearchResultPage extends StatelessWidget {
               hint: 'Search for author, book title...',
               style: TextStyle(color: ColorX.txtTitle, fontSize: FontSizeX.s13),
               hintStyle: TextStyle(color: ColorX.txtHint, fontSize: FontSizeX.s13),
+              autofocus: true,
               onChanged: (t) => logic.search(t),
             )),
           ],
@@ -165,7 +166,6 @@ class SearchResultPage extends StatelessWidget {
   }
 
   Widget _issueStatus(IssuesEntity info) {
-    logX.d('书籍状态>>>>>${info.book?.status}');
     if (info.status == IssuesStatus.on_sale.name) {
       return Row(
         children: [

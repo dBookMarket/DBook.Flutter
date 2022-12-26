@@ -39,6 +39,7 @@ class Assets {
   static const String svgHomeLogo = 'assets/svg/home_logo.svg';
   static const String svgHomeSearch = 'assets/svg/home_search.svg';
   static const String svgIssuesDetailCoin = 'assets/svg/issues_detail_coin.svg';
+  static const String svgIssuesDetailNoData = 'assets/svg/issues_detail_no_data.svg';
   static const String svgIssuesDetailPublish = 'assets/svg/issues_detail_publish.svg';
   static const String svgIssuesDetailTrade = 'assets/svg/issues_detail_trade.svg';
   static const String svgLogoDiscord = 'assets/svg/logo_discord.svg';

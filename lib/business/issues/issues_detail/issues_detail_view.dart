@@ -38,8 +38,8 @@ class IssuesDetailPage extends StatelessWidget {
 
   Widget _body() => BaseContainer(
       viewState: state.viewState,
-      padding: EdgeInsets.symmetric(horizontal: ScreenConfig.marginH, vertical: 30.h),
       child: SingleChildScrollView(
+        padding: EdgeInsets.symmetric(horizontal: ScreenConfig.marginH, vertical: 30.h),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -58,9 +58,7 @@ class IssuesDetailPage extends StatelessWidget {
             _trialButton(),
             _publication(),
             _destroyed(),
-            SecondaryMarketPage(
-              issueId: state.issuesInfo.id ?? '',
-            )
+            SecondaryMarketPage()
           ],
         ),
       ));
