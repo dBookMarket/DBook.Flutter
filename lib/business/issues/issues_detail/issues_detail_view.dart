@@ -272,7 +272,7 @@ class IssuesDetailPage extends StatelessWidget {
     return Obx(() {
       var count = 0;
       var address = '~';
-      var stateStr = '00:00:00:00';
+      var stateStr = '00:00:00';
       bool isRed = false;
       if (state.issuesInfo.status == IssuesStatus.pre_sale.name) {
         count = 0;
@@ -280,11 +280,11 @@ class IssuesDetailPage extends StatelessWidget {
         stateStr = 'Not started';
         isRed = true;
       } else if (state.issuesInfo.status == IssuesStatus.on_sale.name) {
-        var duration =
-            '${logic.countDownAdd0(logic.comingTime().inDays - 1)}'
-            ':${logic.countDownAdd0(logic.comingTime().inHours % 24)}'
-            ':${logic.countDownAdd0(logic.comingTime().inMinutes % 60)}'
-            ':${logic.countDownAdd0(logic.comingTime().inSeconds % 60)}';
+        var d = '${logic.comingTime().inDays - 1 <= 0 ? '' : '${logic.countDownAdd0(logic.comingTime().inDays - 1)}:'}';
+        var h = logic.countDownAdd0(logic.comingTime().inHours % 24);
+        var m = logic.countDownAdd0(logic.comingTime().inMinutes % 60);
+        var s = logic.countDownAdd0(logic.comingTime().inSeconds % 60);
+        var duration = '$d$h:$m:$s';
 
         count = 0;
         address = '~~~';
@@ -298,7 +298,6 @@ class IssuesDetailPage extends StatelessWidget {
       }
       return _boxContainer(
           title: 'Destroyed',
-          // child: TextX((state.issuesInfo.destroyLog == null || state.issuesInfo.destroyLog!.isEmpty) ? 'None' : state.issuesInfo.destroyLog),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [_destroyedItem('Quantity destroyed', '$count'), _destroyedItem('Execution logging', '$address'), _destroyedItem('State', '$stateStr', isValueRed: isRed)],
