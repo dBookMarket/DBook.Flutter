@@ -5,6 +5,7 @@ import 'package:common_utils/common_utils.dart';
 import 'package:dbook/business/issues/secondary_market/secondary_market_view.dart';
 import 'package:dbook/common/config/app_config.dart';
 import 'package:dbook/common/utils/logger.dart';
+import 'package:dbook/common/utils/string_helper.dart';
 import 'package:dbook/common/values/values.dart';
 import 'package:dbook/common/widgets/appBar.dart';
 import 'package:dbook/common/widgets/button.dart';
@@ -57,7 +58,9 @@ class IssuesDetailPage extends StatelessWidget {
             _trialButton(),
             _publication(),
             _destroyed(),
-            SecondaryMarketPage(issueId: state.issuesInfo.id??'',)
+            SecondaryMarketPage(
+              issueId: state.issuesInfo.id ?? '',
+            )
           ],
         ),
       ));
@@ -164,14 +167,8 @@ class IssuesDetailPage extends StatelessWidget {
       });
 
   Widget _publicationTimeItem({required String key, required int value}) {
-    String valueStr;
-    if (value < 0) {
-      valueStr = '00';
-    } else if (value < 10) {
-      valueStr = '0$value';
-    } else {
-      valueStr = value.toString();
-    }
+    String valueStr = logic.countDownAdd0(value);
+
     return Column(
       children: [
         Container(
@@ -271,13 +268,56 @@ class IssuesDetailPage extends StatelessWidget {
 
   //endregion
 
-  Widget _destroyed() => _boxContainer(
-      child: TextX((state.issuesInfo.destroyLog == null || state.issuesInfo.destroyLog!.isEmpty) ? 'None' : state.issuesInfo.destroyLog),
-      title: 'Destroyed');
+  Widget _destroyed() {
+    return Obx(() {
+      var count = 0;
+      var address = '~';
+      var stateStr = '00:00:00:00';
+      bool isRed = false;
+      if (state.issuesInfo.status == IssuesStatus.pre_sale.name) {
+        count = 0;
+        address = '~~';
+        stateStr = 'Not started';
+        isRed = true;
+      } else if (state.issuesInfo.status == IssuesStatus.on_sale.name) {
+        var duration =
+            '${logic.countDownAdd0(logic.comingTime().inDays - 1)}'
+            ':${logic.countDownAdd0(logic.comingTime().inHours % 24)}'
+            ':${logic.countDownAdd0(logic.comingTime().inMinutes % 60)}'
+            ':${logic.countDownAdd0(logic.comingTime().inSeconds % 60)}';
 
-  Widget _boxContainer({required Widget child, String? title,EdgeInsets? padding}) => Container(
+        count = 0;
+        address = '~~~';
+        stateStr = duration;
+        isRed = false;
+      } else if (state.issuesInfo.status == IssuesStatus.off_sale.name) {
+        count = state.issuesInfo.quantity ?? 0 - (state.issuesInfo.nCirculations ?? 0);
+        address = formatAddress(state.issuesInfo.destroyLog);
+        stateStr = 'destroyed';
+        isRed = false;
+      }
+      return _boxContainer(
+          title: 'Destroyed',
+          // child: TextX((state.issuesInfo.destroyLog == null || state.issuesInfo.destroyLog!.isEmpty) ? 'None' : state.issuesInfo.destroyLog),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [_destroyedItem('Quantity destroyed', '$count'), _destroyedItem('Execution logging', '$address'), _destroyedItem('State', '$stateStr', isValueRed: isRed)],
+          ));
+    });
+  }
+
+  Widget _destroyedItem(String title, String value, {bool? isValueRed = false}) => Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          TextX(title, fontSize: FontSizeX.s11, color: ColorX.txtHint),
+          SizedBox(height: 10.h),
+          TextX(value, fontSize: FontSizeX.s13, color: isValueRed! ? ColorX.txtRed : ColorX.txtTitle),
+        ],
+      );
+
+  Widget _boxContainer({required Widget child, String? title, EdgeInsets? padding}) => Container(
         margin: EdgeInsets.only(top: 30.h),
-        padding: padding??EdgeInsets.all(26.r),
+        padding: padding ?? EdgeInsets.all(26.r),
         decoration: BoxDecoration(
           border: Border.all(width: 1.r, color: Colors.black),
         ),

@@ -1,5 +1,6 @@
 import 'package:common_utils/common_utils.dart';
 import 'package:dbook/business/assets/assets_state.dart';
+import 'package:dbook/common/utils/logger.dart';
 import 'package:get/get.dart';
 
 import '../../../common/services/global_time.dart';
@@ -24,11 +25,26 @@ class IssuesDetailLogic extends GetxController {
     }
 
     DateTime? cTime = DateUtil.getDateTimeByMs(GlobalTimeService.to.globalTime.value);
+    // endTime = endTime?.add(Duration(days: 60));
     Duration? countDown = endTime?.difference(cTime);
 
     if(countDown == null || countDown.inSeconds<0){
       return Duration();
     }
+
+
     return countDown;
+  }
+
+  String countDownAdd0(int value){
+    String valueStr;
+    if (value < 0) {
+      valueStr = '00';
+    } else if (value < 10) {
+      valueStr = '0$value';
+    } else {
+      valueStr = value.toString();
+    }
+    return valueStr;
   }
 }

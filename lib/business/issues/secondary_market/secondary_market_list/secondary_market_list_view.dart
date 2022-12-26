@@ -7,9 +7,10 @@ import 'package:dbook/common/widgets/text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
 import '../../../../common/entities/trades_list_entity.dart';
+import '../../../../common/utils/string_helper.dart';
 import '../../../../common/widgets/view_state/base_container_view.dart';
 import 'secondary_market_list_logic.dart';
 
@@ -59,7 +60,7 @@ class SecondaryMarketListPage extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    TextX(logic.formatAddress(info.user?.address), fontSize: FontSizeX.s13, color: ColorX.txtTitle),
+                    TextX(formatAddress(info.user?.address), fontSize: FontSizeX.s13, color: ColorX.txtTitle),
                     SizedBox(height: 4.h),
                     TextX(info.createdAt, fontSize: FontSizeX.s13, color: ColorX.txtHint),
                   ],

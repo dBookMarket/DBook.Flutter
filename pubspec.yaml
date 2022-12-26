@@ -40,7 +40,7 @@ dependencies:
   flutter_screenutil: ^5.3.1
 
   # 下拉刷新
-  pull_to_refresh: ^2.0.0
+  pull_to_refresh_flutter3: ^2.0.1
 
   # toast
   fluttertoast: ^8.0.9
@@ -84,7 +84,7 @@ dependencies:
 
 
   # 网络图片加载
-  extended_image: ^6.0.1
+  extended_image: ^6.2.1
 
   web3dart: ^2.3.5
   bip39: ^1.0.6
