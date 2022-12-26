@@ -9,6 +9,7 @@ import 'package:dbook/common/entities/assets_info_entity.dart';
 import 'package:dbook/common/entities/issues_entity.dart';
 import 'package:dbook/common/entities/read_info_entity.dart';
 import 'package:dbook/common/entities/trades_list_entity.dart';
+import 'package:dbook/common/entities/transactions_list_entity.dart';
 
 JsonConvert jsonConvert = JsonConvert();
 typedef JsonConvertFunction<T> = T Function(Map<String, dynamic> json);
@@ -32,6 +33,13 @@ class JsonConvert {
 		(ReadInfoEntity).toString(): ReadInfoEntity.fromJson,
 		(TradesListEntity).toString(): TradesListEntity.fromJson,
 		(TradesListUser).toString(): TradesListUser.fromJson,
+		(TransactionsListEntity).toString(): TransactionsListEntity.fromJson,
+		(TransactionsListIssue).toString(): TransactionsListIssue.fromJson,
+		(TransactionsListIssueBook).toString(): TransactionsListIssueBook.fromJson,
+		(TransactionsListIssueBookAuthor).toString(): TransactionsListIssueBookAuthor.fromJson,
+		(TransactionsListIssueBookPreview).toString(): TransactionsListIssueBookPreview.fromJson,
+		(TransactionsListSeller).toString(): TransactionsListSeller.fromJson,
+		(TransactionsListBuyer).toString(): TransactionsListBuyer.fromJson,
 	};
 
   T? convert<T>(dynamic value) {
@@ -160,6 +168,27 @@ class JsonConvert {
 		}
 		if(<TradesListUser>[] is M){
 			return data.map<TradesListUser>((Map<String, dynamic> e) => TradesListUser.fromJson(e)).toList() as M;
+		}
+		if(<TransactionsListEntity>[] is M){
+			return data.map<TransactionsListEntity>((Map<String, dynamic> e) => TransactionsListEntity.fromJson(e)).toList() as M;
+		}
+		if(<TransactionsListIssue>[] is M){
+			return data.map<TransactionsListIssue>((Map<String, dynamic> e) => TransactionsListIssue.fromJson(e)).toList() as M;
+		}
+		if(<TransactionsListIssueBook>[] is M){
+			return data.map<TransactionsListIssueBook>((Map<String, dynamic> e) => TransactionsListIssueBook.fromJson(e)).toList() as M;
+		}
+		if(<TransactionsListIssueBookAuthor>[] is M){
+			return data.map<TransactionsListIssueBookAuthor>((Map<String, dynamic> e) => TransactionsListIssueBookAuthor.fromJson(e)).toList() as M;
+		}
+		if(<TransactionsListIssueBookPreview>[] is M){
+			return data.map<TransactionsListIssueBookPreview>((Map<String, dynamic> e) => TransactionsListIssueBookPreview.fromJson(e)).toList() as M;
+		}
+		if(<TransactionsListSeller>[] is M){
+			return data.map<TransactionsListSeller>((Map<String, dynamic> e) => TransactionsListSeller.fromJson(e)).toList() as M;
+		}
+		if(<TransactionsListBuyer>[] is M){
+			return data.map<TransactionsListBuyer>((Map<String, dynamic> e) => TransactionsListBuyer.fromJson(e)).toList() as M;
 		}
 
 		debugPrint("${M.toString()} not found");

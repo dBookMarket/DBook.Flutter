@@ -38,6 +38,9 @@ class Assets {
   static const String svgHomeBook = 'assets/svg/home_book.svg';
   static const String svgHomeLogo = 'assets/svg/home_logo.svg';
   static const String svgHomeSearch = 'assets/svg/home_search.svg';
+  static const String svgIssuesDetailCoin = 'assets/svg/issues_detail_coin.svg';
+  static const String svgIssuesDetailPublish = 'assets/svg/issues_detail_publish.svg';
+  static const String svgIssuesDetailTrade = 'assets/svg/issues_detail_trade.svg';
   static const String svgLogoDiscord = 'assets/svg/logo_discord.svg';
   static const String svgLogoTwitter = 'assets/svg/logo_twitter.svg';
   static const String svgLogoWeb = 'assets/svg/logo_web.svg';
