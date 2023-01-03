@@ -113,6 +113,8 @@ dependencies:
 
   fl_chart: ^0.55.2
 
+  flutter_quill: ^6.1.11
+
 
 dev_dependencies:
   flutter_test:
