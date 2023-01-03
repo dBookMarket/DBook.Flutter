@@ -14,6 +14,7 @@ class Global {
   static Future init() async {
     WidgetsFlutterBinding.ensureInitialized();
     await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+    await DirectoryUtil.initAppDocDir();
 
     setSystemUi();
     Loading();

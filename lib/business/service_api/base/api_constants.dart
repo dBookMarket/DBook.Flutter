@@ -9,6 +9,8 @@ class ApiConstants {
   static final String login = "login";
   /// 登录随机数
   static final String nonce = "nonce";
+  /// 个人资料
+  static final String current = "users/current";
   /// 登出
   static final String logout = "logout";
   /// 用户资产

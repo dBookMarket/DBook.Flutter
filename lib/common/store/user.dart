@@ -7,6 +7,9 @@ import 'package:dbook/common/key_manager/keystore_manager.dart';
 import 'package:dbook/common/services/services.dart';
 import 'package:dbook/common/values/values.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+
+import '../entities/user_info_entity.dart';
 
 class UserStore extends GetxController {
   static UserStore get to => Get.find();
@@ -17,14 +20,19 @@ class UserStore extends GetxController {
   String token = '';
   // 用户 profile
 
+  final _userInfo = UserInfoEntity().obs;
+  UserInfoEntity get userInfo => _userInfo.value;
+
   bool get isLogin => _isLogin.value;
-  bool get hasToken => token.isNotEmpty;
 
   @override
   void onInit() {
     super.onInit();
     token = StorageService.to.getString(STORAGE_USER_TOKEN_KEY);
-    if(hasToken) _isLogin.value = true;
+    if(token.isNotEmpty){
+      _isLogin.value = true;
+      getUserInfo();
+    }
   }
 
   // 保存 token
@@ -45,5 +53,9 @@ class UserStore extends GetxController {
     _isLogin.value = false;
     token = '';
     Get.offAll(()=>GuidePage());
+  }
+
+  getUserInfo()async{
+    _userInfo.value = await NetWork.getInstance().user.userInfo();
   }
 }

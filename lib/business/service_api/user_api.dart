@@ -7,6 +7,7 @@ import 'dart:async';
 
 import '../../common/entities/assets_info_entity.dart';
 import '../../common/entities/read_info_entity.dart';
+import '../../common/entities/user_info_entity.dart';
 import '../../common/net/http_x.dart';
 import '../../common/utils/logger.dart';
 import 'base/api_constants.dart';
@@ -53,6 +54,12 @@ class UserApi {
     Map<String, dynamic> params = Map();
     var response = await httpX.post(ApiConstants.logout, data: params);
     return response;
+  }
+
+  Future<UserInfoEntity> userInfo() async {
+    Map<String, dynamic> params = Map();
+    var response = await httpX.get(ApiConstants.current, queryParameters: params);
+    return UserInfoEntity.fromJson(response);
   }
 
 }

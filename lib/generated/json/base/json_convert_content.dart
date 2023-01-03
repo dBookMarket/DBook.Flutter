@@ -11,6 +11,7 @@ import 'package:dbook/common/entities/read_info_entity.dart';
 import 'package:dbook/common/entities/trades_list_entity.dart';
 import 'package:dbook/common/entities/transactions_list_entity.dart';
 import 'package:dbook/common/entities/trend_list_entity.dart';
+import 'package:dbook/common/entities/user_info_entity.dart';
 
 JsonConvert jsonConvert = JsonConvert();
 typedef JsonConvertFunction<T> = T Function(Map<String, dynamic> json);
@@ -42,6 +43,8 @@ class JsonConvert {
 		(TransactionsListSeller).toString(): TransactionsListSeller.fromJson,
 		(TransactionsListBuyer).toString(): TransactionsListBuyer.fromJson,
 		(TrendListEntity).toString(): TrendListEntity.fromJson,
+		(UserInfoEntity).toString(): UserInfoEntity.fromJson,
+		(UserInfoStatistic).toString(): UserInfoStatistic.fromJson,
 	};
 
   T? convert<T>(dynamic value) {
@@ -194,6 +197,12 @@ class JsonConvert {
 		}
 		if(<TrendListEntity>[] is M){
 			return data.map<TrendListEntity>((Map<String, dynamic> e) => TrendListEntity.fromJson(e)).toList() as M;
+		}
+		if(<UserInfoEntity>[] is M){
+			return data.map<UserInfoEntity>((Map<String, dynamic> e) => UserInfoEntity.fromJson(e)).toList() as M;
+		}
+		if(<UserInfoStatistic>[] is M){
+			return data.map<UserInfoStatistic>((Map<String, dynamic> e) => UserInfoStatistic.fromJson(e)).toList() as M;
 		}
 
 		debugPrint("${M.toString()} not found");

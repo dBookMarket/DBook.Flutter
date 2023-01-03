@@ -23,6 +23,7 @@ class Assets {
   static const String iconsNoNet = 'assets/icons/no_net.png';
   static const String iconsRetry = 'assets/icons/retry.png';
   static const String imagesBgGuide = 'assets/images/bg_guide.png';
+  static const String imagesDefaultAvatar = 'assets/images/default_avatar.png';
   static const String imagesLogo = 'assets/images/logo.png';
   static const String imagesTemp1 = 'assets/images/temp1.PNG';
   static const String imagesTemp2 = 'assets/images/temp2.PNG';
@@ -46,6 +47,13 @@ class Assets {
   static const String svgLogoDiscord = 'assets/svg/logo_discord.svg';
   static const String svgLogoTwitter = 'assets/svg/logo_twitter.svg';
   static const String svgLogoWeb = 'assets/svg/logo_web.svg';
+  static const String svgMineAssets = 'assets/svg/mine_assets.svg';
+  static const String svgMineConcern = 'assets/svg/mine_concern.svg';
+  static const String svgMineEarnings = 'assets/svg/mine_earnings.svg';
+  static const String svgMineProfile = 'assets/svg/mine_profile.svg';
+  static const String svgMinePublication = 'assets/svg/mine_publication.svg';
+  static const String svgMineWalletActivity = 'assets/svg/mine_wallet_activity.svg';
+  static const String svgMineWriting = 'assets/svg/mine_writing.svg';
   static const String svgTabBooks = 'assets/svg/tab_books.svg';
   static const String svgTabMine = 'assets/svg/tab_mine.svg';
   static const String svgTabSearch = 'assets/svg/tab_search.svg';

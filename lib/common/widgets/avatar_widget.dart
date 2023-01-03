@@ -27,8 +27,8 @@ class AvatarX extends StatelessWidget {
 
   Widget _circle() {
     return CircleAvatar(
-      backgroundColor: Colors.white,
-      backgroundImage: AssetImage(defaultAvatar??Assets.svgDefaultAvatar),
+      backgroundColor: Colors.transparent,
+      backgroundImage: AssetImage(defaultAvatar??Assets.imagesDefaultAvatar),
       radius: this.radius ?? 40,
       foregroundImage: (avatarUrl != null && avatarUrl!.isNotEmpty) ? NetworkImage(avatarUrl!) : null,
     );
