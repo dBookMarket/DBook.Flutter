@@ -34,6 +34,7 @@ class Assets {
   static const String imagesTemp7 = 'assets/images/temp7.PNG';
   static const String imagesTemp8 = 'assets/images/temp8.PNG';
   static const String svgBack = 'assets/svg/back.svg';
+  static const String svgBookCover = 'assets/svg/book_cover.svg';
   static const String svgComingTime = 'assets/svg/coming_time.svg';
   static const String svgCreateBook = 'assets/svg/create_book.svg';
   static const String svgDefaultAvatar = 'assets/svg/default_avatar.svg';

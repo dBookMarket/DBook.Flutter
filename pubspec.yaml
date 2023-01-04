@@ -71,7 +71,7 @@ dependencies:
   path_provider: ^2.0.9
 
   # permission 权限
-  permission_handler: ^9.2.0
+  permission_handler: ^10.2.0
 
   #网络状态
   connectivity: ^3.0.2
@@ -114,6 +114,8 @@ dependencies:
   fl_chart: ^0.55.2
 
   flutter_quill: ^6.1.11
+
+  file_picker: ^5.2.4
 
 
 dev_dependencies:

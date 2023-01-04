@@ -4,8 +4,10 @@
 */
 
 import 'dart:async';
+import 'dart:io';
 
 import 'package:dbook/common/exception/data_parse_exception.dart';
+import 'package:dio/dio.dart';
 
 import '../../common/entities/assets_info_entity.dart';
 import '../../common/entities/issues_entity.dart';
@@ -55,21 +57,45 @@ class AssetsApi {
     return info;
   }
 
-
-  Future mark({required int issue,required int page,required int markId}) async {
-
+  Future mark({required int issue, required int page, required int markId}) async {
     Map<String, dynamic> params = Map();
     params['issue'] = issue;
     params['current_page'] = page;
-    var response = await httpX.patch('${ApiConstants.bookmarks}/$markId',data: params);
+    var response = await httpX.patch('${ApiConstants.bookmarks}/$markId', data: params);
+    return response;
+  }
+
+  Future upload({required File file, required File cover, required String title, required String desc, String? draftId}) async {
+    var formData = FormData.fromMap({
+      'title': title,
+      'desc': desc,
+      'draft': draftId,
+    });
+
+    formData.files.addAll([
+      MapEntry(
+        'file',
+        MultipartFile.fromFileSync(file.path, filename: file.path.split('/').last),
+      ),
+      MapEntry(
+        'cover',
+        MultipartFile.fromFileSync(cover.path, filename: cover.path.split('/').last),
+      ),
+    ]);
+
+    var response = await httpX.post(
+      ApiConstants.books,
+      data: formData,
+      options: Options(headers: {"Content-type": "multipart/form-data", 'connectTimeout': 0, 'receiveTimeout': 0}),
+      onSendProgress: (c,t)=>logX.d('上传进度>>>>>$c $t   ${c/t}')
+    );
     return response;
   }
 
   Future<List<IssuesEntity>> search({required String search}) async {
-
     Map<String, dynamic> params = Map();
     params['search'] = search;
-    var response = await httpX.get(ApiConstants.issues,queryParameters: params);
+    var response = await httpX.get(ApiConstants.issues, queryParameters: params);
 
     List<IssuesEntity>? issues;
     try {
@@ -80,5 +106,4 @@ class AssetsApi {
     }
     return issues;
   }
-
 }

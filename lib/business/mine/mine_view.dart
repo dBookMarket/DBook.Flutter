@@ -14,6 +14,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
+import 'create_book/create_book_view.dart';
 import 'mine_logic.dart';
 
 class MinePage extends StatelessWidget {
@@ -45,18 +46,6 @@ class MinePage extends StatelessWidget {
 
   Widget _content() => SingleChildScrollView(
         child: Column(children: [_userInfo(), _list()]),
-      );
-
-  Widget _title() => Stack(
-        children: [
-          Container(width: 1.sw, child: TextX('Personal Center', fontSize: FontSizeX.s16, color: ColorX.txtBrown), margin: EdgeInsets.only(top: 60.h)),
-          Container(
-            width: 1.sw,
-            child: SvgPicture.asset(Assets.svgCreateBook, width: 40.r, height: 40.r),
-            margin: EdgeInsets.only(top: 60.h, right: 40.w),
-            alignment: Alignment.topRight,
-          ),
-        ],
       );
 
   Widget _userInfo() {
@@ -129,6 +118,7 @@ class MinePage extends StatelessWidget {
   _onClick(String action) {
     switch (action) {
       case 'create':
+        Get.to(()=>CreateBookPage());
         break;
       case 'Asset':
         break;
