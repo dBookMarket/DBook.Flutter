@@ -11,6 +11,8 @@ class ApiConstants {
   static final String nonce = "nonce";
   /// 个人资料
   static final String current = "users/current";
+  /// 用户
+  static final String users = "users/";
   /// 登出
   static final String logout = "logout";
   /// 用户资产

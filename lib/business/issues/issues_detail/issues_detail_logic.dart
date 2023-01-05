@@ -1,8 +1,8 @@
 import 'package:common_utils/common_utils.dart';
-import 'package:dbook/business/assets/assets_state.dart';
 import 'package:get/get.dart';
 
 import '../../../common/services/global_time.dart';
+import '../issues_state.dart';
 import 'issues_detail_state.dart';
 
 class IssuesDetailLogic extends GetxController {

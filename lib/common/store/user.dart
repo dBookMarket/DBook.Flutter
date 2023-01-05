@@ -1,13 +1,9 @@
-import 'dart:convert';
 
 import 'package:dbook/business/login/guide/view.dart';
 import 'package:dbook/business/service_api/base/net_work.dart';
-import 'package:dbook/business/splash/splash_view.dart';
-import 'package:dbook/common/key_manager/keystore_manager.dart';
 import 'package:dbook/common/services/services.dart';
 import 'package:dbook/common/values/values.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 
 import '../entities/user_info_entity.dart';
 
@@ -24,6 +20,7 @@ class UserStore extends GetxController {
   UserInfoEntity get userInfo => _userInfo.value;
 
   bool get isLogin => _isLogin.value;
+  String? get address => _userInfo.value.address;
 
   @override
   void onInit() {
@@ -57,5 +54,9 @@ class UserStore extends GetxController {
 
   getUserInfo()async{
     _userInfo.value = await NetWork.getInstance().user.userInfo();
+  }
+
+  updateUserInfo(UserInfoEntity info){
+    _userInfo.value = info;
   }
 }

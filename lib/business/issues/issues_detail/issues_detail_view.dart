@@ -22,6 +22,7 @@ import 'package:get/get.dart';
 import '../../../common/utils/date.dart';
 import '../../asset_detail/asset_detail_view.dart';
 import '../../assets/assets_state.dart';
+import '../issues_state.dart';
 import 'issues_detail_logic.dart';
 
 class IssuesDetailPage extends StatelessWidget {

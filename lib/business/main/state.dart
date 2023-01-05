@@ -28,7 +28,7 @@ class MainState extends BaseState {
 
   MainState() {
     this.pages.add(KeepAliveWrapper(child: SearchPage()));
-    this.pages.add(KeepAliveWrapper(child: IssuesPage()));
+    this.pages.add(KeepAliveWrapper(child: AssetsPage()));
     this.pages.add(KeepAliveWrapper(child: MinePage()));
   }
 

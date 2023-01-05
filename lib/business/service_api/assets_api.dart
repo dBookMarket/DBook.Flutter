@@ -6,6 +6,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:dbook/common/entities/book_entity.dart';
 import 'package:dbook/common/exception/data_parse_exception.dart';
 import 'package:dio/dio.dart';
 
@@ -65,7 +66,7 @@ class AssetsApi {
     return response;
   }
 
-  Future upload({required File file, required File cover, required String title, required String desc, String? draftId}) async {
+  Future<BookEntity> upload({required File file, required File cover, required String title, required String desc, String? draftId}) async {
     var formData = FormData.fromMap({
       'title': title,
       'desc': desc,
@@ -89,7 +90,7 @@ class AssetsApi {
       options: Options(headers: {"Content-type": "multipart/form-data", 'connectTimeout': 0, 'receiveTimeout': 0}),
       onSendProgress: (c,t)=>logX.d('上传进度>>>>>$c $t   ${c/t}')
     );
-    return response;
+    return BookEntity.fromJson(response);
   }
 
   Future<List<IssuesEntity>> search({required String search}) async {

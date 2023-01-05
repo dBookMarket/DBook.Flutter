@@ -1,22 +1,6 @@
-import 'package:get/get.dart';
-import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
+import 'package:dbook/common/widgets/view_state/view_state.dart';
 
-import '../../common/entities/assets_info_entity.dart';
-
-enum IssuesStatus{
-  on_sale,
-  pre_sale,
-  unsold,
-  off_sale
-}
-
-class AssetsState {
-  RefreshController refreshController = RefreshController(initialRefresh: false);
-  int currentPageNum = 1;
-  final int pageNumFirst = 1;
-  var canLoadMore = false;
-
-  final list = <AssetsInfoResults>[].obs;
+class AssetsState extends BaseState{
   AssetsState() {
     ///Initialize variables
   }

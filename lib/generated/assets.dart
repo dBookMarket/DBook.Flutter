@@ -36,6 +36,7 @@ class Assets {
   static const String svgBack = 'assets/svg/back.svg';
   static const String svgBookCover = 'assets/svg/book_cover.svg';
   static const String svgComingTime = 'assets/svg/coming_time.svg';
+  static const String svgCopy = 'assets/svg/copy.svg';
   static const String svgCreateBook = 'assets/svg/create_book.svg';
   static const String svgDefaultAvatar = 'assets/svg/default_avatar.svg';
   static const String svgHomeBook = 'assets/svg/home_book.svg';
@@ -55,6 +56,7 @@ class Assets {
   static const String svgMinePublication = 'assets/svg/mine_publication.svg';
   static const String svgMineWalletActivity = 'assets/svg/mine_wallet_activity.svg';
   static const String svgMineWriting = 'assets/svg/mine_writing.svg';
+  static const String svgShare = 'assets/svg/share.svg';
   static const String svgTabBooks = 'assets/svg/tab_books.svg';
   static const String svgTabMine = 'assets/svg/tab_mine.svg';
   static const String svgTabSearch = 'assets/svg/tab_search.svg';

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:dbook/common/entities/book_entity.dart';
 import 'package:dbook/common/values/colors.dart';
 import 'package:dbook/common/values/values.dart';
 import 'package:dbook/common/widgets/appBar.dart';
@@ -14,13 +15,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import '../../../common/config/app_config.dart';
+import '../../assets/assets_view.dart';
 import 'create_book_logic.dart';
 
 class CreateBookPage extends StatelessWidget {
   final logic = Get.put(CreateBookLogic());
-  final state = Get
-      .find<CreateBookLogic>()
-      .state;
+  final state = Get.find<CreateBookLogic>().state;
 
   @override
   Widget build(BuildContext context) {
@@ -30,8 +30,7 @@ class CreateBookPage extends StatelessWidget {
     );
   }
 
-  Widget _body() =>
-      Column(
+  Widget _body() => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _tab(),
@@ -55,8 +54,7 @@ class CreateBookPage extends StatelessWidget {
         ],
       );
 
-  Widget _fileSelect() =>
-      Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+  Widget _fileSelect() => Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         _tag('Book', marginTop: 0),
         Row(
           children: [
@@ -87,8 +85,7 @@ class CreateBookPage extends StatelessWidget {
         )
       ]);
 
-  Widget _coverSelect() =>
-      Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+  Widget _coverSelect() => Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         _tag('Book'),
         Row(
           children: [
@@ -107,8 +104,7 @@ class CreateBookPage extends StatelessWidget {
         )
       ]);
 
-  Widget _bookTitle() =>
-      Column(
+  Widget _bookTitle() => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _tag('Book title'),
@@ -162,8 +158,7 @@ class CreateBookPage extends StatelessWidget {
         ],
       );
 
-  Widget _bookDesc() =>
-      Column(
+  Widget _bookDesc() => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _tag('Description'),
@@ -218,8 +213,7 @@ class CreateBookPage extends StatelessWidget {
         ],
       );
 
-  Widget _encryptionButton() =>
-      Obx(() {
+  Widget _encryptionButton() => Obx(() {
         return ButtonX(
           'Data encryption',
           margin: EdgeInsets.only(top: 60.h),
@@ -233,21 +227,15 @@ class CreateBookPage extends StatelessWidget {
         );
       });
 
-  Widget _tab() =>
-      Container(
-          child: Obx(() {
-            return Row(
-              children: state.tabs
-                  .asMap()
-                  .keys
-                  .map(_tabItem)
-                  .toList(),
-            );
-          }),
-          color: ColorX.primaryYellow);
+  Widget _tab() => Container(
+      child: Obx(() {
+        return Row(
+          children: state.tabs.asMap().keys.map(_tabItem).toList(),
+        );
+      }),
+      color: ColorX.primaryYellow);
 
-  Widget _tabItem(int index) =>
-      Expanded(
+  Widget _tabItem(int index) => Expanded(
         child: GestureDetector(
           onTap: () => _click('switch_tab', param: index),
           child: Column(children: [
@@ -259,14 +247,12 @@ class CreateBookPage extends StatelessWidget {
         ),
       );
 
-  Widget _tag(String title, {double? marginTop}) =>
-      Container(
+  Widget _tag(String title, {double? marginTop}) => Container(
         child: TextX(title, color: ColorX.txtTitle, fontSize: FontSizeX.s13),
         margin: EdgeInsets.only(top: marginTop ?? 60.h, bottom: 30.h),
       );
 
-  Widget _fileSelectBox(String name, {File? image}) =>
-      GestureDetector(
+  Widget _fileSelectBox(String name, {File? image}) => GestureDetector(
         onTap: () => _click(name),
         child: Container(
           width: 230.w,
@@ -275,19 +261,58 @@ class CreateBookPage extends StatelessWidget {
           child: image != null
               ? Image.file(image, fit: BoxFit.cover)
               : Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [SvgPicture.asset(Assets.svgBookCover, width: 64.w), SizedBox(height: 20.h), TextX(name, fontSize: FontSizeX.s11, color: ColorX.txtHint)],
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [SvgPicture.asset(Assets.svgBookCover, width: 64.w), SizedBox(height: 20.h), TextX(name, fontSize: FontSizeX.s11, color: ColorX.txtHint)],
+                ),
+        ),
+      );
+
+  Widget _headerForDialog({required VoidCallback callback}) => Dialog(
+        backgroundColor: Colors.transparent,
+        insetPadding: EdgeInsets.symmetric(horizontal: ScreenConfig.marginH),
+        child: Container(
+          decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20.r)),
+          padding: EdgeInsets.symmetric(vertical: 40.h, horizontal: ScreenConfig.marginH),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextX('Data encryption', fontSize: FontSizeX.s13, color: ColorX.txtTitle),
+              SizedBox(height: 30.h),
+              TextX(
+                'Data encryption and upload IPFS is expected to take several minutes ~ hours depending on the file size and format, and the processing progress can be viewed in the '
+                'publication;management,and subsequent publishing settings can be carried out after: the processing is completed',
+                fontSize: FontSizeX.s13,
+                color: ColorX.txtHint,
+                textAlign: TextAlign.left,
+                maxLines: 100,
+              ),
+              SizedBox(height: 30.h),
+              ButtonX(
+                'head for',
+                onPressed: callback,
+                padding: EdgeInsets.symmetric(vertical: 24.h),
+                backgroundColor: ColorX.primaryBrown,
+                textColor: ColorX.txtWhite,
+                fontSize: FontSizeX.s13,
+                borderRadius: 10.r,
+              )
+            ],
           ),
         ),
       );
 
-  _click(action, {param}) {
+  _click(action, {param}) async {
     switch (action) {
       case 'switch_tab':
         logic.switchTab(param);
         break;
       case 'encryption':
-        logic.uploadBook();
+        BookEntity book = await logic.uploadBook();
+        Get.dialog(
+            _headerForDialog(
+              callback: () => {Get.back(),Get.to(() => AssetsPage())},
+            ),
+            arguments: {'detail': null});
         break;
       case 'PDF、EPUB、TXT':
         logic.selectAsset();

@@ -1,16 +1,12 @@
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:dbook/business/service_api/base/net_work.dart';
 import 'package:dbook/common/utils/loading.dart';
 import 'package:dbook/common/utils/logger.dart';
-import 'package:dbook/generated/assets.dart';
 import 'package:dbook_cryptology_plugin/dbook_cryptology_plugin.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:path_provider/path_provider.dart';
 
 import '../assets/assets_logic.dart';
 import 'asset_detail_state.dart';
@@ -108,8 +104,8 @@ class AssetDetailLogic extends GetxController {
   createMark() async {
     var listState = Get.find<AssetsLogic>().state;
     // 更新列表书签
-    listState.list.where((p0) => p0.id == state.bookId).first.bookmark?.currentPage = state.currentIndex.value;
-    listState.list.refresh();
+    // listState.list.where((p0) => p0.id == state.bookId).first.bookmark?.currentPage = state.currentIndex.value;
+    // listState.list.refresh();
     await NetWork.getInstance().assets.mark(issue: state.markIssue, page: state.currentIndex.value, markId: state.markId).onError((error, stackTrace) => showError(t: error.toString()));
   }
 

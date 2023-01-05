@@ -16,10 +16,13 @@ import 'package:get/get.dart';
 
 import 'create_book/create_book_view.dart';
 import 'mine_logic.dart';
+import 'profile_settings/profile_settings_view.dart';
 
 class MinePage extends StatelessWidget {
   final logic = Get.put(MineLogic());
-  final state = Get.find<MineLogic>().state;
+  final state = Get
+      .find<MineLogic>()
+      .state;
 
   @override
   Widget build(BuildContext context) {
@@ -31,20 +34,23 @@ class MinePage extends StatelessWidget {
         ));
   }
 
-  Widget _action() => GestureDetector(
-        child: Container(child: SvgPicture.asset(Assets.svgCreateBook, width: 40.r, height: 40.r), margin: EdgeInsets.only(right: ScreenConfig.marginH)),
+  Widget _action() =>
+      GestureDetector(
+        child: Container(child: SvgPicture.asset(Assets.svgCreateBook, width: 60.r, height: 60.r), margin: EdgeInsets.only(right: ScreenConfig.marginH)),
         onTap: () => _onClick('create'),
       );
 
   Widget _body() => Stack(children: [_headerBg(), _content()]);
 
-  Widget _headerBg() => Container(
+  Widget _headerBg() =>
+      Container(
         width: 1.sw,
         height: 432.h,
         color: ColorX.primaryYellow,
       );
 
-  Widget _content() => SingleChildScrollView(
+  Widget _content() =>
+      SingleChildScrollView(
         child: Column(children: [_userInfo(), _list()]),
       );
 
@@ -53,27 +59,30 @@ class MinePage extends StatelessWidget {
       var name = UserStore.to.userInfo.name?.isEmpty ?? false ? 'No Name' : UserStore.to.userInfo.name;
       return Row(children: [
         SizedBox(width: ScreenConfig.marginH),
-        AvatarX(UserStore.to.userInfo.avatarUrl, size: 130.r),
+        Obx(() {
+          return AvatarX(UserStore.to.userInfo.avatarUrl, size: 130.r);
+        }),
         SizedBox(width: 50.w),
         UserStore.to.isLogin
             ? Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  TextX(name, fontSize: FontSizeX.s16, color: ColorX.txtBrown),
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 10.w),
-                    margin: EdgeInsets.only(top: 20.h),
-                    decoration: BoxDecoration(color: ColorX.primaryBrown, borderRadius: BorderRadius.circular(100)),
-                    child: TextX(formatAddress(UserStore.to.userInfo.address), fontSize: FontSizeX.s11, color: ColorX.txtYellow),
-                  )
-                ],
-              )
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            TextX(name, fontSize: FontSizeX.s16, color: ColorX.txtBrown),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 10.w),
+              margin: EdgeInsets.only(top: 20.h),
+              decoration: BoxDecoration(color: ColorX.primaryBrown, borderRadius: BorderRadius.circular(100)),
+              child: TextX(formatAddress(UserStore.to.userInfo.address), fontSize: FontSizeX.s11, color: ColorX.txtYellow),
+            )
+          ],
+        )
             : TextX('Not logged in', fontSize: FontSizeX.s16, color: ColorX.txtBrown)
       ]);
     });
   }
 
-  Widget _list() => Container(
+  Widget _list() =>
+      Container(
         decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20.r), boxShadow: [
           BoxShadow(
             color: ColorX.shadow, //底色,阴影颜色
@@ -100,8 +109,11 @@ class MinePage extends StatelessWidget {
         ]),
       );
 
-  Widget _item({required String icon, required String title}) => GestureDetector(
+  Widget _item({required String icon, required String title}) =>
+      GestureDetector(
+        onTap: () => _onClick(title),
         child: Container(
+          color: Colors.white,
           padding: EdgeInsets.only(left: 60.w, right: 40.w, top: 40.h, bottom: 40.h),
           child: Row(
             children: [
@@ -118,7 +130,7 @@ class MinePage extends StatelessWidget {
   _onClick(String action) {
     switch (action) {
       case 'create':
-        Get.to(()=>CreateBookPage());
+        Get.to(() => CreateBookPage());
         break;
       case 'Asset':
         break;
@@ -133,6 +145,7 @@ class MinePage extends StatelessWidget {
       case 'Earnings':
         break;
       case 'Profile settings':
+        Get.to(() => ProfileSettingsPage());
         break;
     }
   }

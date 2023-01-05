@@ -6,6 +6,7 @@
 import 'package:flutter/material.dart' show debugPrint;
 import 'package:dbook/common/entities/assets_entity.dart';
 import 'package:dbook/common/entities/assets_info_entity.dart';
+import 'package:dbook/common/entities/book_entity.dart';
 import 'package:dbook/common/entities/issues_entity.dart';
 import 'package:dbook/common/entities/read_info_entity.dart';
 import 'package:dbook/common/entities/trades_list_entity.dart';
@@ -25,6 +26,9 @@ class JsonConvert {
 		(AssetsInfoResults).toString(): AssetsInfoResults.fromJson,
 		(AssetsInfoResultsIssue).toString(): AssetsInfoResultsIssue.fromJson,
 		(AssetsInfoResultsBookmark).toString(): AssetsInfoResultsBookmark.fromJson,
+		(BookEntity).toString(): BookEntity.fromJson,
+		(BookAuthor).toString(): BookAuthor.fromJson,
+		(BookPreview).toString(): BookPreview.fromJson,
 		(IssuesEntity).toString(): IssuesEntity.fromJson,
 		(IssuesBook).toString(): IssuesBook.fromJson,
 		(IssuesBookAuthor).toString(): IssuesBookAuthor.fromJson,
@@ -143,6 +147,15 @@ class JsonConvert {
 		}
 		if(<AssetsInfoResultsBookmark>[] is M){
 			return data.map<AssetsInfoResultsBookmark>((Map<String, dynamic> e) => AssetsInfoResultsBookmark.fromJson(e)).toList() as M;
+		}
+		if(<BookEntity>[] is M){
+			return data.map<BookEntity>((Map<String, dynamic> e) => BookEntity.fromJson(e)).toList() as M;
+		}
+		if(<BookAuthor>[] is M){
+			return data.map<BookAuthor>((Map<String, dynamic> e) => BookAuthor.fromJson(e)).toList() as M;
+		}
+		if(<BookPreview>[] is M){
+			return data.map<BookPreview>((Map<String, dynamic> e) => BookPreview.fromJson(e)).toList() as M;
 		}
 		if(<IssuesEntity>[] is M){
 			return data.map<IssuesEntity>((Map<String, dynamic> e) => IssuesEntity.fromJson(e)).toList() as M;

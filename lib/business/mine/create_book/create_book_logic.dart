@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dbook/business/service_api/base/net_work.dart';
+import 'package:dbook/common/entities/book_entity.dart';
 import 'package:dbook/common/utils/logger.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:get/get.dart';
@@ -47,13 +48,16 @@ class CreateBookLogic extends GetxController {
     }
   }
 
-  uploadBook() async {
+  Future uploadBook() async {
+    BookEntity? book;
     state.setBusy();
     await NetWork.getInstance()
         .assets
         .upload(file: state.asset.value!, cover: state.cover.value!, title: state.titleController.text, desc: state.descController.text)
+        .then((value) => {state.setIdle(),book = value})
         .onError((error, stackTrace) => state.setError());
-    state.setIdle();
+
+    return book;
   }
 
   @override

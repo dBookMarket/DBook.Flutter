@@ -1,5 +1,3 @@
-import 'package:dbook/business/assets/assets_state.dart';
-import 'package:dbook/common/utils/logger.dart';
 import 'package:dbook/common/values/colors.dart';
 import 'package:dbook/common/values/values.dart';
 import 'package:dbook/common/widgets/appBar.dart';
@@ -17,6 +15,7 @@ import '../../../common/utils/date.dart';
 import '../../../common/widgets/text.dart';
 import '../../../generated/assets.dart';
 import '../../issues/issues_detail/issues_detail_view.dart';
+import '../../issues/issues_state.dart';
 import 'search_result_logic.dart';
 
 class SearchResultPage extends StatelessWidget {

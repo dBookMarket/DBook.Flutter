@@ -4,9 +4,11 @@
 */
 
 import 'dart:async';
+import 'dart:io';
 
-import '../../common/entities/assets_info_entity.dart';
-import '../../common/entities/read_info_entity.dart';
+import 'package:dbook/common/store/user.dart';
+import 'package:dio/dio.dart';
+
 import '../../common/entities/user_info_entity.dart';
 import '../../common/net/http_x.dart';
 import '../../common/utils/logger.dart';
@@ -27,23 +29,24 @@ class UserApi {
   UserApi._internal() {
     //do stuff
   }
+
   Future<String> nonce({required String address}) async {
     Map<String, dynamic> params = Map();
     params['address'] = address;
     var response = await httpX.post(ApiConstants.nonce, data: params);
-    logX.d('请求结果',response);
-    if(response['detail'] != null){
+    logX.d('请求结果', response);
+    if (response['detail'] != null) {
       throw response['detail'];
     }
     return response['nonce'];
   }
 
-  Future<String> login({required String address,required String signature}) async {
+  Future<String> login({required String address, required String signature}) async {
     Map<String, dynamic> params = Map();
     params['address'] = address;
     params['signature'] = signature;
     var response = await httpX.post(ApiConstants.login, data: params);
-    if(response['detail'] != null){
+    if (response['detail'] != null) {
       throw response['detail'];
     }
 
@@ -62,4 +65,29 @@ class UserApi {
     return UserInfoEntity.fromJson(response);
   }
 
+  Future<UserInfoEntity> modify({File? avatar, File? banner, String? name, String? desc, String? site, String? discord}) async {
+    var param = Map<String, dynamic>();
+    if (name != null && name.isNotEmpty) {
+      param['name'] = name;
+    }
+    if (desc != null && desc.isNotEmpty) {
+      param['desc'] = desc;
+    }
+    if (site != null && site.isNotEmpty) {
+      param['website_url'] = site;
+    }
+    if (discord != null && discord.isNotEmpty) {
+      param['discord_url'] = discord;
+    }
+
+    var formData = FormData.fromMap(param);
+    if (avatar != null) {
+      formData.files.addAll([MapEntry('avatar', MultipartFile.fromFileSync(avatar.path, filename: avatar.path.split('/').last))]);
+    }
+    if (banner != null) {
+      formData.files.addAll([MapEntry('banner', MultipartFile.fromFileSync(banner.path, filename: banner.path.split('/').last))]);
+    }
+    var response = await httpX.put(ApiConstants.users + UserStore.to.userInfo.id.toString(), data: formData);
+    return UserInfoEntity.fromJson(response);
+  }
 }

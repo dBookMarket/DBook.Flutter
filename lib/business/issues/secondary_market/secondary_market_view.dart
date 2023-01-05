@@ -1,8 +1,3 @@
-import 'package:dbook/business/assets/assets_state.dart';
-import 'package:dbook/business/issues/secondary_market/secondary_market_activity/secondary_market_activity_view.dart';
-import 'package:dbook/business/issues/secondary_market/secondary_market_list/secondary_market_list_view.dart';
-import 'package:dbook/business/issues/secondary_market/secondary_market_state.dart';
-import 'package:dbook/business/issues/secondary_market/secondary_market_trend/secondary_market_trend_view.dart';
 import 'package:dbook/common/values/values.dart';
 import 'package:dbook/generated/assets.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import '../../../common/widgets/text.dart';
+import '../issues_state.dart';
 import 'secondary_market_logic.dart';
 
 class SecondaryMarketPage extends StatelessWidget {
