@@ -21,6 +21,7 @@ class AssetsPage extends StatelessWidget {
   final tag = DateTime.now().toString();
 
   AssetsLogic get logic => Get.find<AssetsLogic>(tag: tag);
+
   AssetsState get state => Get.find<AssetsLogic>(tag: tag).state;
 
   @override
@@ -61,15 +62,23 @@ class AssetsPage extends StatelessWidget {
 
   Widget _headerBg() => Obx(() {
         if (UserStore.to.userInfo.bannerUrl == null || UserStore.to.userInfo.bannerUrl!.isEmpty) return SizedBox();
-        return Stack(children: [
-          Image.network(
-            UserStore.to.userInfo.bannerUrl ?? '',
-            width: 1.sw,
-            height: 0.65.sw,
-            fit: BoxFit.cover,
-          ),
-          Positioned.fill(child: BackdropFilter(child: Container(color: Colors.black.withAlpha(0),),filter: ImageFilter.blur(sigmaX: 1.2,sigmaY: 1.2),))
-        ],);
+        return Stack(
+          children: [
+            Image.network(
+              UserStore.to.userInfo.bannerUrl ?? '',
+              width: 1.sw,
+              height: 0.65.sw,
+              fit: BoxFit.cover,
+            ),
+            Positioned.fill(
+                child: BackdropFilter(
+              child: Container(
+                color: Colors.black.withOpacity(0.1),
+              ),
+              filter: ImageFilter.blur(sigmaX: 1.2, sigmaY: 1.2),
+            ))
+          ],
+        );
       });
 
   Widget _userInfo() => Obx(() {
