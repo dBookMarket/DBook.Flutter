@@ -35,6 +35,10 @@ UserInfoEntity $UserInfoEntityFromJson(Map<String, dynamic> json) {
 	if (isVerified != null) {
 		userInfoEntity.isVerified = isVerified;
 	}
+	final bool? isFans = jsonConvert.convert<bool>(json['is_fans']);
+	if (isFans != null) {
+		userInfoEntity.isFans = isFans;
+	}
 	final String? avatarUrl = jsonConvert.convert<String>(json['avatar_url']);
 	if (avatarUrl != null) {
 		userInfoEntity.avatarUrl = avatarUrl;
@@ -60,6 +64,7 @@ Map<String, dynamic> $UserInfoEntityToJson(UserInfoEntity entity) {
 	data['discord_url'] = entity.discordUrl;
 	data['twitter_url'] = entity.twitterUrl;
 	data['is_verified'] = entity.isVerified;
+	data['is_fans'] = entity.isFans;
 	data['avatar_url'] = entity.avatarUrl;
 	data['banner_url'] = entity.bannerUrl;
 	data['statistic'] = entity.statistic?.toJson();
@@ -68,10 +73,45 @@ Map<String, dynamic> $UserInfoEntityToJson(UserInfoEntity entity) {
 
 UserInfoStatistic $UserInfoStatisticFromJson(Map<String, dynamic> json) {
 	final UserInfoStatistic userInfoStatistic = UserInfoStatistic();
+	final String? totalVolume = jsonConvert.convert<String>(json['total_volume']);
+	if (totalVolume != null) {
+		userInfoStatistic.totalVolume = totalVolume;
+	}
+	final String? minPrice = jsonConvert.convert<String>(json['min_price']);
+	if (minPrice != null) {
+		userInfoStatistic.minPrice = minPrice;
+	}
+	final String? maxPrice = jsonConvert.convert<String>(json['max_price']);
+	if (maxPrice != null) {
+		userInfoStatistic.maxPrice = maxPrice;
+	}
+	final String? totalBooks = jsonConvert.convert<String>(json['total_books']);
+	if (totalBooks != null) {
+		userInfoStatistic.totalBooks = totalBooks;
+	}
+	final String? sales = jsonConvert.convert<String>(json['sales']);
+	if (sales != null) {
+		userInfoStatistic.sales = sales;
+	}
+	final String? nOwners = jsonConvert.convert<String>(json['n_owners']);
+	if (nOwners != null) {
+		userInfoStatistic.nOwners = nOwners;
+	}
+	final String? nDestroyed = jsonConvert.convert<String>(json['n_destroyed']);
+	if (nDestroyed != null) {
+		userInfoStatistic.nDestroyed = nDestroyed;
+	}
 	return userInfoStatistic;
 }
 
 Map<String, dynamic> $UserInfoStatisticToJson(UserInfoStatistic entity) {
 	final Map<String, dynamic> data = <String, dynamic>{};
+	data['total_volume'] = entity.totalVolume;
+	data['min_price'] = entity.minPrice;
+	data['max_price'] = entity.maxPrice;
+	data['total_books'] = entity.totalBooks;
+	data['sales'] = entity.sales;
+	data['n_owners'] = entity.nOwners;
+	data['n_destroyed'] = entity.nDestroyed;
 	return data;
 }

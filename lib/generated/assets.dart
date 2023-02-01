@@ -48,6 +48,7 @@ class Assets {
   static const String svgIssuesDetailTrade = 'assets/svg/issues_detail_trade.svg';
   static const String svgLogoDiscord = 'assets/svg/logo_discord.svg';
   static const String svgLogoTwitter = 'assets/svg/logo_twitter.svg';
+  static const String svgLogoTwitterBlack = 'assets/svg/logo_twitter_black.svg';
   static const String svgLogoWeb = 'assets/svg/logo_web.svg';
   static const String svgMineAssets = 'assets/svg/mine_assets.svg';
   static const String svgMineConcern = 'assets/svg/mine_concern.svg';

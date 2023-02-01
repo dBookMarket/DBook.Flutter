@@ -65,6 +65,12 @@ class UserApi {
     return UserInfoEntity.fromJson(response);
   }
 
+  Future<UserInfoEntity> otherUserInfo(String id) async {
+    Map<String, dynamic> params = Map();
+    var response = await httpX.get(ApiConstants.users+id, queryParameters: params);
+    return UserInfoEntity.fromJson(response);
+  }
+
   Future<UserInfoEntity> modify({File? avatar, File? banner, String? name, String? desc, String? site, String? discord}) async {
     var param = Map<String, dynamic>();
     if (name != null && name.isNotEmpty) {
@@ -90,4 +96,5 @@ class UserApi {
     var response = await httpX.put(ApiConstants.users + UserStore.to.userInfo.id.toString(), data: formData);
     return UserInfoEntity.fromJson(response);
   }
+
 }

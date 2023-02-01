@@ -52,8 +52,9 @@ class UserStore extends GetxController {
     Get.offAll(()=>GuidePage());
   }
 
-  getUserInfo()async{
+  Future<UserInfoEntity> getUserInfo()async{
     _userInfo.value = await NetWork.getInstance().user.userInfo();
+    return _userInfo.value;
   }
 
   updateUserInfo(UserInfoEntity info){

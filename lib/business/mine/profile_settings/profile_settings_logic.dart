@@ -44,6 +44,10 @@ class ProfileSettingsLogic extends GetxController {
     state.buttonValid.value = true;
   }
 
+  twitterAuth()async{
+
+  }
+
   commit() async {
     state.setBusy();
     UserInfoEntity info = await NetWork.getInstance()
