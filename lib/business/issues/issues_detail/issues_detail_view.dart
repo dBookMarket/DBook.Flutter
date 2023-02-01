@@ -19,9 +19,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
+import '../../../common/services/global_time.dart';
 import '../../../common/utils/date.dart';
 import '../../asset_detail/asset_detail_view.dart';
-import '../../assets/assets_state.dart';
 import '../issues_state.dart';
 import 'issues_detail_logic.dart';
 
@@ -151,6 +151,7 @@ class IssuesDetailPage extends StatelessWidget {
   }
 
   Widget _publicationTime() => Obx(() {
+    GlobalTimeService.to.globalTime.value;
         return Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -273,6 +274,7 @@ class IssuesDetailPage extends StatelessWidget {
       var address = '~';
       var stateStr = '00:00:00';
       bool isRed = false;
+      GlobalTimeService.to.globalTime.value;
       if (state.issuesInfo.status == IssuesStatus.pre_sale.name) {
         count = 0;
         address = '~~';
