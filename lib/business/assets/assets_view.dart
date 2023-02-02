@@ -14,6 +14,7 @@ import 'package:get/get.dart';
 import '../../common/utils/string_helper.dart';
 import '../../common/values/colors.dart';
 import '../../common/values/fontSize.dart';
+import 'assets_inner/assets_inner_view.dart';
 import 'assets_logic.dart';
 import 'assets_state.dart';
 
@@ -56,7 +57,7 @@ class AssetsPage extends StatelessWidget {
 
   Widget body() => SingleChildScrollView(
         child: Column(
-          children: [_userInfo(), _statistic()],
+          children: [_userInfo(), _statistic(),AssetsInnerPage()],
         ),
       );
 
