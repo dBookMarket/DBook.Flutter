@@ -15,10 +15,10 @@ class AssetsLogic extends GetxController {
 
   getUserInfo(){
     state.setBusy();
-    if(state.isSelf){
-      getSelfUserInfo();
-    }else{
+    if(state.assetsType == AssetsType.AUTHOR){
       getOtherUserInfo();
+    }else{
+      getSelfUserInfo();
     }
     state.setIdle();
   }

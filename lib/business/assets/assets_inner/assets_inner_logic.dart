@@ -6,7 +6,7 @@ class AssetsInnerLogic extends GetxController with GetSingleTickerProviderStateM
   final AssetsInnerState state = AssetsInnerState();
   @override
   void onInit() {
-    state.tabController  = TabController(vsync: this, length: state.innerType);
+    state.tabController  = TabController(vsync: this, length: state.filter.length);
     super.onInit();
   }
 }

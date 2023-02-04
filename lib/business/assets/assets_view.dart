@@ -22,7 +22,6 @@ class AssetsPage extends StatelessWidget {
   final tag = DateTime.now().toString();
 
   AssetsLogic get logic => Get.find<AssetsLogic>(tag: tag);
-
   AssetsState get state => Get.find<AssetsLogic>(tag: tag).state;
 
   @override

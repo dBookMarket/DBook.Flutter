@@ -1,37 +1,42 @@
-import 'package:flutter/cupertino.dart';
+import 'package:dbook/business/assets/assets_inner/assets_activity/view.dart';
+import 'package:dbook/business/assets/assets_inner/assets_author_collection/view.dart';
+import 'package:dbook/business/assets/assets_inner/assets_draft/view.dart';
+import 'package:dbook/business/assets/assets_inner/assets_earnings/view.dart';
+import 'package:dbook/business/assets/assets_inner/assets_my_collection/view.dart';
+import 'package:dbook/business/assets/assets_inner/assets_pending/view.dart';
+import 'package:dbook/business/assets/assets_inner/assets_pending_orders/view.dart';
+import 'package:dbook/business/assets/assets_inner/assets_shelved/view.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
+
+import '../assets_state.dart';
 
 class AssetsInnerState {
-
   late List<String> filter;
-  late int innerType = 3;
+  late AssetsType assetsType;
   final PageController pageController = PageController();
   late TabController tabController;
   List<Widget> pages = [];
   late String issueId;
+
   AssetsInnerState() {
-    innerType = Get.arguments?['type']??5;
-    if(innerType == 3){
-      filter = ['List','Activity','Trend'];
-      pages.add(Container(color: Colors.red,width: 1.sw,height: 200,));
-      pages.add(Container(color: Colors.black,width: 1.sw,height: 200,));
-      pages.add(Container(color: Colors.blue,width: 1.sw,height: 200,));
-    }else if(innerType == 4){
-      filter = ['List','Activity','Trend','Trend'];
-      pages.add(Container(color: Colors.black,width: 1.sw,height: 200,));
-      pages.add(Container(color: Colors.blue,width: 1.sw,height: 200,));
-      pages.add(Container(color: Colors.red,width: 1.sw,height: 200,));
-      pages.add(Container(color: Colors.black,width: 1.sw,height: 200,));
-    }else {
-      filter = ['List','Activity','Trend','Trend','List'];
-      pages.add(Container(color: Colors.red,width: 1.sw,height: 200,));
-      pages.add(Container(color: Colors.black,width: 1.sw,height: 200,));
-      pages.add(Container(color: Colors.blue,width: 1.sw,height: 200,));
-      pages.add(Container(color: Colors.red,width: 1.sw,height: 200,));
-      pages.add(Container(color: Colors.black,width: 1.sw,height: 200,));
+    assetsType = Get.arguments?['assetsType'] ?? AssetsType.MY_BOOKS;
+    if (assetsType == AssetsType.MY_BOOKS) {
+      filter = ['My Collection', 'Pending orders', 'Earnings'];
+      pages.add(AssetsMyCollectionPage());
+      pages.add(AssetsPendingOrdersPage());
+      pages.add(AssetsEarningsPage());
+    } else if (assetsType == AssetsType.MY_ASSETS) {
+      filter = ['Draft', 'Pending', 'Shelved', 'Earnings'];
+      pages.add(AssetsDraftPage());
+      pages.add(AssetsPendingPage());
+      pages.add(AssetsShelvedPage());
+      pages.add(AssetsEarningsPage());
+    } else if (assetsType == AssetsType.AUTHOR) {
+      filter = ['Publish books', 'Activity', 'Collectibles'];
+      pages.add(AssetsPendingPage());
+      pages.add(AssetsActivityPage());
+      pages.add(AssetsAuthorCollectionPage());
     }
   }
 }

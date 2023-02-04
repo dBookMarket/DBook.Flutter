@@ -1,3 +1,5 @@
+import 'package:dbook/business/assets/assets_state.dart';
+import 'package:dbook/business/mine/writing/view.dart';
 import 'package:dbook/common/config/app_config.dart';
 import 'package:dbook/common/store/user.dart';
 import 'package:dbook/common/utils/string_helper.dart';
@@ -132,13 +134,14 @@ class MinePage extends StatelessWidget {
         Get.to(() => CreateBookPage());
         break;
       case 'Asset':
-        Get.to(() => AssetsPage(),arguments: {'title':'My Books','isSelf':true},preventDuplicates:false);
+        Get.to(() => AssetsPage(),arguments: {'title':'My Books','assetsType':AssetsType.MY_ASSETS},preventDuplicates:false);
         break;
       case 'Wallet activity':
         break;
       case 'Concern':
         break;
       case 'Writing':
+        Get.to(()=>WritingPage());
         break;
       case 'Publication management':
         break;

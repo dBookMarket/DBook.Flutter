@@ -3,12 +3,18 @@ import 'package:get/get.dart';
 
 import '../../common/entities/user_info_entity.dart';
 
+enum AssetsType{
+  MY_ASSETS,
+  MY_BOOKS,
+  AUTHOR,
+}
+
 class AssetsState extends BaseState{
   String? userId;
-  bool isSelf = true;
+  late AssetsType assetsType;
   final userInfo = UserInfoEntity().obs;
   AssetsState() {
     userId = Get.arguments?['userId']??'';
-    isSelf = Get.arguments?['isSelf']??true;
+    assetsType = Get.arguments?['assetsType']??AssetsType.MY_BOOKS;
   }
 }
