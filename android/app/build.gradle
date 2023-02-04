@@ -71,7 +71,7 @@ android {
     defaultConfig {
         applicationId "com.ddid.dbook_testnet"
 //        applicationId "com.ddid.dbook"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 30
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName

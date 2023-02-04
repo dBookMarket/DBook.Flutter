@@ -107,4 +107,15 @@ class AssetsApi {
     }
     return issues;
   }
+
+
+  Future saveDraft({required String title, required String content}) async {
+    Map<String, dynamic> params = Map();
+    params['title'] = title;
+    params['content'] = content;
+    var response = await httpX.post(ApiConstants.drafts, data: params);
+    return response;
+  }
+
+
 }

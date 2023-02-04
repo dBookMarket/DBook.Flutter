@@ -17,6 +17,8 @@ class ApiConstants {
   static final String logout = "logout";
   /// 用户资产
   static final String assets = "assets";
+  /// 草稿
+  static final String drafts = "drafts";
   /// 书签
   static final String bookmarks = "bookmarks";
   /// 阅读书籍  [assets]/${id}/[read]
