@@ -18,7 +18,7 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 version: 0.1.0+1
 
 environment:
-  sdk: ">=2.16.0 <3.0.0"
+  sdk: ">=2.18.6 <3.0.0"
 
 dependencies:
   flutter:
@@ -84,7 +84,7 @@ dependencies:
 
 
   # 网络图片加载
-  extended_image: ^6.2.1
+  extended_image: ^7.0.1
 
   web3dart: ^2.3.5
   bip39: ^1.0.6
@@ -113,11 +113,14 @@ dependencies:
 
   fl_chart: ^0.55.2
 
-  flutter_quill: ^6.1.11
+  flutter_quill: ^6.3.3
+  vsc_quill_delta_to_html: ^1.0.1+1
+
+  html_editor_enhanced: ^2.5.1
 
 #  flutter_quill_extensions: ^0.1.0
 
-  file_picker: ^5.2.4
+  file_picker: ^5.2.5
 
   image_picker: ^0.8.6
 

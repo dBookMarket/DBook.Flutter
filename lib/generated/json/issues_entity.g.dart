@@ -71,7 +71,7 @@ IssuesEntity $IssuesEntityFromJson(Map<String, dynamic> json) {
 	if (bookmark != null) {
 		issuesEntity.bookmark = bookmark;
 	}
-	final dynamic? token = jsonConvert.convert<dynamic>(json['token']);
+	final dynamic token = jsonConvert.convert<dynamic>(json['token']);
 	if (token != null) {
 		issuesEntity.token = token;
 	}

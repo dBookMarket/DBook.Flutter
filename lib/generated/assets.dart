@@ -35,10 +35,14 @@ class Assets {
   static const String imagesTemp8 = 'assets/images/temp8.PNG';
   static const String svgBack = 'assets/svg/back.svg';
   static const String svgBookCover = 'assets/svg/book_cover.svg';
+  static const String svgBookDraft = 'assets/svg/book_draft.svg';
   static const String svgComingTime = 'assets/svg/coming_time.svg';
   static const String svgCopy = 'assets/svg/copy.svg';
   static const String svgCreateBook = 'assets/svg/create_book.svg';
   static const String svgDefaultAvatar = 'assets/svg/default_avatar.svg';
+  static const String svgDraftDelete = 'assets/svg/draft_delete.svg';
+  static const String svgDraftModify = 'assets/svg/draft_modify.svg';
+  static const String svgDraftPublish = 'assets/svg/draft_publish.svg';
   static const String svgHomeBook = 'assets/svg/home_book.svg';
   static const String svgHomeLogo = 'assets/svg/home_logo.svg';
   static const String svgHomeSearch = 'assets/svg/home_search.svg';

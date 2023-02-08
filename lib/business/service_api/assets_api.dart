@@ -7,6 +7,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:dbook/common/entities/book_entity.dart';
+import 'package:dbook/common/entities/drafts_entity.dart';
 import 'package:dbook/common/exception/data_parse_exception.dart';
 import 'package:dio/dio.dart';
 
@@ -109,12 +110,40 @@ class AssetsApi {
   }
 
 
-  Future saveDraft({required String title, required String content}) async {
+  Future saveDraft({required String title, required String content,int? id}) async {
     Map<String, dynamic> params = Map();
     params['title'] = title;
     params['content'] = content;
-    var response = await httpX.post(ApiConstants.drafts, data: params);
+    var response;
+    if(id!=null){
+      response = await httpX.put('${ApiConstants.drafts}/$id', data: params);
+    }else{
+      response = await httpX.post(ApiConstants.drafts, data: params);
+    }
+
     return response;
+  }
+
+  Future deleteDraft({required String id}) async {
+    Map<String, dynamic> params = Map();
+    var response = await httpX.delete('${ApiConstants.drafts}/$id', data: params);
+    return response;
+  }
+
+
+
+  Future<List<DraftsEntity>> draftList() async {
+    Map<String, dynamic> params = Map();
+    var response = await httpX.get(ApiConstants.drafts, queryParameters: params);
+
+    List<DraftsEntity>? drafts;
+    try {
+      drafts = (response['results'] as List).map((value) => DraftsEntity.fromJson(value)).toList();
+    } catch (e) {
+      logX.e(e);
+      throw DataParseException();
+    }
+    return drafts;
   }
 
 

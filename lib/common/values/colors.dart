@@ -22,6 +22,7 @@ class ColorX {
   static const Color buttonValid = Color(0xFF6783E9);
   static const Color buttonInValid = Color(0xFFE1E1E1);
   static const Color buttonText = Color(0xFFFFFFFF);
+  static const Color buttonYellow = Color(0xFFFFE1B4);
 
   static final Color shadow = Color(0x1A000000);
   static final Color border = Color(0xFF000000).withOpacity(0.03);
@@ -30,5 +31,8 @@ class ColorX {
 
   static const Color appBarTitle = Color(0xFF7D5321);
   static const Color bottomBarColor = Color(0xFF7D5321);
+
+  /// dialog
+  static const Color bgDialog = Color(0xffffffff);
 
 }
