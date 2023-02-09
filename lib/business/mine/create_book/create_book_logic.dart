@@ -66,12 +66,20 @@ class CreateBookLogic extends GetxController {
     } else {
       draftId = state.selectedDraftId.value;
     }
-    await NetWork.getInstance()
-        .assets
-        .upload(file: bookFile, cover: state.cover.value!, title: state.titleController.text, desc: state.descController.text, draftId: draftId)
-        .then((value) => {state.setIdle(), book = value})
-        .onError((error, stackTrace) => state.setError());
 
+    if(state.editBook.value!=null){
+      await NetWork.getInstance()
+          .assets
+          .edit(id: state.editBook.value?.id,file: bookFile, cover: state.cover.value!, title: state.titleController.text, desc: state.descController.text, draftId: draftId)
+          .then((value) => {state.setIdle(), book = value})
+          .onError((error, stackTrace) => state.setError());
+    }else{
+      await NetWork.getInstance()
+          .assets
+          .upload(file: bookFile, cover: state.cover.value!, title: state.titleController.text, desc: state.descController.text, draftId: draftId)
+          .then((value) => {state.setIdle(), book = value})
+          .onError((error, stackTrace) => state.setError());
+    }
     return book;
   }
 

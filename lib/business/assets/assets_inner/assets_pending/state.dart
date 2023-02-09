@@ -1,5 +1,9 @@
-class AssetsPendingState {
+import '../../../../common/widgets/refresh_list_view/state.dart';
+
+class AssetsPendingState   extends RefreshListViewState{
   AssetsPendingState() {
-    ///Initialize variables
+    this.initRefresh = false;
+    this.disableShimmer = true;
+    this.initData = true;
   }
 }

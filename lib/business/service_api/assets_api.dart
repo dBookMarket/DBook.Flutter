@@ -93,6 +93,32 @@ class AssetsApi {
     return BookEntity.fromJson(response);
   }
 
+  Future<BookEntity> edit({required int? id,required File cover, required String title, required String desc, int? draftId,File? file}) async {
+    var formData = FormData.fromMap({
+      'title': title,
+      'desc': desc,
+      'draft': draftId,
+    });
+
+    if (file != null) {
+      formData.files.add(MapEntry(
+        'file',
+        MultipartFile.fromFileSync(file.path, filename: file.path.split('/').last),
+      ));
+    }
+
+    formData.files.add(MapEntry(
+      'cover',
+      MultipartFile.fromFileSync(cover.path, filename: cover.path.split('/').last),
+    ));
+
+    var response = await httpX.put('${ApiConstants.books}/$id',
+        data: formData,
+        options: Options(headers: {"Content-type": "multipart/form-data", 'connectTimeout': 0, 'receiveTimeout': 0}),
+        onSendProgress: (c, t) => logX.d('上传进度>>>>>$c $t   ${c / t}'));
+    return BookEntity.fromJson(response);
+  }
+
   Future<List<IssuesEntity>> search({required String search}) async {
     Map<String, dynamic> params = Map();
     params['search'] = search;
@@ -140,5 +166,25 @@ class AssetsApi {
       throw DataParseException();
     }
     return drafts;
+  }
+
+  Future<List<BookEntity>> bookList() async {
+    Map<String, dynamic> params = Map();
+    var response = await httpX.get(ApiConstants.books, queryParameters: params);
+
+    List<BookEntity>? books;
+    try {
+      books = (response['results'] as List).map((value) => BookEntity.fromJson(value)).toList();
+    } catch (e) {
+      logX.e(e);
+      throw DataParseException();
+    }
+    return books;
+  }
+
+  Future deleteBook({required String id}) async {
+    Map<String, dynamic> params = Map();
+    var response = await httpX.delete('${ApiConstants.books}/$id', data: params);
+    return response;
   }
 }

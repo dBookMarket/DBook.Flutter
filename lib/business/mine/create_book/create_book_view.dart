@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:dbook/common/entities/book_entity.dart';
 import 'package:dbook/common/values/values.dart';
 import 'package:dbook/common/widgets/appBar.dart';
@@ -288,7 +286,7 @@ class CreateBookPage extends StatelessWidget {
         margin: EdgeInsets.only(top: marginTop ?? 60.h, bottom: 30.h),
       );
 
-  Widget _fileSelectBox(String name, {File? image}) => GestureDetector(
+  Widget _fileSelectBox(String name, {dynamic image}) => GestureDetector(
         onTap: () => _click(name),
         child: Container(
           width: 230.w,
@@ -302,6 +300,7 @@ class CreateBookPage extends StatelessWidget {
                 ),
         ),
       );
+
 
   Widget _headerForDialog({required VoidCallback callback}) => Dialog(
         backgroundColor: Colors.transparent,
