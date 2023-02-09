@@ -26,7 +26,7 @@ class ColorX {
 
   static final Color shadow = Color(0x1A000000);
   static final Color border = Color(0xFF000000).withOpacity(0.03);
-  static final Color divider = Color(0xFFF3F3F3);
+  static final Color divider = Color(0xFFD8D8D8);
 
 
   static const Color appBarTitle = Color(0xFF7D5321);

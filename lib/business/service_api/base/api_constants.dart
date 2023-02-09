@@ -26,6 +26,8 @@ class ApiConstants {
 
   static final String issues = "issues";
 
+  static final String issuesCurrent = "issues/current";
+
   static final String trades = "trades";
 
   static final String transactions = "transactions";

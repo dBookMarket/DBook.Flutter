@@ -14,11 +14,14 @@ import '../../../../common/widgets/text.dart';
 import '../../../../common/widgets/view_state/base_container_view.dart';
 import '../../../../generated/assets.dart';
 import '../../../mine/create_book/create_book_view.dart';
+import '../../asset_publish/asset_publish_view.dart';
 import 'logic.dart';
 
 class AssetsPendingPage extends StatelessWidget {
   final tag = DateTime.now().toString();
+
   AssetsPendingLogic get logic => Get.find<AssetsPendingLogic>(tag: tag);
+
   AssetsPendingState get state => Get.find<AssetsPendingLogic>(tag: tag).refreshState;
 
   @override
@@ -59,42 +62,29 @@ class AssetsPendingPage extends StatelessWidget {
       width: w,
       height: h,
       child: Row(
-        children: [Expanded(child: Image.network(info.coverUrl??'',fit: BoxFit.cover)), SizedBox(width: 10.w), _action(info)],
+        children: [Expanded(child: Image.network(info.coverUrl ?? '', fit: BoxFit.cover, height: h)), SizedBox(width: 10.w), _action(info)],
       ),
     );
   }
 
-  // Widget _cover(title) => Container(
-  //     width: 1.sw,
-  //     alignment: Alignment.bottomCenter,
-  //     color: Color(0xFFEAC38A),
-  //     child: Column(
-  //       mainAxisAlignment: MainAxisAlignment.end,
-  //       children: [
-  //         Image.network(src),
-  //         SizedBox(height: 20.h),
-  //         TextX(title, fontSize: FontSizeX.s11, color: ColorX.txtBrown),
-  //         SizedBox(height: 48.h)
-  //       ],
-  //     ));
 
   Widget _action(info) => Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-    _button(icon: Assets.svgDraftModify, title: 'Edit', info: info),
-    _button(icon: Assets.svgDraftPublish, title: 'Push', info: info),
-    _button(icon: Assets.svgDraftDelete, title: 'Delete', fontSize: FontSizeX.s9, info: info),
-  ]);
+        _button(icon: Assets.svgDraftModify, title: 'Edit', info: info),
+        _button(icon: Assets.svgDraftPublish, title: 'Push', info: info),
+        _button(icon: Assets.svgDraftDelete, title: 'Delete', fontSize: FontSizeX.s9, info: info),
+      ]);
 
   Widget _button({Color? bgColor, Color? txtColor, required String icon, required String title, double? fontSize, info}) => InkWell(
-    onTap: () => _onClick(title, param: info),
-    child: Container(
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(20.r), color: bgColor ?? ColorX.buttonYellow),
-      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
-      margin: EdgeInsets.only(bottom: 10.h),
-      child: Row(
-        children: [SvgPicture.asset(icon, width: 26.w), TextX(title, fontSize: fontSize ?? FontSizeX.s11, color: txtColor ?? ColorX.txtTitle)],
-      ),
-    ),
-  );
+        onTap: () => _onClick(title, param: info),
+        child: Container(
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(20.r), color: bgColor ?? ColorX.buttonYellow),
+          padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
+          margin: EdgeInsets.only(bottom: 10.h),
+          child: Row(
+            children: [SvgPicture.asset(icon, width: 26.w), TextX(title, fontSize: fontSize ?? FontSizeX.s11, color: txtColor ?? ColorX.txtTitle)],
+          ),
+        ),
+      );
 
   _onClick(type, {param}) async {
     switch (type) {
@@ -103,7 +93,7 @@ class AssetsPendingPage extends StatelessWidget {
         logic.refresh();
         break;
       case 'Push':
-        // await Get.to(() => CreateBookPage(), arguments: {'draftId': param.id});
+        await Get.to(() => AssetPublishPage(), arguments: {'bookInfo': param});
         logic.refresh();
         break;
       case 'Delete':

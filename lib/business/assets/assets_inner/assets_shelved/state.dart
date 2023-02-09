@@ -1,5 +1,9 @@
-class AssetsShelvedState {
+import '../../../../common/widgets/refresh_list_view/state.dart';
+
+class AssetsShelvedState extends RefreshListViewState{
   AssetsShelvedState() {
-    ///Initialize variables
+    this.initRefresh = false;
+    this.disableShimmer = true;
+    this.initData = true;
   }
 }

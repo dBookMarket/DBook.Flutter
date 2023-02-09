@@ -93,7 +93,7 @@ class AssetsApi {
     return BookEntity.fromJson(response);
   }
 
-  Future<BookEntity> edit({required int? id,required File cover, required String title, required String desc, int? draftId,File? file}) async {
+  Future<BookEntity> edit({required int? id, required File cover, required String title, required String desc, int? draftId, File? file}) async {
     var formData = FormData.fromMap({
       'title': title,
       'desc': desc,
@@ -132,6 +132,44 @@ class AssetsApi {
       throw DataParseException();
     }
     return issues;
+  }
+
+  Future publish(
+      {required int bookId,
+      required String price,
+      required String quantity,
+      required royalty,
+      required buyLimit,
+      required publishedAt,
+      required duration,
+      required blockChain,
+      required currency,
+      required bool isModify,
+        String? issueId
+      }) async {
+    Map<String, dynamic> params = Map();
+    params['book'] = bookId;
+    params['price'] = price;
+    params['quantity'] = quantity;
+    params['royalty'] = royalty;
+    params['buy_limit'] = buyLimit;
+    params['published_at'] = publishedAt;
+    params['duration'] = duration;
+    params['token'] = Map.from({'block_chain': blockChain, 'currency': currency});
+    var response;
+    if (isModify) {
+      response = await httpX.put('${ApiConstants.issues}/$issueId', data: params);
+    } else {
+      response = await httpX.post(ApiConstants.issues, data: params);
+    }
+
+    return response;
+  }
+
+  Future deleteIssue({required String id}) async {
+    Map<String, dynamic> params = Map();
+    var response = await httpX.delete('${ApiConstants.issues}/$id', data: params);
+    return response;
   }
 
   Future saveDraft({required String title, required String content, int? id}) async {
@@ -180,6 +218,20 @@ class AssetsApi {
       throw DataParseException();
     }
     return books;
+  }
+
+  Future<List<IssuesEntity>> issueCurrent() async {
+    Map<String, dynamic> params = Map();
+    var response = await httpX.get(ApiConstants.issuesCurrent, queryParameters: params);
+
+    List<IssuesEntity>? issues;
+    try {
+      issues = (response['results'] as List).map((value) => IssuesEntity.fromJson(value)).toList();
+    } catch (e) {
+      logX.e(e);
+      throw DataParseException();
+    }
+    return issues;
   }
 
   Future deleteBook({required String id}) async {
