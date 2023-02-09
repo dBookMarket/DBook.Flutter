@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:dbook/common/entities/book_entity.dart';
-import 'package:dbook/common/values/colors.dart';
 import 'package:dbook/common/values/values.dart';
 import 'package:dbook/common/widgets/appBar.dart';
 import 'package:dbook/common/widgets/button.dart';
@@ -41,7 +40,7 @@ class CreateBookPage extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _fileSelect(),
+                    Obx(() => state.tabIndex == 0 ? _fileSelect() : _draft()),
                     _coverSelect(),
                     _bookTitle(),
                     _bookDesc(),
@@ -85,8 +84,45 @@ class CreateBookPage extends StatelessWidget {
         )
       ]);
 
+  Widget _draft() => Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [_tag('Drafts', marginTop: 0), SingleChildScrollView(scrollDirection: Axis.horizontal, child: Row(children: state.drafts.asMap().keys.map(_draftItem).toList()))]);
+
+  Widget _draftItem(int index) => Container(
+        margin: EdgeInsets.only(right: 20.w),
+        child: InkWell(
+          onTap: () => logic.selectDraft(index),
+          child: Stack(
+            children: [
+              Container(
+                  width: 230.w,
+                  height: 300.w,
+                  alignment: Alignment.bottomCenter,
+                  color: Color(0xFFEAC38A),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      SvgPicture.asset(Assets.svgBookDraft, width: 55.w),
+                      SizedBox(height: 20.h),
+                      TextX(state.drafts[index].title, fontSize: FontSizeX.s11, color: ColorX.txtBrown),
+                      SizedBox(height: 48.h)
+                    ],
+                  )),
+              _draftSelector(index)
+            ],
+          ),
+        ),
+      );
+
+  Widget _draftSelector(int index) => Positioned(
+      right: 20.r,
+      top: 20.r,
+      child: Obx(() {
+        return SvgPicture.asset(state.selectedDraftId.value == state.drafts[index].id ? Assets.svgDraftSelected : Assets.svgDraftUnselect, width: 40.w);
+      }));
+
   Widget _coverSelect() => Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        _tag('Book'),
+        _tag('Cover'),
         Row(
           children: [
             Obx(() {
@@ -310,7 +346,7 @@ class CreateBookPage extends StatelessWidget {
         BookEntity book = await logic.uploadBook();
         Get.dialog(
             _headerForDialog(
-              callback: () => {Get.back(),Get.to(() => AssetsPage())},
+              callback: () => {Get.back(), Get.to(() => AssetsPage())},
             ),
             arguments: {'detail': null});
         break;

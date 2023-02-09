@@ -43,6 +43,8 @@ class Assets {
   static const String svgDraftDelete = 'assets/svg/draft_delete.svg';
   static const String svgDraftModify = 'assets/svg/draft_modify.svg';
   static const String svgDraftPublish = 'assets/svg/draft_publish.svg';
+  static const String svgDraftSelected = 'assets/svg/draft_selected.svg';
+  static const String svgDraftUnselect = 'assets/svg/draft_unselect.svg';
   static const String svgHomeBook = 'assets/svg/home_book.svg';
   static const String svgHomeLogo = 'assets/svg/home_logo.svg';
   static const String svgHomeSearch = 'assets/svg/home_search.svg';

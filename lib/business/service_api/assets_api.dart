@@ -67,30 +67,29 @@ class AssetsApi {
     return response;
   }
 
-  Future<BookEntity> upload({required File file, required File cover, required String title, required String desc, String? draftId}) async {
+  Future<BookEntity> upload({File? file, required File cover, required String title, required String desc, int? draftId}) async {
     var formData = FormData.fromMap({
       'title': title,
       'desc': desc,
       'draft': draftId,
     });
 
-    formData.files.addAll([
-      MapEntry(
+    if (file != null) {
+      formData.files.add(MapEntry(
         'file',
         MultipartFile.fromFileSync(file.path, filename: file.path.split('/').last),
-      ),
-      MapEntry(
-        'cover',
-        MultipartFile.fromFileSync(cover.path, filename: cover.path.split('/').last),
-      ),
-    ]);
+      ));
+    }
 
-    var response = await httpX.post(
-      ApiConstants.books,
-      data: formData,
-      options: Options(headers: {"Content-type": "multipart/form-data", 'connectTimeout': 0, 'receiveTimeout': 0}),
-      onSendProgress: (c,t)=>logX.d('上传进度>>>>>$c $t   ${c/t}')
-    );
+    formData.files.add(MapEntry(
+      'cover',
+      MultipartFile.fromFileSync(cover.path, filename: cover.path.split('/').last),
+    ));
+
+    var response = await httpX.post(ApiConstants.books,
+        data: formData,
+        options: Options(headers: {"Content-type": "multipart/form-data", 'connectTimeout': 0, 'receiveTimeout': 0}),
+        onSendProgress: (c, t) => logX.d('上传进度>>>>>$c $t   ${c / t}'));
     return BookEntity.fromJson(response);
   }
 
@@ -109,15 +108,14 @@ class AssetsApi {
     return issues;
   }
 
-
-  Future saveDraft({required String title, required String content,int? id}) async {
+  Future saveDraft({required String title, required String content, int? id}) async {
     Map<String, dynamic> params = Map();
     params['title'] = title;
     params['content'] = content;
     var response;
-    if(id!=null){
+    if (id != null) {
       response = await httpX.put('${ApiConstants.drafts}/$id', data: params);
-    }else{
+    } else {
       response = await httpX.post(ApiConstants.drafts, data: params);
     }
 
@@ -129,8 +127,6 @@ class AssetsApi {
     var response = await httpX.delete('${ApiConstants.drafts}/$id', data: params);
     return response;
   }
-
-
 
   Future<List<DraftsEntity>> draftList() async {
     Map<String, dynamic> params = Map();
@@ -145,6 +141,4 @@ class AssetsApi {
     }
     return drafts;
   }
-
-
 }

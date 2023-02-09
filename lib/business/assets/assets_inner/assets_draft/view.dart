@@ -13,6 +13,7 @@ import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 import '../../../../common/entities/drafts_entity.dart';
 import '../../../../common/widgets/view_state/base_container_view.dart';
 import '../../../../generated/assets.dart';
+import '../../../mine/create_book/create_book_view.dart';
 import '../../../mine/writing/view.dart';
 import 'logic.dart';
 
@@ -27,6 +28,7 @@ class AssetsDraftPage extends StatelessWidget {
   Widget build(BuildContext context) {
     Get.put(AssetsDraftLogic(), tag: tag);
     return BaseContainer(
+      background: Colors.transparent,
       child: _list(),
       viewState: state.viewState,
     );
@@ -48,12 +50,6 @@ class AssetsDraftPage extends StatelessWidget {
           mainAxisSpacing: 20.w,
           children: state.list.map((element) => _item(element)).toList(),
         ),
-        // child: ListView.builder(
-        //     itemCount: state.list.length,
-        //     padding: EdgeInsets.only(top: 50.h),
-        //     itemBuilder: (ctx, index) {
-        //       return _item(state.list[index]);
-        //     }),
       );
     });
   }
@@ -87,7 +83,7 @@ class AssetsDraftPage extends StatelessWidget {
 
   Widget _action(DraftsEntity info) => Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         _button(icon: Assets.svgDraftModify, title: 'Edit', info: info),
-        _button(icon: Assets.svgDraftPublish, title: 'Push'),
+        _button(icon: Assets.svgDraftPublish, title: 'Push', info: info),
         _button(icon: Assets.svgDraftDelete, title: 'Delete', fontSize: FontSizeX.s9, info: info),
       ]);
 
@@ -110,6 +106,8 @@ class AssetsDraftPage extends StatelessWidget {
         logic.refresh();
         break;
       case 'Push':
+        await Get.to(() => CreateBookPage(), arguments: {'draftId': param.id});
+        logic.refresh();
         break;
       case 'Delete':
         Get.dialog(DialogX(

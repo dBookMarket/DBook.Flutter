@@ -13,6 +13,9 @@ class CreateBookLogic extends GetxController {
 
   switchTab(int index) {
     state.tabIndex = index;
+    if (index == 1 && state.drafts.length == 0) {
+      getDrafts();
+    }
   }
 
   selectAsset() async {
@@ -41,7 +44,11 @@ class CreateBookLogic extends GetxController {
   }
 
   checkButtonValid() {
-    if (state.asset.value == null || state.cover.value == null || state.titleController.text.isEmpty || state.descController.text.isEmpty) {
+    if ((state.tabIndex == 0 && state.asset.value == null) ||
+        (state.tabIndex == 1 && state.selectedDraftId.value == null) ||
+        state.cover.value == null ||
+        state.titleController.text.isEmpty ||
+        state.descController.text.isEmpty) {
       state.buttonValid.value = false;
     } else {
       state.buttonValid.value = true;
@@ -51,19 +58,40 @@ class CreateBookLogic extends GetxController {
   Future uploadBook() async {
     BookEntity? book;
     state.setBusy();
+
+    var bookFile;
+    var draftId;
+    if (state.tabIndex == 0) {
+      bookFile = state.asset.value;
+    } else {
+      draftId = state.selectedDraftId.value;
+    }
     await NetWork.getInstance()
         .assets
-        .upload(file: state.asset.value!, cover: state.cover.value!, title: state.titleController.text, desc: state.descController.text)
-        .then((value) => {state.setIdle(),book = value})
+        .upload(file: bookFile, cover: state.cover.value!, title: state.titleController.text, desc: state.descController.text, draftId: draftId)
+        .then((value) => {state.setIdle(), book = value})
         .onError((error, stackTrace) => state.setError());
 
     return book;
+  }
+
+  getDrafts() async {
+    state.setBusy();
+    state.drafts.value = await NetWork.getInstance().assets.draftList().onError((error, stackTrace) => state.setError(t: 'invalid draft'));
+    state.setIdle();
+  }
+
+  selectDraft(int index) {
+    state.selectedDraftId.value = state.drafts[index].id;
   }
 
   @override
   void onInit() {
     state.titleController.addListener(() => checkButtonValid());
     state.descController.addListener(() => checkButtonValid());
+    if (state.tabIndex == 1) {
+      getDrafts();
+    }
     super.onInit();
   }
 
