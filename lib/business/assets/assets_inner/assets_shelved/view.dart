@@ -11,6 +11,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
+import '../../../../common/config/app_config.dart';
 import '../../../../common/entities/issues_entity.dart';
 import '../../../../common/widgets/dialog.dart';
 import '../../../../common/widgets/view_state/base_container_view.dart';
@@ -42,9 +43,8 @@ class AssetsShelvedPage extends StatelessWidget {
         onRefresh: logic.refresh,
         onLoading: logic.loadMore,
         enablePullUp: state.canLoadMore,
-        enablePullDown: false,
         child: ListView.builder(
-            padding: EdgeInsets.only(top: 40.h),
+            padding: EdgeInsets.symmetric(horizontal:ScreenConfig.marginH,vertical: 20.h),
             itemCount: state.list.length,
             itemBuilder: (ctx, index) {
               return _item(state.list[index]);

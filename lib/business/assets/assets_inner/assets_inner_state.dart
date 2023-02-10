@@ -13,10 +13,10 @@ import '../assets_state.dart';
 
 class AssetsInnerState {
   late List<String> filter;
+  List<Widget> pages = [];
   late AssetsType assetsType;
   final PageController pageController = PageController();
   late TabController tabController;
-  List<Widget> pages = [];
   late String issueId;
 
   AssetsInnerState() {

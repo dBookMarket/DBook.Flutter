@@ -41,12 +41,11 @@ class AssetsPendingPage extends StatelessWidget {
         onRefresh: logic.refresh,
         onLoading: logic.loadMore,
         enablePullUp: state.canLoadMore,
-        enablePullDown: false,
         child: GridView.count(
           crossAxisCount: 2,
           physics: NeverScrollableScrollPhysics(),
           crossAxisSpacing: 20.w,
-          padding: EdgeInsets.only(top: 50.h),
+          padding: EdgeInsets.symmetric(horizontal:ScreenConfig.marginH,vertical: 20.h),
           mainAxisSpacing: 20.w,
           children: state.list.map((element) => _item(element)).toList(),
         ),

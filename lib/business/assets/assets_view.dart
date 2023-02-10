@@ -14,7 +14,6 @@ import 'package:get/get.dart';
 import '../../common/utils/string_helper.dart';
 import '../../common/values/colors.dart';
 import '../../common/values/fontSize.dart';
-import 'assets_inner/assets_inner_view.dart';
 import 'assets_logic.dart';
 import 'assets_state.dart';
 
@@ -22,27 +21,71 @@ class AssetsPage extends StatelessWidget {
   final tag = DateTime.now().toString();
 
   AssetsLogic get logic => Get.find<AssetsLogic>(tag: tag);
+
   AssetsState get state => Get.find<AssetsLogic>(tag: tag).state;
 
   @override
   Widget build(BuildContext context) {
     Get.put(AssetsLogic(), tag: tag);
-    return Stack(
-      children: [
-        _headerBg(),
-        Scaffold(
-          backgroundColor: Colors.transparent,
-          appBar: appBar(
-              title: Get.arguments?['title'] ?? 'Books',
-              backgroundColor: Colors.transparent,
-              actions: [_action()],
-              backColor: Colors.white,
-              txtColor: Colors.white),
-          body: body(),
-        )
-      ],
-    );
+    return _body();
   }
+
+  Widget _body() => Scaffold(
+        body: NestedScrollView(
+          headerSliverBuilder: _silverBuilder,
+          body: TabBarView(
+            children: state.pages,
+            physics: NeverScrollableScrollPhysics(),
+            controller: state.tabController,
+          ),
+        ),
+      );
+
+  List<Widget> _silverBuilder(BuildContext context, bool innerBoxIsScrolled) => [
+        SliverOverlapAbsorber(
+          handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+          sliver: SliverAppBar(
+              leading: appBarLeading(onTap: () => Get.back()),
+              elevation: 0,
+              // automaticallyImplyLeading: false,
+              title: appBarTitle(title: Get.arguments?['title'] ?? 'Books'),
+              centerTitle: true,
+              expandedHeight: 370,
+              floating: false,
+              actions: [_action()],
+              pinned: false,
+              bottom: _sliverBottom(),
+              // backgroundColor: Colors.transparent,
+              flexibleSpace: _flexibleSpace()),
+        ),
+      ];
+
+  PreferredSizeWidget _sliverBottom() => PreferredSize(
+      child: Container(
+        color: Color(0xFFFFF7EC),
+        margin: EdgeInsets.symmetric(horizontal: ScreenConfig.marginH),
+        child: TabBar(
+          controller: state.tabController,
+          tabs: state.filter
+              .map((e) => Tab(
+                    text: e,
+                    height: 64.h,
+                  ))
+              .toList(),
+          labelPadding: EdgeInsets.symmetric(horizontal: 20.w),
+          indicatorWeight: 1.h,
+          indicatorPadding: EdgeInsets.only(
+            bottom: 1.h,
+          ),
+          indicatorColor: Color(0xFF42392B),
+          // indicator: UnderlineTabIndicatorX(insets: EdgeInsets.only(left: 50.w, right: 50.w, bottom: 20.h, top: 20.h), borderSide: BorderSide(width: 10.h, color: ColorX.selected)),
+          labelColor: Color(0xFF42392B),
+          unselectedLabelColor: Color(0xFF98866E),
+          labelStyle: TextStyle(fontSize: FontSizeX.s13),
+          unselectedLabelStyle: TextStyle(fontSize: FontSizeX.s13),
+        ),
+      ),
+      preferredSize: Size(double.infinity, 64.h));
 
   Widget _action() => GestureDetector(
         child: Container(
@@ -51,12 +94,6 @@ class AssetsPage extends StatelessWidget {
             Assets.svgShare,
             width: 50.r,
           ),
-        ),
-      );
-
-  Widget body() => SingleChildScrollView(
-        child: Column(
-          children: [_userInfo(), _statistic(),AssetsInnerPage()],
         ),
       );
 
@@ -69,6 +106,7 @@ class AssetsPage extends StatelessWidget {
               width: 1.sw,
               height: 0.65.sw,
               fit: BoxFit.cover,
+              alignment: Alignment.topCenter,
             ),
             Positioned.fill(
                 child: BackdropFilter(
@@ -80,6 +118,19 @@ class AssetsPage extends StatelessWidget {
           ],
         );
       });
+
+  Widget _flexibleSpace()=>FlexibleSpaceBar(
+    background: new Container(
+      child: new Stack(
+        children: [
+          _headerBg(),
+          Column(
+            children: [SizedBox(height: ScreenConfig.appBarHeight+ScreenUtil().statusBarHeight),_userInfo(), _statistic()],
+          )
+        ],
+      ),
+    ),
+  );
 
   Widget _userInfo() => Obx(() {
         return Container(
@@ -106,10 +157,8 @@ class AssetsPage extends StatelessWidget {
                       Container(
                         padding: EdgeInsets.symmetric(horizontal: 10.w),
                         margin: EdgeInsets.only(left: 20.h),
-                        decoration:
-                            BoxDecoration(color: ColorX.primaryYellow, borderRadius: BorderRadius.circular(100)),
-                        child: TextX(formatAddress(state.userInfo.value.address),
-                            fontSize: FontSizeX.s11, color: ColorX.txtBrown),
+                        decoration: BoxDecoration(color: ColorX.primaryYellow, borderRadius: BorderRadius.circular(100)),
+                        child: TextX(formatAddress(state.userInfo.value.address), fontSize: FontSizeX.s11, color: ColorX.txtBrown),
                       )
                     ],
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -127,9 +176,7 @@ class AssetsPage extends StatelessWidget {
                   SizedBox(height: 18.h),
                   Row(
                     children: [
-                      TextX('read more',
-                          style: TextStyle(
-                              fontSize: FontSizeX.s11, decoration: TextDecoration.underline, color: ColorX.txtYellow)),
+                      TextX('read more', style: TextStyle(fontSize: FontSizeX.s11, decoration: TextDecoration.underline, color: ColorX.txtYellow)),
                       Expanded(child: SizedBox()),
                       SvgPicture.asset(Assets.svgLogoWeb, width: 40.r, height: 40.r),
                       SizedBox(width: 22.w),
@@ -191,8 +238,7 @@ class AssetsPage extends StatelessWidget {
         }),
       );
 
-  Widget _statisticItem({required String title, required String value}) =>
-      Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+  Widget _statisticItem({required String title, required String value}) => Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         TextX(value, fontSize: FontSizeX.s15, color: ColorX.txtTitle),
         SizedBox(height: 16.h),
         TextX(title, fontSize: FontSizeX.s11, color: ColorX.txtHint),

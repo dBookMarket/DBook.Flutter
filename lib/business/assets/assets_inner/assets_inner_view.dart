@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../../common/config/app_config.dart';
-import '../../../common/values/colors.dart';
 import '../../../common/values/fontSize.dart';
 import 'assets_inner_logic.dart';
 

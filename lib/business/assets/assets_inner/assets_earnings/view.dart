@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
+import '../../../../common/config/app_config.dart';
 import '../../../../common/entities/transactions_list_entity.dart';
 import '../../../../common/utils/string_helper.dart';
 import '../../../../common/values/colors.dart';
@@ -57,8 +58,8 @@ class AssetsEarningsPage extends StatelessWidget {
         onRefresh: logic.refresh,
         onLoading: logic.loadMore,
         enablePullUp: state.canLoadMore,
-        enablePullDown: true,
         child: SingleChildScrollView(
+          padding: EdgeInsets.symmetric(horizontal:ScreenConfig.marginH,vertical: 0.h),
           child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Table(

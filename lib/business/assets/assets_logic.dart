@@ -2,11 +2,12 @@
 import 'package:dbook/business/service_api/base/net_work.dart';
 import 'package:dbook/common/store/user.dart';
 import 'package:dbook/common/utils/logger.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'assets_state.dart';
 
-class AssetsLogic extends GetxController {
+class AssetsLogic extends GetxController with GetSingleTickerProviderStateMixin{
   final AssetsState state = AssetsState();
 
   AssetsLogic(){
@@ -30,5 +31,11 @@ class AssetsLogic extends GetxController {
   }
   getOtherUserInfo()async{
     state.userInfo.value = await NetWork.getInstance().user.otherUserInfo(state.userId!).onError((error, stackTrace) => state.setError());
+  }
+
+  @override
+  void onInit() {
+    state.tabController = TabController(vsync: this, length: state.filter.length);
+    super.onInit();
   }
 }
