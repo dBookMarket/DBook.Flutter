@@ -30,6 +30,7 @@ class AssetsDraftPage extends StatelessWidget {
     return BaseContainer(
       background: Colors.transparent,
       child: _list(),
+      margin: EdgeInsets.only(top: 220.h),
       viewState: state.viewState,
     );
   }

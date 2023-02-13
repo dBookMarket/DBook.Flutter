@@ -17,29 +17,28 @@ import 'logic.dart';
 
 class AssetsEarningsPage extends StatelessWidget {
   final tag = DateTime.now().toString();
+  bool isCurrent = false;
 
   AssetsEarningsLogic get logic => Get.find<AssetsEarningsLogic>(tag: tag);
 
-  AssetsEarningsState get state =>
-      Get
-          .find<AssetsEarningsLogic>(tag: tag)
-          .refreshState;
+  AssetsEarningsState get state => Get.find<AssetsEarningsLogic>(tag: tag).refreshState;
+
+  AssetsEarningsPage({required this.isCurrent});
 
   @override
   Widget build(BuildContext context) {
-    Get.put(AssetsEarningsLogic(), tag: tag);
+    Get.put(AssetsEarningsLogic(isCurrent: this.isCurrent), tag: tag);
 
     return BaseContainer(
       viewState: state.viewState,
+      margin: EdgeInsets.only(top: 220.h),
       retry: logic.refresh,
       emptyView: _noData(),
       child: _table(),
     );
   }
 
-
-  Widget _noData() =>
-      Column(
+  Widget _noData() => Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SvgPicture.asset(Assets.svgIssuesDetailNoData, width: 50.w),
@@ -49,7 +48,6 @@ class AssetsEarningsPage extends StatelessWidget {
       );
 
   Widget _table() {
-
     return Obx(() {
       List tempList = state.list.toList();
       tempList.insert(0, TransactionsListEntity());
@@ -59,7 +57,7 @@ class AssetsEarningsPage extends StatelessWidget {
         onLoading: logic.loadMore,
         enablePullUp: state.canLoadMore,
         child: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(horizontal:ScreenConfig.marginH,vertical: 0.h),
+          padding: EdgeInsets.symmetric(horizontal: ScreenConfig.marginH, vertical: 0.h),
           child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Table(
@@ -75,11 +73,7 @@ class AssetsEarningsPage extends StatelessWidget {
                 6: FixedColumnWidth(130.0),
                 7: FixedColumnWidth(0),
               },
-              children: tempList
-                  .asMap()
-                  .keys
-                  .map((index) => _tableItem(tempList, index))
-                  .toList(),
+              children: tempList.asMap().keys.map((index) => _tableItem(tempList, index)).toList(),
             ),
           ),
         ),
@@ -114,7 +108,6 @@ class AssetsEarningsPage extends StatelessWidget {
           ],
         ),
       ),
-
       TextX(formatAddress(item.issue?.book?.title), fontSize: FontSizeX.s11, color: ColorX.txtTitle),
       SizedBox(
         child: Row(

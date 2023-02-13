@@ -12,6 +12,7 @@ import 'package:dbook/common/exception/data_parse_exception.dart';
 import 'package:dio/dio.dart';
 
 import '../../common/entities/assets_info_entity.dart';
+import '../../common/entities/collection_entity.dart';
 import '../../common/entities/issues_entity.dart';
 import '../../common/entities/read_info_entity.dart';
 import '../../common/net/http_x.dart';
@@ -45,6 +46,21 @@ class AssetsApi {
       throw 'parse error';
     }
     return assets;
+  }
+
+  /// 我的收藏
+  Future<List<CollectionEntity>> collectionList() async {
+    Map<String, dynamic> params = Map();
+    var response = await httpX.get(ApiConstants.assetsCurrent, queryParameters: params);
+
+    List<CollectionEntity>? collection;
+    try {
+      collection = (response['results'] as List).map((value) => CollectionEntity.fromJson(value)).toList();
+    } catch (e) {
+      logX.e(e);
+      throw DataParseException();
+    }
+    return collection;
   }
 
   Future<ReadInfoEntity> assetsDetail(int id) async {

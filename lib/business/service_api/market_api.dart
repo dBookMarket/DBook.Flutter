@@ -9,6 +9,7 @@ import 'package:dbook/common/entities/trades_list_entity.dart';
 import 'package:dbook/common/entities/trend_list_entity.dart';
 import 'package:dbook/common/exception/data_parse_exception.dart';
 
+import '../../common/entities/collection_entity.dart';
 import '../../common/entities/transactions_list_entity.dart';
 import '../../common/net/http_x.dart';
 import '../../common/utils/logger.dart';
@@ -46,14 +47,14 @@ class MarketApi {
     return trades;
   }
 
-  Future<List<TransactionsListEntity>> transactions({String? issueId}) async {
+  Future<List<TransactionsListEntity>> transactions({required bool isCurrent,String? issueId}) async {
 
     Map<String, dynamic> params = Map();
     if(issueId!=null){
       params['issue'] = issueId;
     }
 
-    var response = await httpX.get(ApiConstants.transactions,queryParameters: params);
+    var response = await httpX.get(isCurrent?ApiConstants.transactionsCurrent:ApiConstants.transactions,queryParameters: params);
 
     List<TransactionsListEntity>? t;
     try {
@@ -63,6 +64,22 @@ class MarketApi {
       throw DataParseException();
     }
     return t;
+  }
+
+  Future<List<CollectionEntity>> pendingOrders() async {
+
+    Map<String, dynamic> params = Map();
+
+    var response = await httpX.get(ApiConstants.tradesCurrent,queryParameters: params);
+
+    List<CollectionEntity>? orders;
+    try {
+      orders = (response['results'] as List).map((value) => CollectionEntity.fromJson(value)).toList();
+    } catch (e) {
+      logX.e(e);
+      throw DataParseException();
+    }
+    return orders;
   }
 
   Future<List<TrendListEntity>> trendList({required String issueId}) async {

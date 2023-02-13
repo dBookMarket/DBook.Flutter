@@ -22,6 +22,8 @@ enum AssetsType{
 class AssetsState extends BaseState{
   String? userId;
   late AssetsType assetsType;
+  late int tabIndex;
+
   final userInfo = UserInfoEntity().obs;
 
 
@@ -33,17 +35,18 @@ class AssetsState extends BaseState{
   AssetsState() {
     userId = Get.arguments?['userId']??'';
     assetsType = Get.arguments?['assetsType'] ?? AssetsType.MY_BOOKS;
+    tabIndex = Get.arguments?['tabIndex'] ?? 0;
     if (assetsType == AssetsType.MY_BOOKS) {
       filter = ['My Collection', 'Pending orders', 'Earnings'];
       pages.add(AssetsMyCollectionPage());
       pages.add(AssetsPendingOrdersPage());
-      pages.add(AssetsEarningsPage());
+      pages.add(AssetsEarningsPage(isCurrent: true));
     } else if (assetsType == AssetsType.MY_ASSETS) {
       filter = ['Draft', 'Pending', 'Shelved', 'Earnings'];
       pages.add(AssetsDraftPage());
       pages.add(AssetsPendingPage());
       pages.add(AssetsShelvedPage());
-      pages.add(AssetsEarningsPage());
+      pages.add(AssetsEarningsPage(isCurrent: false));
     } else if (assetsType == AssetsType.AUTHOR) {
       filter = ['Publish books', 'Activity', 'Collectibles'];
       pages.add(AssetsPendingPage());

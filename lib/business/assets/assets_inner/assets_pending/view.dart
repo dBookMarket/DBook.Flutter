@@ -29,6 +29,7 @@ class AssetsPendingPage extends StatelessWidget {
     Get.put(AssetsPendingLogic(), tag: tag);
     return BaseContainer(
       background: Colors.transparent,
+      margin: EdgeInsets.only(top: 220.h),
       child: _list(),
       viewState: state.viewState,
     );

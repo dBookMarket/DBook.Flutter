@@ -53,7 +53,7 @@ class AssetsPage extends StatelessWidget {
               expandedHeight: 370,
               floating: false,
               actions: [_action()],
-              pinned: false,
+              pinned: true,
               bottom: _sliverBottom(),
               // backgroundColor: Colors.transparent,
               flexibleSpace: _flexibleSpace()),

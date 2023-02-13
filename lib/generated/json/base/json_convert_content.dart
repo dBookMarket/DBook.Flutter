@@ -7,6 +7,7 @@ import 'package:flutter/material.dart' show debugPrint;
 import 'package:dbook/common/entities/assets_entity.dart';
 import 'package:dbook/common/entities/assets_info_entity.dart';
 import 'package:dbook/common/entities/book_entity.dart';
+import 'package:dbook/common/entities/collection_entity.dart';
 import 'package:dbook/common/entities/drafts_entity.dart';
 import 'package:dbook/common/entities/issues_entity.dart';
 import 'package:dbook/common/entities/read_info_entity.dart';
@@ -31,6 +32,10 @@ class JsonConvert {
 		(BookEntity).toString(): BookEntity.fromJson,
 		(BookAuthor).toString(): BookAuthor.fromJson,
 		(BookPreview).toString(): BookPreview.fromJson,
+		(CollectionEntity).toString(): CollectionEntity.fromJson,
+		(CollectionIssue).toString(): CollectionIssue.fromJson,
+		(CollectionIssueBook).toString(): CollectionIssueBook.fromJson,
+		(CollectionIssueBookAuthor).toString(): CollectionIssueBookAuthor.fromJson,
 		(DraftsEntity).toString(): DraftsEntity.fromJson,
 		(DraftsAuthor).toString(): DraftsAuthor.fromJson,
 		(IssuesEntity).toString(): IssuesEntity.fromJson,
@@ -158,6 +163,18 @@ List<T>? convertListNotNull<T>(dynamic value, {EnumConvertFunction? enumConvert}
 		}
 		if(<BookPreview>[] is M){
 			return data.map<BookPreview>((Map<String, dynamic> e) => BookPreview.fromJson(e)).toList() as M;
+		}
+		if(<CollectionEntity>[] is M){
+			return data.map<CollectionEntity>((Map<String, dynamic> e) => CollectionEntity.fromJson(e)).toList() as M;
+		}
+		if(<CollectionIssue>[] is M){
+			return data.map<CollectionIssue>((Map<String, dynamic> e) => CollectionIssue.fromJson(e)).toList() as M;
+		}
+		if(<CollectionIssueBook>[] is M){
+			return data.map<CollectionIssueBook>((Map<String, dynamic> e) => CollectionIssueBook.fromJson(e)).toList() as M;
+		}
+		if(<CollectionIssueBookAuthor>[] is M){
+			return data.map<CollectionIssueBookAuthor>((Map<String, dynamic> e) => CollectionIssueBookAuthor.fromJson(e)).toList() as M;
 		}
 		if(<DraftsEntity>[] is M){
 			return data.map<DraftsEntity>((Map<String, dynamic> e) => DraftsEntity.fromJson(e)).toList() as M;

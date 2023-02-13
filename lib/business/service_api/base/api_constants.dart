@@ -17,6 +17,8 @@ class ApiConstants {
   static final String logout = "logout";
   /// 用户资产
   static final String assets = "assets";
+  /// 收藏
+  static final String assetsCurrent = "assets/current";
   /// 草稿
   static final String drafts = "drafts";
   /// 书签
@@ -30,7 +32,11 @@ class ApiConstants {
 
   static final String trades = "trades";
 
+  static final String tradesCurrent = "trades/current";
+
   static final String transactions = "transactions";
+
+  static final String transactionsCurrent = "transactions/current";
 
   static final String trendList = "transactions/trend";
 

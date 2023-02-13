@@ -25,13 +25,13 @@ class AssetsInnerState {
       filter = ['My Collection', 'Pending orders', 'Earnings'];
       pages.add(AssetsMyCollectionPage());
       pages.add(AssetsPendingOrdersPage());
-      pages.add(AssetsEarningsPage());
+      pages.add(AssetsEarningsPage(isCurrent: true));
     } else if (assetsType == AssetsType.MY_ASSETS) {
       filter = ['Draft', 'Pending', 'Shelved', 'Earnings'];
       pages.add(AssetsDraftPage());
       pages.add(AssetsPendingPage());
       pages.add(AssetsShelvedPage());
-      pages.add(AssetsEarningsPage());
+      pages.add(AssetsEarningsPage(isCurrent: false));
     } else if (assetsType == AssetsType.AUTHOR) {
       filter = ['Publish books', 'Activity', 'Collectibles'];
       pages.add(AssetsPendingPage());

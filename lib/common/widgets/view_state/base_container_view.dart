@@ -1,6 +1,7 @@
 import 'package:dbook/common/widgets/view_state/state_listener.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
@@ -81,7 +82,14 @@ class DefaultEmptyWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultExceptionBox(desc: '暂无内容', img: Assets.iconsNoData, retry: retry);
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        SvgPicture.asset(Assets.svgIssuesDetailNoData, width: 50.w),
+        SizedBox(height: 20.h),
+        TextX('no data', color: ColorX.txtHint),
+      ],
+    );
   }
 }
 

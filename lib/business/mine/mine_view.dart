@@ -134,7 +134,7 @@ class MinePage extends StatelessWidget {
         Get.to(() => CreateBookPage());
         break;
       case 'Asset':
-        Get.to(() => AssetsPage(),arguments: {'title':'My Books','assetsType':AssetsType.MY_ASSETS},preventDuplicates:false);
+        Get.to(() => AssetsPage(),arguments: {'title':'My Books','assetsType':AssetsType.MY_ASSETS,'tabIndex':0},preventDuplicates:false);
         break;
       case 'Wallet activity':
         break;
@@ -144,8 +144,10 @@ class MinePage extends StatelessWidget {
         Get.to(()=>WritingPage());
         break;
       case 'Publication management':
+        Get.to(() => AssetsPage(),arguments: {'title':'My Books','assetsType':AssetsType.MY_ASSETS,'tabIndex':1},preventDuplicates:false);
         break;
       case 'Earnings':
+        Get.to(() => AssetsPage(),arguments: {'title':'My Books','assetsType':AssetsType.MY_ASSETS,'tabIndex':3},preventDuplicates:false);
         break;
       case 'Profile settings':
         Get.to(() => ProfileSettingsPage());

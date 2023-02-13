@@ -1,6 +1,7 @@
-import 'package:dbook/common/entities/book_entity.dart';
 import 'package:dbook/generated/json/base/json_convert_content.dart';
 import 'package:dbook/common/entities/issues_entity.dart';
+
+import '../../common/entities/book_entity.dart';
 
 
 IssuesEntity $IssuesEntityFromJson(Map<String, dynamic> json) {
