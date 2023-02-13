@@ -47,14 +47,45 @@ class MarketApi {
     return trades;
   }
 
-  Future<List<TransactionsListEntity>> transactions({required bool isCurrent,String? issueId}) async {
+  Future<List<TransactionsListEntity>> transactionsUser({required String? userId}) async {
 
+    Map<String, dynamic> params = Map();
+    if(userId!=null){
+      params['user'] = userId;
+    }
+
+    var response = await httpX.get(ApiConstants.transactions,queryParameters: params);
+    List<TransactionsListEntity>? t;
+    try {
+      t = (response['results'] as List).map((value) => TransactionsListEntity.fromJson(value)).toList();
+    } catch (e) {
+      logX.e(e);
+      throw DataParseException();
+    }
+    return t;
+  }
+
+  Future<List<TransactionsListEntity>> transactionsCurrent() async {
+    Map<String, dynamic> params = Map();
+    var response = await httpX.get(ApiConstants.transactionsCurrent,queryParameters: params);
+
+    List<TransactionsListEntity>? t;
+    try {
+      t = (response['results'] as List).map((value) => TransactionsListEntity.fromJson(value)).toList();
+    } catch (e) {
+      logX.e(e);
+      throw DataParseException();
+    }
+    return t;
+  }
+
+  Future<List<TransactionsListEntity>> transactionsIssue({String? issueId}) async {
     Map<String, dynamic> params = Map();
     if(issueId!=null){
       params['issue'] = issueId;
     }
 
-    var response = await httpX.get(isCurrent?ApiConstants.transactionsCurrent:ApiConstants.transactions,queryParameters: params);
+    var response = await httpX.get(ApiConstants.transactions,queryParameters: params);
 
     List<TransactionsListEntity>? t;
     try {

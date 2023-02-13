@@ -22,6 +22,8 @@ import 'package:get/get.dart';
 import '../../../common/services/global_time.dart';
 import '../../../common/utils/date.dart';
 import '../../asset_detail/asset_detail_view.dart';
+import '../../assets/assets_state.dart';
+import '../../assets/assets_view.dart';
 import '../issues_state.dart';
 import 'issues_detail_logic.dart';
 
@@ -52,7 +54,7 @@ class IssuesDetailPage extends StatelessWidget {
             SizedBox(height: 30.h),
             TextX(state.issuesInfo.book?.title, textAlign: TextAlign.start, fontSize: FontSizeX.s16, color: ColorX.txtTitle, fontWeight: TextX.bold),
             SizedBox(height: 20.h),
-            _contact(),
+            _author(),
             SizedBox(height: 20.h),
             TextX(state.issuesInfo.book?.desc, textAlign: TextAlign.start, fontSize: FontSizeX.s11, color: ColorX.txtHint, maxLines: 100),
             SizedBox(height: 20.h),
@@ -63,14 +65,6 @@ class IssuesDetailPage extends StatelessWidget {
           ],
         ),
       ));
-
-  Widget _contact() => Row(
-        children: [
-          _contactItem(img: Assets.svgLogoWeb, url: state.issuesInfo.book?.author?.websiteUrl),
-          _contactItem(img: Assets.svgLogoDiscord, url: state.issuesInfo.book?.author?.discordUrl),
-          _contactItem(img: Assets.svgLogoTwitter, url: state.issuesInfo.book?.author?.twitterUrl),
-        ],
-      );
 
   Widget _contactItem({required String img, String? url}) {
     return Container(
@@ -90,6 +84,22 @@ class IssuesDetailPage extends StatelessWidget {
           }),
     );
   }
+
+  Widget _author() => Row(children: [
+        InkWell(
+          onTap: () => _onClick('author'),
+          child: Row(
+            children: [
+              TextX(state.issuesInfo.book?.author?.name, textAlign: TextAlign.start, fontSize: FontSizeX.s11, color: ColorX.txtTitle, fontWeight: TextX.bold, maxLines: 100),
+              TextX('(${formatAddress(state.issuesInfo.book?.author?.address)})', textAlign: TextAlign.start, fontSize: FontSizeX.s11, color: ColorX.txtHint, maxLines: 100)
+            ],
+          ),
+        ),
+        Expanded(child: SizedBox()),
+        _contactItem(img: Assets.svgLogoWeb, url: state.issuesInfo.book?.author?.websiteUrl),
+        _contactItem(img: Assets.svgLogoDiscord, url: state.issuesInfo.book?.author?.discordUrl),
+        _contactItem(img: Assets.svgLogoTwitter, url: state.issuesInfo.book?.author?.twitterUrl),
+      ]);
 
   Widget _trialButton() => ButtonX(
         'Trial reading',
@@ -151,7 +161,7 @@ class IssuesDetailPage extends StatelessWidget {
   }
 
   Widget _publicationTime() => Obx(() {
-    GlobalTimeService.to.globalTime.value;
+        GlobalTimeService.to.globalTime.value;
         return Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -380,6 +390,9 @@ class IssuesDetailPage extends StatelessWidget {
         break;
       case '购买':
         state.setError(t: 'todo-buy');
+        break;
+      case 'author':
+        Get.to(() => AssetsPage(),arguments: {'title':'Author Detail','assetsType':AssetsType.AUTHOR,'userId':state.issuesInfo.book?.author?.id.toString()},preventDuplicates:false);
         break;
     }
   }

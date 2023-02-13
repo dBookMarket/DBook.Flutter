@@ -9,6 +9,6 @@ class SecondaryMarketActivityLogic extends RefreshListViewLogic<TransactionsList
 
   @override
   Future<List<TransactionsListEntity>?> loadData({int? pageNum}) async {
-    return NetWork.getInstance().market.transactions(issueId: refreshState.issuesInfo.id ?? '',isCurrent: false);
+    return NetWork.getInstance().market.transactionsIssue(issueId: refreshState.issuesInfo.id ?? '');
   }
 }

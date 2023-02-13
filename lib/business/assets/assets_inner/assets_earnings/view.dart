@@ -17,17 +17,15 @@ import 'logic.dart';
 
 class AssetsEarningsPage extends StatelessWidget {
   final tag = DateTime.now().toString();
-  bool isCurrent = false;
 
   AssetsEarningsLogic get logic => Get.find<AssetsEarningsLogic>(tag: tag);
 
   AssetsEarningsState get state => Get.find<AssetsEarningsLogic>(tag: tag).refreshState;
 
-  AssetsEarningsPage({required this.isCurrent});
 
   @override
   Widget build(BuildContext context) {
-    Get.put(AssetsEarningsLogic(isCurrent: this.isCurrent), tag: tag);
+    Get.put(AssetsEarningsLogic(), tag: tag);
 
     return BaseContainer(
       viewState: state.viewState,

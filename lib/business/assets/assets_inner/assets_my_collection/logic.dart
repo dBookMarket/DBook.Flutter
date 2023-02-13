@@ -1,6 +1,5 @@
 import 'package:dbook/business/assets/assets_inner/assets_my_collection/state.dart';
 import 'package:dbook/common/entities/collection_entity.dart';
-import 'package:get/get.dart';
 
 import '../../../../common/widgets/refresh_list_view/logic.dart';
 import '../../../service_api/base/net_work.dart';
@@ -10,7 +9,7 @@ class AssetsMyCollectionLogic extends RefreshListViewLogic<CollectionEntity>  {
 
   @override
   Future<List<CollectionEntity>?> loadData({int? pageNum}) {
-    return NetWork.getInstance().assets.collectionList();
+    return NetWork.getInstance().assets.assetsCurrent();
   }
 
   delete(id)async{

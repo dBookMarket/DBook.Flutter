@@ -49,9 +49,24 @@ class AssetsApi {
   }
 
   /// 我的收藏
-  Future<List<CollectionEntity>> collectionList() async {
+  Future<List<CollectionEntity>> assetsCurrent() async {
     Map<String, dynamic> params = Map();
     var response = await httpX.get(ApiConstants.assetsCurrent, queryParameters: params);
+
+    List<CollectionEntity>? collection;
+    try {
+      collection = (response['results'] as List).map((value) => CollectionEntity.fromJson(value)).toList();
+    } catch (e) {
+      logX.e(e);
+      throw DataParseException();
+    }
+    return collection;
+  }
+
+  Future<List<CollectionEntity>> assetsUser({required String? userId}) async {
+    Map<String, dynamic> params = Map();
+    params['user'] = userId;
+    var response = await httpX.get(ApiConstants.assets, queryParameters: params);
 
     List<CollectionEntity>? collection;
     try {
@@ -239,6 +254,21 @@ class AssetsApi {
   Future<List<IssuesEntity>> issueCurrent() async {
     Map<String, dynamic> params = Map();
     var response = await httpX.get(ApiConstants.issuesCurrent, queryParameters: params);
+
+    List<IssuesEntity>? issues;
+    try {
+      issues = (response['results'] as List).map((value) => IssuesEntity.fromJson(value)).toList();
+    } catch (e) {
+      logX.e(e);
+      throw DataParseException();
+    }
+    return issues;
+  }
+
+  Future<List<IssuesEntity>> issueUser({required String? authorId}) async {
+    Map<String, dynamic> params = Map();
+    params['author'] = authorId;
+    var response = await httpX.get(ApiConstants.issues, queryParameters: params);
 
     List<IssuesEntity>? issues;
     try {

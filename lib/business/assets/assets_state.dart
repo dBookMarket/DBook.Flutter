@@ -4,19 +4,19 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../common/entities/user_info_entity.dart';
-import 'assets_inner/assets_activity/view.dart';
 import 'assets_inner/assets_author_collection/view.dart';
 import 'assets_inner/assets_draft/view.dart';
 import 'assets_inner/assets_earnings/view.dart';
 import 'assets_inner/assets_my_collection/view.dart';
 import 'assets_inner/assets_pending/view.dart';
 import 'assets_inner/assets_pending_orders/view.dart';
+import 'assets_inner/assets_publish_books/view.dart';
 import 'assets_inner/assets_shelved/view.dart';
 
 enum AssetsType{
-  MY_ASSETS,
-  MY_BOOKS,
-  AUTHOR,
+  MY_ASSETS,//我是作者
+  MY_BOOKS,//我是读者
+  AUTHOR,//其他作者
 }
 
 class AssetsState extends BaseState{
@@ -40,17 +40,17 @@ class AssetsState extends BaseState{
       filter = ['My Collection', 'Pending orders', 'Earnings'];
       pages.add(AssetsMyCollectionPage());
       pages.add(AssetsPendingOrdersPage());
-      pages.add(AssetsEarningsPage(isCurrent: true));
+      pages.add(AssetsEarningsPage());
     } else if (assetsType == AssetsType.MY_ASSETS) {
       filter = ['Draft', 'Pending', 'Shelved', 'Earnings'];
       pages.add(AssetsDraftPage());
       pages.add(AssetsPendingPage());
       pages.add(AssetsShelvedPage());
-      pages.add(AssetsEarningsPage(isCurrent: false));
+      pages.add(AssetsEarningsPage());
     } else if (assetsType == AssetsType.AUTHOR) {
       filter = ['Publish books', 'Activity', 'Collectibles'];
-      pages.add(AssetsPendingPage());
-      pages.add(AssetsActivityPage());
+      pages.add(AssetsPublishBooksPage());
+      pages.add(AssetsEarningsPage());
       pages.add(AssetsAuthorCollectionPage());
     }
   }
