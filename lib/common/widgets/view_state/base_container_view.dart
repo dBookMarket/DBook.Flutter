@@ -92,12 +92,12 @@ class DefaultEmptyWidget extends StatelessWidget {
             : Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            TextX('no data', color: ColorX.txtHint),
+            TextX('no data', color: ColorX.txtHint,height: 1.0),
             SizedBox(width: 10.w),
             GestureDetector(
               onTap: retry,
               child: Row(
-                children: [TextX('retry', color: Color(0xFF007FFF)), Image.asset(Assets.iconsRetry,height: 20.h,)],
+                children: [TextX('retry', color: Color(0xFF007FFF),height: 1.0), Image.asset(Assets.iconsRetry,height: 18.h,)],
               ),
             )
           ],

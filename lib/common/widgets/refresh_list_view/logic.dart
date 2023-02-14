@@ -44,7 +44,7 @@ abstract class RefreshListViewLogic<T> extends ListViewLogic<T> {
 
   Future<List<T>?> refresh({bool init = false, bool enableLoading = true}) async {
     try {
-      if (refreshState.initRefresh! && refreshState.firstInit) refreshState.setBusy(enableLoading: refreshState.disableShimmer!);
+      if (refreshState.initRefresh! && (refreshState.firstInit||refreshState.list.isEmpty)) refreshState.setBusy(enableLoading: refreshState.disableShimmer!);
       refreshState.currentPageNum = refreshState.pageNumFirst;
       refreshState.refreshController.resetNoData();
       var data = await loadData(pageNum: refreshState.pageNumFirst).onError((error, stackTrace) => refreshState.setError(enableLoading: false));
