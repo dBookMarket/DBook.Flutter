@@ -8,7 +8,7 @@ class AssetsShelvedLogic extends RefreshListViewLogic<IssuesEntity>  {
 
   @override
   Future<List<IssuesEntity>?> loadData({int? pageNum}) async{
-    return NetWork.getInstance().assets.issueCurrent();
+    return NetWork.getInstance().assets.issueCurrent(page: pageNum);
   }
 
   delete(id)async{

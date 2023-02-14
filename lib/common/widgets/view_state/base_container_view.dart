@@ -85,9 +85,23 @@ class DefaultEmptyWidget extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        SvgPicture.asset(Assets.svgIssuesDetailNoData, width: 50.w),
+        SvgPicture.asset(Assets.svgIssuesDetailNoData, width: 60.w),
         SizedBox(height: 20.h),
-        TextX('no data', color: ColorX.txtHint),
+        retry == null
+            ? TextX('no data', color: ColorX.txtHint)
+            : Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextX('no data', color: ColorX.txtHint),
+            SizedBox(width: 10.w),
+            GestureDetector(
+              onTap: retry,
+              child: Row(
+                children: [TextX('retry', color: Color(0xFF007FFF)), Image.asset(Assets.iconsRetry,height: 20.h,)],
+              ),
+            )
+          ],
+        ),
       ],
     );
   }
@@ -118,16 +132,8 @@ class DefaultErrorWidget extends StatelessWidget {
 class DefaultShimmerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisSize: MainAxisSize.max,
-      children: [
-        Lottie.asset(Assets.assetsLoading),
-        SizedBox(
-          height: ScreenConfig.appBarHeight + 80,
-        )
-      ],
+    return Center(
+      child: Lottie.network('https://assets8.lottiefiles.com/packages/lf20_szrbrL.json',width: 200.w),
     );
   }
 }

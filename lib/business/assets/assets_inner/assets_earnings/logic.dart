@@ -11,9 +11,9 @@ class AssetsEarningsLogic extends RefreshListViewLogic<TransactionsListEntity> {
   @override
   Future<List<TransactionsListEntity>?> loadData({int? pageNum}) async {
     if(refreshState.assetsType == AssetsType.AUTHOR){
-      return NetWork.getInstance().market.transactionsUser(userId: refreshState.userId);
+      return NetWork.getInstance().market.transactionsUser(userId: refreshState.userId,page: pageNum);
     }else{
-      return NetWork.getInstance().market.transactionsCurrent();
+      return NetWork.getInstance().market.transactionsCurrent(page: pageNum);
     }
 
   }

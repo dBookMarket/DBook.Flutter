@@ -14,23 +14,32 @@ class AssetsLogic extends GetxController with GetSingleTickerProviderStateMixin{
     getUserInfo();
   }
 
-  getUserInfo(){
+  getUserInfo()async{
     state.setBusy();
     if(state.assetsType == AssetsType.AUTHOR){
-      getOtherUserInfo();
+      await getOtherUserInfo();
     }else{
-      getSelfUserInfo();
+      await getSelfUserInfo();
     }
     state.setIdle();
+    await Future.delayed(Duration(milliseconds: 500));
+    getFlexibleSpaceH();
   }
 
 
   getSelfUserInfo()async{
+    state.userInfo.value = UserStore.to.userInfo;
     state.userInfo.value = await UserStore.to.getUserInfo();
     logX.d('更新用户数据>>>>>\n11${state.userInfo.value}');
   }
   getOtherUserInfo()async{
     state.userInfo.value = await NetWork.getInstance().user.otherUserInfo(state.userId!).onError((error, stackTrace) => state.setError());
+  }
+
+  getFlexibleSpaceH(){
+    final RenderBox box = state.flexibleSpaceKey.currentContext?.findRenderObject() as RenderBox;
+    Offset offset = box.localToGlobal(Offset(0.0,  20));
+    state.flexibleSpaceH.value = offset.dy;
   }
 
   @override

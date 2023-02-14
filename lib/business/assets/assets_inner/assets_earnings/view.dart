@@ -31,19 +31,9 @@ class AssetsEarningsPage extends StatelessWidget {
       viewState: state.viewState,
       margin: EdgeInsets.only(top: 220.h),
       retry: logic.refresh,
-      emptyView: _noData(),
       child: _table(),
     );
   }
-
-  Widget _noData() => Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SvgPicture.asset(Assets.svgIssuesDetailNoData, width: 50.w),
-          SizedBox(height: 20.h),
-          TextX('no data', color: ColorX.txtHint),
-        ],
-      );
 
   Widget _table() {
     return Obx(() {

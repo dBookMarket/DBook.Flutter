@@ -31,10 +31,11 @@ class MarketApi {
     //do stuff
   }
 
-  Future<List<TradesListEntity>> trades({required String issueId}) async {
+  Future<List<TradesListEntity>> trades({required String issueId,int? page}) async {
 
     Map<String, dynamic> params = Map();
     params['issue'] = issueId;
+    params['page'] = page;
     var response = await httpX.get(ApiConstants.trades,queryParameters: params);
 
     List<TradesListEntity>? trades;
@@ -47,12 +48,13 @@ class MarketApi {
     return trades;
   }
 
-  Future<List<TransactionsListEntity>> transactionsUser({required String? userId}) async {
+  Future<List<TransactionsListEntity>> transactionsUser({required String? userId,int? page}) async {
 
     Map<String, dynamic> params = Map();
     if(userId!=null){
       params['user'] = userId;
     }
+    params['page'] = page;
 
     var response = await httpX.get(ApiConstants.transactions,queryParameters: params);
     List<TransactionsListEntity>? t;
@@ -65,8 +67,9 @@ class MarketApi {
     return t;
   }
 
-  Future<List<TransactionsListEntity>> transactionsCurrent() async {
+  Future<List<TransactionsListEntity>> transactionsCurrent({int? page}) async {
     Map<String, dynamic> params = Map();
+    params['page'] = page;
     var response = await httpX.get(ApiConstants.transactionsCurrent,queryParameters: params);
 
     List<TransactionsListEntity>? t;
@@ -79,11 +82,12 @@ class MarketApi {
     return t;
   }
 
-  Future<List<TransactionsListEntity>> transactionsIssue({String? issueId}) async {
+  Future<List<TransactionsListEntity>> transactionsIssue({String? issueId,int? page}) async {
     Map<String, dynamic> params = Map();
     if(issueId!=null){
       params['issue'] = issueId;
     }
+    params['page'] = page;
 
     var response = await httpX.get(ApiConstants.transactions,queryParameters: params);
 
@@ -97,9 +101,10 @@ class MarketApi {
     return t;
   }
 
-  Future<List<CollectionEntity>> pendingOrders() async {
+  Future<List<CollectionEntity>> pendingOrders({int? page}) async {
 
     Map<String, dynamic> params = Map();
+    params['page'] = page;
 
     var response = await httpX.get(ApiConstants.tradesCurrent,queryParameters: params);
 
@@ -113,10 +118,11 @@ class MarketApi {
     return orders;
   }
 
-  Future<List<TrendListEntity>> trendList({required String issueId}) async {
+  Future<List<TrendListEntity>> trendList({required String issueId,int? page}) async {
 
     Map<String, dynamic> params = Map();
     params['issue'] = issueId;
+    params['page'] = page;
     var response = await httpX.get(ApiConstants.trendList,queryParameters: params);
 
     List<TrendListEntity>? t;

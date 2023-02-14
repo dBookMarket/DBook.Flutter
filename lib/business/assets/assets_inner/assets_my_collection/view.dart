@@ -27,6 +27,7 @@ class AssetsMyCollectionPage extends StatelessWidget {
     return BaseContainer(
       background: Colors.transparent,
       child: _list(),
+      retry: logic.refresh,
       margin: EdgeInsets.only(top: 220.h),
       viewState: state.viewState,
     );
@@ -54,7 +55,7 @@ class AssetsMyCollectionPage extends StatelessWidget {
 
   Widget _item(CollectionEntity info) {
     var w = (1.sw - ScreenConfig.marginH * 2 - 20.w) / 2;
-    var h = w * 2.28+40.h;
+    // var h = w * 2.28+40.h;
 
     return Container(
       width: w,

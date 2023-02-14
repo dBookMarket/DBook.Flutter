@@ -1,5 +1,7 @@
-
 /// 用户 - 配置信息
+const String STORAGE_USER_INFO_KEY = 'user_info';
+
+/// 用户 - token
 const String STORAGE_USER_TOKEN_KEY = 'user_token';
 
 /// 设备是否第一次打开

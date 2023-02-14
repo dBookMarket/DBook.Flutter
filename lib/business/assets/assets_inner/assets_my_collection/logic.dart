@@ -9,7 +9,7 @@ class AssetsMyCollectionLogic extends RefreshListViewLogic<CollectionEntity>  {
 
   @override
   Future<List<CollectionEntity>?> loadData({int? pageNum}) {
-    return NetWork.getInstance().assets.assetsCurrent();
+    return NetWork.getInstance().assets.assetsCurrent(page: pageNum);
   }
 
   delete(id)async{

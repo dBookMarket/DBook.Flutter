@@ -1,13 +1,12 @@
 import 'dart:io';
 
 import 'package:cookie_jar/cookie_jar.dart';
-import 'package:dbook/common/store/store.dart';
-import 'package:dbook/common/utils/logger.dart';
-import 'package:dio/dio.dart';
-import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:dbook/business/service_api/base/api_constants.dart';
 import 'package:dbook/common/exception/exception_pitcher.dart';
+import 'package:dbook/common/store/store.dart';
 import 'package:dbook/common/utils/directory.dart';
+import 'package:dio/dio.dart';
+import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 
 import '../services/global_time.dart';
 import 'base_http.dart';
@@ -72,7 +71,7 @@ class ApiInterceptor extends InterceptorsWrapper {
     GlobalTimeService.to.resetTime(serviceTime.millisecondsSinceEpoch);
 
     if (response.statusCode != 200) {
-      // throw ExceptionPitcher().transformException(response.statusCode);
+      throw ExceptionPitcher().transformException(response);
     }
 
     return super.onResponse(response, handler);

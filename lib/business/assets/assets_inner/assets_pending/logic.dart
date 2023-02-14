@@ -8,7 +8,7 @@ class AssetsPendingLogic extends RefreshListViewLogic<BookEntity>  {
 
   @override
   Future<List<BookEntity>?> loadData({int? pageNum}) async{
-    List<BookEntity> books = await NetWork.getInstance().assets.bookList();
+    List<BookEntity> books = await NetWork.getInstance().assets.bookList(page: pageNum);
     return books.where((e) => !(e.hasIssued??false)).toList();
   }
 

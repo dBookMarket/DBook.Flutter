@@ -8,6 +8,6 @@ class AssetsAuthorCollectionLogic extends RefreshListViewLogic<CollectionEntity>
 
   @override
   Future<List<CollectionEntity>?> loadData({int? pageNum}) async{
-    return NetWork.getInstance().assets.assetsUser(userId: refreshState.authorId);
+    return NetWork.getInstance().assets.assetsUser(userId: refreshState.authorId,page: pageNum);
   }
 }

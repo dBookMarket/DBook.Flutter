@@ -8,7 +8,7 @@ class AssetsPendingOrdersLogic extends RefreshListViewLogic<CollectionEntity>  {
 
   @override
   Future<List<CollectionEntity>?> loadData({int? pageNum}) {
-    return NetWork.getInstance().market.pendingOrders();
+    return NetWork.getInstance().market.pendingOrders(page: pageNum);
   }
 }
 

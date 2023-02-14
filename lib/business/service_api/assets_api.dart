@@ -49,8 +49,9 @@ class AssetsApi {
   }
 
   /// 我的收藏
-  Future<List<CollectionEntity>> assetsCurrent() async {
+  Future<List<CollectionEntity>> assetsCurrent({int? page}) async {
     Map<String, dynamic> params = Map();
+    params['page'] = page;
     var response = await httpX.get(ApiConstants.assetsCurrent, queryParameters: params);
 
     List<CollectionEntity>? collection;
@@ -63,9 +64,11 @@ class AssetsApi {
     return collection;
   }
 
-  Future<List<CollectionEntity>> assetsUser({required String? userId}) async {
+  Future<List<CollectionEntity>> assetsUser({required String? userId,int? page}) async {
     Map<String, dynamic> params = Map();
     params['user'] = userId;
+    params['page'] = page;
+
     var response = await httpX.get(ApiConstants.assets, queryParameters: params);
 
     List<CollectionEntity>? collection;
@@ -150,9 +153,10 @@ class AssetsApi {
     return BookEntity.fromJson(response);
   }
 
-  Future<List<IssuesEntity>> search({required String search}) async {
+  Future<List<IssuesEntity>> search({required String search,int? page}) async {
     Map<String, dynamic> params = Map();
     params['search'] = search;
+    params['page'] = page;
     var response = await httpX.get(ApiConstants.issues, queryParameters: params);
 
     List<IssuesEntity>? issues;
@@ -223,8 +227,9 @@ class AssetsApi {
     return response;
   }
 
-  Future<List<DraftsEntity>> draftList() async {
+  Future<List<DraftsEntity>> draftList({int? page}) async {
     Map<String, dynamic> params = Map();
+    params['page'] = page;
     var response = await httpX.get(ApiConstants.drafts, queryParameters: params);
 
     List<DraftsEntity>? drafts;
@@ -237,8 +242,9 @@ class AssetsApi {
     return drafts;
   }
 
-  Future<List<BookEntity>> bookList() async {
+  Future<List<BookEntity>> bookList({int? page}) async {
     Map<String, dynamic> params = Map();
+    params['page'] = page;
     var response = await httpX.get(ApiConstants.books, queryParameters: params);
 
     List<BookEntity>? books;
@@ -251,8 +257,9 @@ class AssetsApi {
     return books;
   }
 
-  Future<List<IssuesEntity>> issueCurrent() async {
+  Future<List<IssuesEntity>> issueCurrent({int? page}) async {
     Map<String, dynamic> params = Map();
+    params['page'] = page;
     var response = await httpX.get(ApiConstants.issuesCurrent, queryParameters: params);
 
     List<IssuesEntity>? issues;
@@ -265,9 +272,10 @@ class AssetsApi {
     return issues;
   }
 
-  Future<List<IssuesEntity>> issueUser({required String? authorId}) async {
+  Future<List<IssuesEntity>> issueUser({required String? authorId,int? page}) async {
     Map<String, dynamic> params = Map();
     params['author'] = authorId;
+    params['page'] = page;
     var response = await httpX.get(ApiConstants.issues, queryParameters: params);
 
     List<IssuesEntity>? issues;

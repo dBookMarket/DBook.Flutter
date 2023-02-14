@@ -9,7 +9,7 @@ class AssetsDraftLogic extends RefreshListViewLogic<DraftsEntity>  {
 
   @override
   Future<List<DraftsEntity>?> loadData({int? pageNum}) {
-    return NetWork.getInstance().assets.draftList();
+    return NetWork.getInstance().assets.draftList(page: pageNum);
   }
 
   delete(id)async{

@@ -8,6 +8,6 @@ class AssetsPublishBooksLogic extends RefreshListViewLogic<IssuesEntity>  {
 
   @override
   Future<List<IssuesEntity>?> loadData({int? pageNum}) async{
-    return NetWork.getInstance().assets.issueUser(authorId: refreshState.authorId);
+    return NetWork.getInstance().assets.issueUser(authorId: refreshState.authorId,page: pageNum);
   }
 }

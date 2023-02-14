@@ -1,4 +1,6 @@
 
+import 'dart:convert';
+
 import 'package:dbook/business/login/guide/view.dart';
 import 'package:dbook/business/service_api/base/net_work.dart';
 import 'package:dbook/common/services/services.dart';
@@ -28,6 +30,8 @@ class UserStore extends GetxController {
     token = StorageService.to.getString(STORAGE_USER_TOKEN_KEY);
     if(token.isNotEmpty){
       _isLogin.value = true;
+      var profileOffline = StorageService.to.getString(STORAGE_USER_INFO_KEY);
+      _userInfo(UserInfoEntity.fromJson(jsonDecode(profileOffline)));
       getUserInfo();
     }
   }
@@ -53,11 +57,13 @@ class UserStore extends GetxController {
   }
 
   Future<UserInfoEntity> getUserInfo()async{
-    _userInfo.value = await NetWork.getInstance().user.userInfo();
+    var info = await NetWork.getInstance().user.userInfo();
+    updateUserInfo(info);
     return _userInfo.value;
   }
 
   updateUserInfo(UserInfoEntity info){
     _userInfo.value = info;
+    StorageService.to.setString(STORAGE_USER_INFO_KEY, jsonEncode(_userInfo.value.toJson()));
   }
 }

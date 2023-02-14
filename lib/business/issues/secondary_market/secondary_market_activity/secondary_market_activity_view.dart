@@ -21,19 +21,9 @@ class SecondaryMarketActivityPage extends StatelessWidget {
     return BaseContainer(
       viewState: state.viewState,
       retry: logic.refresh,
-      emptyView: _noData(),
       child: _table(),
     );
   }
-
-  Widget _noData() => Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SvgPicture.asset(Assets.svgIssuesDetailNoData, width: 50.w),
-          SizedBox(height: 20.h),
-          TextX('no data', color: ColorX.txtHint),
-        ],
-      );
 
   Widget _table() {
     List tempList = state.list.value.toList();

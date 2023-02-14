@@ -27,6 +27,7 @@ class AssetsAuthorCollectionPage extends StatelessWidget {
       background: Colors.transparent,
       margin: EdgeInsets.only(top: 220.h),
       child: _list(),
+      retry: logic.refresh,
       viewState: state.viewState,
     );
   }

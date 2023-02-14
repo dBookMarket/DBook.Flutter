@@ -1,5 +1,4 @@
 import 'package:dbook/common/entities/trend_list_entity.dart';
-import 'package:get/get.dart';
 
 import '../../../../common/widgets/refresh_list_view/logic.dart';
 import '../../../service_api/base/net_work.dart';
@@ -20,6 +19,6 @@ class SecondaryMarketTrendLogic extends RefreshListViewLogic<TrendListEntity> {
     //   {"date":"01/07","quantities":7},
     //   {"date":"01/08","quantities":4321}
     // ].map((e) => TrendListEntity.fromJson({"date":e['date'],"quantities":e['quantities']})).toList();
-    return NetWork.getInstance().market.trendList(issueId: refreshState.issuesInfo.id ?? '');
+    return NetWork.getInstance().market.trendList(issueId: refreshState.issuesInfo.id ?? '',page:pageNum);
   }
 }

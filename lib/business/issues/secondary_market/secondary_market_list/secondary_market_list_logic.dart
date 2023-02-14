@@ -1,5 +1,4 @@
 import 'package:dbook/common/entities/trades_list_entity.dart';
-import 'package:get/get.dart';
 
 import '../../../../common/widgets/refresh_list_view/logic.dart';
 import '../../../service_api/base/net_work.dart';
@@ -10,6 +9,6 @@ class SecondaryMarketListLogic extends RefreshListViewLogic<TradesListEntity> {
 
   @override
   Future<List<TradesListEntity>?> loadData({int? pageNum}) async {
-    return NetWork.getInstance().market.trades(issueId: refreshState.issuesInfo.id ?? '');
+    return NetWork.getInstance().market.trades(issueId: refreshState.issuesInfo.id ?? '',page:pageNum);
   }
 }
