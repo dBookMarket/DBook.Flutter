@@ -17,6 +17,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import '../assets/assets_view.dart';
+import 'concern/concern_view.dart';
 import 'create_book/create_book_view.dart';
 import 'mine_logic.dart';
 import 'profile_settings/profile_settings_view.dart';
@@ -139,6 +140,7 @@ class MinePage extends StatelessWidget {
       case 'Wallet activity':
         break;
       case 'Concern':
+        Get.to(()=>ConcernPage());
         break;
       case 'Writing':
         Get.to(()=>WritingPage());

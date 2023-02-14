@@ -13,6 +13,7 @@ import 'package:dio/dio.dart';
 
 import '../../common/entities/assets_info_entity.dart';
 import '../../common/entities/collection_entity.dart';
+import '../../common/entities/concern_opus_entity.dart';
 import '../../common/entities/issues_entity.dart';
 import '../../common/entities/read_info_entity.dart';
 import '../../common/net/http_x.dart';
@@ -300,5 +301,19 @@ class AssetsApi {
     params['issue'] = issue;
     var response = await httpX.post(isWish?ApiConstants.wishlists:ApiConstants.removeWishlists, data: params);
     return response;
+  }
+
+  Future<List<ConcernOpusEntity>> wishList({int? page}) async {
+    Map<String, dynamic> params = Map();
+    var response = await httpX.get(ApiConstants.wishlistsCurrent, queryParameters: params);
+
+    List<ConcernOpusEntity>? issues;
+    try {
+      issues = (response['results'] as List).map((value) => ConcernOpusEntity.fromJson(value)).toList();
+    } catch (e) {
+      logX.e(e);
+      throw DataParseException();
+    }
+    return issues;
   }
 }

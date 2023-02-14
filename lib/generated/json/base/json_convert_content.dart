@@ -8,6 +8,7 @@ import 'package:dbook/common/entities/assets_entity.dart';
 import 'package:dbook/common/entities/assets_info_entity.dart';
 import 'package:dbook/common/entities/book_entity.dart';
 import 'package:dbook/common/entities/collection_entity.dart';
+import 'package:dbook/common/entities/concern_opus_entity.dart';
 import 'package:dbook/common/entities/drafts_entity.dart';
 import 'package:dbook/common/entities/issues_entity.dart';
 import 'package:dbook/common/entities/read_info_entity.dart';
@@ -36,6 +37,10 @@ class JsonConvert {
 		(CollectionIssue).toString(): CollectionIssue.fromJson,
 		(CollectionIssueBook).toString(): CollectionIssueBook.fromJson,
 		(CollectionIssueBookAuthor).toString(): CollectionIssueBookAuthor.fromJson,
+		(ConcernOpusEntity).toString(): ConcernOpusEntity.fromJson,
+		(ConcernOpusIssue).toString(): ConcernOpusIssue.fromJson,
+		(ConcernOpusIssueBook).toString(): ConcernOpusIssueBook.fromJson,
+		(ConcernOpusIssueBookAuthor).toString(): ConcernOpusIssueBookAuthor.fromJson,
 		(DraftsEntity).toString(): DraftsEntity.fromJson,
 		(DraftsAuthor).toString(): DraftsAuthor.fromJson,
 		(IssuesEntity).toString(): IssuesEntity.fromJson,
@@ -175,6 +180,18 @@ List<T>? convertListNotNull<T>(dynamic value, {EnumConvertFunction? enumConvert}
 		}
 		if(<CollectionIssueBookAuthor>[] is M){
 			return data.map<CollectionIssueBookAuthor>((Map<String, dynamic> e) => CollectionIssueBookAuthor.fromJson(e)).toList() as M;
+		}
+		if(<ConcernOpusEntity>[] is M){
+			return data.map<ConcernOpusEntity>((Map<String, dynamic> e) => ConcernOpusEntity.fromJson(e)).toList() as M;
+		}
+		if(<ConcernOpusIssue>[] is M){
+			return data.map<ConcernOpusIssue>((Map<String, dynamic> e) => ConcernOpusIssue.fromJson(e)).toList() as M;
+		}
+		if(<ConcernOpusIssueBook>[] is M){
+			return data.map<ConcernOpusIssueBook>((Map<String, dynamic> e) => ConcernOpusIssueBook.fromJson(e)).toList() as M;
+		}
+		if(<ConcernOpusIssueBookAuthor>[] is M){
+			return data.map<ConcernOpusIssueBookAuthor>((Map<String, dynamic> e) => ConcernOpusIssueBookAuthor.fromJson(e)).toList() as M;
 		}
 		if(<DraftsEntity>[] is M){
 			return data.map<DraftsEntity>((Map<String, dynamic> e) => DraftsEntity.fromJson(e)).toList() as M;

@@ -85,7 +85,7 @@ class CreateBookLogic extends GetxController {
 
   getDrafts() async {
     state.setBusy();
-    state.drafts.value = await NetWork.getInstance().assets.draftList().onError((error, stackTrace) => state.setError(t: 'invalid draft'));
+    state.drafts.value = await NetWork.getInstance().assets.draftList(page: 1).onError((error, stackTrace) => state.setError(t: 'invalid draft'));
     state.setIdle();
   }
 
