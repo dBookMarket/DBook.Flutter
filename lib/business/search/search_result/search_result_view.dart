@@ -26,6 +26,7 @@ class SearchResultPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appBar(title: 'Search results'),
+      resizeToAvoidBottomInset: false,
       body: _body(),
     );
   }
@@ -42,11 +43,18 @@ class SearchResultPage extends StatelessWidget {
             Expanded(
                 child: BaseContainer(
               child: _list(),
+              retry: logic.refresh,
               viewState: state.viewState,
+              emptyView: _stateBox(DefaultEmptyWidget()),
+              shimmer: _stateBox(DefaultShimmerWidget()),
+              errorView: _stateBox(DefaultErrorWidget(retry: logic.refresh)),
+              noNetView: _stateBox(DefaultNoNetWidget(retry: logic.refresh)),
             ))
           ],
         ),
       );
+
+  Widget _stateBox(Widget widget) => Container(child:widget,margin: EdgeInsets.only(bottom: 180));
 
   Widget _search() => Container(
         margin: EdgeInsets.symmetric(horizontal: 40.w),
@@ -99,68 +107,70 @@ class SearchResultPage extends StatelessWidget {
   }
 
   Widget _item(IssuesEntity info) => GestureDetector(
-    onTap: ()=>Get.to(()=>IssuesDetailPage(),arguments: {'detail':info}),
-    child: Container(
-      color: Colors.transparent,
-      child: Column(
-      children: [
-        Container(
-          width: 1.sw,
-          height: 180.h,
-          margin: EdgeInsets.symmetric(horizontal: 40.w),
-          child: Row(
+        onTap: () => Get.to(() => IssuesDetailPage(), arguments: {'detail': info}),
+        child: Container(
+          color: Colors.transparent,
+          child: Column(
             children: [
-              Image.network(
-                info.book?.coverUrl ?? '',
+              Container(
+                width: 1.sw,
                 height: 180.h,
-                width: 140.w,
-                fit: BoxFit.cover,
+                margin: EdgeInsets.symmetric(horizontal: 40.w),
+                child: Row(
+                  children: [
+                    Image.network(
+                      info.book?.coverUrl ?? '',
+                      height: 180.h,
+                      width: 140.w,
+                      fit: BoxFit.cover,
+                    ),
+                    SizedBox(width: 23.w),
+                    Expanded(
+                        child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Image.network(info.book?.author?.avatarUrl ?? '', width: 30.r, height: 30.r),
+                            SizedBox(width: 12.w),
+                            TextX(info.book?.author?.name, fontSize: FontSizeX.s11, color: ColorX.txtHint),
+                            Expanded(child: SizedBox()),
+                            _comingDay(info.status, info.publishedAt)
+                          ],
+                        ),
+                        SizedBox(height: 14.h),
+                        TextX(
+                          info.book?.title,
+                          fontSize: FontSizeX.s15,
+                          color: ColorX.txtTitle,
+                          maxLines: 2,
+                          textAlign: TextAlign.start,
+                        ),
+                        Expanded(child: SizedBox()),
+                        Row(
+                          children: [
+                            _issueStatus(info),
+                          ],
+                        )
+                      ],
+                    ))
+                  ],
+                ),
               ),
-              SizedBox(width: 23.w),
-              Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Image.network(info.book?.author?.avatarUrl ?? '', width: 30.r, height: 30.r),
-                          SizedBox(width: 12.w),
-                          TextX(info.book?.author?.name, fontSize: FontSizeX.s11, color: ColorX.txtHint),
-                          Expanded(child: SizedBox()),
-                          _comingDay(info.status,info.publishedAt)
-                        ],
-                      ),
-                      SizedBox(height: 14.h),
-                      TextX(
-                        info.book?.title,
-                        fontSize: FontSizeX.s15,
-                        color: ColorX.txtTitle,
-                        maxLines: 2,
-                        textAlign: TextAlign.start,
-                      ),
-                      Expanded(child: SizedBox()),
-                      Row(
-                        children: [
-                          _issueStatus(info),
-                        ],
-                      )
-                    ],
-                  ))
+              LineH(margin: EdgeInsets.symmetric(horizontal: 40.w, vertical: 50.h))
             ],
           ),
         ),
-        LineH(margin: EdgeInsets.symmetric(horizontal: 40.w, vertical: 50.h))
-      ],
-    ),),);
+      );
 
-  Widget _comingDay(status,time) {
-    if(status == IssuesStatus.pre_sale.name){
+  Widget _comingDay(status, time) {
+    if (status == IssuesStatus.pre_sale.name) {
       return Row(children: [
         SvgPicture.asset(Assets.svgComingTime, width: 20.w, color: ColorX.txtBrown),
         SizedBox(width: 11.w),
         TextX(bookPublicationTimeFormat(time), fontSize: FontSizeX.s11, color: ColorX.txtBrown),
       ]);
-    }else{
+    } else {
       return SizedBox();
     }
   }
@@ -171,7 +181,7 @@ class SearchResultPage extends StatelessWidget {
         children: [
           _itemPrice('Floor price', '${info.price ?? 0}USDC'),
           _itemPrice('Circulation', '${info.nCirculations ?? 0}'),
-          _itemPrice('Destruction', '${(info.quantity ?? 0)-(info.nCirculations ?? 0)}'),
+          _itemPrice('Destruction', '${(info.quantity ?? 0) - (info.nCirculations ?? 0)}'),
         ],
       );
     } else if (info.status == IssuesStatus.pre_sale.name) {

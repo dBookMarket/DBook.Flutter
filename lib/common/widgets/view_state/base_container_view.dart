@@ -15,6 +15,7 @@ class BaseContainer extends StatelessWidget {
   final Rx<ViewState> viewState;
   final Widget child;
   final Widget? emptyView;
+  final Widget? errorView;
   final Widget? noNetView;
   final EdgeInsets? margin;
   final EdgeInsets? padding;
@@ -27,6 +28,7 @@ class BaseContainer extends StatelessWidget {
       required this.child,
       this.shimmer,
       this.emptyView,
+      this.errorView,
       this.noNetView,
       this.margin,
       this.padding,
@@ -67,7 +69,7 @@ class BaseContainer extends StatelessWidget {
       case ViewState.SUCCESS:
         return _childContainer();
       case ViewState.ERROR:
-        return DefaultErrorWidget(retry: retry);
+        return errorView??DefaultErrorWidget(retry: retry);
       case ViewState.NO_NET:
         return this.noNetView ?? DefaultErrorWidget(retry: retry);
     }
@@ -113,7 +115,26 @@ class DefaultNoNetWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultExceptionBox(desc: '暂无内容', img: Assets.iconsNoNet, retry: retry);
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Lottie.asset(Assets.filesLottieNoNet,width: 300.w),
+        SizedBox(height: 20.h),
+        retry == null
+            ? TextX('no net', color: ColorX.txtHint)
+            : Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            GestureDetector(
+              onTap: retry,
+              child: Row(
+                children: [TextX('retry', color: Color(0xFF007FFF),height: 1.0), Image.asset(Assets.iconsRetry,height: 18.h,)],
+              ),
+            )
+          ],
+        ),
+      ],
+    );
   }
 }
 

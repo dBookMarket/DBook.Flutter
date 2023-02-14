@@ -12,10 +12,11 @@ class SearchResultLogic extends RefreshListViewLogic<IssuesEntity> {
     return NetWork.getInstance().assets.search(search: refreshState.searchKey??'',page: pageNum);
   }
 
-  search(String key){
+  search(String key)async{
     refreshState.searchKey = key;
     if(key.isEmpty) return;
-    refresh();
+    refreshState.list.clear();
+    await refresh();
   }
 
 

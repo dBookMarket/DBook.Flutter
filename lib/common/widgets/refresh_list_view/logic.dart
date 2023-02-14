@@ -1,4 +1,7 @@
 
+
+import 'package:connectivity/connectivity.dart';
+
 import '../../utils/logger.dart';
 import '../list_view/logic.dart';
 import 'state.dart';
@@ -21,6 +24,11 @@ abstract class RefreshListViewLogic<T> extends ListViewLogic<T> {
   Future<List<T>?> loadData({int pageNum});
 
   Future<List<T>?> loadMore() async {
+    var netState = await _checkNetWork();
+    if(!netState){
+      refreshState.setNoNet(enableLoading: refreshState.disableShimmer!);
+      return [];
+    }
     try {
       List<T>? data = await loadData(pageNum: ++refreshState.currentPageNum);
       if (data == null || data.isEmpty) {
@@ -43,6 +51,11 @@ abstract class RefreshListViewLogic<T> extends ListViewLogic<T> {
   }
 
   Future<List<T>?> refresh({bool init = false, bool enableLoading = true}) async {
+    var netState = await _checkNetWork();
+    if(!netState){
+      refreshState.setNoNet(enableLoading: refreshState.disableShimmer!);
+      return [];
+    }
     try {
       if (refreshState.initRefresh! && (refreshState.firstInit||refreshState.list.isEmpty)) refreshState.setBusy(enableLoading: refreshState.disableShimmer!);
       refreshState.currentPageNum = refreshState.pageNumFirst;
@@ -81,4 +94,12 @@ abstract class RefreshListViewLogic<T> extends ListViewLogic<T> {
   }
 
   onRefreshCompleted() {}
+
+  Future<bool> _checkNetWork()async{
+    final connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      return false;
+    }
+    return true;
+  }
 }
