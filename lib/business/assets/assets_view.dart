@@ -51,10 +51,10 @@ class AssetsPage extends StatelessWidget {
           handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
           sliver: Obx(() {
             return SliverAppBar(
-                leading: appBarLeading(onTap: () => Get.back()),
+                leading: state.assetsType == AssetsType.MY_BOOKS?SizedBox():appBarLeading(onTap: () => Get.back()),
                 elevation: 0,
                 // automaticallyImplyLeading: false,
-                title: appBarTitle(title: Get.arguments?['title'] ?? 'Books'),
+                title: appBarTitle(title: Get.arguments?['title'] ?? 'My Books'),
                 centerTitle: true,
                 expandedHeight: state.flexibleSpaceH.value,
                 floating: false,

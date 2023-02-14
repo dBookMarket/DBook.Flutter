@@ -1,7 +1,6 @@
 import 'package:dbook/common/widgets/view_state/state_listener.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
@@ -85,7 +84,7 @@ class DefaultEmptyWidget extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        SvgPicture.asset(Assets.svgIssuesDetailNoData, width: 60.w),
+        Lottie.asset(Assets.filesLottieEmpty,width: 200.w),
         SizedBox(height: 20.h),
         retry == null
             ? TextX('no data', color: ColorX.txtHint)
@@ -125,7 +124,26 @@ class DefaultErrorWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultExceptionBox(desc: '暂无内容', img: Assets.iconsNoData, retry: retry);
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Lottie.asset(Assets.filesLottieError,width: 200.w),
+        SizedBox(height: 20.h),
+        retry == null
+            ? TextX('error', color: ColorX.txtHint)
+            : Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            GestureDetector(
+              onTap: retry,
+              child: Row(
+                children: [TextX('retry', color: Color(0xFF007FFF),height: 1.0), Image.asset(Assets.iconsRetry,height: 18.h,)],
+              ),
+            )
+          ],
+        ),
+      ],
+    );
   }
 }
 
@@ -133,7 +151,7 @@ class DefaultShimmerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Lottie.network('https://assets8.lottiefiles.com/packages/lf20_szrbrL.json',width: 200.w),
+      child: Lottie.asset(Assets.filesLottieLoading,width: 200.w),
     );
   }
 }
@@ -152,17 +170,17 @@ class DefaultExceptionBox extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,
       children: [
-        Image.asset(img),
+        Image.asset(img,width: 60),
         retry == null
-            ? TextX('$desc,请稍后重试', fontSize: 42.sp, color: ColorX.txtDesc)
+            ? TextX('$desc,please retry',  color: ColorX.txtDesc)
             : Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  TextX('$desc,请', fontSize: 42.sp, color: ColorX.txtDesc),
+                  TextX('$desc,please', color: ColorX.txtDesc),
                   GestureDetector(
                     onTap: retry,
                     child: Row(
-                      children: [TextX('重试', fontSize: 42.sp, color: ColorX.primaryMain), Image.asset(Assets.iconsRetry)],
+                      children: [TextX('retry', color: ColorX.primaryMain), Image.asset(Assets.iconsRetry,)],
                     ),
                   )
                 ],

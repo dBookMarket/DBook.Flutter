@@ -169,6 +169,7 @@ flutter:
     - assets/images/
     - assets/icons/
     - assets/svg/
+    - assets/files/
 #    - assets/images/logos/
 #    - assets/images/backgrounds/
 

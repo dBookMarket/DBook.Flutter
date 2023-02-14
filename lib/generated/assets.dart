@@ -4,6 +4,9 @@ class Assets {
 
   static const String assetsLoading = 'assets/loading.json';
   static const String filesBaseBlock = 'assets/files/base_block.stk';
+  static const String filesLottieEmpty = 'assets/files/lottie_empty.json';
+  static const String filesLottieError = 'assets/files/lottie_error.json';
+  static const String filesLottieLoading = 'assets/files/lottie_loading.json';
   static const String filesResPng = 'assets/files/res_png.sse';
   static const String fontsAvenirBook = 'assets/fonts/Avenir-Book.ttf';
   static const String fontsDemoIndex = 'assets/fonts/demo_index.html';
