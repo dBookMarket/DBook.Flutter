@@ -4,8 +4,8 @@ import 'package:get/get.dart';
 import '../../../common/entities/issues_entity.dart';
 
 class IssuesDetailState extends BaseState{
-  late IssuesEntity issuesInfo;
+  final issuesInfo = IssuesEntity().obs;
   IssuesDetailState() {
-    issuesInfo = Get.arguments?['detail'] ?? IssuesEntity();
+    issuesInfo.value = Get.arguments?['detail'] ?? IssuesEntity();
   }
 }

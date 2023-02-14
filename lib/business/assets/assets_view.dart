@@ -51,14 +51,14 @@ class AssetsPage extends StatelessWidget {
           handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
           sliver: Obx(() {
             return SliverAppBar(
-                leading: state.assetsType == AssetsType.MY_BOOKS?SizedBox():appBarLeading(onTap: () => Get.back()),
+                leading: state.assetsType == AssetsType.MY_BOOKS ? SizedBox() : appBarLeading(onTap: () => Get.back()),
                 elevation: 0,
                 // automaticallyImplyLeading: false,
                 title: appBarTitle(title: Get.arguments?['title'] ?? 'My Books'),
                 centerTitle: true,
                 expandedHeight: state.flexibleSpaceH.value,
                 floating: false,
-                actions: [_action()],
+                actions: _action(),
                 pinned: true,
                 bottom: _sliverBottom(),
                 // backgroundColor: Colors.transparent,
@@ -96,16 +96,34 @@ class AssetsPage extends StatelessWidget {
           ),
           preferredSize: Size(double.infinity, 64.h));
 
-  Widget _action() =>
+  List<Widget> _action() => [_share(), _collect()];
+
+  Widget _share() =>
       GestureDetector(
         child: Container(
-          padding: EdgeInsets.only(right: ScreenConfig.marginH),
+          padding: EdgeInsets.only(right: ScreenConfig.marginH / 2),
           child: SvgPicture.asset(
             Assets.svgShare,
             width: 50.r,
           ),
         ),
       );
+
+  Widget _collect() {
+    if (state.assetsType != AssetsType.AUTHOR) return SizedBox();
+    return GestureDetector(
+      onTap: () => _onClick('collect'),
+      child: Container(
+        padding: EdgeInsets.only(right: ScreenConfig.marginH),
+        child: Obx(() {
+          return SvgPicture.asset(
+            (state.userInfo.value.isFans ?? false) ? Assets.svgCollectUnselect : Assets.svgCollectUnselect,
+            width: 50.r,
+          );
+        }),
+      ),
+    );
+  }
 
   Widget _headerBg() =>
       Obx(() {
@@ -137,14 +155,14 @@ class AssetsPage extends StatelessWidget {
             children: [
               _headerBg(),
               Column(
-                children: [SizedBox(height: ScreenConfig.appBarHeight + ScreenUtil().statusBarHeight), _userInfo(), _statistic(),_flexTag()],
+                children: [SizedBox(height: ScreenConfig.appBarHeight + ScreenUtil().statusBarHeight), _userInfo(), _statistic(), _flexTag()],
               )
             ],
           ),
         ),
       );
 
-  Widget _flexTag()=>Container(key: state.flexibleSpaceKey,width: 1.sw,height: 1.h);
+  Widget _flexTag() => Container(key: state.flexibleSpaceKey, width: 1.sw, height: 1.h);
 
   Widget _userInfo() =>
       Obx(() {
@@ -260,4 +278,13 @@ class AssetsPage extends StatelessWidget {
         SizedBox(height: 16.h),
         TextX(title, fontSize: FontSizeX.s11, color: ColorX.txtHint),
       ]);
+
+
+  _onClick(type) {
+    switch (type) {
+      case 'collect':
+        logic.collect();
+        break;
+    }
+  }
 }

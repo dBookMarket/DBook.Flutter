@@ -293,4 +293,12 @@ class AssetsApi {
     var response = await httpX.delete('${ApiConstants.books}/$id', data: params);
     return response;
   }
+
+  Future wish({required String issue,required bool isWish}) async {
+    logX.d('书籍心愿单操作>>>>$isWish');
+    Map<String, dynamic> params = Map();
+    params['issue'] = issue;
+    var response = await httpX.post(isWish?ApiConstants.wishlists:ApiConstants.removeWishlists, data: params);
+    return response;
+  }
 }

@@ -1,4 +1,3 @@
-
 import 'package:dbook/business/service_api/base/net_work.dart';
 import 'package:dbook/common/store/user.dart';
 import 'package:dbook/common/utils/logger.dart';
@@ -7,18 +6,18 @@ import 'package:get/get.dart';
 
 import 'assets_state.dart';
 
-class AssetsLogic extends GetxController with GetSingleTickerProviderStateMixin{
+class AssetsLogic extends GetxController with GetSingleTickerProviderStateMixin {
   final AssetsState state = AssetsState();
 
-  AssetsLogic(){
+  AssetsLogic() {
     getUserInfo();
   }
 
-  getUserInfo()async{
+  getUserInfo() async {
     state.setBusy();
-    if(state.assetsType == AssetsType.AUTHOR){
+    if (state.assetsType == AssetsType.AUTHOR) {
       await getOtherUserInfo();
-    }else{
+    } else {
       await getSelfUserInfo();
     }
     state.setIdle();
@@ -26,25 +25,35 @@ class AssetsLogic extends GetxController with GetSingleTickerProviderStateMixin{
     getFlexibleSpaceH();
   }
 
-
-  getSelfUserInfo()async{
+  getSelfUserInfo() async {
     state.userInfo.value = UserStore.to.userInfo;
     state.userInfo.value = await UserStore.to.getUserInfo();
     logX.d('更新用户数据>>>>>\n11${state.userInfo.value}');
   }
-  getOtherUserInfo()async{
+
+  getOtherUserInfo() async {
     state.userInfo.value = await NetWork.getInstance().user.otherUserInfo(state.userId!).onError((error, stackTrace) => state.setError());
   }
 
-  getFlexibleSpaceH(){
+  getFlexibleSpaceH() {
     final RenderBox box = state.flexibleSpaceKey.currentContext?.findRenderObject() as RenderBox;
-    Offset offset = box.localToGlobal(Offset(0.0,  20));
+    Offset offset = box.localToGlobal(Offset(0.0, 20));
     state.flexibleSpaceH.value = offset.dy;
+  }
+
+  collect() async {
+    var collect = state.userInfo.value.isFans??false;
+    state.setBusy();
+    var result = !collect;
+    await NetWork.getInstance().user.fans(author:state.userInfo.value.id.toString(),collect: !collect).onError((error, stackTrace) => {state.setError(t: 'failed'),result = collect});
+    state.userInfo.value.isFans = result;
+    state.userInfo.refresh();
+    state.setIdle();
   }
 
   @override
   void onInit() {
-    state.tabController = TabController(vsync: this, length: state.filter.length,initialIndex: state.tabIndex);
+    state.tabController = TabController(vsync: this, length: state.filter.length, initialIndex: state.tabIndex);
     super.onInit();
   }
 }

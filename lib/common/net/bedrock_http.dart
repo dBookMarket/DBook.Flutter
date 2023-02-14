@@ -70,7 +70,7 @@ class ApiInterceptor extends InterceptorsWrapper {
     DateTime serviceTime = HttpDate.parse(response.headers['date'].toString().replaceAll('[', '').replaceAll(']', ''));
     GlobalTimeService.to.resetTime(serviceTime.millisecondsSinceEpoch);
 
-    if (response.statusCode != 200) {
+    if (response.statusCode != 200 && response.statusCode != 201 && response.statusCode != 204) {
       throw ExceptionPitcher().transformException(response);
     }
 
@@ -87,10 +87,9 @@ class ApiInterceptor extends InterceptorsWrapper {
 
   @override
   void onError(DioError err, ErrorInterceptorHandler handler) {
-    if(err.response?.statusCode == 401){
+    if (err.response?.statusCode == 401) {
       UserStore.to.removeToken();
     }
     super.onError(err, handler);
   }
-
 }

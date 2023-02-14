@@ -97,4 +97,13 @@ class UserApi {
     return UserInfoEntity.fromJson(response);
   }
 
+  Future fans({required String author,required bool collect}) async {
+    Map<String, dynamic> params = Map();
+    params['author'] = author;
+    var response = await httpX.post(collect?ApiConstants.fans:ApiConstants.removeFans, data: params);
+    return response;
+  }
+
+
+
 }

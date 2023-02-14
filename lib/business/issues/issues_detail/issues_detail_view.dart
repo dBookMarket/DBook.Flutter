@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:add_2_calendar/add_2_calendar.dart';
 import 'package:common_utils/common_utils.dart';
 import 'package:dbook/business/issues/secondary_market/secondary_market_view.dart';
@@ -34,8 +32,35 @@ class IssuesDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBar(title: 'Book details'),
+      appBar: appBar(title: 'Book details', actions: _action()),
       body: _body(),
+    );
+  }
+
+  List<Widget> _action() => [_share(), _wish()];
+
+  Widget _share() => GestureDetector(
+        child: Container(
+          padding: EdgeInsets.only(right: ScreenConfig.marginH / 2),
+          child: SvgPicture.asset(
+            Assets.svgShare,
+            width: 50.r,
+          ),
+        ),
+      );
+
+  Widget _wish() {
+    return GestureDetector(
+      onTap: () => _onClick('wish'),
+      child: Container(
+        padding: EdgeInsets.only(right: ScreenConfig.marginH),
+        child: Obx(() {
+          return SvgPicture.asset(
+            (state.issuesInfo.value.isWished ?? false) ? Assets.svgCollectSelected : Assets.svgCollectUnselect,
+            width: 50.r,
+          );
+        }),
+      ),
     );
   }
 
@@ -47,16 +72,16 @@ class IssuesDetailPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Image.network(
-              state.issuesInfo.book?.coverUrl ?? '',
+              state.issuesInfo.value.book?.coverUrl ?? '',
               width: 1.sw,
               fit: BoxFit.cover,
             ),
             SizedBox(height: 30.h),
-            TextX(state.issuesInfo.book?.title, textAlign: TextAlign.start, fontSize: FontSizeX.s16, color: ColorX.txtTitle, fontWeight: TextX.bold),
+            TextX(state.issuesInfo.value.book?.title, textAlign: TextAlign.start, fontSize: FontSizeX.s16, color: ColorX.txtTitle, fontWeight: TextX.bold),
             SizedBox(height: 20.h),
             _author(),
             SizedBox(height: 20.h),
-            TextX(state.issuesInfo.book?.desc, textAlign: TextAlign.start, fontSize: FontSizeX.s11, color: ColorX.txtHint, maxLines: 100),
+            TextX(state.issuesInfo.value.book?.desc, textAlign: TextAlign.start, fontSize: FontSizeX.s11, color: ColorX.txtHint, maxLines: 100),
             SizedBox(height: 20.h),
             _trialButton(),
             _publication(),
@@ -90,15 +115,15 @@ class IssuesDetailPage extends StatelessWidget {
           onTap: () => _onClick('author'),
           child: Row(
             children: [
-              TextX(state.issuesInfo.book?.author?.name, textAlign: TextAlign.start, fontSize: FontSizeX.s11, color: ColorX.txtTitle, fontWeight: TextX.bold, maxLines: 100),
-              TextX('(${formatAddress(state.issuesInfo.book?.author?.address)})', textAlign: TextAlign.start, fontSize: FontSizeX.s11, color: ColorX.txtHint, maxLines: 100)
+              TextX(state.issuesInfo.value.book?.author?.name, textAlign: TextAlign.start, fontSize: FontSizeX.s11, color: ColorX.txtTitle, fontWeight: TextX.bold, maxLines: 100),
+              TextX('(${formatAddress(state.issuesInfo.value.book?.author?.address)})', textAlign: TextAlign.start, fontSize: FontSizeX.s11, color: ColorX.txtHint, maxLines: 100)
             ],
           ),
         ),
         Expanded(child: SizedBox()),
-        _contactItem(img: Assets.svgLogoWeb, url: state.issuesInfo.book?.author?.websiteUrl),
-        _contactItem(img: Assets.svgLogoDiscord, url: state.issuesInfo.book?.author?.discordUrl),
-        _contactItem(img: Assets.svgLogoTwitter, url: state.issuesInfo.book?.author?.twitterUrl),
+        _contactItem(img: Assets.svgLogoWeb, url: state.issuesInfo.value.book?.author?.websiteUrl),
+        _contactItem(img: Assets.svgLogoDiscord, url: state.issuesInfo.value.book?.author?.discordUrl),
+        _contactItem(img: Assets.svgLogoTwitter, url: state.issuesInfo.value.book?.author?.twitterUrl),
       ]);
 
   Widget _trialButton() => ButtonX(
@@ -108,7 +133,7 @@ class IssuesDetailPage extends StatelessWidget {
         textColor: Color(0xFFFFE1B4),
         fontSize: FontSizeX.s13,
         padding: EdgeInsets.symmetric(vertical: 24.h),
-        onPressed: () => _onClick('试读', param: state.issuesInfo),
+        onPressed: () => _onClick('试读', param: state.issuesInfo.value),
       );
 
   //region 出版信息
@@ -132,7 +157,7 @@ class IssuesDetailPage extends StatelessWidget {
                     ],
                   ),
                   SizedBox(height: 12.h),
-                  _comingDay(state.issuesInfo.publishedAt)
+                  _comingDay(state.issuesInfo.value.publishedAt)
                 ],
               ),
               Expanded(child: SizedBox()),
@@ -209,21 +234,21 @@ class IssuesDetailPage extends StatelessWidget {
         children: [
           _publicCountItem(
             t1: 'Supply',
-            v1: state.issuesInfo.quantity.toString(),
+            v1: state.issuesInfo.value.quantity.toString(),
             t2: 'Available',
-            v2: ((state.issuesInfo.quantity ?? 0) - (state.issuesInfo.nCirculations ?? 0)).toString(),
+            v2: ((state.issuesInfo.value.quantity ?? 0) - (state.issuesInfo.value.nCirculations ?? 0)).toString(),
           ),
           _publicCountItem(
             t1: 'Selling Price',
-            v1: '${state.issuesInfo.price}USDC',
+            v1: '${state.issuesInfo.value.price}USDC',
             t2: 'Limited per person',
-            v2: state.issuesInfo.buyLimit.toString(),
+            v2: state.issuesInfo.value.buyLimit.toString(),
           ),
           _publicCountItem(
             t1: 'Supply cycle',
-            v1: '${((state.issuesInfo.duration ?? 0) / 60).truncate().toString()} minutes',
+            v1: '${((state.issuesInfo.value.duration ?? 0) / 60).truncate().toString()} minutes',
             t2: 'You have',
-            v2: state.issuesInfo.nOwners.toString(),
+            v2: state.issuesInfo.value.nOwners.toString(),
           ),
         ],
       );
@@ -246,7 +271,7 @@ class IssuesDetailPage extends StatelessWidget {
 
   Widget _tradeButton() {
     // todo 交易
-    if (state.issuesInfo.status == IssuesStatus.pre_sale.name) {
+    if (state.issuesInfo.value.status == IssuesStatus.pre_sale.name) {
       return ButtonX(
         'Add a calendar',
         borderRadius: 0,
@@ -255,7 +280,7 @@ class IssuesDetailPage extends StatelessWidget {
         padding: EdgeInsets.symmetric(vertical: 24.h),
         onPressed: () => _onClick('添加到日历'),
       );
-    } else if (state.issuesInfo.status == IssuesStatus.on_sale.name) {
+    } else if (state.issuesInfo.value.status == IssuesStatus.on_sale.name) {
       return ButtonX(
         'Buy',
         borderRadius: 0,
@@ -285,12 +310,12 @@ class IssuesDetailPage extends StatelessWidget {
       var stateStr = '00:00:00';
       bool isRed = false;
       GlobalTimeService.to.globalTime.value;
-      if (state.issuesInfo.status == IssuesStatus.pre_sale.name) {
+      if (state.issuesInfo.value.status == IssuesStatus.pre_sale.name) {
         count = 0;
         address = '~~';
         stateStr = 'Not started';
         isRed = true;
-      } else if (state.issuesInfo.status == IssuesStatus.on_sale.name) {
+      } else if (state.issuesInfo.value.status == IssuesStatus.on_sale.name) {
         var d = '${logic.comingTime().inDays - 1 <= 0 ? '' : '${logic.countDownAdd0(logic.comingTime().inDays - 1)}:'}';
         var h = logic.countDownAdd0(logic.comingTime().inHours % 24);
         var m = logic.countDownAdd0(logic.comingTime().inMinutes % 60);
@@ -301,9 +326,9 @@ class IssuesDetailPage extends StatelessWidget {
         address = '~~~';
         stateStr = duration;
         isRed = false;
-      } else if (state.issuesInfo.status == IssuesStatus.off_sale.name) {
-        count = state.issuesInfo.quantity ?? 0 - (state.issuesInfo.nCirculations ?? 0);
-        address = formatAddress(state.issuesInfo.destroyLog);
+      } else if (state.issuesInfo.value.status == IssuesStatus.off_sale.name) {
+        count = state.issuesInfo.value.quantity ?? 0 - (state.issuesInfo.value.nCirculations ?? 0);
+        address = formatAddress(state.issuesInfo.value.destroyLog);
         stateStr = 'destroyed';
         isRed = false;
       }
@@ -368,13 +393,13 @@ class IssuesDetailPage extends StatelessWidget {
         break;
 
       case '添加到日历':
-        if (state.issuesInfo.publishedAt == null || state.issuesInfo.publishedAt!.isEmpty) return;
-        var time = DateUtil.getDateTime(state.issuesInfo.publishedAt!);
+        if (state.issuesInfo.value.publishedAt == null || state.issuesInfo.value.publishedAt!.isEmpty) return;
+        var time = DateUtil.getDateTime(state.issuesInfo.value.publishedAt!);
         if (time == null) return;
 
         final Event event = Event(
-          title: state.issuesInfo.book?.title ?? 'New Book',
-          description: '${state.issuesInfo.book?.title ?? 'New Book'} publish notification',
+          title: state.issuesInfo.value.book?.title ?? 'New Book',
+          description: '${state.issuesInfo.value.book?.title ?? 'New Book'} publish notification',
           location: '',
           startDate: time,
           endDate: time.add(Duration(days: 1)),
@@ -392,7 +417,11 @@ class IssuesDetailPage extends StatelessWidget {
         state.setError(t: 'todo-buy');
         break;
       case 'author':
-        Get.to(() => AssetsPage(),arguments: {'title':'Author Detail','assetsType':AssetsType.AUTHOR,'userId':state.issuesInfo.book?.author?.id.toString()},preventDuplicates:false);
+        Get.to(() => AssetsPage(),
+            arguments: {'title': 'Author Detail', 'assetsType': AssetsType.AUTHOR, 'userId': state.issuesInfo.value.book?.author?.id.toString()}, preventDuplicates: false);
+        break;
+      case 'wish':
+        logic.wish();
         break;
     }
   }
