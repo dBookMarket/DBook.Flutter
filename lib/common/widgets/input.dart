@@ -18,6 +18,8 @@ class InputWidget extends StatelessWidget {
   final TextEditingController? controller;
   final List<TextInputFormatter>? inputFormatters;
   final ValueChanged<String>? onChanged;
+  final ValueChanged<String>? onSubmitted;
+  final TextInputAction? textInputAction;
 
   const InputWidget({
     Key? key,
@@ -33,7 +35,9 @@ class InputWidget extends StatelessWidget {
     this.enable = true,
     this.controller,
     this.inputFormatters,
+    this.textInputAction,
     this.onChanged,
+    this.onSubmitted,
   }) : super(key: key);
 
   @override
@@ -44,6 +48,7 @@ class InputWidget extends StatelessWidget {
       textAlignVertical: TextAlignVertical.center,
       style: this.style ?? TextStyle(color: Colors.black, fontSize: 32.sp,height: TextX.h),
       keyboardType: keyboardType,
+      textInputAction: textInputAction,
       maxLines: maxLines ?? 1,
       focusNode: focusNode,
       autofocus: autofocus,
@@ -52,6 +57,7 @@ class InputWidget extends StatelessWidget {
       maxLength: maxLength,
       inputFormatters: inputFormatters,
       onChanged: this.onChanged,
+      onSubmitted: onSubmitted,
       decoration: hint != null
           ? InputDecoration(
           contentPadding: EdgeInsets.all(1),
