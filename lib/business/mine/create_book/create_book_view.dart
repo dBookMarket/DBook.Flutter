@@ -1,4 +1,3 @@
-import 'package:dbook/common/entities/book_entity.dart';
 import 'package:dbook/common/values/values.dart';
 import 'package:dbook/common/widgets/appBar.dart';
 import 'package:dbook/common/widgets/button.dart';
@@ -12,6 +11,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import '../../../common/config/app_config.dart';
+import '../../assets/assets_state.dart';
 import '../../assets/assets_view.dart';
 import 'create_book_logic.dart';
 
@@ -301,7 +301,6 @@ class CreateBookPage extends StatelessWidget {
         ),
       );
 
-
   Widget _headerForDialog({required VoidCallback callback}) => Dialog(
         backgroundColor: Colors.transparent,
         insetPadding: EdgeInsets.symmetric(horizontal: ScreenConfig.marginH),
@@ -342,10 +341,10 @@ class CreateBookPage extends StatelessWidget {
         logic.switchTab(param);
         break;
       case 'encryption':
-        BookEntity book = await logic.uploadBook();
+        await logic.uploadBook();
         Get.dialog(
             _headerForDialog(
-              callback: () => {Get.back(), Get.to(() => AssetsPage())},
+              callback: () => Get.to(() => AssetsPage(), arguments: {'title': 'My Assets', 'assetsType': AssetsType.MY_ASSETS, 'tabIndex': 1}, preventDuplicates: false),
             ),
             arguments: {'detail': null});
         break;

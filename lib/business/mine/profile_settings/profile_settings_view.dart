@@ -43,11 +43,11 @@ class ProfileSettingsPage extends StatelessWidget {
             _twitter(),
             _bannerSelect(),
             // _item(title: 'Banners', controller: state.bannerController),
-            _item(title: 'User name', controller: state.nameController,hint: UserStore.to.userInfo.name??''),
-            _item(title: 'Description', controller: state.descController, maxLines: 3, hint: UserStore.to.userInfo.desc??'Introduce yourself...'),
+            _item(title: 'User name', controller: state.nameController,hint: ''),
+            _item(title: 'Description', controller: state.descController, maxLines: 3, hint: 'Introduce yourself...'),
 
-            _item(title: 'Site', controller: state.siteController, hint: UserStore.to.userInfo.websiteUrl??'https://'),
-            _item(title: 'Discord community', controller: state.discordController, hint: UserStore.to.userInfo.discordUrl??'https://'),
+            _item(title: 'Site', controller: state.siteController, hint: 'https://'),
+            _item(title: 'Discord community', controller: state.discordController, hint: 'https://'),
             _address(),
             _commitButton()
           ],

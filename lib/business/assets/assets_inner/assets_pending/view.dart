@@ -49,6 +49,7 @@ class AssetsPendingPage extends StatelessWidget {
           crossAxisSpacing: 20.w,
           padding: EdgeInsets.symmetric(horizontal:ScreenConfig.marginH,vertical: 20.h),
           mainAxisSpacing: 20.w,
+          childAspectRatio: 0.9,
           children: state.list.map((element) => _item(element)).toList(),
         ),
       );
@@ -62,8 +63,17 @@ class AssetsPendingPage extends StatelessWidget {
     return Container(
       width: w,
       height: h,
-      child: Row(
-        children: [Expanded(child: Image.network(info.coverUrl ?? '', fit: BoxFit.cover, height: h)), SizedBox(width: 10.w), _action(info)],
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [Expanded(child: Image.network(info.coverUrl ?? '', fit: BoxFit.cover, height: h)), SizedBox(width: 10.w), _action(info)],
+          )),
+          SizedBox(height: 10.h),
+          TextX(info.title,maxLines: 2,textAlign: TextAlign.start,color: ColorX.txtDesc)
+
+        ],
       ),
     );
   }

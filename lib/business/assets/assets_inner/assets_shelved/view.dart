@@ -84,7 +84,7 @@ class AssetsShelvedPage extends StatelessWidget {
         SizedBox(height: 30.h),
         _action(info),
         LineH(
-          margin: EdgeInsets.only(top: 20.h),
+          margin: EdgeInsets.symmetric(vertical: 20.h),
           height: 1.r,
           color: ColorX.divider,
         )
