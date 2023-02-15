@@ -21,7 +21,6 @@ class AssetsDraftPage extends StatelessWidget {
   final tag = DateTime.now().toString();
 
   AssetsDraftLogic get logic => Get.find<AssetsDraftLogic>(tag: tag);
-
   AssetsDraftState get state => Get.find<AssetsDraftLogic>(tag: tag).refreshState;
 
   @override

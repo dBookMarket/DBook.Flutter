@@ -1,5 +1,9 @@
-class ConcernAuthorState {
+import '../../../../common/widgets/refresh_list_view/state.dart';
+
+class ConcernAuthorState extends RefreshListViewState{
   ConcernAuthorState() {
-    ///Initialize variables
+    this.initRefresh = true;
+    this.disableShimmer = false;
+    this.initData = true;
   }
 }

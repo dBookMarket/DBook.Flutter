@@ -19,6 +19,7 @@ class ApiConstants {
 
   /// 粉丝
   static final String fans = "fans";
+  static final String fansCurrent = "fans/current";
   static final String removeFans = "fans/remove";
 
   /// 心愿单

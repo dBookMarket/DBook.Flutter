@@ -30,7 +30,7 @@ class AssetPublishState extends BaseState{
   AssetPublishState() {
     issueInfo = Get.arguments?['issueInfo'];
     if(issueInfo!=null){
-      bookInfo = issueInfo!.book;
+      bookInfo = BookEntity.fromJson(issueInfo!.book?.toJson()??{});
       countController.text = issueInfo!.quantity.toString();
       currencyController.text = issueInfo!.token?.currency??'';
       univalentController.text = issueInfo?.price.toString()??'';

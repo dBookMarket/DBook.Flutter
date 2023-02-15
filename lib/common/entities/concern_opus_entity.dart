@@ -92,7 +92,7 @@ class ConcernOpusIssueBook {
 
   Map<String, dynamic> toJson() => $ConcernOpusIssueBookToJson(this);
 
-  ConcernOpusIssueBook copyWith({int? id, String? createdAt, String? updatedAt, ConcernOpusIssueBookAuthor? author, String? title, String? desc, String? coverUrl, String? status,int? nPages, String? cid, bool? hasIssued}) {
+  ConcernOpusIssueBook copyWith({int? id, String? createdAt, String? updatedAt, ConcernOpusIssueBookAuthor? author, String? title, String? desc, String? coverUrl, String? status, int? nPages, String? cid, bool? hasIssued}) {
       return ConcernOpusIssueBook()..id= id ?? this.id
 			..createdAt= createdAt ?? this.createdAt
 			..updatedAt= updatedAt ?? this.updatedAt

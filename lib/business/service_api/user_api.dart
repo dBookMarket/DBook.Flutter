@@ -6,10 +6,12 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:dbook/common/entities/fans_entity.dart';
 import 'package:dbook/common/store/user.dart';
 import 'package:dio/dio.dart';
 
 import '../../common/entities/user_info_entity.dart';
+import '../../common/exception/data_parse_exception.dart';
 import '../../common/net/http_x.dart';
 import '../../common/utils/logger.dart';
 import 'base/api_constants.dart';
@@ -104,6 +106,22 @@ class UserApi {
     return response;
   }
 
+
+  Future<List<FansEntity>> fansCurrent({int? page}) async {
+    Map<String, dynamic> params = Map();
+    params['page'] = page;
+
+    var response = await httpX.get(ApiConstants.fansCurrent, queryParameters: params);
+
+    List<FansEntity>? collection;
+    try {
+      collection = (response['results'] as List).map((value) => FansEntity.fromJson(value)).toList();
+    } catch (e) {
+      logX.e(e);
+      throw DataParseException();
+    }
+    return collection;
+  }
 
 
 }
