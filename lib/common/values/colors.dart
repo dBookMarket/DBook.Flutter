@@ -35,4 +35,7 @@ class ColorX {
   /// dialog
   static const Color bgDialog = Color(0xffffffff);
 
+
+  static final Color indicatorUnSelect = Color(0xFFFFFFFF).withOpacity(0.3);
+  static final Color indicatorSelected = Color(0xFFFFFFFF);
 }

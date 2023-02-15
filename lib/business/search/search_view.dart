@@ -9,6 +9,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
+import 'ads_issues/ads_issues_view.dart';
 import 'search_logic.dart';
 
 class SearchPage extends StatelessWidget {
@@ -20,7 +21,7 @@ class SearchPage extends StatelessWidget {
     return BaseContainer(
         viewState: state.viewState,
         child: Column(
-          children: [_appBar(), SizedBox(height: 60.h), _bookPic(), SizedBox(height: 60.h), _search()],
+          children: [_appBar(), SizedBox(height: 60.h), _bookPic(), SizedBox(height: 60.h), _search(), SizedBox(height: 60.h), AdsIssuesPage()],
         ));
   }
 
@@ -52,7 +53,7 @@ class SearchPage extends StatelessWidget {
           decoration: BoxDecoration(borderRadius: BorderRadius.circular(10.r), border: Border.all(width: 1.r, color: Colors.black)),
           child: Row(
             children: [
-              SvgPicture.asset(Assets.svgHomeSearch, width: 32.r, height: 32.r,color: Color(0xFF686868)),
+              SvgPicture.asset(Assets.svgHomeSearch, width: 32.r, height: 32.r, color: Color(0xFF686868)),
               SizedBox(width: 40.w),
               TextX('Search for author, book title...', color: ColorX.txtDesc, fontSize: FontSizeX.s13)
             ],

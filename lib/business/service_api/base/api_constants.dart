@@ -14,6 +14,9 @@ class ApiConstants {
   /// 个人资料
   static final String current = "users/current";
 
+  /// 推荐书籍
+  static final String advertisements = "advertisements";
+
   /// 用户
   static final String users = "users/";
 

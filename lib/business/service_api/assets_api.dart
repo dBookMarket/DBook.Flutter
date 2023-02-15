@@ -6,6 +6,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:dbook/common/entities/ads_issue_entity.dart';
 import 'package:dbook/common/entities/book_entity.dart';
 import 'package:dbook/common/entities/drafts_entity.dart';
 import 'package:dbook/common/exception/data_parse_exception.dart';
@@ -315,5 +316,19 @@ class AssetsApi {
       throw DataParseException();
     }
     return issues;
+  }
+
+  Future<List<AdsIssueEntity>> ads({int? page}) async {
+    Map<String, dynamic> params = Map();
+    var response = await httpX.get(ApiConstants.advertisements, queryParameters: params);
+
+    List<AdsIssueEntity>? ads;
+    try {
+      ads = (response['results'] as List).map((value) => AdsIssueEntity.fromJson(value)).toList();
+    } catch (e) {
+      logX.e(e);
+      throw DataParseException();
+    }
+    return ads;
   }
 }
