@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 
 import '../../../common/entities/book_entity.dart';
 import '../../../common/entities/issues_entity.dart';
+import '../../../common/utils/logger.dart';
 enum PublicChain{
   polygon,
   bnb
@@ -29,6 +30,7 @@ class AssetPublishState extends BaseState{
 
   AssetPublishState() {
     issueInfo = Get.arguments?['issueInfo'];
+    logX.d('revise>>>>>>${issueInfo?.token}');
     if(issueInfo!=null){
       bookInfo = BookEntity.fromJson(issueInfo!.book?.toJson()??{});
       countController.text = issueInfo!.quantity.toString();

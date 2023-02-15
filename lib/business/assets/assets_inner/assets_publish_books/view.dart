@@ -12,6 +12,7 @@ import '../../../../common/widgets/avatar_widget.dart';
 import '../../../../common/widgets/line_widget.dart';
 import '../../../../common/widgets/text.dart';
 import '../../../../common/widgets/view_state/base_container_view.dart';
+import '../../../issues/issues_detail/issues_detail_view.dart';
 import 'logic.dart';
 
 class AssetsPublishBooksPage extends StatelessWidget {
@@ -50,7 +51,9 @@ class AssetsPublishBooksPage extends StatelessWidget {
   }
 
   Widget _item(IssuesEntity info) {
-    return Column(
+    return InkWell(
+      onTap: ()=>_onClick(info),
+      child: Column(
       children: [
         Container(
             height: 180.h,
@@ -78,7 +81,7 @@ class AssetsPublishBooksPage extends StatelessWidget {
           color: ColorX.divider,
         )
       ],
-    );
+    ),);
   }
 
   Widget _author(IssuesEntity info) => Row(children: [
@@ -111,4 +114,8 @@ class AssetsPublishBooksPage extends StatelessWidget {
           TextX(v, fontSize: FontSizeX.s13, color: ColorX.txtTitle),
         ],
       ));
+
+  _onClick(IssuesEntity info){
+    Get.to(() => IssuesDetailPage(), arguments: {'detail': info});
+  }
 }

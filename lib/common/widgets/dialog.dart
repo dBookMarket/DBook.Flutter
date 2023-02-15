@@ -46,7 +46,7 @@ class DialogX extends StatelessWidget {
             _title(),
             _content(),
             _action(context),
-            SizedBox(height: 70.h),
+            SizedBox(height: 30.h),
           ],
         ),
       ),
@@ -54,21 +54,21 @@ class DialogX extends StatelessWidget {
   }
 
   Widget _title() => Container(
-        margin: EdgeInsets.only(top: 70.h),
+        margin: EdgeInsets.only(top: 30.h),
         alignment: this.titleCenter ? Alignment.center : Alignment.centerLeft,
         padding: EdgeInsets.symmetric(horizontal: 68.w),
         child: Text(
-          this.title ?? '提示',
+          this.title ?? 'attention',
           style: TextStyle(color: ColorX.txtTitle, fontSize: FontSizeX.s16, fontWeight: FontWeight.bold),
         ),
       );
 
   Widget _content() => Container(
-        margin: EdgeInsets.only(top:(contentWidget == null && content == null) ? 0 : 50.h),
+        margin: EdgeInsets.only(top:(contentWidget == null && content == null) ? 0 : 20.h),
         constraints: BoxConstraints(maxHeight: 0.6.sh),
         child: SingleChildScrollView(
           child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 20.w),
+            padding: EdgeInsets.symmetric(horizontal: 40.w),
             child: contentWidget ??
                 (content == null
                     ? SizedBox()
@@ -81,7 +81,7 @@ class DialogX extends StatelessWidget {
       );
 
   Widget _action(BuildContext context) => Container(
-    margin: EdgeInsets.only(top: 80.h),
+    margin: EdgeInsets.only(top: 30.h),
         padding: EdgeInsets.symmetric(horizontal: 88.w),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.end,

@@ -15,6 +15,7 @@ import '../../../../common/config/app_config.dart';
 import '../../../../common/entities/issues_entity.dart';
 import '../../../../common/widgets/dialog.dart';
 import '../../../../common/widgets/view_state/base_container_view.dart';
+import '../../../issues/issues_detail/issues_detail_view.dart';
 import '../../asset_publish/asset_publish_view.dart';
 import 'logic.dart';
 
@@ -56,7 +57,9 @@ class AssetsShelvedPage extends StatelessWidget {
   }
 
   Widget _item(IssuesEntity info) {
-    return Column(
+    return InkWell(
+      onTap: ()=>_onClick('detail',param: info),
+      child: Column(
       children: [
         Container(
             height: 180.h,
@@ -67,15 +70,15 @@ class AssetsShelvedPage extends StatelessWidget {
                 SizedBox(width: 20.w),
                 Expanded(
                     child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _author(info),
-                    SizedBox(height: 20.h),
-                    TextX(info.book?.title, color: ColorX.txtTitle, fontSize: FontSizeX.s16, maxLines: 2, textAlign: TextAlign.start),
-                    Expanded(child: SizedBox()),
-                    _public(info)
-                  ],
-                ))
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _author(info),
+                        SizedBox(height: 20.h),
+                        TextX(info.book?.title, color: ColorX.txtTitle, fontSize: FontSizeX.s16, maxLines: 2, textAlign: TextAlign.start),
+                        Expanded(child: SizedBox()),
+                        _public(info)
+                      ],
+                    ))
               ],
             )),
         SizedBox(height: 30.h),
@@ -86,7 +89,7 @@ class AssetsShelvedPage extends StatelessWidget {
           color: ColorX.divider,
         )
       ],
-    );
+    ),);
   }
 
   Widget _author(IssuesEntity info) => Row(children: [
@@ -152,6 +155,9 @@ class AssetsShelvedPage extends StatelessWidget {
       case 'Revise':
         await Get.to(() => AssetPublishPage(), arguments: {'issueInfo': param});
         logic.refresh();
+        break;
+      case 'detail':
+        Get.to(() => IssuesDetailPage(), arguments: {'detail': param});
         break;
     }
   }

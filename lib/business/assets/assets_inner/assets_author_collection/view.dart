@@ -6,12 +6,14 @@ import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
 import '../../../../common/config/app_config.dart';
 import '../../../../common/entities/collection_entity.dart';
+import '../../../../common/entities/issues_entity.dart';
 import '../../../../common/values/colors.dart';
 import '../../../../common/values/fontSize.dart';
 import '../../../../common/widgets/avatar_widget.dart';
 import '../../../../common/widgets/line_widget.dart';
 import '../../../../common/widgets/text.dart';
 import '../../../../common/widgets/view_state/base_container_view.dart';
+import '../../../issues/issues_detail/issues_detail_view.dart';
 import 'logic.dart';
 
 class AssetsAuthorCollectionPage extends StatelessWidget {
@@ -50,7 +52,9 @@ class AssetsAuthorCollectionPage extends StatelessWidget {
   }
 
   Widget _item(CollectionEntity info) {
-    return Column(
+    return InkWell(
+      onTap: ()=>_onClick(info),
+        child: Column(
       children: [
         Container(
             height: 180.h,
@@ -78,7 +82,7 @@ class AssetsAuthorCollectionPage extends StatelessWidget {
           color: ColorX.divider,
         )
       ],
-    );
+    ));
   }
 
   Widget _author(CollectionEntity info) => Row(children: [
@@ -111,13 +115,8 @@ class AssetsAuthorCollectionPage extends StatelessWidget {
         ],
       ));
 
-  _onClick(type, {CollectionEntity? param}) async{
-    switch (type) {
-      case 'Take Down':
-
-        break;
-      case 'Revise':
-        break;
-    }
+  _onClick(CollectionEntity param) {
+    IssuesEntity detail = IssuesEntity.fromJson(param.issue?.toJson() ?? {});
+    Get.to(() => IssuesDetailPage(), arguments: {'detail': detail});
   }
 }

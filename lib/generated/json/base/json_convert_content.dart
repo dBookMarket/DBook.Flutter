@@ -53,6 +53,7 @@ class JsonConvert {
 		(IssuesPriceRange).toString(): IssuesPriceRange.fromJson,
 		(IssuesTrade).toString(): IssuesTrade.fromJson,
 		(IssuesBookmark).toString(): IssuesBookmark.fromJson,
+		(IssuesToken).toString(): IssuesToken.fromJson,
 		(ReadInfoEntity).toString(): ReadInfoEntity.fromJson,
 		(TradesListEntity).toString(): TradesListEntity.fromJson,
 		(TradesListUser).toString(): TradesListUser.fromJson,
@@ -230,6 +231,9 @@ List<T>? convertListNotNull<T>(dynamic value, {EnumConvertFunction? enumConvert}
 		}
 		if(<IssuesBookmark>[] is M){
 			return data.map<IssuesBookmark>((Map<String, dynamic> e) => IssuesBookmark.fromJson(e)).toList() as M;
+		}
+		if(<IssuesToken>[] is M){
+			return data.map<IssuesToken>((Map<String, dynamic> e) => IssuesToken.fromJson(e)).toList() as M;
 		}
 		if(<ReadInfoEntity>[] is M){
 			return data.map<ReadInfoEntity>((Map<String, dynamic> e) => ReadInfoEntity.fromJson(e)).toList() as M;

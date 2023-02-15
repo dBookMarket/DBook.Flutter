@@ -7,22 +7,25 @@ import 'package:get/get.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
 import '../../../../common/config/app_config.dart';
+import '../../../../common/entities/issues_entity.dart';
 import '../../../../common/values/colors.dart';
 import '../../../../common/values/fontSize.dart';
 import '../../../../common/widgets/text.dart';
 import '../../../../common/widgets/view_state/base_container_view.dart';
 import '../../../../generated/assets.dart';
+import '../../../issues/issues_detail/issues_detail_view.dart';
 import 'logic.dart';
 
 class AssetsMyCollectionPage extends StatelessWidget {
   final tag = DateTime.now().toString();
 
   AssetsMyCollectionLogic get logic => Get.find<AssetsMyCollectionLogic>(tag: tag);
+
   AssetsMyCollectionState get state => Get.find<AssetsMyCollectionLogic>(tag: tag).refreshState;
 
   @override
   Widget build(BuildContext context) {
-    Get.put(AssetsMyCollectionLogic(),tag: tag);
+    Get.put(AssetsMyCollectionLogic(), tag: tag);
 
     return BaseContainer(
       background: Colors.transparent,
@@ -44,7 +47,7 @@ class AssetsMyCollectionPage extends StatelessWidget {
           crossAxisCount: 2,
           physics: NeverScrollableScrollPhysics(),
           crossAxisSpacing: 20.w,
-          padding: EdgeInsets.symmetric(horizontal:ScreenConfig.marginH,vertical: 20.h),
+          padding: EdgeInsets.symmetric(horizontal: ScreenConfig.marginH, vertical: 20.h),
           mainAxisSpacing: 20.w,
           childAspectRatio: 0.8,
           children: state.list.map((element) => _item(element)).toList(),
@@ -60,54 +63,62 @@ class AssetsMyCollectionPage extends StatelessWidget {
     return Container(
       width: w,
       // height: h,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-        Row(
+      child: InkWell(
+        onTap: ()=>_onClick('detail',param: info),
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [Expanded(child: Image.network(info.issue?.book?.coverUrl??'',fit: BoxFit.cover,height: w,)), SizedBox(width: 10.w), _action(info)],
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                    child: Image.network(
+                  info.issue?.book?.coverUrl ?? '',
+                  fit: BoxFit.cover,
+                  height: w,
+                )),
+                SizedBox(width: 10.w),
+                _action(info)
+              ],
+            ),
+            SizedBox(height: 20.h),
+            TextX(info.issue?.book?.title, fontSize: FontSizeX.s11, color: ColorX.txtBrown, textAlign: TextAlign.start),
+          ],
         ),
-        SizedBox(height: 20.h),
-        TextX(info.issue?.book?.title, fontSize: FontSizeX.s11, color: ColorX.txtBrown,textAlign: TextAlign.start),
-      ],),
+      ),
     );
   }
 
   Widget _action(CollectionEntity info) => Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-    _button(icon: Assets.svgIssueRead, title: 'Read', info: info),
-    _button(icon: Assets.svgIssueSell, title: 'Sell', info: info),
-  ]);
+        _button(icon: Assets.svgIssueRead, title: 'Read', info: info),
+        _button(icon: Assets.svgIssueSell, title: 'Sell', info: info),
+      ]);
 
   Widget _button({Color? bgColor, Color? txtColor, required String icon, required String title, double? fontSize, CollectionEntity? info}) => InkWell(
-    onTap: () => _onClick(title, param: info),
-    child: Container(
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(20.r), color: bgColor ?? ColorX.buttonYellow),
-      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
-      margin: EdgeInsets.only(bottom: 10.h),
-      child: Row(
-        children: [SvgPicture.asset(icon, width: 26.w), TextX(title, fontSize: fontSize ?? FontSizeX.s11, color: txtColor ?? ColorX.txtTitle)],
-      ),
-    ),
-  );
+        onTap: () => _onClick(title, param: info),
+        child: Container(
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(20.r), color: bgColor ?? ColorX.buttonYellow),
+          padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
+          margin: EdgeInsets.only(bottom: 10.h),
+          child: Row(
+            children: [SvgPicture.asset(icon, width: 26.w), TextX(title, fontSize: fontSize ?? FontSizeX.s11, color: txtColor ?? ColorX.txtTitle)],
+          ),
+        ),
+      );
 
-  _onClick(type, {param}) async {
+  _onClick(type, {CollectionEntity? param}) async {
     switch (type) {
-      case 'Edit':
+      case 'Read':
         // await Get.to(() => WritingPage(), arguments: {'draftInfo': param});
-        logic.refresh();
+        // logic.refresh();
         break;
-      case 'Push':
+      case 'Sell':
         // await Get.to(() => CreateBookPage(), arguments: {'draftId': param.id});
-        logic.refresh();
+        // logic.refresh();
         break;
-      case 'Delete':
-        // Get.dialog(DialogX(
-        //   title: 'warning',
-        //   content: 'Are you sure you want to delete it?',
-        //   left: 'cancel',
-        //   right: 'OK',
-        //   rightCallback: () => logic.delete(param.id),
-        // ));
+      case 'detail':
+        IssuesEntity detail = IssuesEntity.fromJson(param?.issue?.toJson() ?? {});
+        Get.to(() => IssuesDetailPage(), arguments: {'detail': detail});
         break;
     }
   }

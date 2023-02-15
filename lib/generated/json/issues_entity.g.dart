@@ -75,7 +75,7 @@ IssuesEntity $IssuesEntityFromJson(Map<String, dynamic> json) {
 	if (nOwned != null) {
 		issuesEntity.nOwned = nOwned;
 	}
-	final dynamic token = jsonConvert.convert<dynamic>(json['token']);
+	final IssuesToken? token = jsonConvert.convert<IssuesToken>(json['token']);
 	if (token != null) {
 		issuesEntity.token = token;
 	}
@@ -106,7 +106,7 @@ Map<String, dynamic> $IssuesEntityToJson(IssuesEntity entity) {
 	data['n_owners'] = entity.nOwners;
 	data['bookmark'] = entity.bookmark?.toJson();
 	data['n_owned'] = entity.nOwned;
-	data['token'] = entity.token;
+	data['token'] = entity.token?.toJson();
 	data['destroy_log'] = entity.destroyLog;
 	return data;
 }
@@ -293,5 +293,45 @@ IssuesBookmark $IssuesBookmarkFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> $IssuesBookmarkToJson(IssuesBookmark entity) {
 	final Map<String, dynamic> data = <String, dynamic>{};
+	return data;
+}
+
+IssuesToken $IssuesTokenFromJson(Map<String, dynamic> json) {
+	final IssuesToken issuesToken = IssuesToken();
+	final int? id = jsonConvert.convert<int>(json['id']);
+	if (id != null) {
+		issuesToken.id = id;
+	}
+	final String? issue = jsonConvert.convert<String>(json['issue']);
+	if (issue != null) {
+		issuesToken.issue = issue;
+	}
+	final String? contractAddress = jsonConvert.convert<String>(json['contract_address']);
+	if (contractAddress != null) {
+		issuesToken.contractAddress = contractAddress;
+	}
+	final String? blockChain = jsonConvert.convert<String>(json['block_chain']);
+	if (blockChain != null) {
+		issuesToken.blockChain = blockChain;
+	}
+	final String? standard = jsonConvert.convert<String>(json['standard']);
+	if (standard != null) {
+		issuesToken.standard = standard;
+	}
+	final String? currency = jsonConvert.convert<String>(json['currency']);
+	if (currency != null) {
+		issuesToken.currency = currency;
+	}
+	return issuesToken;
+}
+
+Map<String, dynamic> $IssuesTokenToJson(IssuesToken entity) {
+	final Map<String, dynamic> data = <String, dynamic>{};
+	data['id'] = entity.id;
+	data['issue'] = entity.issue;
+	data['contract_address'] = entity.contractAddress;
+	data['block_chain'] = entity.blockChain;
+	data['standard'] = entity.standard;
+	data['currency'] = entity.currency;
 	return data;
 }
