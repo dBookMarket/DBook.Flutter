@@ -125,6 +125,8 @@ dependencies:
 
   connectivity_plus: ^2.3.9
 
+  flutter_inappwebview: ^5.7.2+3
+
 
 
 dev_dependencies:

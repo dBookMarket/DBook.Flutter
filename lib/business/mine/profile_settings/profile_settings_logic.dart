@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:dbook/business/mine/profile_settings/twitterAuth/twitter_auth_view.dart';
 import 'package:dbook/business/service_api/base/net_work.dart';
 import 'package:dbook/common/store/user.dart';
 import 'package:get/get.dart';
@@ -44,8 +45,28 @@ class ProfileSettingsLogic extends GetxController {
     state.buttonValid.value = true;
   }
 
-  twitterAuth()async{
+  Future<Map<String, String>?> twitterAuth() async {
+    state.setBusy();
+    var result = await NetWork.getInstance().user.twitterAuth().onError((error, stackTrace) => state.setError(t: 'failed'));
+    state.setIdle();
+    if (result.isNotEmpty) {
+      Map<String, String> param = await Get.to(() => TwitterAuthView('Twitter Auth', result));
+      return param;
+    }
+    return null;
+  }
 
+  sendTwitter({required String? token, required String? verifier}) async {
+    if(state.twitterController.text.isEmpty) return;
+    // 取消对话框
+    Get.back();
+    state.setBusy();
+    var result = await NetWork.getInstance()
+        .user
+        .sendTwitter(token: token, verifier: verifier, content: state.twitterController.text)
+        .onError((error, stackTrace) => state.setError(t: 'send failed'));
+    state.setSuccess(t: result);
+    UserStore.to.getUserInfo();
   }
 
   commit() async {

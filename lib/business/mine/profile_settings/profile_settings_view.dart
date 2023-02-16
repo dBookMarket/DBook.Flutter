@@ -16,12 +16,15 @@ import 'package:get/get.dart';
 import '../../../common/utils/loading.dart';
 import '../../../common/values/colors.dart';
 import '../../../common/values/fontSize.dart';
+import '../../../common/widgets/dialog.dart';
 import '../../../common/widgets/text.dart';
 import 'profile_settings_logic.dart';
 
 class ProfileSettingsPage extends StatelessWidget {
   final logic = Get.put(ProfileSettingsLogic());
-  final state = Get.find<ProfileSettingsLogic>().state;
+  final state = Get
+      .find<ProfileSettingsLogic>()
+      .state;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +37,8 @@ class ProfileSettingsPage extends StatelessWidget {
     );
   }
 
-  Widget _body() => SingleChildScrollView(
+  Widget _body() =>
+      SingleChildScrollView(
         padding: EdgeInsets.symmetric(horizontal: ScreenConfig.marginH, vertical: 30.h),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -43,7 +47,7 @@ class ProfileSettingsPage extends StatelessWidget {
             _twitter(),
             _bannerSelect(),
             // _item(title: 'Banners', controller: state.bannerController),
-            _item(title: 'User name', controller: state.nameController,hint: ''),
+            _item(title: 'User name', controller: state.nameController, hint: ''),
             _item(title: 'Description', controller: state.descController, maxLines: 3, hint: 'Introduce yourself...'),
 
             _item(title: 'Site', controller: state.siteController, hint: 'https://'),
@@ -54,7 +58,8 @@ class ProfileSettingsPage extends StatelessWidget {
         ),
       );
 
-  Widget _avatar() => Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+  Widget _avatar() =>
+      Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         TextX('Avatar', fontSize: FontSizeX.s13, color: ColorX.txtTitle),
         GestureDetector(
           onTap: () => _onClick('avatar'),
@@ -105,7 +110,8 @@ class ProfileSettingsPage extends StatelessWidget {
     );
   }
 
-  Widget _commitButton() => Obx(() {
+  Widget _commitButton() =>
+      Obx(() {
         return ButtonX(
           'Commit',
           margin: EdgeInsets.only(top: 60.h),
@@ -119,93 +125,131 @@ class ProfileSettingsPage extends StatelessWidget {
         );
       });
 
-  Widget _twitter() => Container(
+  Widget _twitter() =>
+      Container(
         margin: EdgeInsets.only(top: 30.h),
-        child: Row(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            TextX('Authentication', color: ColorX.txtTitle, fontSize: FontSizeX.s13),
-            Expanded(child: SizedBox()),
-            SvgPicture.asset(Assets.svgLogoTwitter, width: 30.w),
-            TextX(
-              'Twitter',
-              fontSize: FontSizeX.s13,
-              color: ColorX.txtDesc,
+            Row(
+              children: [
+                TextX('Authentication', color: ColorX.txtTitle, fontSize: FontSizeX.s13),
+                Expanded(child: SizedBox()),
+                SvgPicture.asset(Assets.svgLogoTwitter, width: 30.w),
+                TextX(
+                  'Twitter',
+                  fontSize: FontSizeX.s13,
+                  color: ColorX.txtDesc,
+                ),
+                SizedBox(width: 40.w),
+                ButtonX(
+                  'Go',
+                  autoWidth: true,
+                  backgroundColor: Color(0xFF42392B),
+                  borderRadius: 0,
+                  textColor: ColorX.txtYellow,
+                  fontSize: FontSizeX.s13,
+                  padding: EdgeInsets.symmetric(vertical: 18.h, horizontal: 40.w),
+                  onPressed: () => _onClick('twitter'),
+                )
+              ],
             ),
-            SizedBox(width: 40.w),
-            ButtonX(
-              'Go',
-              autoWidth: true,
-              backgroundColor: Color(0xFF42392B),
-              borderRadius: 0,
-              textColor: ColorX.txtYellow,
-              fontSize: FontSizeX.s13,
-              padding: EdgeInsets.symmetric(vertical: 18.h, horizontal: 40.w),
-            )
+            _twitterAddress()
           ],
         ),
       );
 
-  Widget _tag(String title, {double? marginTop}) => Container(
+  Widget _twitterAddress() {
+    return Obx(() {
+      if (!(UserStore.to.userInfo.isVerified ?? false)) return SizedBox();
+      return Container(
+        padding: EdgeInsets.symmetric(horizontal: 17.w),
+        margin: EdgeInsets.only(top: 15.h),
+        decoration: BoxDecoration(
+          color: Color(0xFFFFF7EC),
+          border: Border.all(width: 1.r, color: ColorX.txtTitle),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(child: TextX(UserStore.to.userInfo.twitterUrl, fontSize: FontSizeX.s11, color: ColorX.txtTitle, textAlign: TextAlign.start)),
+            GestureDetector(
+              child: Container(
+                padding: EdgeInsets.symmetric(vertical: 26.h),
+                child: SvgPicture.asset(Assets.svgCopy, width: 20.r),
+              ),
+              onTap: () => _onClick('copy', param: UserStore.to.userInfo.twitterUrl),
+            )
+          ],
+        ),
+      );
+    });
+  }
+
+  Widget _tag(String title, {double? marginTop}) =>
+      Container(
         child: TextX(title, color: ColorX.txtTitle, fontSize: FontSizeX.s13),
         margin: EdgeInsets.only(top: marginTop ?? 30.h, bottom: 15.h),
       );
 
-  Widget _item({required String title, required TextEditingController controller, String? hint, int? maxLines}) => Column(
+  Widget _item({required String title, required TextEditingController controller, String? hint, int? maxLines}) =>
+      Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _tag(title),
-          TextField(
-            maxLines: maxLines ?? 1,
-            maxLength: 300,
-            textAlignVertical: TextAlignVertical.bottom,
-            textAlign: TextAlign.start,
-            style: TextStyle(fontSize: FontSizeX.s11, color: ColorX.txtTitle),
-            controller: controller,
-            decoration: InputDecoration(
-              isCollapsed: true,
-              contentPadding: EdgeInsets.symmetric(horizontal: 17.w, vertical: 24.h),
-              fillColor: Colors.white,
-              filled: true,
-              hintText: hint,
-              hintStyle: TextStyle(color: Color(0xFF999999), fontSize: FontSizeX.s11),
-              counterText: '',
-              enabledBorder: OutlineInputBorder(
-                /*边角*/
-                borderRadius: BorderRadius.zero,
-                borderSide: BorderSide(
-                  color: ColorX.txtTitle,
-                  width: 1.r,
-                ),
-              ),
-              disabledBorder: OutlineInputBorder(
-                /*边角*/
-                borderRadius: BorderRadius.zero,
-                borderSide: BorderSide(
-                  color: ColorX.txtTitle,
-                  width: 1.r,
-                ),
-              ),
-              border: OutlineInputBorder(
-                /*边角*/
-                borderRadius: BorderRadius.zero,
-                borderSide: BorderSide(
-                  color: ColorX.txtTitle,
-                  width: 1.r,
-                ),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(
-                  color: ColorX.txtTitle,
-                  width: 1.r,
-                ),
-                borderRadius: BorderRadius.zero,
-              ),
-            ),
-          )
-        ],
+        children: [_tag(title), _textField(controller: controller, hint: hint, maxLines: maxLines)],
       );
 
-  Widget _address() => Column(
+  Widget _textField({required TextEditingController controller, String? hint, int? maxLines}) =>
+      TextField(
+        maxLines: maxLines ?? 1,
+        maxLength: 300,
+        textAlignVertical: TextAlignVertical.bottom,
+        textAlign: TextAlign.start,
+        style: TextStyle(fontSize: FontSizeX.s11, color: ColorX.txtTitle),
+        controller: controller,
+        decoration: InputDecoration(
+          isCollapsed: true,
+          contentPadding: EdgeInsets.symmetric(horizontal: 17.w, vertical: 24.h),
+          fillColor: Colors.white,
+          filled: true,
+          hintText: hint,
+          hintStyle: TextStyle(color: Color(0xFF999999), fontSize: FontSizeX.s11),
+          counterText: '',
+          enabledBorder: OutlineInputBorder(
+            /*边角*/
+            borderRadius: BorderRadius.zero,
+            borderSide: BorderSide(
+              color: ColorX.txtTitle,
+              width: 1.r,
+            ),
+          ),
+          disabledBorder: OutlineInputBorder(
+            /*边角*/
+            borderRadius: BorderRadius.zero,
+            borderSide: BorderSide(
+              color: ColorX.txtTitle,
+              width: 1.r,
+            ),
+          ),
+          border: OutlineInputBorder(
+            /*边角*/
+            borderRadius: BorderRadius.zero,
+            borderSide: BorderSide(
+              color: ColorX.txtTitle,
+              width: 1.r,
+            ),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: ColorX.txtTitle,
+              width: 1.r,
+            ),
+            borderRadius: BorderRadius.zero,
+          ),
+        ),
+      );
+
+  Widget _address() =>
+      Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _tag('Wallet address'),
@@ -224,7 +268,7 @@ class ProfileSettingsPage extends StatelessWidget {
                     padding: EdgeInsets.symmetric(vertical: 26.h),
                     child: SvgPicture.asset(Assets.svgCopy, width: 20.r),
                   ),
-                  onTap: () => _onClick('copy'),
+                  onTap: () => _onClick('copy', param: UserStore.to.address),
                 )
               ],
             ),
@@ -232,10 +276,10 @@ class ProfileSettingsPage extends StatelessWidget {
         ],
       );
 
-  _onClick(action, {param}) {
+  _onClick(action, {param}) async {
     switch (action) {
       case 'copy':
-        Clipboard.setData(ClipboardData(text: UserStore.to.address));
+        Clipboard.setData(ClipboardData(text: param));
         showSuccess(t: 'copy successfully');
         break;
       case 'avatar':
@@ -246,6 +290,19 @@ class ProfileSettingsPage extends StatelessWidget {
         break;
       case 'commit':
         logic.commit();
+        break;
+      case 'twitter':
+        Map<String, String>? result = await logic.twitterAuth();
+
+        Get.dialog(DialogX(
+          title: 'warning',
+          contentWidget: _textField(controller: state.twitterController, hint: '', maxLines: 3),
+          left: 'cancel',
+          right: 'OK',
+          needPop: false,
+          leftCallback: () => Get.back(),
+          rightCallback: () => logic.sendTwitter(token: result?['oauth_token'], verifier: result?['oauth_verifier']),
+        ));
         break;
     }
   }

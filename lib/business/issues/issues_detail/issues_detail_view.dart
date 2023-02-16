@@ -22,6 +22,7 @@ import '../../../common/utils/date.dart';
 import '../../asset_detail/asset_detail_view.dart';
 import '../../assets/assets_state.dart';
 import '../../assets/assets_view.dart';
+import '../../mine/profile_settings/twitterShare/twitter_share_view.dart';
 import '../issues_state.dart';
 import 'issues_detail_logic.dart';
 
@@ -40,6 +41,7 @@ class IssuesDetailPage extends StatelessWidget {
   List<Widget> _action() => [_share(), _wish()];
 
   Widget _share() => GestureDetector(
+        onTap: () => _onClick('share'),
         child: Container(
           padding: EdgeInsets.only(right: ScreenConfig.marginH / 2),
           child: SvgPicture.asset(
@@ -384,8 +386,8 @@ class IssuesDetailPage extends StatelessWidget {
       case '试读':
         Get.to(() => AssetDetailPage(),
             arguments: Map.of({
-              'bookName': param.book.title,
-              'bookId': param.book.id,
+              'bookName': param.bookName.title,
+              'bookId': param.bookName.id,
               'currentPage': 0,
               'markId': 0,
               'markIssue': 0,
@@ -422,6 +424,13 @@ class IssuesDetailPage extends StatelessWidget {
         break;
       case 'wish':
         logic.wish();
+        break;
+      case 'share':
+        Get.to(() => TwitterShareView(
+              authorName: state.issuesInfo.value.book?.author?.name ?? '',
+              bookId: state.issuesInfo.value.id.toString(),
+              bookName: state.issuesInfo.value.book?.title??'',
+            ));
         break;
     }
   }

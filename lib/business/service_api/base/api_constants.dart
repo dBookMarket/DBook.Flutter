@@ -14,6 +14,10 @@ class ApiConstants {
   /// 个人资料
   static final String current = "users/current";
 
+  /// twitter
+  static final String twitterAuth = "users/auth";
+  static final String twitterShare = "users/share";
+
   /// 推荐书籍
   static final String advertisements = "advertisements";
 

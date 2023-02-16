@@ -11,6 +11,7 @@ class ProfileSettingsState extends BaseState{
   TextEditingController descController = TextEditingController();
   TextEditingController siteController = TextEditingController();
   TextEditingController discordController = TextEditingController();
+  TextEditingController twitterController = TextEditingController();
 
   final avatar = Rx<File?>(null);
   final banner = Rx<File?>(null);

@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:dbook/business/mine/profile_settings/twitterShare/twitter_share_view.dart';
 import 'package:dbook/common/config/app_config.dart';
 import 'package:dbook/common/store/store.dart';
 import 'package:dbook/common/utils/logger.dart';
@@ -93,6 +94,7 @@ class AssetsPage extends StatelessWidget {
   List<Widget> _action() => [_share(), _collect()];
 
   Widget _share() => GestureDetector(
+        onTap: () => _onClick('share'),
         child: Container(
           padding: EdgeInsets.only(right: ScreenConfig.marginH / 2),
           child: SvgPicture.asset(
@@ -278,13 +280,16 @@ class AssetsPage extends StatelessWidget {
         logic.collect();
         break;
       case 'website':
-        Get.to(()=>WebPageView(state.userInfo.value.name??'',state.userInfo.value.websiteUrl??''));
+        Get.to(() => WebPageView(state.userInfo.value.name ?? '', state.userInfo.value.websiteUrl ?? ''));
         break;
       case 'discord':
-        Get.to(()=>WebPageView(state.userInfo.value.name??'',state.userInfo.value.discordUrl??''));
+        Get.to(() => WebPageView(state.userInfo.value.name ?? '', state.userInfo.value.discordUrl ?? ''));
         break;
       case 'twitter':
-        Get.to(()=>WebPageView(state.userInfo.value.name??'',state.userInfo.value.twitterUrl??''));
+        Get.to(() => WebPageView(state.userInfo.value.name ?? '', state.userInfo.value.twitterUrl ?? ''));
+        break;
+      case 'share':
+        Get.to(() => TwitterShareView(authorName: state.userInfo.value.name ?? '', authorId: state.userInfo.value.id.toString()));
         break;
     }
   }

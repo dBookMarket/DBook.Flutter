@@ -38,7 +38,7 @@ class DialogX extends StatelessWidget {
       backgroundColor: Colors.transparent,
       // insetPadding: EdgeInsets.symmetric(horizontal: 120.w),
       child: Container(
-        decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(28.r)), color: ColorX.bgDialog),
+        decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(0.r)), color: ColorX.bgDialog),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
@@ -59,7 +59,7 @@ class DialogX extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 68.w),
         child: Text(
           this.title ?? 'attention',
-          style: TextStyle(color: ColorX.txtTitle, fontSize: FontSizeX.s16, fontWeight: FontWeight.bold),
+          style: TextStyle(color: ColorX.txtTitle, fontSize: FontSizeX.s20),
         ),
       );
 
@@ -74,7 +74,7 @@ class DialogX extends StatelessWidget {
                     ? SizedBox()
                     : Text(
                         this.content ?? '',
-                        style: TextStyle(color: ColorX.txtDesc, fontSize: FontSizeX.s18),
+                        style: TextStyle(color: ColorX.txtDesc, fontSize: FontSizeX.s16),
                       )),
           ),
         ),
@@ -92,11 +92,11 @@ class DialogX extends StatelessWidget {
                     child: ButtonX(
                     left!,
                     autoWidth: true,
-                    borderRadius: 100.r,
+                    borderRadius: 0.r,
                     padding: EdgeInsets.symmetric(vertical: 10.h),
-                    backgroundColor: this.leftColor ?? ColorX.buttonInValid,
-                    borderColor: ColorX.buttonInValid,
-                    textColor: ColorX.txtTitle,
+                    backgroundColor: this.leftColor ?? Color(0xFFFFF7E9),
+                    borderColor: Color(0xFFFFF7E9),
+                    textColor: Color(0xFF50483B),
                     borderWidth: 3.r,
                     fontSize: FontSizeX.s14,
                     onPressed: () {
@@ -115,11 +115,11 @@ class DialogX extends StatelessWidget {
                     child: ButtonX(
                     right!,
                     autoWidth: true,
-                    borderRadius: 100.r,
+                    borderRadius: 0.r,
                     padding: EdgeInsets.symmetric(vertical: 10.h),
-                    backgroundColor: this.rightColor ?? ColorX.buttonYellow,
-                    borderColor: ColorX.buttonYellow,
-                    textColor: ColorX.txtWhite,
+                    backgroundColor: this.rightColor ?? Color(0xFF50483B),
+                    borderColor: Color(0xFF50483B),
+                    textColor: Color(0xFFFFE1B4),
                     fontSize: FontSizeX.s14,
                     onPressed: () {
                       if(needPop??true){

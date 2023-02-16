@@ -106,6 +106,21 @@ class UserApi {
     return response;
   }
 
+  Future<String> twitterAuth() async {
+    Map<String, dynamic> params = Map();
+    var response = await httpX.put(ApiConstants.twitterAuth, data: params);
+    return response['auth_uri'];
+  }
+
+  Future<String> sendTwitter({required String? token,required String? verifier,required String content}) async {
+    Map<String, dynamic> params = Map();
+    params['oauth_token'] = token;
+    params['oauth_verifier'] = verifier;
+    params['content'] = content;
+    var response = await httpX.put(ApiConstants.twitterShare, data: params);
+    return response['detail'];
+  }
+
 
   Future<List<FansEntity>> fansCurrent({int? page}) async {
     Map<String, dynamic> params = Map();
