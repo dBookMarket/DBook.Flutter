@@ -4,6 +4,7 @@ class Assets {
 
   static const String assetsLoading = 'assets/loading.json';
   static const String filesBaseBlock = 'assets/files/base_block.stk';
+  static const String filesContract = 'assets/files/contract.json';
   static const String filesLottieEmpty = 'assets/files/lottie_empty.json';
   static const String filesLottieError = 'assets/files/lottie_error.json';
   static const String filesLottieLoading = 'assets/files/lottie_loading.json';

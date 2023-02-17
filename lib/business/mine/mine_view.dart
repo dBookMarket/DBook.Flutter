@@ -2,6 +2,7 @@ import 'package:dbook/business/assets/assets_state.dart';
 import 'package:dbook/business/mine/writing/view.dart';
 import 'package:dbook/common/config/app_config.dart';
 import 'package:dbook/common/store/user.dart';
+import 'package:dbook/common/utils/logger.dart';
 import 'package:dbook/common/utils/string_helper.dart';
 import 'package:dbook/common/values/colors.dart';
 import 'package:dbook/common/values/values.dart';
@@ -16,6 +17,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
+import '../../common/store/web3.dart';
 import '../assets/assets_view.dart';
 import 'concern/concern_view.dart';
 import 'create_book/create_book_view.dart';
@@ -129,7 +131,7 @@ class MinePage extends StatelessWidget {
         ),
       );
 
-  _onClick(String action) {
+  _onClick(String action) async{
     switch (action) {
       case 'create':
         Get.to(() => CreateBookPage());
@@ -138,6 +140,8 @@ class MinePage extends StatelessWidget {
         Get.to(() => AssetsPage(),arguments: {'title':'My Assets','assetsType':AssetsType.MY_ASSETS,'tabIndex':0},preventDuplicates:false);
         break;
       case 'Wallet activity':
+        var balance = await Web3Store.to.getTokenBalance(UserStore.to.address??'');
+        logX.d('钱包余额>>>>$balance');
         break;
       case 'Concern':
         Get.to(()=>ConcernPage());
