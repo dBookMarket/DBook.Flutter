@@ -1,0 +1,14 @@
+[
+  {
+    "chain": "Polygon",
+    "chainAddress": "0x93d633d2E5c2312A4d53f03C517C86563C9FC8fb",
+    "coin": "USDC-ERC20",
+    "rpc": ""
+  },
+  {
+    "chain": "BSC",
+    "chainAddress": "0x425F41d0F330021E72Ff70CB218fbD26559C509a",
+    "coin": "USDC-BEP20",
+    "rpc": ""
+  }
+]

@@ -1,22 +1,23 @@
-import 'package:dbook/common/values/values.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
+import '../../../common/values/colors.dart';
+import '../../../common/values/fontSize.dart';
 import '../../../common/widgets/appBar.dart';
 import '../../../common/widgets/flutter_copy/tab_indicator.dart';
 import '../../../common/widgets/text.dart';
-import 'concern_logic.dart';
+import 'wallet_logic.dart';
 
-class ConcernPage extends StatelessWidget {
-  final logic = Get.put(ConcernLogic());
-  final state = Get.find<ConcernLogic>().state;
+class WalletPage extends StatelessWidget {
+  final logic = Get.put(WalletLogic());
+  final state = Get.find<WalletLogic>().state;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appBar(
-        title: 'Concern',
+        title: 'Purse',
         bottom: _filter(),
       ),
       body: _pageView(),

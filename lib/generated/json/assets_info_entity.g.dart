@@ -19,11 +19,11 @@ AssetsInfoEntity $AssetsInfoEntityFromJson(Map<String, dynamic> json) {
 	if (pageNumber != null) {
 		assetsInfoEntity.pageNumber = pageNumber;
 	}
-	final dynamic next = jsonConvert.convert<dynamic>(json['next']);
+	final dynamic? next = jsonConvert.convert<dynamic>(json['next']);
 	if (next != null) {
 		assetsInfoEntity.next = next;
 	}
-	final dynamic previous = jsonConvert.convert<dynamic>(json['previous']);
+	final dynamic? previous = jsonConvert.convert<dynamic>(json['previous']);
 	if (previous != null) {
 		assetsInfoEntity.previous = previous;
 	}

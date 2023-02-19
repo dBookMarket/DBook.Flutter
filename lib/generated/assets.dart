@@ -10,6 +10,7 @@ class Assets {
   static const String filesLottieLoading = 'assets/files/lottie_loading.json';
   static const String filesLottieNoNet = 'assets/files/lottie_no_net.json';
   static const String filesResPng = 'assets/files/res_png.sse';
+  static const String filesWalletConfig = 'assets/files/wallet_config.json';
   static const String fontsAvenirBook = 'assets/fonts/Avenir-Book.ttf';
   static const String fontsDemoIndex = 'assets/fonts/demo_index.html';
   static const String fontsIconfont = 'assets/fonts/iconfont.ttf';

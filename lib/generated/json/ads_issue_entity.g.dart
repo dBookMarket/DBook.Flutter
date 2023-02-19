@@ -95,7 +95,7 @@ AdsIssueIssue $AdsIssueIssueFromJson(Map<String, dynamic> json) {
 	if (nOwned != null) {
 		adsIssueIssue.nOwned = nOwned;
 	}
-	final dynamic token = jsonConvert.convert<dynamic>(json['token']);
+	final dynamic? token = jsonConvert.convert<dynamic>(json['token']);
 	if (token != null) {
 		adsIssueIssue.token = token;
 	}
