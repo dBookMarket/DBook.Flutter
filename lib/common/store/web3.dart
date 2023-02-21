@@ -78,6 +78,7 @@ class Web3Store extends GetxController {
     }
   }
 
+  // 发布书籍每次都需要授权
   // Step 1，调用NFT合约setApprovalForAll()进行授权给platform合约，若成功，转step 2；
   // tep 2，调用issue接口发布书籍。
   setApprovalForAll(PublicChainType type) async {
@@ -104,8 +105,14 @@ class Web3Store extends GetxController {
     }
   }
 
-  payFirstTrade(PublicChainType type) async {
-    await _ask(client: _getClient(type), deployedContract: _deployedContract(type, AbiType.nft), func: 'payFirstTrade', param: [_contractAddress(AbiType.platform, type), true]);
+  payFirstTrade({required PublicChainType type, required int amount, required double price}) async {
+    var tradeValue = BigInt.from(amount * price);
+    await _ask(
+      client: _getClient(type),
+      deployedContract: _deployedContract(type, AbiType.platform),
+      func: 'payFirstTrade',
+      param: [_toWei(tradeValue)],
+    );
   }
 
   PublicChainType? formatChainType(String chainType) {
@@ -116,6 +123,11 @@ class Web3Store extends GetxController {
     } else {
       return null;
     }
+  }
+
+  _toWei(BigInt amount) {
+    // 1 usdc = 1000000 wei
+    return amount * BigInt.from(pow(10, 6));
   }
 
   Web3Client _getClient(PublicChainType type) {
@@ -136,7 +148,7 @@ class Web3Store extends GetxController {
   }
 
   Future<dynamic> _ask({required Web3Client client, required DeployedContract deployedContract, required String func, param}) async {
-    logX.d('请求合约>>>>>>>deployedContract ${deployedContract.address} \nparam $param');
+    logX.d('请求合约$func>>>>>>>deployedContract ${deployedContract.address} \nparam $param');
     try {
       final response = await client.call(
         sender: EthereumAddress.fromHex(_userAddress!),

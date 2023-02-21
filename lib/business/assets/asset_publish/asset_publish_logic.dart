@@ -53,8 +53,8 @@ class AssetPublishLogic extends GetxController {
     checkButtonValid();
   }
 
-  setTime(value) {
-    state.publishTime.value = value;
+  setTime(DateTime value) {
+    state.publishTime.value = value.add(Duration(minutes: 2));
     checkButtonValid();
   }
 
@@ -65,10 +65,19 @@ class AssetPublishLogic extends GetxController {
       state.setError(t: 'invalid chain');
       return ;
     }
-    bool isApproved = await Web3Store.to.isApprovedForAll(chainType);
-    logX.d('是否授权>>>>>>$isApproved');
-    if (!isApproved) {
+
+    // 每次都需要授权
+    // bool isApproved = await Web3Store.to.isApprovedForAll(chainType);
+    // logX.d('是否授权>>>>>>$isApproved');
+    // if (!isApproved) {
+    //   await Web3Store.to.setApprovalForAll(chainType);
+    // }
+
+    try {
       await Web3Store.to.setApprovalForAll(chainType);
+    } catch (e) {
+      state.setError(t: 'setApprovalForAll error');
+      return;
     }
 
     await NetWork.getInstance()
@@ -79,7 +88,7 @@ class AssetPublishLogic extends GetxController {
             quantity: state.countController.text,
             royalty: state.royaltiesController.text,
             buyLimit: state.limitController.text,
-            publishedAt: state.publishTime.value.toString(),
+            publishedAt: state.publishTime.value?.toUtc().toString(),
             duration: state.periodController.text,
             blockChain: state.publicChain.value,
             currency: state.currencyController.text,

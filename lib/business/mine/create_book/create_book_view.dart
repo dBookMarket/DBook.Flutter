@@ -344,7 +344,10 @@ class CreateBookPage extends StatelessWidget {
         await logic.uploadBook();
         Get.dialog(
             _headerForDialog(
-              callback: () => Get.to(() => AssetsPage(), arguments: {'title': 'My Assets', 'assetsType': AssetsType.MY_ASSETS, 'tabIndex': 1}, preventDuplicates: false),
+              callback: () => {
+                Get.until((route) => route.isFirst),
+                Get.to(() => AssetsPage(), arguments: {'title': 'My Assets', 'assetsType': AssetsType.MY_ASSETS, 'tabIndex': 1}, preventDuplicates: false),
+              },
             ),
             arguments: {'detail': null});
         break;

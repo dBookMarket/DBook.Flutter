@@ -82,7 +82,7 @@ class DialogX extends StatelessWidget {
 
   Widget _action(BuildContext context) => Container(
     margin: EdgeInsets.only(top: 30.h),
-        padding: EdgeInsets.symmetric(horizontal: 88.w),
+        padding: EdgeInsets.symmetric(horizontal: 50.w),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
@@ -93,7 +93,7 @@ class DialogX extends StatelessWidget {
                     left!,
                     autoWidth: true,
                     borderRadius: 0.r,
-                    padding: EdgeInsets.symmetric(vertical: 10.h),
+                    padding: EdgeInsets.symmetric(vertical: 16.h),
                     backgroundColor: this.leftColor ?? Color(0xFFFFF7E9),
                     borderColor: Color(0xFFFFF7E9),
                     textColor: Color(0xFF50483B),
@@ -116,7 +116,7 @@ class DialogX extends StatelessWidget {
                     right!,
                     autoWidth: true,
                     borderRadius: 0.r,
-                    padding: EdgeInsets.symmetric(vertical: 10.h),
+                    padding: EdgeInsets.symmetric(vertical: 16.h),
                     backgroundColor: this.rightColor ?? Color(0xFF50483B),
                     borderColor: Color(0xFF50483B),
                     textColor: Color(0xFFFFE1B4),

@@ -47,7 +47,7 @@ class AssetsPendingPage extends StatelessWidget {
           crossAxisCount: 2,
           physics: NeverScrollableScrollPhysics(),
           crossAxisSpacing: 20.w,
-          padding: EdgeInsets.symmetric(horizontal:ScreenConfig.marginH,vertical: 20.h),
+          padding: EdgeInsets.symmetric(horizontal: ScreenConfig.marginH, vertical: 20.h),
           mainAxisSpacing: 20.w,
           childAspectRatio: 0.9,
           children: state.list.map((element) => _item(element)).toList(),
@@ -66,18 +66,29 @@ class AssetsPendingPage extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Expanded(child: Row(
+          Expanded(
+              child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [Expanded(child: Image.network(info.coverUrl ?? '', fit: BoxFit.cover, height: h)), SizedBox(width: 10.w), _action(info)],
+            children: [
+              Expanded(
+                  child: Stack(
+                children: [
+                  Image.network(info.coverUrl ?? '', fit: BoxFit.cover, height: h,width: w,),
+                  info.status == 'success'
+                      ? SizedBox()
+                      : Container(width: w, height: h, child: TextX('data\nprocessing', color: ColorX.txtTitle), color: Colors.grey.withOpacity(0.9), alignment: Alignment.center)
+                ],
+              )),
+              SizedBox(width: 10.w),
+              _action(info)
+            ],
           )),
           SizedBox(height: 10.h),
-          TextX(info.title,maxLines: 2,textAlign: TextAlign.start,color: ColorX.txtDesc)
-
+          TextX(info.title, maxLines: 2, textAlign: TextAlign.start, color: ColorX.txtDesc)
         ],
       ),
     );
   }
-
 
   Widget _action(info) => Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         _button(icon: Assets.svgDraftModify, title: 'Edit', info: info),
@@ -104,6 +115,10 @@ class AssetsPendingPage extends StatelessWidget {
         logic.refresh();
         break;
       case 'Push':
+        if (param.status != 'success') {
+          Get.snackbar('warning', 'Please wait for the data to be processed');
+          return;
+        }
         await Get.to(() => AssetPublishPage(), arguments: {'bookInfo': param});
         logic.refresh();
         break;

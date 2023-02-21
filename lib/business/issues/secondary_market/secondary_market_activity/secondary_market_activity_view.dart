@@ -100,8 +100,8 @@ class SecondaryMarketActivityPage extends StatelessWidget {
         ),
       ),
       TextX(item.quantity.toString(), fontSize: FontSizeX.s11, color: ColorX.txtTitle),
-      TextX(formatAddress(item.seller?.address), fontSize: FontSizeX.s11, color: ColorX.txtTitle),
       TextX(formatAddress(item.buyer?.address), fontSize: FontSizeX.s11, color: ColorX.txtTitle),
+      TextX(formatAddress(item.seller?.address), fontSize: FontSizeX.s11, color: ColorX.txtTitle),
       TextX(item.createdAt, fontSize: FontSizeX.s11, color: ColorX.txtTitle),
       SizedBox(height: 40.h)
     ]);

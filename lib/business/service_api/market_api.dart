@@ -31,12 +31,11 @@ class MarketApi {
     //do stuff
   }
 
-  Future<List<TradesListEntity>> trades({required String issueId,int? page}) async {
-
+  Future<List<TradesListEntity>> trades({required String issueId, int? page}) async {
     Map<String, dynamic> params = Map();
     params['issue'] = issueId;
     params['page'] = page;
-    var response = await httpX.get(ApiConstants.trades,queryParameters: params);
+    var response = await httpX.get(ApiConstants.trades, queryParameters: params);
 
     List<TradesListEntity>? trades;
     try {
@@ -48,15 +47,14 @@ class MarketApi {
     return trades;
   }
 
-  Future<List<TransactionsListEntity>> transactionsUser({required String? userId,int? page}) async {
-
+  Future<List<TransactionsListEntity>> transactionsUser({required String? userId, int? page}) async {
     Map<String, dynamic> params = Map();
-    if(userId!=null){
+    if (userId != null) {
       params['user'] = userId;
     }
     params['page'] = page;
 
-    var response = await httpX.get(ApiConstants.transactions,queryParameters: params);
+    var response = await httpX.get(ApiConstants.transactions, queryParameters: params);
     List<TransactionsListEntity>? t;
     try {
       t = (response['results'] as List).map((value) => TransactionsListEntity.fromJson(value)).toList();
@@ -70,7 +68,7 @@ class MarketApi {
   Future<List<TransactionsListEntity>> transactionsCurrent({int? page}) async {
     Map<String, dynamic> params = Map();
     params['page'] = page;
-    var response = await httpX.get(ApiConstants.transactionsCurrent,queryParameters: params);
+    var response = await httpX.get(ApiConstants.transactionsCurrent, queryParameters: params);
 
     List<TransactionsListEntity>? t;
     try {
@@ -82,14 +80,14 @@ class MarketApi {
     return t;
   }
 
-  Future<List<TransactionsListEntity>> transactionsIssue({String? issueId,int? page}) async {
+  Future<List<TransactionsListEntity>> transactionsIssue({String? issueId, int? page}) async {
     Map<String, dynamic> params = Map();
-    if(issueId!=null){
+    if (issueId != null) {
       params['issue'] = issueId;
     }
     params['page'] = page;
 
-    var response = await httpX.get(ApiConstants.transactions,queryParameters: params);
+    var response = await httpX.get(ApiConstants.transactions, queryParameters: params);
 
     List<TransactionsListEntity>? t;
     try {
@@ -102,11 +100,10 @@ class MarketApi {
   }
 
   Future<List<CollectionEntity>> pendingOrders({int? page}) async {
-
     Map<String, dynamic> params = Map();
     params['page'] = page;
 
-    var response = await httpX.get(ApiConstants.tradesCurrent,queryParameters: params);
+    var response = await httpX.get(ApiConstants.tradesCurrent, queryParameters: params);
 
     List<CollectionEntity>? orders;
     try {
@@ -118,19 +115,18 @@ class MarketApi {
     return orders;
   }
 
-  Future<List<TrendListEntity>> trendList({required String issueId,int? page}) async {
-
+  Future<List<TrendListEntity>> trendList({required String issueId, int? page}) async {
     Map<String, dynamic> params = Map();
     params['issue'] = issueId;
     params['page'] = page;
-    var response = await httpX.get(ApiConstants.trendList,queryParameters: params);
+    var response = await httpX.get(ApiConstants.trendList, queryParameters: params);
 
     List<TrendListEntity>? t;
     try {
       List d = (response['dates'] as List);
       List q = (response['quantities'] as List);
 
-      t = d.asMap().keys.map((index) => TrendListEntity.fromJson({'date':d[index],'quantities':q[index]})).toList();
+      t = d.asMap().keys.map((index) => TrendListEntity.fromJson({'date': d[index], 'quantities': q[index]})).toList();
     } catch (e) {
       logX.e(e);
       throw DataParseException();
@@ -138,4 +134,17 @@ class MarketApi {
     return t;
   }
 
+  Future<dynamic> transaction({required int tradeId, required int quantity, String? status, String? hash}) async {
+    Map<String, dynamic> params = Map();
+    params['trade'] = tradeId;
+    params['quantity'] = quantity;
+    if (status != null) {
+      params['status'] = status;
+    }
+    if (hash != null) {
+      params['hash'] = hash;
+    }
+    var response = await httpX.post(ApiConstants.transactions, data: params);
+    return response;
+  }
 }

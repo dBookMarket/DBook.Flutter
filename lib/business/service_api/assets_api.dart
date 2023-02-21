@@ -290,6 +290,20 @@ class AssetsApi {
     return issues;
   }
 
+  Future issueDetail({required String issueId}) async {
+    Map<String, dynamic> params = Map();
+    var response = await httpX.get('${ApiConstants.issues}/$issueId', queryParameters: params);
+
+    IssuesEntity info;
+    try {
+      info = IssuesEntity.fromJson(response);
+    } catch (e) {
+      logX.e(e);
+      throw DataParseException();
+    }
+    return info;
+  }
+
   Future deleteBook({required String id}) async {
     Map<String, dynamic> params = Map();
     var response = await httpX.delete('${ApiConstants.books}/$id', data: params);

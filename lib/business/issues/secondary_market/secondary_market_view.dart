@@ -1,3 +1,4 @@
+import 'package:dbook/common/utils/logger.dart';
 import 'package:dbook/common/values/values.dart';
 import 'package:dbook/generated/assets.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +19,7 @@ class SecondaryMarketPage extends StatelessWidget {
     return Container(
       margin: EdgeInsets.only(top: 30.h),
       padding: EdgeInsets.symmetric(vertical: 26.r),
-      height: state.issuesInfo.status == IssuesStatus.pre_sale.name ? 0.2.sh : 0.5.sh,
+      height: state.issuesInfo.status != IssuesStatus.off_sale.name ? 0.2.sh : 0.5.sh,
       decoration: BoxDecoration(
         border: Border.all(width: 1.r, color: Colors.black),
       ),
@@ -27,7 +28,8 @@ class SecondaryMarketPage extends StatelessWidget {
   }
 
   Widget _body() {
-    return state.issuesInfo.status == IssuesStatus.pre_sale.name
+    logX.d('二级市场状态>>>>>>>${state.issuesInfo.status}');
+    return state.issuesInfo.status != IssuesStatus.off_sale.name
         ? Column(
             children: [
               _title(),

@@ -187,7 +187,7 @@ class SearchResultPage extends StatelessWidget {
     } else if (info.status == IssuesStatus.pre_sale.name) {
       return Row(
         children: [
-          _itemPrice('Lssue price', '${info.price ?? 0}USDC'),
+          _itemPrice('Issue price', '${info.price ?? 0}USDC'),
           _itemPrice('Available', '${info.quantity ?? 0}'),
         ],
       );

@@ -1,5 +1,4 @@
 import 'package:common_utils/common_utils.dart';
-import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 /// 格式化时间
@@ -29,7 +28,7 @@ String duTimeLineFormat(DateTime dt) {
 }
 
 String bookPublicationTimeFormat(String time){
-  var date = DateUtil.getDateTime(time);
+  var date = DateUtil.getDateTime(time)?.add(DateTime.now().timeZoneOffset);
   String week = DateUtil.getWeekday(date,short: true);
   String dateStr = DateUtil.formatDate(date,format: 'MM/dd@HH:mm');
 

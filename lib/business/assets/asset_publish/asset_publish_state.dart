@@ -38,7 +38,7 @@ class AssetPublishState extends BaseState{
       periodController.text = issueInfo?.duration.toString()??'';
       limitController.text = issueInfo?.buyLimit.toString()??'';
       publicChain.value = issueInfo?.token?.blockChain.toString()??'';
-      publishTime.value = DateUtil.getDateTime(issueInfo?.publishedAt??'');
+      publishTime.value = DateUtil.getDateTime(issueInfo?.publishedAt??'')?.add(DateTime.now().timeZoneOffset);
     }else{
       bookInfo = Get.arguments?['bookInfo'];
       countController.text = '1';

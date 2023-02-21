@@ -120,27 +120,41 @@ class AssetsPage extends StatelessWidget {
     );
   }
 
-  Widget _headerBg() => Obx(() {
-        if (UserStore.to.userInfo.bannerUrl == null || UserStore.to.userInfo.bannerUrl!.isEmpty) return SizedBox();
-        return Stack(
-          children: [
-            Image.network(
-              UserStore.to.userInfo.bannerUrl ?? '',
-              width: 1.sw,
-              height: 0.65.sw,
-              fit: BoxFit.cover,
-              alignment: Alignment.topCenter,
-            ),
-            Positioned.fill(
-                child: BackdropFilter(
-              child: Container(
-                color: Colors.black.withOpacity(0.1),
-              ),
-              filter: ImageFilter.blur(sigmaX: 1.2, sigmaY: 1.2),
-            ))
-          ],
-        );
-      });
+  Widget _headerBg() {
+    var img;
+    if (UserStore.to.userInfo.bannerUrl == null || UserStore.to.userInfo.bannerUrl!.isEmpty) {
+      img = Image.asset(
+        Assets.imagesDefaultBookCover,
+        width: 1.sw,
+        height: 0.65.sw,
+        fit: BoxFit.cover,
+        alignment: Alignment.topCenter,
+      );
+    } else {
+      img = Image.network(
+        UserStore.to.userInfo.bannerUrl ?? '',
+        width: 1.sw,
+        height: 0.65.sw,
+        fit: BoxFit.cover,
+        alignment: Alignment.topCenter,
+      );
+    }
+    return Obx(() {
+      if (UserStore.to.userInfo.bannerUrl == null || UserStore.to.userInfo.bannerUrl!.isEmpty) return SizedBox();
+      return Stack(
+        children: [
+          img,
+          Positioned.fill(
+              child: BackdropFilter(
+                child: Container(
+                  color: Colors.black.withOpacity(0.1),
+                ),
+                filter: ImageFilter.blur(sigmaX: 1.2, sigmaY: 1.2),
+              ))
+        ],
+      );
+    });
+  }
 
   Widget _flexibleSpace() => FlexibleSpaceBar(
         background: new Container(

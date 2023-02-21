@@ -30,6 +30,7 @@ class Assets {
   static const String iconsRetry = 'assets/icons/retry.png';
   static const String imagesBgGuide = 'assets/images/bg_guide.png';
   static const String imagesDefaultAvatar = 'assets/images/default_avatar.png';
+  static const String imagesDefaultBookCover = 'assets/images/default_book_cover.png';
   static const String imagesLogo = 'assets/images/logo.png';
   static const String imagesTemp1 = 'assets/images/temp1.PNG';
   static const String imagesTemp2 = 'assets/images/temp2.PNG';
