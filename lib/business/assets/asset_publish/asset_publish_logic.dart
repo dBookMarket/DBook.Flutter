@@ -1,4 +1,5 @@
 import 'package:dbook/business/service_api/base/net_work.dart';
+import 'package:dbook/common/store/web3.dart';
 import 'package:dbook/common/utils/logger.dart';
 import 'package:get/get.dart';
 
@@ -59,6 +60,17 @@ class AssetPublishLogic extends GetxController {
 
   publish() async {
     state.setBusy();
+    var chainType = Web3Store.to.formatChainType(state.publicChain.value);
+    if(chainType == null) {
+      state.setError(t: 'invalid chain');
+      return ;
+    }
+    bool isApproved = await Web3Store.to.isApprovedForAll(chainType);
+    logX.d('是否授权>>>>>>$isApproved');
+    if (!isApproved) {
+      await Web3Store.to.setApprovalForAll(chainType);
+    }
+
     await NetWork.getInstance()
         .assets
         .publish(

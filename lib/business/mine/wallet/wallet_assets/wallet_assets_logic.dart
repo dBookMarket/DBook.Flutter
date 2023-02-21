@@ -12,10 +12,10 @@ class WalletAssetsLogic extends GetxController {
   getBalance()async{
     var enableLoading = state.polygonMainBalance.value != state.defaultBalance;
     state.setBusy(enableLoading: enableLoading);
-    state.polygonMainBalance.value = await Web3Store.to.getBalance(PublicChainType.POLYGON,UserStore.to.address);
-    state.polygonTokenBalance.value = await Web3Store.to.getTokenBalance(PublicChainType.POLYGON,UserStore.to.address);
-    state.bscMainBalance.value = await Web3Store.to.getBalance(PublicChainType.BSC,UserStore.to.address);
-    state.bscTokenBalance.value = await Web3Store.to.getTokenBalance(PublicChainType.BSC,UserStore.to.address);
+    state.polygonMainBalance.value = await Web3Store.to.getBalance(PublicChainType.polygon);
+    state.polygonTokenBalance.value = await Web3Store.to.getTokenBalance(PublicChainType.polygon);
+    state.bscMainBalance.value = await Web3Store.to.getBalance(PublicChainType.bnb);
+    state.bscTokenBalance.value = await Web3Store.to.getTokenBalance(PublicChainType.bnb);
     Web3Store.to.getLog(UserStore.to.address);
     state.setIdle(enableLoading: enableLoading);
   }

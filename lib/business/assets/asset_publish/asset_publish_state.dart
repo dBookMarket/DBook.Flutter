@@ -1,4 +1,5 @@
 import 'package:common_utils/common_utils.dart';
+import 'package:dbook/common/store/web3.dart';
 import 'package:dbook/common/widgets/view_state/view_state.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
@@ -6,10 +7,7 @@ import 'package:get/get.dart';
 import '../../../common/entities/book_entity.dart';
 import '../../../common/entities/issues_entity.dart';
 import '../../../common/utils/logger.dart';
-enum PublicChain{
-  polygon,
-  bnb
-}
+
 
 class AssetPublishState extends BaseState{
   late BookEntity? bookInfo;
@@ -22,9 +20,9 @@ class AssetPublishState extends BaseState{
   TextEditingController periodController = TextEditingController();
   TextEditingController limitController = TextEditingController();
 
-  final publicChainList = [PublicChain.polygon.name,PublicChain.bnb.name];
+  final publicChainList = [PublicChainType.polygon.name,PublicChainType.bnb.name];
 
-  final publicChain = PublicChain.bnb.name.obs;
+  final publicChain = PublicChainType.bnb.name.obs;
   final publishTime = Rx<DateTime?>(null);
   final buttonValid = false.obs;
 
