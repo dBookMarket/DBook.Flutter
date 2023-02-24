@@ -43,8 +43,8 @@ class AssetPublishState extends BaseState{
       bookInfo = Get.arguments?['bookInfo'];
       countController.text = '1';
       currencyController.text = 'USDC';
-      univalentController.text = '1';
-      royaltiesController.text = '1';
+      univalentController.text = '0';
+      royaltiesController.text = '0';
       periodController.text = '60';
       limitController.text = '1';
     }

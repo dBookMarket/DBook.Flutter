@@ -4,7 +4,6 @@ import 'package:dbook/business/mine/writing/view.dart';
 import 'package:dbook/common/config/app_config.dart';
 import 'package:dbook/common/store/user.dart';
 import 'package:dbook/common/utils/string_helper.dart';
-import 'package:dbook/common/values/colors.dart';
 import 'package:dbook/common/values/values.dart';
 import 'package:dbook/common/widgets/appBar.dart';
 import 'package:dbook/common/widgets/avatar_widget.dart';

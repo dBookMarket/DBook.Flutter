@@ -31,7 +31,7 @@ class UserStore extends GetxController {
     if(token.isNotEmpty){
       _isLogin.value = true;
       var profileOffline = StorageService.to.getString(STORAGE_USER_INFO_KEY);
-      _userInfo(UserInfoEntity.fromJson(jsonDecode(profileOffline)));
+      if(profileOffline.isNotEmpty) _userInfo(UserInfoEntity.fromJson(jsonDecode(profileOffline)));
       getUserInfo();
     }
   }

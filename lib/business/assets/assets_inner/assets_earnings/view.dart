@@ -59,7 +59,8 @@ class AssetsEarningsPage extends StatelessWidget {
                 4: FixedColumnWidth(100.0),
                 5: FixedColumnWidth(100.0),
                 6: FixedColumnWidth(130.0),
-                7: FixedColumnWidth(0),
+                7: FixedColumnWidth(130.0),
+                8: FixedColumnWidth(0),
               },
               children: tempList.asMap().keys.map((index) => _tableItem(tempList, index)).toList(),
             ),
@@ -79,6 +80,7 @@ class AssetsEarningsPage extends StatelessWidget {
         TextX('Quantity', fontSize: FontSizeX.s11, color: ColorX.txtHint),
         TextX('From', fontSize: FontSizeX.s11, color: ColorX.txtHint),
         TextX('To', fontSize: FontSizeX.s11, color: ColorX.txtHint),
+        TextX('Status', fontSize: FontSizeX.s11, color: ColorX.txtHint),
         TextX('Date', fontSize: FontSizeX.s11, color: ColorX.txtHint),
         SizedBox(height: 60.h)
       ]);
@@ -110,6 +112,7 @@ class AssetsEarningsPage extends StatelessWidget {
       TextX(item.quantity.toString(), fontSize: FontSizeX.s11, color: ColorX.txtTitle),
       TextX(formatAddress(item.seller?.address), fontSize: FontSizeX.s11, color: ColorX.txtTitle),
       TextX(formatAddress(item.buyer?.address), fontSize: FontSizeX.s11, color: ColorX.txtTitle),
+      TextX(item.status, fontSize: FontSizeX.s11, color: ColorX.txtTitle),
       TextX(item.createdAt, fontSize: FontSizeX.s11, color: ColorX.txtTitle),
       SizedBox(height: 40.h)
     ]);
