@@ -38,7 +38,8 @@ class CollectionIssue {
 	int? nCirculations;
 	@JSONField(name: "published_at")
 	String? publishedAt;
-  
+	String? status;
+
   CollectionIssue();
 
   factory CollectionIssue.fromJson(Map<String, dynamic> json) => $CollectionIssueFromJson(json);

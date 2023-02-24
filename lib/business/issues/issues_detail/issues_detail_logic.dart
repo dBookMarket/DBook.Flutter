@@ -18,6 +18,7 @@ class IssuesDetailLogic extends GetxController {
 
   Duration comingTime() {
     if (state.countDown.inSeconds < 0) {
+      print('倒计时>>>>>>结束');
       return Duration();
     }
     DateTime? endTime;
@@ -129,5 +130,11 @@ class IssuesDetailLogic extends GetxController {
         .transaction(tradeId: state.issuesInfo.value.trade?.id ?? 0, quantity: state.buyAmount.value)
         .onError((error, stackTrace) => {state.setError(t: 'buy failed'), result = false});
     state.setIdle();
+  }
+
+  @override
+  void onInit() {
+    getBookDetail();
+    super.onInit();
   }
 }

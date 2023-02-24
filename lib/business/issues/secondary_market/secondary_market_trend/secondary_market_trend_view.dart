@@ -29,7 +29,7 @@ class SecondaryMarketTrendPage extends StatelessWidget {
 
   Widget _list() {
     return Obx(() {
-      if (state.list.length <= 1) return Column(
+      if (state.list.length == 0) return Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
         SvgPicture.asset(Assets.svgIssuesDetailNoData, width: 50.w),
@@ -39,9 +39,6 @@ class SecondaryMarketTrendPage extends StatelessWidget {
       return Container(
         padding: EdgeInsets.only(top: 10, right: 20),
         child: LineChart(mainData()),);
-    });
-    return Obx(() {
-      return LineChart(mainData());
     });
   }
 

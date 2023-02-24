@@ -84,11 +84,17 @@ class IssuesDetailPage extends StatelessWidget {
                   fit: BoxFit.cover,
                 ),
                 SizedBox(height: 30.h),
-                TextX(state.issuesInfo.value.book?.title, textAlign: TextAlign.start, fontSize: FontSizeX.s16, color: ColorX.txtTitle, fontWeight: TextX.bold),
+                TextX(state.issuesInfo.value.book?.title, textAlign: TextAlign.start,
+                    fontSize: FontSizeX.s16,
+                    color: ColorX.txtTitle,
+                    fontWeight: TextX.bold),
                 SizedBox(height: 20.h),
                 _author(),
                 SizedBox(height: 20.h),
-                TextX(state.issuesInfo.value.book?.desc, textAlign: TextAlign.start, fontSize: FontSizeX.s11, color: ColorX.txtHint, maxLines: 100),
+                TextX(state.issuesInfo.value.book?.desc, textAlign: TextAlign.start,
+                    fontSize: FontSizeX.s11,
+                    color: ColorX.txtHint,
+                    maxLines: 100),
                 SizedBox(height: 20.h),
                 _trialButton(),
                 _publication(),
@@ -128,7 +134,10 @@ class IssuesDetailPage extends StatelessWidget {
                   color: ColorX.txtTitle,
                   fontWeight: TextX.bold,
                   maxLines: 100),
-              TextX('(${formatAddress(state.issuesInfo.value.book?.author?.address)})', textAlign: TextAlign.start, fontSize: FontSizeX.s11, color: ColorX.txtHint, maxLines: 100)
+              TextX('(${formatAddress(state.issuesInfo.value.book?.author?.address)})', textAlign: TextAlign.start,
+                  fontSize: FontSizeX.s11,
+                  color: ColorX.txtHint,
+                  maxLines: 100)
             ],
           ),
         ),
@@ -167,7 +176,8 @@ class IssuesDetailPage extends StatelessWidget {
                             decoration: BoxDecoration(color: Colors.black, borderRadius: BorderRadius.circular(100)),
                           ),
                           SizedBox(width: 20.w),
-                          TextX('Publication', fontSize: FontSizeX.s16, color: Color(0xFF42392B), fontWeight: TextX.bold)
+                          TextX(
+                              'Publication', fontSize: FontSizeX.s16, color: Color(0xFF42392B), fontWeight: TextX.bold)
                         ],
                       ),
                       SizedBox(height: 12.h),
@@ -196,7 +206,7 @@ class IssuesDetailPage extends StatelessWidget {
       Container(
         child: TextX(bookPublicationTimeFormat(time), fontSize: FontSizeX.s11, color: ColorX.txtBrown),
         decoration: BoxDecoration(color: ColorX.primaryYellow, borderRadius: BorderRadius.circular(100)),
-        padding: EdgeInsets.symmetric(horizontal: 4.w),
+        padding: EdgeInsets.symmetric(horizontal: 14.w),
       )
     ]);
   }
@@ -210,15 +220,18 @@ class IssuesDetailPage extends StatelessWidget {
             _publicationTimeItem(value: logic
                 .comingTime()
                 .inDays - 1, key: 'DAYS'),
-            Container(child: TextX(':', fontSize: FontSizeX.s13), padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 10.w)),
+            Container(child: TextX(':', fontSize: FontSizeX.s13),
+                padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 10.w)),
             _publicationTimeItem(value: logic
                 .comingTime()
                 .inHours % 24, key: 'HOURS'),
-            Container(child: TextX(':', fontSize: FontSizeX.s13), padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 10.w)),
+            Container(child: TextX(':', fontSize: FontSizeX.s13),
+                padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 10.w)),
             _publicationTimeItem(value: logic
                 .comingTime()
                 .inMinutes % 60, key: 'MINUTES'),
-            Container(child: TextX(':', fontSize: FontSizeX.s13), padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 10.w)),
+            Container(child: TextX(':', fontSize: FontSizeX.s13),
+                padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 10.w)),
             _publicationTimeItem(value: logic
                 .comingTime()
                 .inSeconds % 60, key: 'SECONDS'),
@@ -246,39 +259,43 @@ class IssuesDetailPage extends StatelessWidget {
   }
 
   Widget _publicChain() =>
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          TextX('Public chain', fontSize: FontSizeX.s13, color: ColorX.txtHint),
-          TextX(state.issuesInfo.value.token?.blockChain, fontSize: FontSizeX.s13, color: ColorX.txtHint),
-          // TextX(DateUtil.formatDateMs(GlobalTimeService.to.globalTime.value), fontSize: FontSizeX.s13, color: ColorX.txtHint),
-        ],
-      );
+      Obx(() {
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            TextX('Public chain', fontSize: FontSizeX.s13, color: ColorX.txtHint),
+            TextX(state.issuesInfo.value.token?.blockChain, fontSize: FontSizeX.s13, color: ColorX.txtHint),
+            // TextX(DateUtil.formatDateMs(GlobalTimeService.to.globalTime.value), fontSize: FontSizeX.s13, color: ColorX.txtHint),
+          ],
+        );
+      });
 
   Widget _publicCount() =>
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          _publicCountItem(
-            t1: 'Supply',
-            v1: state.issuesInfo.value.quantity.toString(),
-            t2: 'Available',
-            v2: ((state.issuesInfo.value.quantity ?? 0) - (state.issuesInfo.value.nCirculations ?? 0)).toString(),
-          ),
-          _publicCountItem(
-            t1: 'Selling Price',
-            v1: '${state.issuesInfo.value.price}USDC',
-            t2: 'Limited per person',
-            v2: state.issuesInfo.value.buyLimit.toString(),
-          ),
-          _publicCountItem(
-            t1: 'Supply cycle',
-            v1: '${(state.issuesInfo.value.duration ?? 0).toString()} minutes',
-            t2: 'You have',
-            v2: state.issuesInfo.value.nOwners.toString(),
-          ),
-        ],
-      );
+      Obx(() {
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            _publicCountItem(
+              t1: 'Supply',
+              v1: state.issuesInfo.value.quantity.toString(),
+              t2: 'Available',
+              v2: ((state.issuesInfo.value.quantity ?? 0) - (state.issuesInfo.value.nCirculations ?? 0)).toString(),
+            ),
+            _publicCountItem(
+              t1: 'Selling Price',
+              v1: '${state.issuesInfo.value.price}USDC',
+              t2: 'Limited per person',
+              v2: state.issuesInfo.value.buyLimit.toString(),
+            ),
+            _publicCountItem(
+              t1: 'Supply cycle',
+              v1: '${(state.issuesInfo.value.duration ?? 0).toString()} minutes',
+              t2: 'You have',
+              v2: state.issuesInfo.value.nOwners.toString(),
+            ),
+          ],
+        );
+      });
 
   Widget _publicCountItem({required String t1, required String t2, required String v1, required String v2}) =>
       Column(
@@ -364,16 +381,25 @@ class IssuesDetailPage extends StatelessWidget {
         stateStr = duration;
         isRed = false;
       } else if (state.issuesInfo.value.status == IssuesStatus.off_sale.name) {
-        count = state.issuesInfo.value.quantity ?? 0 - (state.issuesInfo.value.nCirculations ?? 0);
+        count = (state.issuesInfo.value.quantity ?? 0) - (state.issuesInfo.value.nCirculations ?? 0);
         address = formatAddress(state.issuesInfo.value.destroyLog);
         stateStr = 'destroyed';
         isRed = false;
+      } else {
+        count = (state.issuesInfo.value.quantity ?? 0) - (state.issuesInfo.value.nCirculations ?? 0);
+        address = '~~';
+        stateStr = 'unsold';
+        isRed = true;
       }
       return _boxContainer(
           title: 'Destroyed',
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [_destroyedItem('Quantity destroyed', '$count'), _destroyedItem('Execution logging', '$address'), _destroyedItem('State', '$stateStr', isValueRed: isRed)],
+            children: [
+              _destroyedItem('Quantity destroyed', '$count'),
+              _destroyedItem('Execution logging', '$address'),
+              _destroyedItem('State', '$stateStr', isValueRed: isRed)
+            ],
           ));
     });
   }
@@ -435,11 +461,15 @@ class IssuesDetailPage extends StatelessWidget {
           children: [
             TextX('quantity'),
             SizedBox(width: 40.w),
-            InkWell(child: Container(child: Icon(Icons.chevron_left), color: Color(0xFFFFF7E9), margin: EdgeInsets.only(right: 20.w)), onTap: () => logic.amountSub()),
+            InkWell(child: Container(
+                child: Icon(Icons.chevron_left), color: Color(0xFFFFF7E9), margin: EdgeInsets.only(right: 20.w)),
+                onTap: () => logic.amountSub()),
             Obx(() {
               return TextX(state.buyAmount.value.toString());
             }),
-            InkWell(child: Container(child: Icon(Icons.chevron_right), color: Color(0xFFFFF7E9), margin: EdgeInsets.only(left: 20.w)), onTap: () => logic.amountAdd()),
+            InkWell(child: Container(
+                child: Icon(Icons.chevron_right), color: Color(0xFFFFF7E9), margin: EdgeInsets.only(left: 20.w)),
+                onTap: () => logic.amountAdd()),
           ],
         ),
       ],
@@ -494,7 +524,11 @@ class IssuesDetailPage extends StatelessWidget {
         break;
       case 'author':
         Get.to(() => AssetsPage(),
-            arguments: {'title': 'Author Detail', 'assetsType': AssetsType.AUTHOR, 'userId': state.issuesInfo.value.book?.author?.id.toString()}, preventDuplicates: false);
+            arguments: {
+              'title': 'Author Detail',
+              'assetsType': AssetsType.AUTHOR,
+              'userId': state.issuesInfo.value.book?.author?.id.toString()
+            }, preventDuplicates: false);
         break;
       case 'wish':
         logic.wish();

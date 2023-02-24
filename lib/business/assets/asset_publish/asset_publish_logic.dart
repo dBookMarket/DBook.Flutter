@@ -59,6 +59,7 @@ class AssetPublishLogic extends GetxController {
   }
 
   publish() async {
+    logX.d('是否授权11>>>>>>开始');
     state.setBusy();
     var chainType = Web3Store.to.formatChainType(state.publicChain.value);
     if(chainType == null) {
@@ -67,11 +68,17 @@ class AssetPublishLogic extends GetxController {
     }
 
     // 每次都需要授权
-    // bool isApproved = await Web3Store.to.isApprovedForAll(chainType);
-    // logX.d('是否授权>>>>>>$isApproved');
-    // if (!isApproved) {
-    //   await Web3Store.to.setApprovalForAll(chainType);
-    // }
+    bool isApproved = await Web3Store.to.isApprovedForAll(chainType);
+    logX.d('是否授权11>>>>>>$isApproved');
+    if (!isApproved) {
+      await Web3Store.to.setApprovalForAll(chainType);
+      await Future.delayed(Duration(seconds: 5));
+      bool isApproved = await Web3Store.to.isApprovedForAll(chainType);
+      logX.d('是否授权11>>>>>>$isApproved');
+      state.setIdle();
+    }
+
+    return;
 
     try {
       await Web3Store.to.setApprovalForAll(chainType);

@@ -1,4 +1,3 @@
-import 'package:dbook/common/utils/logger.dart';
 import 'package:dbook/common/values/values.dart';
 import 'package:dbook/generated/assets.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +27,6 @@ class SecondaryMarketPage extends StatelessWidget {
   }
 
   Widget _body() {
-    logX.d('二级市场状态>>>>>>>${state.issuesInfo.status}');
     return state.issuesInfo.status != IssuesStatus.off_sale.name
         ? Column(
             children: [

@@ -52,6 +52,10 @@ CollectionIssue $CollectionIssueFromJson(Map<String, dynamic> json) {
 	if (publishedAt != null) {
 		collectionIssue.publishedAt = publishedAt;
 	}
+	final String? status = jsonConvert.convert<String>(json['status']);
+	if (status != null) {
+		collectionIssue.status = status;
+	}
 	return collectionIssue;
 }
 
@@ -63,6 +67,7 @@ Map<String, dynamic> $CollectionIssueToJson(CollectionIssue entity) {
 	data['quantity'] = entity.quantity;
 	data['n_circulations'] = entity.nCirculations;
 	data['published_at'] = entity.publishedAt;
+	data['status'] = entity.status;
 	return data;
 }
 

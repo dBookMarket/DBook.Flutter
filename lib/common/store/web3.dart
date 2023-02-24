@@ -22,7 +22,7 @@ class Web3Store extends GetxController {
   final String BNB_NFT_ADDRESS = '0xcf0b52b899Ac7ec7cfBdB022C2382bBb050C6Fc3';
   final String PLATFORM_BNB_ADDRESS = '0xc3a3cD2c77CE4a7c3aBee9f2eA9E37F058C5fbe8';
 
-  final String POLYGON_USDC_ADDRESS = '0xeE4Fa11C6afd8002c539F653D3C75bB4C0467210';
+  final String POLYGON_USDC_ADDRESS = '0x93d633d2E5c2312A4d53f03C517C86563C9FC8fb';
   final String POLYGON_NFT_ADDRESS = '0x7C850235538410e46045873c6F7e86458F942136';
   final String PLATFORM_POLYGON_ADDRESS = '0xE344D7e81d04e77014f9e31423c59c8deb7f5Ff4';
 
@@ -67,7 +67,7 @@ class Web3Store extends GetxController {
     try {
       var result =
           await _ask(client: _getClient(type), deployedContract: _deployedContract(type, AbiType.usdc), func: 'balanceOf', param: [EthereumAddress.fromHex(_userAddress!)]);
-      BigInt available = BigInt.parse(result.toString());
+      BigInt available = BigInt.parse(result.first.toString());
       int decimals = await _getDecimals(type);
       String balance = (available / BigInt.from(pow(10, decimals))).toString();
       print("=====" + balance);
@@ -98,7 +98,8 @@ class Web3Store extends GetxController {
           deployedContract: _deployedContract(type, AbiType.nft),
           func: 'isApprovedForAll',
           param: [EthereumAddress.fromHex(_userAddress!), _contractAddress(AbiType.platform, type)]);
-      return result;
+      print(' isApprovedForAll-result: $result');
+      return result.first;
     } catch (err) {
       print(' isApprovedForAll-ERROR: ${err.toString()}');
       return false;
@@ -144,14 +145,14 @@ class Web3Store extends GetxController {
 
   Future<int> _getDecimals(PublicChainType type) async {
     var result = await _ask(func: 'decimals', deployedContract: _deployedContract(type, AbiType.usdc), client: _getClient(type));
-    return int.parse(result.toString());
+    return int.parse(result.first.toString());
   }
 
   Future<dynamic> _ask({required Web3Client client, required DeployedContract deployedContract, required String func, param}) async {
     logX.d('请求合约$func>>>>>>>deployedContract ${deployedContract.address} \nparam $param');
     try {
       final response = await client.call(
-        sender: EthereumAddress.fromHex(_userAddress!),
+        // sender: EthereumAddress.fromHex(_userAddress!),
         contract: deployedContract,
         function: deployedContract.function(func),
         params: param ?? [],
