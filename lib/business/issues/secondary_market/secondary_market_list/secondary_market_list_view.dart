@@ -1,3 +1,5 @@
+import 'package:dbook/business/issues/issue_buy/issue_buy_view.dart';
+import 'package:dbook/common/utils/logger.dart';
 import 'package:dbook/common/values/values.dart';
 import 'package:dbook/common/widgets/avatar_widget.dart';
 import 'package:dbook/common/widgets/button.dart';
@@ -66,8 +68,9 @@ class SecondaryMarketListPage extends StatelessWidget {
                 ),
                 Expanded(child: SizedBox()),
                 Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    TextX('${state.issuesInfo.price}USDC', fontSize: FontSizeX.s13, color: ColorX.txtTitle),
+                    TextX('${info.price}USDC', fontSize: FontSizeX.s13, color: ColorX.txtTitle),
                     SizedBox(height: 10.h),
                     ButtonX(
                       'Buy',
@@ -76,7 +79,7 @@ class SecondaryMarketListPage extends StatelessWidget {
                       borderRadius: 0,
                       backgroundColor: Colors.green,
                       fontSize: FontSizeX.s13,
-                      onPressed: () => state.setError(t: 'todo-buy'),
+                      onPressed: () => _onClick(info),
                     )
                   ],
                 ),
@@ -88,4 +91,10 @@ class SecondaryMarketListPage extends StatelessWidget {
           ],
         ),
       );
+
+
+  _onClick(TradesListEntity info){
+    logX.d('chainType:${state.issuesInfo.token?.blockChain}');
+    Get.to(()=>IssueBuyPage(),opaque: false,arguments: {'tradeDetail':info});
+  }
 }

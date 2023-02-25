@@ -32,7 +32,7 @@ class WalletAssetsPage extends StatelessWidget {
   Widget _body() {
     return SmartRefresher(
       controller: state.refreshController,
-      onRefresh: logic.getBalance,
+      onRefresh: logic.refreshData,
       enablePullUp: false,
       child: SingleChildScrollView(
         child: _balance(),

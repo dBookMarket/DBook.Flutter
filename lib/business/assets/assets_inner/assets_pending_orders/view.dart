@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
 import '../../../../common/config/app_config.dart';
+import '../../../../common/entities/issues_entity.dart';
 import '../../../../common/entities/pending_order_entity.dart';
 import '../../../../common/values/colors.dart';
 import '../../../../common/values/fontSize.dart';
@@ -13,6 +14,7 @@ import '../../../../common/widgets/dialog.dart';
 import '../../../../common/widgets/text.dart';
 import '../../../../common/widgets/view_state/base_container_view.dart';
 import '../../../../generated/assets.dart';
+import '../../../issues/issues_detail/issues_detail_view.dart';
 import '../../assets_sell/assets_sell_view.dart';
 import 'logic.dart';
 
@@ -61,7 +63,7 @@ class AssetsPendingOrdersPage extends StatelessWidget {
     return Container(
       width: w,
       // height: h,
-      child: Column(
+      child: InkWell(child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
@@ -70,7 +72,7 @@ class AssetsPendingOrdersPage extends StatelessWidget {
           ),
           SizedBox(height: 20.h),
           TextX(info.issue?.book?.title, fontSize: FontSizeX.s11, color: ColorX.txtBrown,textAlign: TextAlign.start),
-        ],),
+        ],),onTap:()=>_onClick('detail',param: info))
     );
   }
 
@@ -107,6 +109,11 @@ class AssetsPendingOrdersPage extends StatelessWidget {
           right: 'OK',
           rightCallback: () => logic.delete(param?.id),
         ));
+        break;
+
+      case 'detail':
+        IssuesEntity detail = IssuesEntity.fromJson(param?.issue?.toJson() ?? {});
+        Get.to(() => IssuesDetailPage(), arguments: {'detail': detail});
         break;
     }
   }

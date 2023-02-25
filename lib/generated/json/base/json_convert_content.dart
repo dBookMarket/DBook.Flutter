@@ -72,6 +72,10 @@ class JsonConvert {
 		(ReadInfoEntity).toString(): ReadInfoEntity.fromJson,
 		(TradesListEntity).toString(): TradesListEntity.fromJson,
 		(TradesListUser).toString(): TradesListUser.fromJson,
+		(TradesListIssue).toString(): TradesListIssue.fromJson,
+		(TradesListIssueBook).toString(): TradesListIssueBook.fromJson,
+		(TradesListIssueBookAuthor).toString(): TradesListIssueBookAuthor.fromJson,
+		(TradesListIssueBookPreview).toString(): TradesListIssueBookPreview.fromJson,
 		(TransactionsListEntity).toString(): TransactionsListEntity.fromJson,
 		(TransactionsListIssue).toString(): TransactionsListIssue.fromJson,
 		(TransactionsListIssueBook).toString(): TransactionsListIssueBook.fromJson,
@@ -300,6 +304,18 @@ class JsonConvert {
 		}
 		if(<TradesListUser>[] is M){
 			return data.map<TradesListUser>((Map<String, dynamic> e) => TradesListUser.fromJson(e)).toList() as M;
+		}
+		if(<TradesListIssue>[] is M){
+			return data.map<TradesListIssue>((Map<String, dynamic> e) => TradesListIssue.fromJson(e)).toList() as M;
+		}
+		if(<TradesListIssueBook>[] is M){
+			return data.map<TradesListIssueBook>((Map<String, dynamic> e) => TradesListIssueBook.fromJson(e)).toList() as M;
+		}
+		if(<TradesListIssueBookAuthor>[] is M){
+			return data.map<TradesListIssueBookAuthor>((Map<String, dynamic> e) => TradesListIssueBookAuthor.fromJson(e)).toList() as M;
+		}
+		if(<TradesListIssueBookPreview>[] is M){
+			return data.map<TradesListIssueBookPreview>((Map<String, dynamic> e) => TradesListIssueBookPreview.fromJson(e)).toList() as M;
 		}
 		if(<TransactionsListEntity>[] is M){
 			return data.map<TransactionsListEntity>((Map<String, dynamic> e) => TransactionsListEntity.fromJson(e)).toList() as M;

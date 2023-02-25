@@ -138,7 +138,7 @@ class MarketApi {
     return t;
   }
 
-  Future<dynamic> transaction({required int tradeId, required int quantity, String? status, String? hash}) async {
+  Future<dynamic> transaction({required int? tradeId, required int quantity, String? status, String? hash}) async {
     Map<String, dynamic> params = Map();
     params['trade'] = tradeId;
     params['quantity'] = quantity;

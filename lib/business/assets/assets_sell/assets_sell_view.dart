@@ -121,7 +121,7 @@ class AssetsSellPage extends StatelessWidget {
         ),
         SizedBox(width: 50.w),
         Expanded(
-            child: ButtonX('Sell',
+            child: ButtonX(state.isEdit?'Commit':'Sell',
                 borderRadius: 0,
                 backgroundColor: ColorX.buttonBrown,
                 textColor: ColorX.txtYellow,

@@ -1,5 +1,6 @@
 import 'package:common_utils/common_utils.dart';
 import 'package:dbook/common/store/web3.dart';
+import 'package:dbook/common/utils/logger.dart';
 import 'package:get/get.dart';
 
 import '../../../common/services/global_time.dart';
@@ -13,6 +14,8 @@ class IssuesDetailLogic extends GetxController {
   getBookDetail() async {
     state.setBusy();
     state.issuesInfo.value = await NetWork.getInstance().assets.issueDetail(issueId: state.issuesId).onError((error, stackTrace) => state.setError(t: 'load issue failed'));
+    logX.d('args>>>>>>${Get.arguments}');
+    Get.currentRoute;
     state.setIdle();
   }
 
