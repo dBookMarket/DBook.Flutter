@@ -67,11 +67,7 @@ class Web3Store extends GetxController {
   getTokenBalance(PublicChainType type) async {
     if (_userAddress == null) return '--';
     try {
-      var result = await _ask(
-          client: _getClient(type),
-          deployedContract: _deployedContract(type, AbiType.usdc),
-          func: 'balanceOf',
-          param: [EthereumAddress.fromHex(_userAddress!)]);
+      var result = await _ask(client: _getClient(type), deployedContract: _deployedContract(type, AbiType.usdc), func: 'balanceOf', param: [EthereumAddress.fromHex(_userAddress!)]);
       BigInt available = BigInt.parse(result.first.toString());
       int decimals = await _getDecimals(type);
       String balance = (available / BigInt.from(pow(10, decimals))).toString();
@@ -111,6 +107,7 @@ class Web3Store extends GetxController {
       return false;
     }
   }
+
   //endregion
 
   //region 购买首发
@@ -123,41 +120,35 @@ class Web3Store extends GetxController {
       param: [tradeValue],
     );
   }
+
   //endregion
 
-
-  Future<String> setApprovalForTrade(PublicChainType type,num amount) async {
+  Future<bool> setApprovalForTrade(PublicChainType type, num amount) async {
     var result = await _sendTransaction(
       client: _getClient(type),
       deployedContract: _deployedContract(type, AbiType.usdc),
       func: 'approve',
       param: [_contractAddress(AbiType.platform, type), _toWei(amount)],
     );
-    return result;
+    return result.toString().startsWith('0x');
   }
 
-  paySecondTrade({required PublicChainType chainType, required num tradeValue, required String? seller,required int? nftId,required nftAmount}) async {
+  Future paySecondTrade({required PublicChainType chainType, required num tradeValue, required String? seller, required int? nftId, required nftAmount}) async {
     var receiver = _contractAddress(AbiType.platform, chainType);
     var client = _getClient(chainType);
     var fee = await getTradeFee(chainType);
 
-
-    // var data = await _signTransaction(
-    //   client: client,
-    //   deployedContract: _deployedContract(chainType, AbiType.platform),
-    //   func: 'trade',
-    //   param: [EthereumAddress.fromHex(seller??''),receiver,BigInt.from(nftId??0),BigInt.from(nftAmount),Unit,_toWei(tradeValue),fee.getInWei],
-    // );
-    // logX.d('trade>>>>>data: $data');
-
-    var result = await _sendTransaction(
-      client: client,
-      deployedContract: _deployedContract(chainType, AbiType.platform),
-      func: 'trade',
-      param: [EthereumAddress.fromHex(seller??''),receiver,BigInt.from(nftId??0),BigInt.from(nftAmount),Uint8List.fromList([0x1234]),_toWei(tradeValue),fee],
-    );
-
+    var result = await _sendTransaction(client: client, deployedContract: _deployedContract(chainType, AbiType.platform), func: 'trade', param: [
+      EthereumAddress.fromHex(seller ?? ''),
+      receiver,
+      BigInt.from(nftId ?? 0),
+      BigInt.from(nftAmount),
+      Uint8List.fromList([0x1234]),
+      _toWei(tradeValue),
+      fee
+    ]);
     logX.d('result>>>>>result: $result');
+    return result;
   }
 
   Future<dynamic> getTradeFee(PublicChainType type) async {
@@ -169,8 +160,6 @@ class Web3Store extends GetxController {
     );
     return result.first;
   }
-
-
 
   PublicChainType? formatChainType(String chainType) {
     if (chainType == 'bnb') {
@@ -200,13 +189,11 @@ class Web3Store extends GetxController {
   }
 
   Future<int> _getDecimals(PublicChainType type) async {
-    var result =
-        await _ask(func: 'decimals', deployedContract: _deployedContract(type, AbiType.usdc), client: _getClient(type));
+    var result = await _ask(func: 'decimals', deployedContract: _deployedContract(type, AbiType.usdc), client: _getClient(type));
     return int.parse(result.first.toString());
   }
 
-  Future<dynamic> _ask(
-      {required Web3Client client, required DeployedContract deployedContract, required String func, param}) async {
+  Future<dynamic> _ask({required Web3Client client, required DeployedContract deployedContract, required String func, param}) async {
     logX.d('请求合约$func>>>>>>>deployedContract ${deployedContract.address} \nparam $param');
     try {
       final response = await client.call(
@@ -221,13 +208,10 @@ class Web3Store extends GetxController {
     }
   }
 
-  Future<dynamic> _sendTransaction(
-      {required Web3Client client, required DeployedContract deployedContract, required String func, param}) async {
+  Future<dynamic> _sendTransaction({required Web3Client client, required DeployedContract deployedContract, required String func, param}) async {
     logX.d('请求合约$func>>>>>>>deployedContract ${deployedContract.address} \nparam $param');
-    Credentials credentials =
-        await Web3KeychainManager.getInstance().getCredentials(EthereumAddress.fromHex(_userAddress!), '1');
+    Credentials credentials = await Web3KeychainManager.getInstance().getCredentials(EthereumAddress.fromHex(_userAddress!), '1');
     final networkId = await client.getNetworkId();
-
 
     var transaction = Transaction.callContract(
       contract: deployedContract,
@@ -236,7 +220,7 @@ class Web3Store extends GetxController {
     );
 
     try {
-      final response = await client.sendTransaction(credentials, transaction,chainId: networkId);
+      final response = await client.sendTransaction(credentials, transaction, chainId: networkId);
       logX.d('请求合约$func>>>>>>>response $response');
       return response;
     } catch (error) {
@@ -261,9 +245,7 @@ class Web3Store extends GetxController {
   }
 
   DeployedContract _deployedContract(PublicChainType chainType, AbiType abiType) {
-    return DeployedContract(
-        ContractAbi.fromJson(jsonEncode(contractJson[abiType.name]), contractJson['contractName'] as String),
-        _contractAddress(abiType, chainType));
+    return DeployedContract(ContractAbi.fromJson(jsonEncode(contractJson[abiType.name]), contractJson['contractName'] as String), _contractAddress(abiType, chainType));
   }
 
   EthereumAddress _contractAddress(AbiType abiType, PublicChainType chainType) {
