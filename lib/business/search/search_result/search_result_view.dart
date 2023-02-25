@@ -1,6 +1,7 @@
 import 'package:dbook/common/values/colors.dart';
 import 'package:dbook/common/values/values.dart';
 import 'package:dbook/common/widgets/appBar.dart';
+import 'package:dbook/common/widgets/avatar_widget.dart';
 import 'package:dbook/common/widgets/input.dart';
 import 'package:dbook/common/widgets/line_widget.dart';
 import 'package:dbook/common/widgets/view_state/base_container_view.dart';
@@ -131,7 +132,7 @@ class SearchResultPage extends StatelessWidget {
                       children: [
                         Row(
                           children: [
-                            Image.network(info.book?.author?.avatarUrl ?? '', width: 30.r, height: 30.r),
+                            AvatarX(info.book?.author?.avatarUrl ?? '', size: 30.r),
                             SizedBox(width: 12.w),
                             TextX(info.book?.author?.name, fontSize: FontSizeX.s11, color: ColorX.txtHint),
                             Expanded(child: SizedBox()),

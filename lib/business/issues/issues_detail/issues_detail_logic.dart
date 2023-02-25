@@ -20,31 +20,28 @@ class IssuesDetailLogic extends GetxController {
   }
 
   Duration comingTime() {
-    if (state.countDown.inSeconds < 0) {
-      print('倒计时>>>>>>结束');
-      return Duration();
-    }
+    Duration countDown = Duration();
     DateTime? endTime;
     if (state.issuesInfo.value.status == IssuesStatus.pre_sale.name) {
       endTime = DateUtil.getDateTime(state.issuesInfo.value.publishedAt ?? '')?.add(DateTime.now().timeZoneOffset);
     } else if (state.issuesInfo.value.status == IssuesStatus.on_sale.name) {
-      endTime = DateUtil.getDateTime(state.issuesInfo.value.publishedAt ?? '')?.add(DateTime.now().timeZoneOffset).add(Duration(seconds: state.issuesInfo.value.duration ?? 0));
+      endTime = DateUtil.getDateTime(state.issuesInfo.value.publishedAt ?? '')?.add(DateTime.now().timeZoneOffset).add(Duration(minutes: state.issuesInfo.value.duration ?? 0));
     } else {
       return Duration();
     }
 
     DateTime? cTime = DateUtil.getDateTimeByMs(GlobalTimeService.to.globalTime.value);
-    // endTime = endTime?.add(Duration(days: 34));
-    state.countDown = endTime?.difference(cTime) ?? Duration();
-    print('倒计时>>>>>>${state.countDown.inSeconds}');
+    countDown = endTime?.difference(cTime) ?? Duration();
+    if (countDown.inSeconds < 0) {
+      return Duration();
+    }
 
-    if (state.countDown.inSeconds == 0) {
+    if (countDown.inSeconds == 0) {
       if (state.issuesInfo.value.status == IssuesStatus.pre_sale.name) {
         state.issuesInfo.value.status = IssuesStatus.on_sale.name;
         Future.delayed(Duration(seconds: 1)).then((value) => {
               state.issuesInfo.refresh(),
               getBookDetail(),
-              print('倒计时>>>>>>更新状态>>>>on_sale'),
             });
       } else if (state.issuesInfo.value.status == IssuesStatus.on_sale.name) {
         state.issuesInfo.value.status = IssuesStatus.unsold.name;
@@ -52,12 +49,11 @@ class IssuesDetailLogic extends GetxController {
         Future.delayed(Duration(seconds: 1)).then((value) => {
               state.issuesInfo.refresh(),
               getBookDetail(),
-              print('倒计时>>>>>>更新状态>>>>unsold'),
             });
       }
       return Duration();
     }
-    return state.countDown;
+    return countDown;
   }
 
   String countDownAdd0(int value) {
@@ -100,10 +96,12 @@ class IssuesDetailLogic extends GetxController {
       result = true;
       state.setIdle();
     } catch (e) {
+      logX.d(e);
       state.setError(t: 'pay failed');
       result = false;
     }
 
+    state.setSuccess(t: 'pay success');
     return result;
   }
 

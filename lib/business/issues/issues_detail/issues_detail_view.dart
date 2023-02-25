@@ -116,9 +116,10 @@ class IssuesDetailPage extends StatelessWidget {
           ),
           onTap: () {
             if (url == null || url.isEmpty) {
-              state.setError(t: 'No valid');
+              state.setError(t: 'no yet');
+              return;
             }
-            Get.to(() => WebPageView('', url ?? ''));
+            Get.to(() => WebPageView('', url));
           }),
     );
   }

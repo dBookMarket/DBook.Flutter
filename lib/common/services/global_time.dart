@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:common_utils/common_utils.dart';
 import 'package:get/get.dart';
 
 import '../utils/logger.dart';
@@ -28,6 +29,6 @@ class GlobalTimeService extends GetxService {
     globalTime.value = time;
     timer.cancel();
     timers();
-    logX.d('同步本地时间>>>>$time');
+    logX.d('同步本地时间>>>>$time ${DateUtil.formatDateMs(time)}');
   }
 }

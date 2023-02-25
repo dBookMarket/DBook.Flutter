@@ -2,7 +2,6 @@ import 'package:dbook/business/assets/assets_inner/assets_my_collection/state.da
 import 'package:dbook/business/assets/assets_sell/assets_sell_view.dart';
 import 'package:dbook/business/issues/issues_state.dart';
 import 'package:dbook/common/entities/collection_entity.dart';
-import 'package:dbook/common/utils/logger.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -139,7 +138,6 @@ class AssetsMyCollectionPage extends StatelessWidget {
         break;
       case 'detail':
         IssuesEntity detail = IssuesEntity.fromJson(param?.issue?.toJson() ?? {});
-        logX.d('二级市场传值>>>>>>${detail.toJson()}');
         Get.to(() => IssuesDetailPage(), arguments: {'detail': detail});
         break;
     }
