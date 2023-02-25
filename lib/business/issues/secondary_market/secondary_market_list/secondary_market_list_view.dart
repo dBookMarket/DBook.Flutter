@@ -95,6 +95,6 @@ class SecondaryMarketListPage extends StatelessWidget {
 
   _onClick(TradesListEntity info){
     logX.d('chainType:${state.issuesInfo.token?.blockChain}');
-    Get.to(()=>IssueBuyPage(),opaque: false,arguments: {'tradeDetail':info});
+    Get.to(()=>IssueBuyPage(),opaque: false,arguments: {'tradeDetail':info},duration: Duration(milliseconds: 0),fullscreenDialog: true);
   }
 }

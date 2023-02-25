@@ -96,7 +96,7 @@ class AssetsPendingOrdersPage extends StatelessWidget {
   _onClick(type, {PendingOrderEntity? param}) async {
     switch (type) {
       case 'Edit':
-        var result = await Get.to(() => AssetsSellPage(), arguments: {'issueId': param?.issue?.id,'price':param?.price.toString(),'quantity':param?.quantity,'tradeId':param?.id},opaque: false);
+        var result = await Get.to(() => AssetsSellPage(), arguments: {'issueId': param?.issue?.id,'price':param?.price.toString(),'quantity':param?.quantity,'tradeId':param?.id},opaque: false,duration: Duration(milliseconds: 0),fullscreenDialog: true);
         if (result != null) {
           logic.refresh();
         }

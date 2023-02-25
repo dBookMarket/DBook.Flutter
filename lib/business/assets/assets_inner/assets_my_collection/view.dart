@@ -131,7 +131,7 @@ class AssetsMyCollectionPage extends StatelessWidget {
           return;
         }
 
-        var result = await Get.to(() => AssetsSellPage(), arguments: {'issueId': param?.issue?.id},opaque: false);
+        var result = await Get.to(() => AssetsSellPage(), arguments: {'issueId': param?.issue?.id},opaque: false,duration: Duration(milliseconds: 0),fullscreenDialog: true);
         if (result != null) {
           logic.refresh();
         }
