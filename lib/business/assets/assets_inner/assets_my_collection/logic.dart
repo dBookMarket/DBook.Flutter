@@ -12,10 +12,4 @@ class AssetsMyCollectionLogic extends RefreshListViewLogic<CollectionEntity>  {
     return NetWork.getInstance().assets.assetsCurrent(page: pageNum);
   }
 
-  delete(id)async{
-    refreshState.setBusy();
-    await NetWork.getInstance().assets.deleteDraft(id: id.toString()).onError((error, stackTrace) => refreshState.setError(t: 'delete failed'));
-    refreshState.setIdle();
-    refreshState.list.removeWhere((element) => element.id == id);
-  }
 }

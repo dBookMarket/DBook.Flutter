@@ -3,7 +3,6 @@ import 'dart:ui';
 import 'package:dbook/business/mine/profile_settings/twitterShare/twitter_share_view.dart';
 import 'package:dbook/common/config/app_config.dart';
 import 'package:dbook/common/store/store.dart';
-import 'package:dbook/common/utils/logger.dart';
 import 'package:dbook/common/widgets/appBar.dart';
 import 'package:dbook/common/widgets/avatar_widget.dart';
 import 'package:dbook/common/widgets/text.dart';
@@ -12,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+
 import '../../common/utils/string_helper.dart';
 import '../../common/values/colors.dart';
 import '../../common/values/fontSize.dart';
@@ -249,7 +249,6 @@ class AssetsPage extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 34.w, vertical: 34.h),
         margin: EdgeInsets.symmetric(horizontal: ScreenConfig.marginH, vertical: 15.h),
         child: Obx(() {
-          logX.d('经营数据>>>>${state.userInfo.value.statistic}');
           return Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

@@ -8,7 +8,8 @@ class CollectionEntity {
 	int? id;
 	CollectionIssue? issue;
 	int? quantity;
-  
+	String? price;
+
   CollectionEntity();
 
   factory CollectionEntity.fromJson(Map<String, dynamic> json) => $CollectionEntityFromJson(json);

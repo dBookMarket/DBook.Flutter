@@ -15,6 +15,10 @@ CollectionEntity $CollectionEntityFromJson(Map<String, dynamic> json) {
 	if (quantity != null) {
 		collectionEntity.quantity = quantity;
 	}
+	final String? price = jsonConvert.convert<String>(json['price']);
+	if (price != null) {
+		collectionEntity.price = price;
+	}
 	return collectionEntity;
 }
 
@@ -23,6 +27,7 @@ Map<String, dynamic> $CollectionEntityToJson(CollectionEntity entity) {
 	data['id'] = entity.id;
 	data['issue'] = entity.issue?.toJson();
 	data['quantity'] = entity.quantity;
+	data['price'] = entity.price;
 	return data;
 }
 

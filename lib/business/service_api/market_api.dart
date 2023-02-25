@@ -9,7 +9,7 @@ import 'package:dbook/common/entities/trades_list_entity.dart';
 import 'package:dbook/common/entities/trend_list_entity.dart';
 import 'package:dbook/common/exception/data_parse_exception.dart';
 
-import '../../common/entities/collection_entity.dart';
+import '../../common/entities/pending_order_entity.dart';
 import '../../common/entities/transactions_list_entity.dart';
 import '../../common/net/http_x.dart';
 import '../../common/utils/logger.dart';
@@ -99,15 +99,15 @@ class MarketApi {
     return t;
   }
 
-  Future<List<CollectionEntity>> pendingOrders({int? page}) async {
+  Future<List<PendingOrderEntity>> pendingOrders({int? page}) async {
     Map<String, dynamic> params = Map();
     params['page'] = page;
 
     var response = await httpX.get(ApiConstants.tradesCurrent, queryParameters: params);
 
-    List<CollectionEntity>? orders;
+    List<PendingOrderEntity>? orders;
     try {
-      orders = (response['results'] as List).map((value) => CollectionEntity.fromJson(value)).toList();
+      orders = (response['results'] as List).map((value) => PendingOrderEntity.fromJson(value)).toList();
     } catch (e) {
       logX.e(e);
       throw DataParseException();
@@ -126,7 +126,11 @@ class MarketApi {
       List d = (response['dates'] as List);
       List q = (response['quantities'] as List);
 
-      t = d.asMap().keys.map((index) => TrendListEntity.fromJson({'date': d[index], 'quantities': q[index]})).toList();
+      t = d
+          .asMap()
+          .keys
+          .map((index) => TrendListEntity.fromJson({'date': d[index], 'quantities': q[index]}))
+          .toList();
     } catch (e) {
       logX.e(e);
       throw DataParseException();
@@ -145,6 +149,26 @@ class MarketApi {
       params['hash'] = hash;
     }
     var response = await httpX.post(ApiConstants.transactions, data: params);
+    return response;
+  }
+
+  Future<dynamic> sellIssue(
+      {required String issue, required String price, required int quantity, bool isEdit = false, int? tradeId}) async {
+    Map<String, dynamic> params = Map();
+    params['issue'] = issue;
+    params['price'] = price;
+    params['quantity'] = quantity;
+    var response;
+    if (isEdit) {
+      response = await httpX.put(ApiConstants.trades+'/'+tradeId.toString(), data: params);
+    } else {
+      response = await httpX.post(ApiConstants.trades, data: params);
+    }
+    return response;
+  }
+
+  Future<dynamic> cancelTrade({required int tradeId}) async {
+    var response = await httpX.delete(ApiConstants.trades+'/'+tradeId.toString());
     return response;
   }
 }

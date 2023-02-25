@@ -13,6 +13,7 @@ import 'package:dbook/common/entities/concern_opus_entity.dart';
 import 'package:dbook/common/entities/drafts_entity.dart';
 import 'package:dbook/common/entities/fans_entity.dart';
 import 'package:dbook/common/entities/issues_entity.dart';
+import 'package:dbook/common/entities/pending_order_entity.dart';
 import 'package:dbook/common/entities/read_info_entity.dart';
 import 'package:dbook/common/entities/trades_list_entity.dart';
 import 'package:dbook/common/entities/transactions_list_entity.dart';
@@ -62,6 +63,12 @@ class JsonConvert {
 		(IssuesTrade).toString(): IssuesTrade.fromJson,
 		(IssuesBookmark).toString(): IssuesBookmark.fromJson,
 		(IssuesToken).toString(): IssuesToken.fromJson,
+		(PendingOrderEntity).toString(): PendingOrderEntity.fromJson,
+		(PendingOrderUser).toString(): PendingOrderUser.fromJson,
+		(PendingOrderIssue).toString(): PendingOrderIssue.fromJson,
+		(PendingOrderIssueBook).toString(): PendingOrderIssueBook.fromJson,
+		(PendingOrderIssueBookAuthor).toString(): PendingOrderIssueBookAuthor.fromJson,
+		(PendingOrderIssueBookPreview).toString(): PendingOrderIssueBookPreview.fromJson,
 		(ReadInfoEntity).toString(): ReadInfoEntity.fromJson,
 		(TradesListEntity).toString(): TradesListEntity.fromJson,
 		(TradesListUser).toString(): TradesListUser.fromJson,
@@ -266,6 +273,24 @@ class JsonConvert {
 		}
 		if(<IssuesToken>[] is M){
 			return data.map<IssuesToken>((Map<String, dynamic> e) => IssuesToken.fromJson(e)).toList() as M;
+		}
+		if(<PendingOrderEntity>[] is M){
+			return data.map<PendingOrderEntity>((Map<String, dynamic> e) => PendingOrderEntity.fromJson(e)).toList() as M;
+		}
+		if(<PendingOrderUser>[] is M){
+			return data.map<PendingOrderUser>((Map<String, dynamic> e) => PendingOrderUser.fromJson(e)).toList() as M;
+		}
+		if(<PendingOrderIssue>[] is M){
+			return data.map<PendingOrderIssue>((Map<String, dynamic> e) => PendingOrderIssue.fromJson(e)).toList() as M;
+		}
+		if(<PendingOrderIssueBook>[] is M){
+			return data.map<PendingOrderIssueBook>((Map<String, dynamic> e) => PendingOrderIssueBook.fromJson(e)).toList() as M;
+		}
+		if(<PendingOrderIssueBookAuthor>[] is M){
+			return data.map<PendingOrderIssueBookAuthor>((Map<String, dynamic> e) => PendingOrderIssueBookAuthor.fromJson(e)).toList() as M;
+		}
+		if(<PendingOrderIssueBookPreview>[] is M){
+			return data.map<PendingOrderIssueBookPreview>((Map<String, dynamic> e) => PendingOrderIssueBookPreview.fromJson(e)).toList() as M;
 		}
 		if(<ReadInfoEntity>[] is M){
 			return data.map<ReadInfoEntity>((Map<String, dynamic> e) => ReadInfoEntity.fromJson(e)).toList() as M;

@@ -290,7 +290,7 @@ class AssetsApi {
     return issues;
   }
 
-  Future issueDetail({required String issueId}) async {
+  Future<IssuesEntity> issueDetail({required String issueId}) async {
     Map<String, dynamic> params = Map();
     var response = await httpX.get('${ApiConstants.issues}/$issueId', queryParameters: params);
 

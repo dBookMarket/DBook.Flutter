@@ -1,6 +1,5 @@
 import 'package:dbook/business/service_api/base/net_work.dart';
 import 'package:dbook/common/store/user.dart';
-import 'package:dbook/common/utils/logger.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -28,7 +27,6 @@ class AssetsLogic extends GetxController with GetSingleTickerProviderStateMixin 
   getSelfUserInfo() async {
     state.userInfo.value = UserStore.to.userInfo;
     state.userInfo.value = await UserStore.to.getUserInfo();
-    logX.d('更新用户数据>>>>>\n11${state.userInfo.value}');
   }
 
   getOtherUserInfo() async {
@@ -36,6 +34,7 @@ class AssetsLogic extends GetxController with GetSingleTickerProviderStateMixin 
   }
 
   getFlexibleSpaceH() {
+    if(state.flexibleSpaceKey.currentContext?.findRenderObject() == null) return;
     final RenderBox box = state.flexibleSpaceKey.currentContext?.findRenderObject() as RenderBox;
     Offset offset = box.localToGlobal(Offset(0.0, 20));
     state.flexibleSpaceH.value = offset.dy;

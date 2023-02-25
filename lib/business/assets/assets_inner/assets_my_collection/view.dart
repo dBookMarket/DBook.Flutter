@@ -1,4 +1,6 @@
 import 'package:dbook/business/assets/assets_inner/assets_my_collection/state.dart';
+import 'package:dbook/business/assets/assets_sell/assets_sell_view.dart';
+import 'package:dbook/business/issues/issues_state.dart';
 import 'package:dbook/common/entities/collection_entity.dart';
 import 'package:dbook/common/utils/logger.dart';
 import 'package:flutter/material.dart';
@@ -65,7 +67,7 @@ class AssetsMyCollectionPage extends StatelessWidget {
       width: w,
       // height: h,
       child: InkWell(
-        onTap: ()=>_onClick('detail',param: info),
+        onTap: () => _onClick('detail', param: info),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -95,17 +97,28 @@ class AssetsMyCollectionPage extends StatelessWidget {
         _button(icon: Assets.svgIssueSell, title: 'Sell', info: info),
       ]);
 
-  Widget _button({Color? bgColor, Color? txtColor, required String icon, required String title, double? fontSize, CollectionEntity? info}) => InkWell(
+  Widget _button(
+          {Color? bgColor,
+          Color? txtColor,
+          required String icon,
+          required String title,
+          double? fontSize,
+          CollectionEntity? info}) =>
+      InkWell(
         onTap: () => _onClick(title, param: info),
         child: Container(
           decoration: BoxDecoration(borderRadius: BorderRadius.circular(20.r), color: bgColor ?? ColorX.buttonYellow),
           padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
           margin: EdgeInsets.only(bottom: 10.h),
           child: Row(
-            children: [SvgPicture.asset(icon, width: 26.w), TextX(title, fontSize: fontSize ?? FontSizeX.s11, color: txtColor ?? ColorX.txtTitle)],
+            children: [
+              SvgPicture.asset(icon, width: 26.w),
+              TextX(title, fontSize: fontSize ?? FontSizeX.s11, color: txtColor ?? ColorX.txtTitle)
+            ],
           ),
         ),
       );
+
 
   _onClick(type, {CollectionEntity? param}) async {
     switch (type) {
@@ -114,8 +127,15 @@ class AssetsMyCollectionPage extends StatelessWidget {
         // logic.refresh();
         break;
       case 'Sell':
-        // await Get.to(() => CreateBookPage(), arguments: {'draftId': param.id});
-        // logic.refresh();
+        if (param?.issue?.status != IssuesStatus.off_sale.name) {
+          Get.snackbar('warning', 'Please wait for the data to be processed');
+          return;
+        }
+
+        var result = await Get.to(() => AssetsSellPage(), arguments: {'issueId': param?.issue?.id},opaque: false);
+        if (result != null) {
+          logic.refresh();
+        }
         break;
       case 'detail':
         IssuesEntity detail = IssuesEntity.fromJson(param?.issue?.toJson() ?? {});

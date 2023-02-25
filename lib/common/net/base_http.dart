@@ -50,8 +50,8 @@ class HeaderInterceptor extends InterceptorsWrapper {
   @override
   void onRequest(
       RequestOptions options, RequestInterceptorHandler handler) async {
-    options.connectTimeout = 1000 * 5;
-    options.receiveTimeout = 1000 * 5;
+    options.connectTimeout = 1000 * 15;
+    options.receiveTimeout = 1000 * 15;
 
     options.cancelToken = _cancelToken;
 

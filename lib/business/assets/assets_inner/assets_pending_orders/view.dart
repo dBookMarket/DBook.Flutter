@@ -6,12 +6,14 @@ import 'package:get/get.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
 import '../../../../common/config/app_config.dart';
-import '../../../../common/entities/collection_entity.dart';
+import '../../../../common/entities/pending_order_entity.dart';
 import '../../../../common/values/colors.dart';
 import '../../../../common/values/fontSize.dart';
+import '../../../../common/widgets/dialog.dart';
 import '../../../../common/widgets/text.dart';
 import '../../../../common/widgets/view_state/base_container_view.dart';
 import '../../../../generated/assets.dart';
+import '../../assets_sell/assets_sell_view.dart';
 import 'logic.dart';
 
 class AssetsPendingOrdersPage extends StatelessWidget {
@@ -52,9 +54,9 @@ class AssetsPendingOrdersPage extends StatelessWidget {
     });
   }
 
-  Widget _item(CollectionEntity info) {
+  Widget _item(PendingOrderEntity info) {
     var w = (1.sw - ScreenConfig.marginH * 2 - 20.w) / 2;
-    var h = w * 2.28+40.h;
+    // var h = w * 2.28+40.h;
 
     return Container(
       width: w,
@@ -72,12 +74,12 @@ class AssetsPendingOrdersPage extends StatelessWidget {
     );
   }
 
-  Widget _action(CollectionEntity info) => Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-    _button(icon: Assets.svgIssueRead, title: 'Read', info: info),
-    _button(icon: Assets.svgIssueSell, title: 'Sell', info: info),
+  Widget _action(PendingOrderEntity info) => Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+    _button(icon: Assets.svgIssueRead, title: 'Cancel', info: info),
+    _button(icon: Assets.svgIssueSell, title: 'Edit', info: info),
   ]);
 
-  Widget _button({Color? bgColor, Color? txtColor, required String icon, required String title, double? fontSize, CollectionEntity? info}) => InkWell(
+  Widget _button({Color? bgColor, Color? txtColor, required String icon, required String title, double? fontSize, PendingOrderEntity? info}) => InkWell(
     onTap: () => _onClick(title, param: info),
     child: Container(
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(20.r), color: bgColor ?? ColorX.buttonYellow),
@@ -89,24 +91,22 @@ class AssetsPendingOrdersPage extends StatelessWidget {
     ),
   );
 
-  _onClick(type, {param}) async {
+  _onClick(type, {PendingOrderEntity? param}) async {
     switch (type) {
       case 'Edit':
-      // await Get.to(() => WritingPage(), arguments: {'draftInfo': param});
-        logic.refresh();
+        var result = await Get.to(() => AssetsSellPage(), arguments: {'issueId': param?.issue?.id,'price':param?.price.toString(),'quantity':param?.quantity,'tradeId':param?.id},opaque: false);
+        if (result != null) {
+          logic.refresh();
+        }
         break;
-      case 'Push':
-      // await Get.to(() => CreateBookPage(), arguments: {'draftId': param.id});
-        logic.refresh();
-        break;
-      case 'Delete':
-      // Get.dialog(DialogX(
-      //   title: 'warning',
-      //   content: 'Are you sure you want to delete it?',
-      //   left: 'cancel',
-      //   right: 'OK',
-      //   rightCallback: () => logic.delete(param.id),
-      // ));
+      case 'Cancel':
+        Get.dialog(DialogX(
+          title: 'warning',
+          content: 'Are you sure you want to Cancel it?',
+          left: 'Cancel',
+          right: 'OK',
+          rightCallback: () => logic.delete(param?.id),
+        ));
         break;
     }
   }

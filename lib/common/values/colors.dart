@@ -23,6 +23,7 @@ class ColorX {
   static const Color buttonInValid = Color(0xFFE1E1E1);
   static const Color buttonText = Color(0xFFFFFFFF);
   static const Color buttonYellow = Color(0xFFFFE1B4);
+  static const Color buttonBrown = Color(0xFF50483B);
 
   static final Color shadow = Color(0x1A000000);
   static final Color border = Color(0xFF000000).withOpacity(0.03);
