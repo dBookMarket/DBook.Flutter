@@ -23,10 +23,10 @@ class ExceptionPitcher with _ExceptionNotifyBinding{
 
 
   /// * 根据code 转换Exception
-  ExceptionInfo transformException(Response? response){
-    assert(response!=null,'response can not be null!');
-    var statusCode = response?.statusCode??-1;
-    var data = response?.data??{};
+  ExceptionInfo? transformException(Response? response){
+    if(response==null) return null;
+    var statusCode = response.statusCode??-1;
+    var data = response.data??{};
 
     if (data is Map) {
       if(data.length>0){

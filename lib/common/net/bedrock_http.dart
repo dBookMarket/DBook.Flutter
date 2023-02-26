@@ -24,8 +24,8 @@ class BedRock extends BaseHttp {
     options
       ..contentType = Headers.jsonContentType
       ..responseType = ResponseType.json
-      ..connectTimeout = 5 * 1000
-      ..receiveTimeout = 5 * 1000
+      ..connectTimeout = 15 * 1000
+      ..receiveTimeout = 15 * 1000
       ..baseUrl = ApiConstants.BASE_URL;
     interceptors
       ..add(CookieManager(PersistCookieJar(storage: FileStorage(DirectoryUtil.getAppDocPath()))))
@@ -71,11 +71,7 @@ class ApiInterceptor extends InterceptorsWrapper {
     DateTime serviceTime = HttpDate.parse(response.headers['date'].toString().replaceAll('[', '').replaceAll(']', ''));
     GlobalTimeService.to.resetTime(serviceTime.millisecondsSinceEpoch);
 
-    if (response.statusCode! < 200 || response.statusCode! >= 400) {
-      throw ExceptionPitcher().transformException(response);
-    }else{
-      return super.onResponse(response, handler);
-    }
+    return super.onResponse(response, handler);
   }
 
   @override
