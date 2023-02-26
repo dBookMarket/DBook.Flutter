@@ -14,6 +14,7 @@ class IssueBuyLogic extends GetxController {
     var result = await NetWork.getInstance().assets.issueDetail(issueId: state.tradeInfo.issue?.id ?? '');
     state.setIdle();
     state.chainType = result.token?.blockChain;
+    state.nftId = result.token?.id;
   }
 
   buy()async{
@@ -34,21 +35,20 @@ class IssueBuyLogic extends GetxController {
     logX.d('amount>>>>>>$amount  quantity>>>>>>${state.quantity}  price>>>>>>${state.tradeInfo.price}');
 
     var isApproved = await Web3Store.to.setApprovalForTrade(chainType,amount);
-    state.setIdle();
     if(!isApproved) {
       state.setError(t: 'approve failed');
       return ;
     }
 
-    var result = await Web3Store.to.paySecondTrade(nftAmount: state.quantity, seller: state.tradeInfo.user?.address, chainType: chainType, nftId: state.tradeInfo.issue?.book?.id, tradeValue: amount);
+    var result = await Web3Store.to.paySecondTrade(nftAmount: state.quantity, seller: state.tradeInfo.user?.address, chainType: chainType, nftId: state.nftId, tradeValue: amount);
 
     if(!result.toString().startsWith('0x')) {
       state.setError(t: 'trade failed\n${result.toString()}');
       return ;
     }
 
-
-    await NetWork.getInstance().market.transaction(tradeId: state.tradeInfo.id, quantity: state.quantity,status: state.tradeInfo.issue?.status,hash: result);
+    await NetWork.getInstance().market.transaction(tradeId: state.tradeInfo.id, quantity: state.quantity,status: 'success',hash: result).onError((error, stackTrace) => state.setError(t: 'trade failed\n${error.toString()}'));
+    state.setSuccess(t: 'buy success');
   }
 
   updateQuantity(int value) {

@@ -1,7 +1,7 @@
 import 'base_exception.dart';
 
 /// 用于未登录等权限不够,需要跳转授权页面
-class DataParseException extends BaseException {
+class DataParseException extends ExceptionInfo {
 
 
   DataParseException({String message = "解析错误"}) : super(message) ;

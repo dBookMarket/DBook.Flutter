@@ -25,10 +25,9 @@ class ExceptionHandler {
   /// 处理业务异常
   handleBusinessException(DioError err) {
     var message;
-    if (err.error is BaseException) {
+    if (err.error is ExceptionInfo) {
       message = err.error.message;
       _businessExceptionAction(err.error);
-      if(err.error.code == 403) return;
     } else {
       message = err.message;
     }
@@ -41,34 +40,38 @@ class ExceptionHandler {
   }
 
   /// 处理服务端异常
-  handleServiceException(DioError err) {
+  bool handleServiceException(DioError err) {
     // 网络层异常
+    logX.e('未知异常', err);
     if (err.type == DioErrorType.connectTimeout) {
-      showError(t: '连接超时,请重试');
-      return;
+      showError(t: 'Connection timed out, please try again');
+      return false;
     } else if (err.type == DioErrorType.receiveTimeout || err.type == DioErrorType.sendTimeout) {
-      showError(t: '网络超时,请重试');
-      return;
+      showError(t: 'Network timed out, please try again');
+      return false;
     } else if (err.type == DioErrorType.response) {
-      showError(t: '网络异常,请检查网络!');
-      return;
+      // showError(t: 'The network is abnormal, please check the network!');
+      handleBusinessException(err);
+      return false;
     } else if (err.type == DioErrorType.other) {
-      logX.e('未知异常', err.error);
       if (err.error.toString().contains('SocketException')) {
-        showError(t: '网络不可用');
-        return;
+        showError(t: 'Network Unavailable');
+        return false;
       }
+
       // 业务异常处理
       handleBusinessException(err);
+      return true;
     } else if (err.type == DioErrorType.cancel) {
-      logX.e('请求取消', err.error);
-      return;
+      logX.e('request to cancel', err.error);
+      return false;
     }
+    return true;
   }
 
-  _businessExceptionAction(BaseException err) {
+  _businessExceptionAction(ExceptionInfo err) {
     switch (err.code) {
-      case 403: //登录过期
+      case 401: //登录过期
         UserStore.to.onLogout();
         break;
 

@@ -7,6 +7,7 @@ class IssueBuyState extends BaseState{
   final defaultQuantity = '1';
   late TradesListEntity tradeInfo;
   String? chainType;
+  int? nftId;
   int quantity = 1;
   IssueBuyState() {
     tradeInfo = Get.arguments?['tradeDetail'] ?? '';

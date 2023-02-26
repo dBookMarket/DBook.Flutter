@@ -1,4 +1,5 @@
 import 'package:dbook/business/issues/issue_buy/issue_buy_view.dart';
+import 'package:dbook/common/store/store.dart';
 import 'package:dbook/common/utils/logger.dart';
 import 'package:dbook/common/values/values.dart';
 import 'package:dbook/common/widgets/avatar_widget.dart';
@@ -72,15 +73,7 @@ class SecondaryMarketListPage extends StatelessWidget {
                   children: [
                     TextX('${info.price}USDC', fontSize: FontSizeX.s13, color: ColorX.txtTitle),
                     SizedBox(height: 10.h),
-                    ButtonX(
-                      'Buy',
-                      autoWidth: true,
-                      padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 10.h),
-                      borderRadius: 0,
-                      backgroundColor: Colors.green,
-                      fontSize: FontSizeX.s13,
-                      onPressed: () => _onClick(info),
-                    )
+                    _buyButton(info)
                   ],
                 ),
                 SizedBox(width: 25.w),
@@ -91,6 +84,22 @@ class SecondaryMarketListPage extends StatelessWidget {
           ],
         ),
       );
+
+  Widget _buyButton(TradesListEntity info){
+    var buttonValid = info.user?.id != UserStore.to.userInfo.id;
+    if(!buttonValid){
+      return SizedBox();
+    }
+    return ButtonX(
+      'Buy',
+      autoWidth: true,
+      padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 10.h),
+      borderRadius: 0,
+      backgroundColor: Colors.green,
+      fontSize: FontSizeX.s13,
+      onPressed: () => _onClick(info),
+    );
+  }
 
 
   _onClick(TradesListEntity info){

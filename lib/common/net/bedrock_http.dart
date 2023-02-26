@@ -3,11 +3,12 @@ import 'dart:io';
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dbook/business/service_api/base/api_constants.dart';
 import 'package:dbook/common/exception/exception_pitcher.dart';
-import 'package:dbook/common/store/store.dart';
 import 'package:dbook/common/utils/directory.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 
+import '../exception/base_exception.dart';
+import '../exception/exception_handler.dart';
 import '../services/global_time.dart';
 import 'base_http.dart';
 import 'log_intercepter_x.dart';
@@ -43,7 +44,7 @@ class ResponseData<T> extends BaseResponseData {
   bool get success => (code == 200);
 
   ResponseData.fromJson(Map<String, dynamic> json) {
-    code = int.tryParse(json['code']) ?? -1;
+    code = json['code'] ?? -1;
     message = json['msg'];
     data = json['data'];
     currentTime = json['currentTime'];
@@ -70,26 +71,21 @@ class ApiInterceptor extends InterceptorsWrapper {
     DateTime serviceTime = HttpDate.parse(response.headers['date'].toString().replaceAll('[', '').replaceAll(']', ''));
     GlobalTimeService.to.resetTime(serviceTime.millisecondsSinceEpoch);
 
-    if (response.statusCode != 200 && response.statusCode != 201 && response.statusCode != 204) {
+    if (response.statusCode! < 200 || response.statusCode! >= 400) {
       throw ExceptionPitcher().transformException(response);
+    }else{
+      return super.onResponse(response, handler);
     }
-
-    return super.onResponse(response, handler);
-    // response.data = ResponseData.fromJson(response.data);
-    // if (response.data.success) {
-    //   apiServer._currentTime = response.data.currentTime;
-    //   return super.onResponse(response, handler);
-    // } else {
-    //   ///抛出业务异常
-    //   throw ExceptionPitcher().transformException(response.data);
-    // }
   }
 
   @override
   void onError(DioError err, ErrorInterceptorHandler handler) {
-    if (err.response?.statusCode == 401) {
-      UserStore.to.removeToken();
+    if(err.error is! ExceptionInfo){
+      err.error = ExceptionPitcher().transformException(err.response);
     }
-    super.onError(err, handler);
+    var canContinue = ExceptionHandler().handleServiceException(err);
+    if (canContinue) {
+      super.onError(err, handler);
+    }
   }
 }

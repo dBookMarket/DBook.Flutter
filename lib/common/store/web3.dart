@@ -134,7 +134,7 @@ class Web3Store extends GetxController {
   }
 
   Future paySecondTrade({required PublicChainType chainType, required num tradeValue, required String? seller, required int? nftId, required nftAmount}) async {
-    var receiver = _contractAddress(AbiType.platform, chainType);
+    var receiver = EthereumAddress.fromHex(_userAddress!);
     var client = _getClient(chainType);
     var fee = await getTradeFee(chainType);
 

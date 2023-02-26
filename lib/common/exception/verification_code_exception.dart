@@ -1,6 +1,6 @@
 import 'base_exception.dart';
 
-class VerificationCodeException extends BaseException  {
+class VerificationCodeException extends ExceptionInfo  {
   VerificationCodeException(String message) : super(message);
 
 }

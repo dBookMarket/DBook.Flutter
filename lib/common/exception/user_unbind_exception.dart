@@ -1,6 +1,6 @@
 import 'base_exception.dart';
 
-class UserUnbindException extends BaseException{
+class UserUnbindException extends ExceptionInfo{
   UserUnbindException(String message) : super(message);
 
 

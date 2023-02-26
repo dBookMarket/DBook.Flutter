@@ -41,7 +41,7 @@ showProgress(double progress,{String? status,}) {
 
 showError({String? t}) {
   EasyLoading.showError(t ?? 'Loading failed!', dismissOnTap: false);
-  logX.d('加载失败>>>>$t');
+  logX.e('加载失败>>>>$t');
 }
 
 showInfo({String? t}) {

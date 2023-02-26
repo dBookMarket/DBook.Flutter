@@ -1,10 +1,10 @@
-abstract class BaseException implements Exception {
-  String message = "";
-  int code = -1;
+class ExceptionInfo implements Exception {
+  String? message = "未知错误";
+  int? code = -1;
 
-  BaseException(this.message);
+  ExceptionInfo(this.message);
 
-  BaseException.withCode(this.code, this.message);
+  ExceptionInfo.withCode(this.code, this.message);
 
   @override
   String toString() {

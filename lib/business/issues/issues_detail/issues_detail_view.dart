@@ -2,6 +2,7 @@ import 'package:add_2_calendar/add_2_calendar.dart';
 import 'package:common_utils/common_utils.dart';
 import 'package:dbook/business/issues/secondary_market/secondary_market_view.dart';
 import 'package:dbook/common/config/app_config.dart';
+import 'package:dbook/common/store/store.dart';
 import 'package:dbook/common/utils/logger.dart';
 import 'package:dbook/common/utils/string_helper.dart';
 import 'package:dbook/common/values/values.dart';
@@ -284,7 +285,7 @@ class IssuesDetailPage extends StatelessWidget {
             ),
             _publicCountItem(
               t1: 'Selling Price',
-              v1: '${state.issuesInfo.value.price}USDC',
+              v1: '${removeZero(state.issuesInfo.value.price.toString())} USDC',
               t2: 'Limited per person',
               v2: state.issuesInfo.value.buyLimit.toString(),
             ),
@@ -292,7 +293,7 @@ class IssuesDetailPage extends StatelessWidget {
               t1: 'Supply cycle',
               v1: '${(state.issuesInfo.value.duration ?? 0).toString()} minutes',
               t2: 'You have',
-              v2: state.issuesInfo.value.nOwners.toString(),
+              v2: state.issuesInfo.value.nOwned.toString(),
             ),
           ],
         );
@@ -307,7 +308,7 @@ class IssuesDetailPage extends StatelessWidget {
               TextX(t1, fontSize: FontSizeX.s11, color: ColorX.txtHint),
               SizedBox(height: 10.h),
               TextX(v1, fontSize: FontSizeX.s13, color: ColorX.txtTitle),
-              SizedBox(height: 4.h),
+              SizedBox(height: 14.h),
               TextX(t2, fontSize: FontSizeX.s11, color: ColorX.txtBrown),
               TextX(v2, fontSize: FontSizeX.s11, color: ColorX.txtBrown),
             ],
@@ -316,6 +317,9 @@ class IssuesDetailPage extends StatelessWidget {
       );
 
   Widget _tradeButton() {
+    var buttonValid = state.issuesInfo.value.book?.author?.id != UserStore.to.userInfo.id;
+
+
     if (state.issuesInfo.value.status == IssuesStatus.pre_sale.name) {
       return ButtonX(
         'Add a calendar',
@@ -329,8 +333,9 @@ class IssuesDetailPage extends StatelessWidget {
       return ButtonX(
         'Buy',
         borderRadius: 0,
-        backgroundColor: Color(0xFF50483B),
-        textColor: ColorX.txtYellow,
+        backgroundColor: buttonValid?Color(0xFF50483B):ColorX.buttonInValid,
+        textColor: buttonValid?ColorX.txtYellow:ColorX.txtWhite,
+        enable: buttonValid,
         padding: EdgeInsets.symmetric(vertical: 24.h),
         onPressed: () => _onClick('购买'),
       );

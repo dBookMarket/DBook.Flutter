@@ -130,7 +130,7 @@ class IssuesDetailLogic extends GetxController {
         .market
         .transaction(tradeId: state.issuesInfo.value.trade?.id ?? 0, quantity: state.buyAmount.value)
         .onError((error, stackTrace) => {state.setError(t: 'buy failed'), result = false});
-    state.setIdle();
+    state.setSuccess(t: 'pay success');
   }
 
   @override
