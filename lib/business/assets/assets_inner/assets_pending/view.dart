@@ -73,10 +73,31 @@ class AssetsPendingPage extends StatelessWidget {
               Expanded(
                   child: Stack(
                 children: [
-                  Image.network(info.coverUrl ?? '', fit: BoxFit.cover, height: h,width: w,),
+                  Image.network(
+                    info.coverUrl ?? '',
+                    fit: BoxFit.cover,
+                    height: h,
+                    width: w,
+                  ),
                   info.status == 'success'
                       ? SizedBox()
-                      : Container(width: w, height: h, child: TextX('data\nprocessing', color: ColorX.txtTitle), color: Colors.grey.withOpacity(0.9), alignment: Alignment.center)
+                      : Container(
+                          width: w,
+                          height: h,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset(Assets.svgBookEncrypting,width: 40.r),
+                              TextX(
+                                'In the queue, it is  expected to start  encrypting data in 2 minute',
+                                color: ColorX.txtWhite,
+                                maxLines: 10,
+                                fontSize: FontSizeX.s11,
+                              )
+                            ],
+                          ),
+                          color: Colors.black.withOpacity(0.6),
+                          alignment: Alignment.center)
                 ],
               )),
               SizedBox(width: 10.w),

@@ -43,6 +43,7 @@ class Assets {
   static const String svgBack = 'assets/svg/back.svg';
   static const String svgBookCover = 'assets/svg/book_cover.svg';
   static const String svgBookDraft = 'assets/svg/book_draft.svg';
+  static const String svgBookEncrypting = 'assets/svg/book_encrypting.svg';
   static const String svgCollectSelected = 'assets/svg/collect_selected.svg';
   static const String svgCollectUnselect = 'assets/svg/collect_unselect.svg';
   static const String svgComingTime = 'assets/svg/coming_time.svg';
