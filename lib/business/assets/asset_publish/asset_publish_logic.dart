@@ -54,7 +54,7 @@ class AssetPublishLogic extends GetxController {
   }
 
   setTime(DateTime value) {
-    state.publishTime.value = value.add(Duration(minutes: 2));
+    state.publishTime.value = value;
     checkButtonValid();
   }
 

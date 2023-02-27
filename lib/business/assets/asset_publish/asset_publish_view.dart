@@ -12,6 +12,7 @@ import 'package:flutter_picker/picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
+import '../../../common/services/global_time.dart';
 import 'asset_publish_logic.dart';
 
 class AssetPublishPage extends StatelessWidget {
@@ -33,14 +34,14 @@ class AssetPublishPage extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: ScreenConfig.marginH, vertical: 30.h),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           _bookInfo(),
-          _item(title: 'Number of publications', controller: state.countController,keyboardType:TextInputType.number),
+          _item(title: 'Number of publications', controller: state.countController, keyboardType: TextInputType.number),
           _inkItem(title: 'Public chain', value: state.publicChain),
           _item(title: 'Currency', controller: state.currencyController),
-          _item(title: 'Unit price', controller: state.univalentController,keyboardType:TextInputType.number),
-          _item(title: 'Royalties', controller: state.royaltiesController,keyboardType:TextInputType.number),
+          _item(title: 'Unit price', controller: state.univalentController, keyboardType: TextInputType.number),
+          _item(title: 'Royalties', controller: state.royaltiesController, keyboardType: TextInputType.number),
           _inkItem(title: 'Pre-sale time', value: state.publishTime),
-          _item(title: 'Supply cycle/minute', controller: state.periodController,keyboardType:TextInputType.number),
-          _item(title: 'Limit', controller: state.limitController,keyboardType:TextInputType.number),
+          _item(title: 'Supply cycle/minute', controller: state.periodController, keyboardType: TextInputType.number),
+          _item(title: 'Limit', controller: state.limitController, keyboardType: TextInputType.number),
           SizedBox(height: 20.h),
           _hint(),
           _commitButton(),
@@ -79,7 +80,7 @@ class AssetPublishPage extends StatelessWidget {
         ],
       );
 
-  Widget _item({required String title, required TextEditingController controller, String? hint, int? maxLines,TextInputType? keyboardType}) => Column(
+  Widget _item({required String title, required TextEditingController controller, String? hint, int? maxLines, TextInputType? keyboardType}) => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _tag(title),
@@ -178,9 +179,27 @@ class AssetPublishPage extends StatelessWidget {
             }).showModal(Get.context!);
         break;
       case 'Pre-sale time':
-        DatePicker.showDatePicker(Get.context!, showTitleActions: true, minTime: DateTime.now(), maxTime: DateTime.now().add(Duration(days: 365)), onConfirm: (date) {
+        // DatePicker.showDatePicker(Get.context!, showTitleActions: true, minTime: DateTime.now(), maxTime: DateTime.now().add(Duration(days: 365)), onConfirm: (date) {
+        //   logic.setTime(date);
+        // }, currentTime: DateTime.now());
+
+        var now = DateUtil.getDateTimeByMs(GlobalTimeService.to.globalTime.value);
+
+        // DatePicker.showDateTimePicker(Get.context!,
+        //     showTitleActions: true,
+        //     minTime: DateTime(now.year, now.month, now.day, now.hour, now.minute),
+        //     maxTime:  DateTime(now.year, now.month, now.day, now.hour, now.minute).add(Duration(days: 365)), onChanged: (date) {
+        //       logic.setTime(date);
+        //     }, onConfirm: (date) {
+        //       print('confirm1 $date');
+        //     }, locale: LocaleType.en);
+
+        DatePicker.showDateTimePicker(Get.context!,
+            showTitleActions: true,
+            minTime: DateTime(now.year, now.month, now.day, now.hour, now.minute).add(Duration(minutes: 3)),
+            maxTime: DateTime(now.year, now.month, now.day, now.hour, now.minute).add(Duration(days: 30)), onConfirm: (date) {
           logic.setTime(date);
-        }, currentTime: DateTime.now());
+        }, locale: LocaleType.en);
         break;
     }
   }
