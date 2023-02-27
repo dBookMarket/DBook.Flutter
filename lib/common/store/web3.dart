@@ -4,12 +4,15 @@ import 'dart:typed_data';
 
 import 'package:dbook/common/key_manager/keystore_manager.dart';
 import 'package:dbook/common/store/store.dart';
+import 'package:dbook/common/utils/loading.dart';
 import 'package:dbook/common/utils/logger.dart';
 import 'package:dbook/generated/assets.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart';
 import 'package:web3dart/web3dart.dart';
+
+import '../../business/login/verify_password/verify_password_view.dart';
 
 enum PublicChainType { bnb, polygon }
 
@@ -210,7 +213,15 @@ class Web3Store extends GetxController {
 
   Future<dynamic> _sendTransaction({required Web3Client client, required DeployedContract deployedContract, required String func, param}) async {
     logX.d('请求合约$func>>>>>>>deployedContract ${deployedContract.address} \nparam $param');
-    Credentials credentials = await Web3KeychainManager.getInstance().getCredentials(EthereumAddress.fromHex(_userAddress!), '1');
+    dismissLoading();
+    var pwd = await Get.to(()=>VerifyPasswordPage(verifyType:VerifyType.verifyPassword),opaque: false,duration: Duration.zero,transition: Transition.noTransition,
+        fullscreenDialog: true);
+    showLoading();
+    if(pwd==null){
+      showInfo(t: 'Cancel');
+      return;
+    }
+    Credentials credentials = await Web3KeychainManager.getInstance().getCredentials(EthereumAddress.fromHex(_userAddress!), pwd);
     final networkId = await client.getNetworkId();
 
     var transaction = Transaction.callContract(
