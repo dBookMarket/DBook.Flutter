@@ -1,10 +1,11 @@
+import 'package:dbook/business/login/guide/view.dart';
 import 'package:dbook/common/widgets/text.dart';
-import 'package:dbook/generated/assets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
+import '../../common/store/user.dart';
 import '../../common/values/colors.dart';
 import '../../common/widgets/view_state/base_container_view.dart';
 import 'logic.dart';
@@ -48,6 +49,10 @@ class MainPage extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         if (!isSelect) {
+          if(index == 1 && !UserStore.to.isLogin){
+            Get.to(()=>GuidePage());
+            return;
+          }
           state.pageController.jumpToPage(index);
         }
       },

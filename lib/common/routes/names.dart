@@ -1,9 +1,19 @@
 class AppRoutes {
   static const INITIAL = '/';
-  static const SIGN_IN = '/sign_in';
-  static const SIGN_UP = '/sign_up';
-  static const NotFound = '/not_found';
+  static const MAIN = '/MainPage/';
+  static const Guide = '/GuidePage';
+  static const ImportMemories = '/ImportMemoriesPage';
+  static const SettingPassword = '/SettingPasswordPage';
 
-  static const Application = '/application';
-  static const Category = '/category';
+
+  static const CreateBook = '/CreateBookPage';
+  static const Assets = '/AssetsPage';
+  static const Wallet = '/WalletPage';
+  static const Concern = '/ConcernPage';
+  static const Writing = '/WritingPage';
+  static const ProfileSettings = '/ProfileSettingsPage';
+  static const TwitterAuth = '/TwitterAuthView';
+
+
+
 }

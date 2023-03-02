@@ -54,6 +54,8 @@ abstract class Web3KeychainManagerInterface {
   /// 验证后删除
   Future<bool> remove(EthereumAddress address, String pwd,
       {bool removeStorage = false});
+
+  removeAll();
 }
 
 
@@ -403,6 +405,13 @@ class Web3KeychainManager implements Web3KeychainManagerInterface {
     }
 
     return false;
+  }
+
+  removeAll(){
+    /// 删除地址列表
+    this._addresses.clear();
+    /// 删除缓存
+    _walletCacher.expireAll();
   }
 
   /// 获取签名凭证对象

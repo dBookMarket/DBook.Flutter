@@ -1,10 +1,8 @@
 import 'package:dbook/common/utils/keyboard.dart';
+import 'package:dbook/common/values/values.dart';
 import 'package:dbook/common/widgets/text.dart';
 import 'package:flutter/material.dart';
-import 'package:dbook/common/values/values.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import '../config/app_config.dart';
 
 /// 扁平圆角按钮
 Widget btnFlatButtonWidget({
@@ -155,7 +153,7 @@ class ButtonX extends StatelessWidget {
       padding: padding ??
           EdgeInsets.symmetric(
             horizontal: 20.h,
-            vertical: 30.h,
+            vertical: 26.h,
           ),
       decoration: BoxDecoration(
           color: backgroundColor,

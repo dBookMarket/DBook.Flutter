@@ -19,7 +19,7 @@ class ImportMemoriesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: appBar(title: ''),
+      appBar: appBar(title: 'Login'),
       body: _body(),
     );
   }
@@ -31,12 +31,15 @@ class ImportMemoriesPage extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 30.w),
         child: Column(
           children: [
+            SizedBox(height: 36.h),
             _input(),
             Expanded(child: SizedBox()),
             Obx(() {
               return ButtonX(
                 'Next',
                 enable: state.memories.value.isNotEmpty,
+                borderRadius: 0,
+                padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 25.h),
                 backgroundColor: state.memories.isNotEmpty ? ColorX.buttonValid : ColorX.buttonInValid,
                 onPressed: () => Get.to(()=>SettingPasswordPage(), arguments: Map.of({'memories': state.memories.value})),
               );
@@ -57,7 +60,7 @@ class ImportMemoriesPage extends StatelessWidget {
       decoration: InputDecoration(
         isCollapsed: true,
         contentPadding: EdgeInsets.fromLTRB(32.w, 30.h, 32.w, 30.h),
-        fillColor: Color(0xFFF6F6F6),
+        fillColor: Colors.white,
         filled: true,
         hintText: 'Please enter 12 mnemonics, in the order in which they were backed up, separated by spaces for each single time.',
         hintStyle: TextStyle(color: Color(0xFF999999), fontSize: 36.sp),
@@ -68,16 +71,16 @@ class ImportMemoriesPage extends StatelessWidget {
             Radius.circular(15.r),
           ),
           borderSide: BorderSide(
-            color: Colors.transparent,
-            width: 0,
+            color: Colors.black,
+            width: 1.r,
           ),
         ),
-        disabledBorder: OutlineInputBorder(borderSide: BorderSide(width: 0, color: Colors.transparent)),
-        border: OutlineInputBorder(borderSide: BorderSide(width: 0, color: Colors.transparent)),
+        disabledBorder: OutlineInputBorder(borderSide: BorderSide(width: 1.r, color: Colors.black)),
+        border: OutlineInputBorder(borderSide: BorderSide(width: 1.r, color: Colors.black)),
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(
-            color: Colors.transparent,
-            width: 0,
+            color: Colors.black,
+            width: 1.r,
           ),
           borderRadius: BorderRadius.all(
             Radius.circular(15.r),

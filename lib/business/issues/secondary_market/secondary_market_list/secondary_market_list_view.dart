@@ -14,6 +14,7 @@ import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 import '../../../../common/entities/trades_list_entity.dart';
 import '../../../../common/utils/string_helper.dart';
 import '../../../../common/widgets/view_state/base_container_view.dart';
+import '../../../login/guide/view.dart';
 import 'secondary_market_list_logic.dart';
 
 class SecondaryMarketListPage extends StatelessWidget {
@@ -103,6 +104,10 @@ class SecondaryMarketListPage extends StatelessWidget {
 
 
   _onClick(TradesListEntity info){
+    if (!UserStore.to.isLogin) {
+      Get.to(() => GuidePage());
+      return;
+    }
     logX.d('chainType:${state.issuesInfo.token?.blockChain}');
     Get.to(()=>IssueBuyPage(),opaque: false,arguments: {'tradeDetail':info},duration: Duration(milliseconds: 0),fullscreenDialog: true);
   }

@@ -1,7 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:dbook/common/routes/routes.dart';
 import 'package:dbook/common/store/store.dart';
-
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 /// 第一次欢迎页面
@@ -16,10 +14,11 @@ class RouteWelcomeMiddleware extends GetMiddleware {
   RouteSettings? redirect(String? route) {
     if (ConfigStore.to.isFirstOpen == true) {
       return null;
-    } else if (UserStore.to.isLogin == true) {
-      return RouteSettings(name: AppRoutes.Application);
-    } else {
-      return RouteSettings(name: AppRoutes.SIGN_IN);
     }
+    // else if (UserStore.to.isLogin == true) {
+    //   return RouteSettings(name: AppRoutes.Application);
+    // } else {
+    //   return RouteSettings(name: AppRoutes.SIGN_IN);
+    // }
   }
 }

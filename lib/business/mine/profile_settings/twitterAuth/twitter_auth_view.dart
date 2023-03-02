@@ -1,3 +1,4 @@
+import 'package:dbook/business/mine/profile_settings/twitterAuth/twitter_auth_logic.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:get/get.dart';
@@ -5,18 +6,13 @@ import 'package:get/get.dart';
 import '../../../../common/widgets/appBar.dart';
 
 class TwitterAuthView extends StatelessWidget {
-  late InAppWebViewController? inAppWebViewController;
-
-  late String title;
-  late String url;
-  bool? withToken = false;
-
-  TwitterAuthView(this.title, this.url, {this.withToken});
+  final logic = Get.put(TwitterAuthLogic());
+  final state = Get.find<TwitterAuthLogic>().state;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: appBar(title: this.title, goBack: _goBack),
+        appBar: appBar(title: 'Twitter Auth'),
         body: InAppWebView(
           initialOptions: InAppWebViewGroupOptions(
               crossPlatform:
@@ -26,23 +22,10 @@ class TwitterAuthView extends StatelessWidget {
                 allowsInlineMediaPlayback: true,
               )),
           onWebViewCreated: (controller) {
-            inAppWebViewController = controller;
+            state.inAppWebViewController = controller;
           },
-          onLoadStart: (_, Uri? url) => authResult(url),
-          initialUrlRequest: URLRequest(url: Uri.tryParse(url)),
+          onLoadStart: (_, Uri? url) => logic.authResult(url),
+          initialUrlRequest: URLRequest(url: Uri.tryParse('')),
         ));
-  }
-
-  authResult(Uri? uri) {
-    if (uri == null) return;
-    final param = uri.queryParameters;
-    if (param['type'] == 'twitter' && param['isAuth'] == 'true' && param.containsKey('oauth_token') && param.containsKey('oauth_verifier')) {
-      Get.back(result: param);
-    }
-  }
-
-  /// 判断网页是否可以返回
-  _goBack() {
-    inAppWebViewController?.canGoBack().then((value) => {value ? inAppWebViewController?.goBack() : Get.back()});
   }
 }

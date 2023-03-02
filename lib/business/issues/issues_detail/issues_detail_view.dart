@@ -1,6 +1,7 @@
 import 'package:add_2_calendar/add_2_calendar.dart';
 import 'package:common_utils/common_utils.dart';
 import 'package:dbook/business/issues/secondary_market/secondary_market_view.dart';
+import 'package:dbook/business/login/guide/view.dart';
 import 'package:dbook/common/config/app_config.dart';
 import 'package:dbook/common/store/store.dart';
 import 'package:dbook/common/utils/logger.dart';
@@ -30,9 +31,7 @@ import 'issues_detail_logic.dart';
 
 class IssuesDetailPage extends StatelessWidget {
   final logic = Get.put(IssuesDetailLogic());
-  final state = Get
-      .find<IssuesDetailLogic>()
-      .state;
+  final state = Get.find<IssuesDetailLogic>().state;
 
   @override
   Widget build(BuildContext context) {
@@ -44,8 +43,7 @@ class IssuesDetailPage extends StatelessWidget {
 
   List<Widget> _action() => [_share(), _wish()];
 
-  Widget _share() =>
-      GestureDetector(
+  Widget _share() => GestureDetector(
         onTap: () => _onClick('share'),
         child: Container(
           padding: EdgeInsets.only(right: ScreenConfig.marginH / 2),
@@ -71,39 +69,32 @@ class IssuesDetailPage extends StatelessWidget {
     );
   }
 
-  Widget _body() =>
-      BaseContainer(
-          viewState: state.viewState,
-          child: SingleChildScrollView(
-            padding: EdgeInsets.symmetric(horizontal: ScreenConfig.marginH, vertical: 30.h),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Image.network(
-                  state.issuesInfo.value.book?.coverUrl ?? '',
-                  width: 1.sw,
-                  fit: BoxFit.cover,
-                ),
-                SizedBox(height: 30.h),
-                TextX(state.issuesInfo.value.book?.title, textAlign: TextAlign.start,
-                    fontSize: FontSizeX.s16,
-                    color: ColorX.txtTitle,
-                    fontWeight: TextX.bold),
-                SizedBox(height: 20.h),
-                _author(),
-                SizedBox(height: 20.h),
-                TextX(state.issuesInfo.value.book?.desc, textAlign: TextAlign.start,
-                    fontSize: FontSizeX.s11,
-                    color: ColorX.txtHint,
-                    maxLines: 100),
-                SizedBox(height: 20.h),
-                _trialButton(),
-                _publication(),
-                _destroyed(),
-                SecondaryMarketPage()
-              ],
+  Widget _body() => BaseContainer(
+      viewState: state.viewState,
+      child: SingleChildScrollView(
+        padding: EdgeInsets.symmetric(horizontal: ScreenConfig.marginH, vertical: 30.h),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Image.network(
+              state.issuesInfo.value.book?.coverUrl ?? '',
+              width: 1.sw,
+              fit: BoxFit.cover,
             ),
-          ));
+            SizedBox(height: 30.h),
+            TextX(state.issuesInfo.value.book?.title, textAlign: TextAlign.start, fontSize: FontSizeX.s16, color: ColorX.txtTitle, fontWeight: TextX.bold),
+            SizedBox(height: 20.h),
+            _author(),
+            SizedBox(height: 20.h),
+            TextX(state.issuesInfo.value.book?.desc, textAlign: TextAlign.start, fontSize: FontSizeX.s11, color: ColorX.txtHint, maxLines: 100),
+            SizedBox(height: 20.h),
+            _trialButton(),
+            _publication(),
+            _destroyed(),
+            SecondaryMarketPage()
+          ],
+        ),
+      ));
 
   Widget _contactItem({required String img, String? url}) {
     return Container(
@@ -125,21 +116,13 @@ class IssuesDetailPage extends StatelessWidget {
     );
   }
 
-  Widget _author() =>
-      Row(children: [
+  Widget _author() => Row(children: [
         InkWell(
           onTap: () => _onClick('author'),
           child: Row(
             children: [
-              TextX(state.issuesInfo.value.book?.author?.name, textAlign: TextAlign.start,
-                  fontSize: FontSizeX.s11,
-                  color: ColorX.txtTitle,
-                  fontWeight: TextX.bold,
-                  maxLines: 100),
-              TextX('(${formatAddress(state.issuesInfo.value.book?.author?.address)})', textAlign: TextAlign.start,
-                  fontSize: FontSizeX.s11,
-                  color: ColorX.txtHint,
-                  maxLines: 100)
+              TextX(state.issuesInfo.value.book?.author?.name, textAlign: TextAlign.start, fontSize: FontSizeX.s11, color: ColorX.txtTitle, fontWeight: TextX.bold, maxLines: 100),
+              TextX('(${formatAddress(state.issuesInfo.value.book?.author?.address)})', textAlign: TextAlign.start, fontSize: FontSizeX.s11, color: ColorX.txtHint, maxLines: 100)
             ],
           ),
         ),
@@ -149,8 +132,7 @@ class IssuesDetailPage extends StatelessWidget {
         _contactItem(img: Assets.svgLogoTwitter, url: state.issuesInfo.value.book?.author?.twitterUrl),
       ]);
 
-  Widget _trialButton() =>
-      ButtonX(
+  Widget _trialButton() => ButtonX(
         'Trial reading',
         backgroundColor: Color(0xFF50483B),
         borderRadius: 0,
@@ -161,45 +143,43 @@ class IssuesDetailPage extends StatelessWidget {
       );
 
   //region 出版信息
-  Widget _publication() =>
-      _boxContainer(
+  Widget _publication() => _boxContainer(
           child: Column(
+        children: [
+          Row(
             children: [
-              Row(
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  Row(
                     children: [
-                      Row(
-                        children: [
-                          Container(
-                            width: 10.r,
-                            height: 10.r,
-                            decoration: BoxDecoration(color: Colors.black, borderRadius: BorderRadius.circular(100)),
-                          ),
-                          SizedBox(width: 20.w),
-                          TextX(
-                              'Publication', fontSize: FontSizeX.s16, color: Color(0xFF42392B), fontWeight: TextX.bold)
-                        ],
+                      Container(
+                        width: 10.r,
+                        height: 10.r,
+                        decoration: BoxDecoration(color: Colors.black, borderRadius: BorderRadius.circular(100)),
                       ),
-                      SizedBox(height: 12.h),
-                      _comingDay(state.issuesInfo.value.publishedAt)
+                      SizedBox(width: 20.w),
+                      TextX('Publication', fontSize: FontSizeX.s16, color: Color(0xFF42392B), fontWeight: TextX.bold)
                     ],
                   ),
-                  Expanded(child: SizedBox()),
-                  _publicationTime(),
+                  SizedBox(height: 12.h),
+                  _comingDay(state.issuesInfo.value.publishedAt)
                 ],
               ),
-              LineH(margin: EdgeInsets.only(top: 30.h, bottom: 20.h)),
-              _publicChain(),
-              LineH(margin: EdgeInsets.only(top: 30.h, bottom: 20.h)),
-              _publicCount(),
-              SizedBox(height: 20.h),
-              Obx(() {
-                return _tradeButton();
-              }),
+              Expanded(child: SizedBox()),
+              _publicationTime(),
             ],
-          ));
+          ),
+          LineH(margin: EdgeInsets.only(top: 30.h, bottom: 20.h)),
+          _publicChain(),
+          LineH(margin: EdgeInsets.only(top: 30.h, bottom: 20.h)),
+          _publicCount(),
+          SizedBox(height: 20.h),
+          Obx(() {
+            return _tradeButton();
+          }),
+        ],
+      ));
 
   Widget _comingDay(time) {
     return Row(children: [
@@ -213,30 +193,18 @@ class IssuesDetailPage extends StatelessWidget {
     ]);
   }
 
-  Widget _publicationTime() =>
-      Obx(() {
+  Widget _publicationTime() => Obx(() {
         GlobalTimeService.to.globalTime.value;
         return Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _publicationTimeItem(value: logic
-                .comingTime()
-                .inDays - 1, key: 'DAYS'),
-            Container(child: TextX(':', fontSize: FontSizeX.s13),
-                padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 10.w)),
-            _publicationTimeItem(value: logic
-                .comingTime()
-                .inHours % 24, key: 'HOURS'),
-            Container(child: TextX(':', fontSize: FontSizeX.s13),
-                padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 10.w)),
-            _publicationTimeItem(value: logic
-                .comingTime()
-                .inMinutes % 60, key: 'MINUTES'),
-            Container(child: TextX(':', fontSize: FontSizeX.s13),
-                padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 10.w)),
-            _publicationTimeItem(value: logic
-                .comingTime()
-                .inSeconds % 60, key: 'SECONDS'),
+            _publicationTimeItem(value: logic.comingTime().inDays - 1, key: 'DAYS'),
+            Container(child: TextX(':', fontSize: FontSizeX.s13), padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 10.w)),
+            _publicationTimeItem(value: logic.comingTime().inHours % 24, key: 'HOURS'),
+            Container(child: TextX(':', fontSize: FontSizeX.s13), padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 10.w)),
+            _publicationTimeItem(value: logic.comingTime().inMinutes % 60, key: 'MINUTES'),
+            Container(child: TextX(':', fontSize: FontSizeX.s13), padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 10.w)),
+            _publicationTimeItem(value: logic.comingTime().inSeconds % 60, key: 'SECONDS'),
           ],
         );
       });
@@ -260,8 +228,7 @@ class IssuesDetailPage extends StatelessWidget {
     );
   }
 
-  Widget _publicChain() =>
-      Obx(() {
+  Widget _publicChain() => Obx(() {
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -272,8 +239,7 @@ class IssuesDetailPage extends StatelessWidget {
         );
       });
 
-  Widget _publicCount() =>
-      Obx(() {
+  Widget _publicCount() => Obx(() {
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -299,8 +265,7 @@ class IssuesDetailPage extends StatelessWidget {
         );
       });
 
-  Widget _publicCountItem({required String t1, required String t2, required String v1, required String v2}) =>
-      Column(
+  Widget _publicCountItem({required String t1, required String t2, required String v1, required String v2}) => Column(
         children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -319,7 +284,6 @@ class IssuesDetailPage extends StatelessWidget {
   Widget _tradeButton() {
     var buttonValid = state.issuesInfo.value.book?.author?.id != UserStore.to.userInfo.id;
 
-
     if (state.issuesInfo.value.status == IssuesStatus.pre_sale.name) {
       return ButtonX(
         'Add a calendar',
@@ -333,8 +297,8 @@ class IssuesDetailPage extends StatelessWidget {
       return ButtonX(
         'Buy',
         borderRadius: 0,
-        backgroundColor: buttonValid?Color(0xFF50483B):ColorX.buttonInValid,
-        textColor: buttonValid?ColorX.txtYellow:ColorX.txtWhite,
+        backgroundColor: buttonValid ? Color(0xFF50483B) : ColorX.buttonInValid,
+        textColor: buttonValid ? ColorX.txtYellow : ColorX.txtWhite,
         enable: buttonValid,
         padding: EdgeInsets.symmetric(vertical: 24.h),
         onPressed: () => _onClick('购买'),
@@ -366,20 +330,10 @@ class IssuesDetailPage extends StatelessWidget {
         stateStr = 'Not started';
         isRed = true;
       } else if (state.issuesInfo.value.status == IssuesStatus.on_sale.name) {
-        var d = '${logic
-            .comingTime()
-            .inDays - 1 <= 0 ? '' : '${logic.countDownAdd0(logic
-            .comingTime()
-            .inDays - 1)}:'}';
-        var h = logic.countDownAdd0(logic
-            .comingTime()
-            .inHours % 24);
-        var m = logic.countDownAdd0(logic
-            .comingTime()
-            .inMinutes % 60);
-        var s = logic.countDownAdd0(logic
-            .comingTime()
-            .inSeconds % 60);
+        var d = '${logic.comingTime().inDays - 1 <= 0 ? '' : '${logic.countDownAdd0(logic.comingTime().inDays - 1)}:'}';
+        var h = logic.countDownAdd0(logic.comingTime().inHours % 24);
+        var m = logic.countDownAdd0(logic.comingTime().inMinutes % 60);
+        var s = logic.countDownAdd0(logic.comingTime().inSeconds % 60);
         var duration = '$d$h:$m:$s';
 
         count = 0;
@@ -401,17 +355,12 @@ class IssuesDetailPage extends StatelessWidget {
           title: 'Destroyed',
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              _destroyedItem('Quantity destroyed', '$count'),
-              _destroyedItem('Execution logging', '$address'),
-              _destroyedItem('State', '$stateStr', isValueRed: isRed)
-            ],
+            children: [_destroyedItem('Quantity destroyed', '$count'), _destroyedItem('Execution logging', '$address'), _destroyedItem('State', '$stateStr', isValueRed: isRed)],
           ));
     });
   }
 
-  Widget _destroyedItem(String title, String value, {bool? isValueRed = false}) =>
-      Column(
+  Widget _destroyedItem(String title, String value, {bool? isValueRed = false}) => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           TextX(title, fontSize: FontSizeX.s11, color: ColorX.txtHint),
@@ -420,8 +369,7 @@ class IssuesDetailPage extends StatelessWidget {
         ],
       );
 
-  Widget _boxContainer({required Widget child, String? title, EdgeInsets? padding}) =>
-      Container(
+  Widget _boxContainer({required Widget child, String? title, EdgeInsets? padding}) => Container(
         margin: EdgeInsets.only(top: 30.h),
         padding: padding ?? EdgeInsets.all(26.r),
         decoration: BoxDecoration(
@@ -433,16 +381,16 @@ class IssuesDetailPage extends StatelessWidget {
             title == null
                 ? SizedBox()
                 : Row(
-              children: [
-                Container(
-                  width: 10.r,
-                  height: 10.r,
-                  decoration: BoxDecoration(color: Colors.black, borderRadius: BorderRadius.circular(100)),
-                ),
-                SizedBox(width: 20.w),
-                TextX(title, fontSize: FontSizeX.s16, color: Color(0xFF42392B), fontWeight: TextX.bold)
-              ],
-            ),
+                    children: [
+                      Container(
+                        width: 10.r,
+                        height: 10.r,
+                        decoration: BoxDecoration(color: Colors.black, borderRadius: BorderRadius.circular(100)),
+                      ),
+                      SizedBox(width: 20.w),
+                      TextX(title, fontSize: FontSizeX.s16, color: Color(0xFF42392B), fontWeight: TextX.bold)
+                    ],
+                  ),
             SizedBox(height: title == null ? 0 : 12.h),
             child
           ],
@@ -467,15 +415,11 @@ class IssuesDetailPage extends StatelessWidget {
           children: [
             TextX('quantity'),
             SizedBox(width: 40.w),
-            InkWell(child: Container(
-                child: Icon(Icons.chevron_left), color: Color(0xFFFFF7E9), margin: EdgeInsets.only(right: 20.w)),
-                onTap: () => logic.amountSub()),
+            InkWell(child: Container(child: Icon(Icons.chevron_left), color: Color(0xFFFFF7E9), margin: EdgeInsets.only(right: 20.w)), onTap: () => logic.amountSub()),
             Obx(() {
               return TextX(state.buyAmount.value.toString());
             }),
-            InkWell(child: Container(
-                child: Icon(Icons.chevron_right), color: Color(0xFFFFF7E9), margin: EdgeInsets.only(left: 20.w)),
-                onTap: () => logic.amountAdd()),
+            InkWell(child: Container(child: Icon(Icons.chevron_right), color: Color(0xFFFFF7E9), margin: EdgeInsets.only(left: 20.w)), onTap: () => logic.amountAdd()),
           ],
         ),
       ],
@@ -498,9 +442,7 @@ class IssuesDetailPage extends StatelessWidget {
 
       case '添加到日历':
         if (state.issuesInfo.value.publishedAt == null || state.issuesInfo.value.publishedAt!.isEmpty) return;
-        var time = DateUtil.getDateTime(state.issuesInfo.value.publishedAt!)?.add(DateTime
-            .now()
-            .timeZoneOffset);
+        var time = DateUtil.getDateTime(state.issuesInfo.value.publishedAt!)?.add(DateTime.now().timeZoneOffset);
         if (time == null) return;
 
         final Event event = Event(
@@ -520,6 +462,10 @@ class IssuesDetailPage extends StatelessWidget {
         Add2Calendar.addEvent2Cal(event);
         break;
       case '购买':
+        if (!UserStore.to.isLogin) {
+          Get.to(() => GuidePage());
+          return;
+        }
         Get.dialog(DialogX(
           title: 'Buy',
           contentWidget: _buyDialog(),
@@ -530,18 +476,13 @@ class IssuesDetailPage extends StatelessWidget {
         break;
       case 'author':
         Get.to(() => AssetsPage(),
-            arguments: {
-              'title': 'Author Detail',
-              'assetsType': AssetsType.AUTHOR,
-              'userId': state.issuesInfo.value.book?.author?.id.toString()
-            }, preventDuplicates: false);
+            arguments: {'title': 'Author Detail', 'assetsType': AssetsType.AUTHOR, 'userId': state.issuesInfo.value.book?.author?.id.toString()}, preventDuplicates: false);
         break;
       case 'wish':
         logic.wish();
         break;
       case 'share':
-        Get.to(() =>
-            TwitterShareView(
+        Get.to(() => TwitterShareView(
               authorName: state.issuesInfo.value.book?.author?.name ?? '',
               bookId: state.issuesInfo.value.id.toString(),
               bookName: state.issuesInfo.value.book?.title ?? '',

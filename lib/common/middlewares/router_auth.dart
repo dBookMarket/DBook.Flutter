@@ -4,25 +4,23 @@ import 'package:dbook/common/store/store.dart';
 
 import 'package:get/get.dart';
 
+import '../utils/logger.dart';
+
 /// 检查是否登录
 class RouteAuthMiddleware extends GetMiddleware {
   // priority 数字小优先级高
   @override
-  int? priority = 0;
+  int? priority = 2;
 
-  RouteAuthMiddleware({required this.priority});
+  RouteAuthMiddleware({this.priority});
 
   @override
   RouteSettings? redirect(String? route) {
-    if (UserStore.to.isLogin ||
-        route == AppRoutes.SIGN_IN ||
-        route == AppRoutes.SIGN_UP ||
-        route == AppRoutes.INITIAL) {
+    logX.d('是否登录>>>>>>${UserStore.to.isLogin}');
+    if (UserStore.to.isLogin || route == AppRoutes.ImportMemories || route == AppRoutes.SettingPassword) {
       return null;
     } else {
-      Future.delayed(
-          Duration(seconds: 1), () => Get.snackbar("提示", "登录过期,请重新登录"));
-      return RouteSettings(name: AppRoutes.SIGN_IN);
+      return RouteSettings(name: AppRoutes.Guide);
     }
   }
 }

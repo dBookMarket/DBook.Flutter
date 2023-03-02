@@ -19,7 +19,7 @@ class ColorX {
 
 
 
-  static const Color buttonValid = Color(0xFF6783E9);
+  static const Color buttonValid = Color(0xFF7D5321);
   static const Color buttonInValid = Color(0xFFE1E1E1);
   static const Color buttonText = Color(0xFFFFFFFF);
   static const Color buttonYellow = Color(0xFFFFE1B4);

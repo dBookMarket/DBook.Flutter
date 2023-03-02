@@ -39,6 +39,7 @@ class MyApp extends StatelessWidget {
           builder: EasyLoading.init(),
           translations: TranslationService(),
           navigatorObservers: [AppPages.observer],
+          getPages: AppPages.routes,
           localizationsDelegates: [
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,

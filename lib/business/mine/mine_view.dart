@@ -1,6 +1,4 @@
 import 'package:dbook/business/assets/assets_state.dart';
-import 'package:dbook/business/mine/wallet/wallet_view.dart';
-import 'package:dbook/business/mine/writing/view.dart';
 import 'package:dbook/common/config/app_config.dart';
 import 'package:dbook/common/store/user.dart';
 import 'package:dbook/common/utils/string_helper.dart';
@@ -16,11 +14,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
-import '../assets/assets_view.dart';
-import 'concern/concern_view.dart';
-import 'create_book/create_book_view.dart';
+import '../../common/routes/names.dart';
 import 'mine_logic.dart';
-import 'profile_settings/profile_settings_view.dart';
 
 class MinePage extends StatelessWidget {
   final logic = Get.put(MineLogic());
@@ -31,16 +26,13 @@ class MinePage extends StatelessWidget {
     return BaseContainer(
         viewState: state.viewState,
         child: Scaffold(
-          appBar: appBar(
-              title: 'Personal Center', canPop: false, backgroundColor: ColorX.primaryYellow, actions: [_action()]),
+          appBar: appBar(title: 'Personal Center', canPop: false, backgroundColor: ColorX.primaryYellow, actions: [_action()]),
           body: _body(),
         ));
   }
 
   Widget _action() => GestureDetector(
-        child: Container(
-            child: SvgPicture.asset(Assets.svgCreateBook, width: 60.r, height: 60.r),
-            margin: EdgeInsets.only(right: ScreenConfig.marginH)),
+        child: Container(child: SvgPicture.asset(Assets.svgCreateBook, width: 60.r, height: 60.r), margin: EdgeInsets.only(right: ScreenConfig.marginH)),
         onTap: () => _onClick('create'),
       );
 
@@ -66,19 +58,15 @@ class MinePage extends StatelessWidget {
         }),
         SizedBox(width: 50.w),
         UserStore.to.isLogin
-            ? Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  TextX(name, fontSize: FontSizeX.s16, color: ColorX.txtBrown),
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 10.w),
-                    margin: EdgeInsets.only(top: 20.h),
-                    decoration: BoxDecoration(color: ColorX.primaryBrown, borderRadius: BorderRadius.circular(100)),
-                    child: TextX(formatAddress(UserStore.to.userInfo.address),
-                        fontSize: FontSizeX.s11, color: ColorX.txtYellow),
-                  )
-                ],
-              )
+            ? Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                TextX(name, fontSize: FontSizeX.s16, color: ColorX.txtBrown),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 10.w),
+                  margin: EdgeInsets.only(top: 20.h),
+                  decoration: BoxDecoration(color: ColorX.primaryBrown, borderRadius: BorderRadius.circular(100)),
+                  child: TextX(formatAddress(UserStore.to.userInfo.address), fontSize: FontSizeX.s11, color: ColorX.txtYellow),
+                )
+              ])
             : TextX('Not logged in', fontSize: FontSizeX.s16, color: ColorX.txtBrown)
       ]);
     });
@@ -109,6 +97,8 @@ class MinePage extends StatelessWidget {
           _item(title: 'Earnings', icon: Assets.svgMineEarnings),
           LineH(margin: EdgeInsets.symmetric(horizontal: 12.w)),
           _item(title: 'Profile settings', icon: Assets.svgMineProfile),
+          LineH(margin: EdgeInsets.symmetric(horizontal: 12.w)),
+          _item(title: 'Logout(test)', icon: Assets.svgMineProfile),
         ]),
       );
 
@@ -129,31 +119,34 @@ class MinePage extends StatelessWidget {
         ),
       );
 
-  _onClick(String action) async{
+  _onClick(String action) async {
     switch (action) {
       case 'create':
-        Get.to(() => CreateBookPage());
+        Get.toNamed(AppRoutes.CreateBook);
         break;
       case 'Asset':
-        Get.to(() => AssetsPage(),arguments: {'title':'My Assets','assetsType':AssetsType.MY_ASSETS,'tabIndex':0},preventDuplicates:false);
+        Get.toNamed(AppRoutes.Assets, arguments: {'title': 'My Assets', 'assetsType': AssetsType.MY_ASSETS, 'tabIndex': 0}, preventDuplicates: false);
         break;
       case 'Wallet activity':
-        Get.to(() => WalletPage());
+        Get.toNamed(AppRoutes.Wallet);
         break;
       case 'Concern':
-        Get.to(()=>ConcernPage());
+        Get.toNamed(AppRoutes.Concern);
         break;
       case 'Writing':
-        Get.to(()=>WritingPage());
+        Get.toNamed(AppRoutes.Writing);
         break;
       case 'Publication management':
-        Get.to(() => AssetsPage(),arguments: {'title':'My Assets','assetsType':AssetsType.MY_ASSETS,'tabIndex':1},preventDuplicates:false);
+        Get.toNamed(AppRoutes.Assets, arguments: {'title': 'My Assets', 'assetsType': AssetsType.MY_ASSETS, 'tabIndex': 1}, preventDuplicates: false);
         break;
       case 'Earnings':
-        Get.to(() => AssetsPage(),arguments: {'title':'My Assets','assetsType':AssetsType.MY_ASSETS,'tabIndex':3},preventDuplicates:false);
+        Get.toNamed(AppRoutes.Assets, arguments: {'title': 'My Assets', 'assetsType': AssetsType.MY_ASSETS, 'tabIndex': 3}, preventDuplicates: false);
         break;
       case 'Profile settings':
-        Get.to(() => ProfileSettingsPage());
+        Get.toNamed(AppRoutes.ProfileSettings);
+        break;
+      case 'Logout(test)':
+        await UserStore.to.onLogout();
         break;
     }
   }

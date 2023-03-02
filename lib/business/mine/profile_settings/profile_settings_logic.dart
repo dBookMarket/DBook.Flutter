@@ -50,7 +50,7 @@ class ProfileSettingsLogic extends GetxController {
     var result = await NetWork.getInstance().user.twitterAuth().onError((error, stackTrace) => state.setError(t: 'failed'));
     state.setIdle();
     if (result.isNotEmpty) {
-      Map<String, String> param = await Get.to(() => TwitterAuthView('Twitter Auth', result));
+      Map<String, String> param = await Get.to(() => TwitterAuthView());
       return param;
     }
     return null;
