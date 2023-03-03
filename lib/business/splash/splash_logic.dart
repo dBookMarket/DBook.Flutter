@@ -20,7 +20,8 @@ class SplashLogic extends GetxController {
     // if(UserStore.to.isLogin){
     //   Get.off(()=>MainPage());
     // }else{
-    //   if(Web3KeychainManager().addresses().length>0){
+    //   if(Web3KeychainManager().addresses().le
+    //   ngth>0){
     //     Get.off(()=>MainPage());
     //   }else{
     //     Get.off(()=>GuidePage());

@@ -14,7 +14,7 @@ import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 import '../../../../common/entities/trades_list_entity.dart';
 import '../../../../common/utils/string_helper.dart';
 import '../../../../common/widgets/view_state/base_container_view.dart';
-import '../../../login/guide/view.dart';
+import '../../../login/import_memories/import_memories_view.dart';
 import 'secondary_market_list_logic.dart';
 
 class SecondaryMarketListPage extends StatelessWidget {
@@ -105,7 +105,7 @@ class SecondaryMarketListPage extends StatelessWidget {
 
   _onClick(TradesListEntity info){
     if (!UserStore.to.isLogin) {
-      Get.to(() => GuidePage());
+      Get.to(() => ImportMemoriesPage());
       return;
     }
     logX.d('chainType:${state.issuesInfo.token?.blockChain}');

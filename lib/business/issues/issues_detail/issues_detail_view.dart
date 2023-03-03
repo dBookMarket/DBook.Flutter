@@ -1,7 +1,6 @@
 import 'package:add_2_calendar/add_2_calendar.dart';
 import 'package:common_utils/common_utils.dart';
 import 'package:dbook/business/issues/secondary_market/secondary_market_view.dart';
-import 'package:dbook/business/login/guide/view.dart';
 import 'package:dbook/common/config/app_config.dart';
 import 'package:dbook/common/store/store.dart';
 import 'package:dbook/common/utils/logger.dart';
@@ -25,6 +24,7 @@ import '../../../common/utils/date.dart';
 import '../../asset_detail/asset_detail_view.dart';
 import '../../assets/assets_state.dart';
 import '../../assets/assets_view.dart';
+import '../../login/import_memories/import_memories_view.dart';
 import '../../mine/profile_settings/twitterShare/twitter_share_view.dart';
 import '../issues_state.dart';
 import 'issues_detail_logic.dart';
@@ -463,7 +463,7 @@ class IssuesDetailPage extends StatelessWidget {
         break;
       case '购买':
         if (!UserStore.to.isLogin) {
-          Get.to(() => GuidePage());
+          Get.to(() => ImportMemoriesPage());
           return;
         }
         Get.dialog(DialogX(

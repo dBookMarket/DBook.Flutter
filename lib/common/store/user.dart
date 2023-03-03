@@ -1,13 +1,13 @@
 
 import 'dart:convert';
 
-import 'package:dbook/business/login/guide/view.dart';
 import 'package:dbook/business/service_api/base/net_work.dart';
 import 'package:dbook/common/key_manager/keystore_manager.dart';
 import 'package:dbook/common/services/services.dart';
 import 'package:dbook/common/values/values.dart';
 import 'package:get/get.dart';
 
+import '../../business/login/import_memories/import_memories_view.dart';
 import '../entities/user_info_entity.dart';
 import '../routes/names.dart';
 import '../routes/pages.dart';
@@ -49,9 +49,6 @@ class UserStore extends GetxController {
 
   _onLoginSuccess() {
     int count = 0;
-    if (AppPages.history.contains(AppRoutes.Guide)) {
-      count++;
-    }
     if (AppPages.history.contains(AppRoutes.ImportMemories)) {
       count++;
     }
@@ -74,7 +71,7 @@ class UserStore extends GetxController {
     _isLogin.value = false;
     _userInfo.value = UserInfoEntity();
     token = '';
-    Get.offAll(()=>GuidePage());
+    Get.offAll(()=>ImportMemoriesPage());
   }
 
   Future<UserInfoEntity> getUserInfo()async{

@@ -1,4 +1,3 @@
-import 'package:dbook/business/login/guide/view.dart';
 import 'package:dbook/common/widgets/text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,6 +7,7 @@ import 'package:get/get.dart';
 import '../../common/store/user.dart';
 import '../../common/values/colors.dart';
 import '../../common/widgets/view_state/base_container_view.dart';
+import '../login/import_memories/import_memories_view.dart';
 import 'logic.dart';
 
 class MainPage extends StatelessWidget {
@@ -50,7 +50,7 @@ class MainPage extends StatelessWidget {
       onTap: () {
         if (!isSelect) {
           if(index == 1 && !UserStore.to.isLogin){
-            Get.to(()=>GuidePage());
+            Get.to(()=>ImportMemoriesPage());
             return;
           }
           state.pageController.jumpToPage(index);

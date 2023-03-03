@@ -20,7 +20,7 @@ class RouteAuthMiddleware extends GetMiddleware {
     if (UserStore.to.isLogin || route == AppRoutes.ImportMemories || route == AppRoutes.SettingPassword) {
       return null;
     } else {
-      return RouteSettings(name: AppRoutes.Guide);
+      return RouteSettings(name: AppRoutes.ImportMemories);
     }
   }
 }
