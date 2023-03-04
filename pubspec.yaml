@@ -102,6 +102,7 @@ dependencies:
   lottie: ^1.4.0
 
   flutter_svg: ^1.1.6
+  flutter_svg_provider: ^1.0.3
 
   webview_flutter: ^3.0.1
 
@@ -173,6 +174,7 @@ flutter:
     - assets/images/
     - assets/icons/
     - assets/svg/
+    - assets/svg/default_avatar/
     - assets/files/
 #    - assets/images/logos/
 #    - assets/images/backgrounds/

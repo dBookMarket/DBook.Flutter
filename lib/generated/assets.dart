@@ -3,6 +3,26 @@ class Assets {
   Assets._();
 
   static const String assetsLoading = 'assets/loading.json';
+  static const String defaultAvatar1 = 'assets/svg/default_avatar/1.png';
+  static const String defaultAvatar10 = 'assets/svg/default_avatar/10.png';
+  static const String defaultAvatar11 = 'assets/svg/default_avatar/11.png';
+  static const String defaultAvatar12 = 'assets/svg/default_avatar/12.png';
+  static const String defaultAvatar13 = 'assets/svg/default_avatar/13.png';
+  static const String defaultAvatar14 = 'assets/svg/default_avatar/14.png';
+  static const String defaultAvatar15 = 'assets/svg/default_avatar/15.png';
+  static const String defaultAvatar16 = 'assets/svg/default_avatar/16.png';
+  static const String defaultAvatar17 = 'assets/svg/default_avatar/17.png';
+  static const String defaultAvatar18 = 'assets/svg/default_avatar/18.png';
+  static const String defaultAvatar19 = 'assets/svg/default_avatar/19.png';
+  static const String defaultAvatar2 = 'assets/svg/default_avatar/2.png';
+  static const String defaultAvatar20 = 'assets/svg/default_avatar/20.png';
+  static const String defaultAvatar3 = 'assets/svg/default_avatar/3.png';
+  static const String defaultAvatar4 = 'assets/svg/default_avatar/4.png';
+  static const String defaultAvatar5 = 'assets/svg/default_avatar/5.png';
+  static const String defaultAvatar6 = 'assets/svg/default_avatar/6.png';
+  static const String defaultAvatar7 = 'assets/svg/default_avatar/7.png';
+  static const String defaultAvatar8 = 'assets/svg/default_avatar/8.png';
+  static const String defaultAvatar9 = 'assets/svg/default_avatar/9.png';
   static const String filesBaseBlock = 'assets/files/base_block.stk';
   static const String filesContract = 'assets/files/contract.json';
   static const String filesLottieEmpty = 'assets/files/lottie_empty.json';

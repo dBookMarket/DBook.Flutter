@@ -1,11 +1,15 @@
 
 import 'dart:convert';
+import 'dart:io';
+import 'dart:math';
 
 import 'package:dbook/business/service_api/base/net_work.dart';
 import 'package:dbook/common/key_manager/keystore_manager.dart';
 import 'package:dbook/common/services/services.dart';
 import 'package:dbook/common/values/values.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:path_provider/path_provider.dart';
 
 import '../../business/login/import_memories/import_memories_view.dart';
 import '../entities/user_info_entity.dart';
@@ -71,12 +75,13 @@ class UserStore extends GetxController {
     _isLogin.value = false;
     _userInfo.value = UserInfoEntity();
     token = '';
-    Get.offAll(()=>ImportMemoriesPage());
+    Get.to(()=>ImportMemoriesPage());
   }
 
   Future<UserInfoEntity> getUserInfo()async{
     if(!isLogin) return UserInfoEntity();
     var info = await NetWork.getInstance().user.userInfo();
+    await setDefaultAvatar();
     updateUserInfo(info);
     return _userInfo.value;
   }
@@ -84,5 +89,20 @@ class UserStore extends GetxController {
   updateUserInfo(UserInfoEntity info){
     _userInfo.value = info;
     StorageService.to.setString(STORAGE_USER_INFO_KEY, jsonEncode(_userInfo.value.toJson()));
+  }
+
+  setDefaultAvatar()async{
+    if(_userInfo.value.avatarUrl?.isNotEmpty??false) return;
+    int index = Random().nextInt(20)+1;
+    String path = 'assets/svg/default_avatar/$index.png';
+    final byteData = await rootBundle.load(path);
+    final file = File('${(await getTemporaryDirectory()).path}/default_avatar.png');
+    await file.writeAsBytes(byteData.buffer.asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
+    if(!file.existsSync()){
+      return;
+    }
+
+    UserInfoEntity info = await NetWork.getInstance().user.modify(avatar: file);
+    updateUserInfo(info);
   }
 }

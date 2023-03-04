@@ -50,7 +50,7 @@ class MinePage extends StatelessWidget {
 
   Widget _userInfo() {
     return Obx(() {
-      var name = UserStore.to.userInfo.name?.isEmpty ?? false ? 'No Name' : UserStore.to.userInfo.name;
+      var name = UserStore.to.userInfo.name?.isEmpty ?? false ? formatAddress(UserStore.to.userInfo.address) : UserStore.to.userInfo.name;
       return Row(children: [
         SizedBox(width: ScreenConfig.marginH),
         Obx(() {
@@ -146,7 +146,7 @@ class MinePage extends StatelessWidget {
         Get.toNamed(AppRoutes.ProfileSettings);
         break;
       case 'Logout(test)':
-        await UserStore.to.onLogout();
+        await UserStore.to.setDefaultAvatar();
         break;
     }
   }
