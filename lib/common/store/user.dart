@@ -81,8 +81,8 @@ class UserStore extends GetxController {
   Future<UserInfoEntity> getUserInfo()async{
     if(!isLogin) return UserInfoEntity();
     var info = await NetWork.getInstance().user.userInfo();
-    await setDefaultAvatar();
     updateUserInfo(info);
+    await setDefaultAvatar();
     return _userInfo.value;
   }
 

@@ -49,7 +49,9 @@ class MinePage extends StatelessWidget {
       );
 
   Widget _userInfo() {
-    return Obx(() {
+    return InkWell(
+      onTap: ()=>_onClick('Account settings'),
+      child: Obx(() {
       var name = UserStore.to.userInfo.name?.isEmpty ?? false ? formatAddress(UserStore.to.userInfo.address) : UserStore.to.userInfo.name;
       return Row(children: [
         SizedBox(width: ScreenConfig.marginH),
@@ -59,17 +61,17 @@ class MinePage extends StatelessWidget {
         SizedBox(width: 50.w),
         UserStore.to.isLogin
             ? Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                TextX(name, fontSize: FontSizeX.s16, color: ColorX.txtBrown),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 10.w),
-                  margin: EdgeInsets.only(top: 20.h),
-                  decoration: BoxDecoration(color: ColorX.primaryBrown, borderRadius: BorderRadius.circular(100)),
-                  child: TextX(formatAddress(UserStore.to.userInfo.address), fontSize: FontSizeX.s11, color: ColorX.txtYellow),
-                )
-              ])
+          TextX(name, fontSize: FontSizeX.s16, color: ColorX.txtBrown),
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 10.w),
+            margin: EdgeInsets.only(top: 20.h),
+            decoration: BoxDecoration(color: ColorX.primaryBrown, borderRadius: BorderRadius.circular(100)),
+            child: TextX(formatAddress(UserStore.to.userInfo.address), fontSize: FontSizeX.s11, color: ColorX.txtYellow),
+          )
+        ])
             : TextX('Not logged in', fontSize: FontSizeX.s16, color: ColorX.txtBrown)
       ]);
-    });
+    }),);
   }
 
   Widget _list() => Container(
@@ -97,8 +99,6 @@ class MinePage extends StatelessWidget {
           _item(title: 'Earnings', icon: Assets.svgMineEarnings),
           LineH(margin: EdgeInsets.symmetric(horizontal: 12.w)),
           _item(title: 'Profile settings', icon: Assets.svgMineProfile),
-          LineH(margin: EdgeInsets.symmetric(horizontal: 12.w)),
-          _item(title: 'Logout(test)', icon: Assets.svgMineProfile),
         ]),
       );
 
@@ -145,8 +145,8 @@ class MinePage extends StatelessWidget {
       case 'Profile settings':
         Get.toNamed(AppRoutes.ProfileSettings);
         break;
-      case 'Logout(test)':
-        await UserStore.to.setDefaultAvatar();
+      case 'Account settings':
+        Get.toNamed(AppRoutes.AccountSetting);
         break;
     }
   }

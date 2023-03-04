@@ -6,6 +6,7 @@ import '../../business/login/guide/view.dart';
 import '../../business/login/import_memories/import_memories_view.dart';
 import '../../business/login/setting_password/setting_password_view.dart';
 import '../../business/main/view.dart';
+import '../../business/mine/account_setting/account_setting_view.dart';
 import '../../business/mine/concern/concern_view.dart';
 import '../../business/mine/create_book/create_book_view.dart';
 import '../../business/mine/profile_settings/profile_settings_view.dart';
@@ -45,7 +46,7 @@ class AppPages {
     GetPage(
       name: AppRoutes.CreateBook,
       page: () => CreateBookPage(),
-      middlewares: [RouteAuthMiddleware(),RouteTwitterAuthMiddleware()],
+      middlewares: [RouteAuthMiddleware(), RouteTwitterAuthMiddleware()],
     ),
     GetPage(
       name: AppRoutes.Assets,
@@ -65,11 +66,16 @@ class AppPages {
     GetPage(
       name: AppRoutes.Writing,
       page: () => WritingPage(),
-      middlewares: [RouteAuthMiddleware(),RouteTwitterAuthMiddleware()],
+      middlewares: [RouteAuthMiddleware(), RouteTwitterAuthMiddleware()],
     ),
     GetPage(
       name: AppRoutes.ProfileSettings,
       page: () => ProfileSettingsPage(),
+      middlewares: [RouteAuthMiddleware()],
+    ),
+    GetPage(
+      name: AppRoutes.AccountSetting,
+      page: () => AccountSettingPage(),
       middlewares: [RouteAuthMiddleware()],
     ),
   ];
