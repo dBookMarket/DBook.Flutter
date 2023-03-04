@@ -28,6 +28,7 @@ class CreateBookLogic extends GetxController {
     if (result.files.single.path!.endsWith('.pdf') || result.files.single.path!.endsWith('.epub') || result.files.single.path!.endsWith('.txt')) {
       state.asset.value = File(result.files.single.path!);
     }
+    logX.d('cover 路径>>>>>${state.asset.value}');
     checkButtonValid();
   }
 
@@ -55,7 +56,11 @@ class CreateBookLogic extends GetxController {
     }
   }
 
-  Future uploadBook() async {
+  Future<BookEntity?> uploadBook() async {
+    if (state.cover.value is! File) {
+      state.setError(t: 'Please choose a cover again');
+      return null;
+    }
     BookEntity? book;
     state.setBusy();
 
@@ -67,13 +72,13 @@ class CreateBookLogic extends GetxController {
       draftId = state.selectedDraftId.value;
     }
 
-    if(state.editBook.value!=null){
+    if (state.editBook.value != null) {
       await NetWork.getInstance()
           .assets
-          .edit(id: state.editBook.value?.id,file: bookFile, cover: state.cover.value!, title: state.titleController.text, desc: state.descController.text, draftId: draftId)
+          .edit(id: state.editBook.value?.id, file: bookFile, cover: state.cover.value!, title: state.titleController.text, desc: state.descController.text, draftId: draftId)
           .then((value) => {state.setIdle(), book = value})
           .onError((error, stackTrace) => state.setError());
-    }else{
+    } else {
       await NetWork.getInstance()
           .assets
           .upload(file: bookFile, cover: state.cover.value!, title: state.titleController.text, desc: state.descController.text, draftId: draftId)
@@ -91,6 +96,7 @@ class CreateBookLogic extends GetxController {
 
   selectDraft(int index) {
     state.selectedDraftId.value = state.drafts[index].id;
+    checkButtonValid();
   }
 
   @override

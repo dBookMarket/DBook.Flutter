@@ -93,6 +93,7 @@ class Assets {
   static const String svgMineAssets = 'assets/svg/mine_assets.svg';
   static const String svgMineConcern = 'assets/svg/mine_concern.svg';
   static const String svgMineEarnings = 'assets/svg/mine_earnings.svg';
+  static const String svgMineHistory = 'assets/svg/mine_history.svg';
   static const String svgMineProfile = 'assets/svg/mine_profile.svg';
   static const String svgMinePublication = 'assets/svg/mine_publication.svg';
   static const String svgMineWalletActivity = 'assets/svg/mine_wallet_activity.svg';

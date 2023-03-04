@@ -11,6 +11,7 @@ class WalletState {
 
   final pageIndex = 0.obs;
   WalletState() {
+    pageIndex.value = Get.arguments?['index']??0;
     pages.add(WalletAssetsPage());
     pages.add(WalletActivityPage());
   }

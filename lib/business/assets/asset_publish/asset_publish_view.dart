@@ -7,6 +7,7 @@ import 'package:dbook/common/widgets/button.dart';
 import 'package:dbook/common/widgets/text.dart';
 import 'package:dbook/common/widgets/view_state/base_container_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_picker/picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -34,14 +35,14 @@ class AssetPublishPage extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: ScreenConfig.marginH, vertical: 30.h),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           _bookInfo(),
-          _item(title: 'Number of publications', controller: state.countController, keyboardType: TextInputType.number),
+          _item(title: 'Number of publications', controller: state.countController, keyboardType: TextInputType.number, inputFormatter: FilteringTextInputFormatter.digitsOnly),
           _inkItem(title: 'Public chain', value: state.publicChain),
-          _item(title: 'Currency', controller: state.currencyController),
+          _inkItem(title: 'Currency', value: state.coinType),
           _item(title: 'Unit price', controller: state.univalentController, keyboardType: TextInputType.number),
           _item(title: 'Royalties', controller: state.royaltiesController, keyboardType: TextInputType.number),
           _inkItem(title: 'Pre-sale time', value: state.publishTime),
-          _item(title: 'Supply cycle/minute', controller: state.periodController, keyboardType: TextInputType.number),
-          _item(title: 'Limit', controller: state.limitController, keyboardType: TextInputType.number),
+          _item(title: 'Supply cycle/minute', controller: state.periodController, keyboardType: TextInputType.number, inputFormatter: FilteringTextInputFormatter.digitsOnly),
+          _item(title: 'Limit', controller: state.limitController, keyboardType: TextInputType.number, inputFormatter: FilteringTextInputFormatter.digitsOnly),
           SizedBox(height: 20.h),
           _hint(),
           _commitButton(),
@@ -80,7 +81,7 @@ class AssetPublishPage extends StatelessWidget {
         ],
       );
 
-  Widget _item({required String title, required TextEditingController controller, String? hint, int? maxLines, TextInputType? keyboardType}) => Column(
+  Widget _item({required String title, required TextEditingController controller, String? hint, int? maxLines, TextInputType? keyboardType,TextInputFormatter? inputFormatter}) => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _tag(title),
@@ -90,6 +91,7 @@ class AssetPublishPage extends StatelessWidget {
             textAlignVertical: TextAlignVertical.bottom,
             textAlign: TextAlign.start,
             keyboardType: keyboardType,
+            inputFormatters: [inputFormatter??FilteringTextInputFormatter.allow(RegExp("[0-9.]"))],
             style: TextStyle(fontSize: FontSizeX.s11, color: ColorX.txtTitle),
             controller: controller,
             decoration: InputDecoration(
@@ -176,6 +178,15 @@ class AssetPublishPage extends StatelessWidget {
             hideHeader: false,
             onConfirm: (Picker picker, List value) {
               logic.setChain(picker.adapter.text.replaceAll('[', '').replaceAll(']', ''));
+            }).showModal(Get.context!);
+        break;
+      case 'Currency':
+        new Picker(
+            adapter: PickerDataAdapter<String>(pickerData: state.coinTypeList),
+            changeToFirst: true,
+            hideHeader: false,
+            onConfirm: (Picker picker, List value) {
+              logic.setCoin(picker.adapter.text.replaceAll('[', '').replaceAll(']', ''));
             }).showModal(Get.context!);
         break;
       case 'Pre-sale time':

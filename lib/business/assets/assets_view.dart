@@ -146,11 +146,11 @@ class AssetsPage extends StatelessWidget {
           img,
           Positioned.fill(
               child: BackdropFilter(
-                child: Container(
-                  color: Colors.black.withOpacity(0.1),
-                ),
-                filter: ImageFilter.blur(sigmaX: 1.2, sigmaY: 1.2),
-              ))
+            child: Container(
+              color: Colors.black.withOpacity(0.1),
+            ),
+            filter: ImageFilter.blur(sigmaX: 1.2, sigmaY: 1.2),
+          ))
         ],
       );
     });
@@ -217,11 +217,9 @@ class AssetsPage extends StatelessWidget {
                     children: [
                       TextX('read more', style: TextStyle(fontSize: FontSizeX.s11, decoration: TextDecoration.underline, color: ColorX.txtYellow)),
                       Expanded(child: SizedBox()),
-                      _websiteBox(Assets.svgLogoWeb, 'website'),
-                      SizedBox(width: 22.w),
-                      _websiteBox(Assets.svgLogoDiscord, 'discord'),
-                      SizedBox(width: 22.w),
-                      _websiteBox(Assets.svgLogoTwitterBlack, 'twitter'),
+                      _websiteBox(Assets.svgLogoWeb, 'website', state.userInfo.value.websiteUrl ?? ''),
+                      _websiteBox(Assets.svgLogoDiscord, 'discord', state.userInfo.value.discordUrl ?? ''),
+                      _websiteBox(Assets.svgLogoTwitterBlack, 'twitter', state.userInfo.value.twitterUrl ?? ''),
                     ],
                   )
                 ],
@@ -231,10 +229,16 @@ class AssetsPage extends StatelessWidget {
         );
       });
 
-  Widget _websiteBox(String svg, String title) => InkWell(
-        onTap: () => _onClick(title),
+  Widget _websiteBox(String svg, String title, value) {
+    if (value == null || value.isEmpty) return SizedBox();
+    return Container(
+      child: InkWell(
+        onTap: () => _onClick(title, param: value),
         child: SvgPicture.asset(svg, width: 40.r, height: 40.r),
-      );
+      ),
+      margin: EdgeInsets.only(right: 22.w),
+    );
+  }
 
   Widget _statistic() => Container(
         decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20.r), boxShadow: [
@@ -287,19 +291,19 @@ class AssetsPage extends StatelessWidget {
         TextX(title, fontSize: FontSizeX.s11, color: ColorX.txtHint),
       ]);
 
-  _onClick(type) {
+  _onClick(type, {param}) {
     switch (type) {
       case 'collect':
         logic.collect();
         break;
       case 'website':
-        Get.to(() => WebPageView(state.userInfo.value.name ?? '', state.userInfo.value.websiteUrl ?? ''));
+        Get.to(() => WebPageView(state.userInfo.value.name ?? '', param));
         break;
       case 'discord':
-        Get.to(() => WebPageView(state.userInfo.value.name ?? '', state.userInfo.value.discordUrl ?? ''));
+        Get.to(() => WebPageView(state.userInfo.value.name ?? '', param));
         break;
       case 'twitter':
-        Get.to(() => WebPageView(state.userInfo.value.name ?? '', state.userInfo.value.twitterUrl ?? ''));
+        Get.to(() => WebPageView(state.userInfo.value.name ?? '', param));
         break;
       case 'share':
         Get.to(() => TwitterShareView(authorName: state.userInfo.value.name ?? '', authorId: state.userInfo.value.id.toString()));

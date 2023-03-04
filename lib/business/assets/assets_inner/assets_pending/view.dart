@@ -87,7 +87,7 @@ class AssetsPendingPage extends StatelessWidget {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              SvgPicture.asset(Assets.svgBookEncrypting,width: 40.r),
+                              SvgPicture.asset(Assets.svgBookEncrypting, width: 40.r),
                               TextX(
                                 'In the queue, it is  expected to start  encrypting data in 2 minute',
                                 color: ColorX.txtWhite,
@@ -111,28 +111,45 @@ class AssetsPendingPage extends StatelessWidget {
     );
   }
 
-  Widget _action(info) => Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        _button(icon: Assets.svgDraftModify, title: 'Edit', info: info),
-        _button(icon: Assets.svgDraftPublish, title: 'Push', info: info),
-        _button(icon: Assets.svgDraftDelete, title: 'Delete', fontSize: FontSizeX.s9, info: info),
-      ]);
+  Widget _action(info) {
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      _button(icon: Assets.svgDraftModify, title: 'Edit', info: info),
+      _button(icon: Assets.svgDraftPublish, title: 'Push', info: info),
+      _button(icon: Assets.svgDraftDelete, title: 'Delete', fontSize: FontSizeX.s9, info: info),
+    ]);
+  }
 
-  Widget _button({Color? bgColor, Color? txtColor, required String icon, required String title, double? fontSize, info}) => InkWell(
-        onTap: () => _onClick(title, param: info),
-        child: Container(
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(20.r), color: bgColor ?? ColorX.buttonYellow),
-          padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
-          margin: EdgeInsets.only(bottom: 10.h),
-          child: Row(
-            children: [SvgPicture.asset(icon, width: 26.w), TextX(title, fontSize: fontSize ?? FontSizeX.s11, color: txtColor ?? ColorX.txtTitle)],
-          ),
+  Widget _button({required String icon, required String title, double? fontSize, info}) {
+    var clickAble = info.status == 'success';
+    var bgColor = clickAble ? ColorX.buttonYellow : Color(0xFFE4E4E4);
+    var txtColor = clickAble ? ColorX.txtTitle : ColorX.txtHint;
+    return InkWell(
+      onTap: () => _onClick(title, param: info),
+      child: Container(
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(20.r), color: bgColor),
+        padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
+        margin: EdgeInsets.only(bottom: 10.h),
+        child: Row(
+          children: [
+            SvgPicture.asset(
+              icon,
+              width: 20.w,
+              color: clickAble ? null : txtColor,
+            ),
+            TextX(title, fontSize: fontSize ?? FontSizeX.s11, color: txtColor)
+          ],
         ),
-      );
+      ),
+    );
+  }
 
   _onClick(type, {param}) async {
+    if (param.status != 'success') {
+      return;
+    }
     switch (type) {
       case 'Edit':
-        await Get.to(() => CreateBookPage(), arguments: {'bookInfo': param});
+        await Get.to(() => CreateBookPage(), arguments: {'bookInfo': param,'draftId': param.id});
         logic.refresh();
         break;
       case 'Push':

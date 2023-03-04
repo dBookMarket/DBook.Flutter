@@ -15,7 +15,7 @@ import 'package:web3dart/web3dart.dart';
 import '../../business/login/verify_password/verify_password_view.dart';
 
 enum PublicChainType { bnb, polygon }
-
+enum CoinType { usdc }
 enum AbiType { platform, nft, usdc }
 
 class Web3Store extends GetxController {

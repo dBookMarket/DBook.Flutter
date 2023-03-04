@@ -293,7 +293,7 @@ class CreateBookPage extends StatelessWidget {
           height: 300.w,
           decoration: BoxDecoration(border: Border.all(width: 1.r, color: ColorX.txtTitle)),
           child: image != null
-              ? Image.file(image, fit: BoxFit.cover)
+              ? _imageLocalOrNetwork(image)
               : Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [SvgPicture.asset(Assets.svgBookCover, width: 64.w), SizedBox(height: 20.h), TextX(name, fontSize: FontSizeX.s11, color: ColorX.txtHint)],
@@ -301,7 +301,9 @@ class CreateBookPage extends StatelessWidget {
         ),
       );
 
-  Widget _headerForDialog({required VoidCallback callback}) => Dialog(
+  Widget _imageLocalOrNetwork(image) => image is String ? Image.network(image, fit: BoxFit.cover) : Image.file(image, fit: BoxFit.cover);
+
+  Widget _headerForDialog({VoidCallback? callback}) => Dialog(
         backgroundColor: Colors.transparent,
         insetPadding: EdgeInsets.symmetric(horizontal: ScreenConfig.marginH),
         child: Container(
@@ -341,15 +343,11 @@ class CreateBookPage extends StatelessWidget {
         logic.switchTab(param);
         break;
       case 'encryption':
-        await logic.uploadBook();
-        Get.dialog(
-            _headerForDialog(
-              callback: () => {
-                Get.until((route) => route.isFirst),
-                Get.to(() => AssetsPage(), arguments: {'title': 'My Assets', 'assetsType': AssetsType.MY_ASSETS, 'tabIndex': 1}, preventDuplicates: false),
-              },
-            ),
-            arguments: {'detail': null});
+        var result = await logic.uploadBook();
+        if (result == null) return;
+        await Get.dialog(_headerForDialog(callback: () => Get.back()), barrierDismissible: false, arguments: {'detail': null});
+        Get.until((route) => route.isFirst);
+        Get.to(() => AssetsPage(), arguments: {'title': 'My Assets', 'assetsType': AssetsType.MY_ASSETS, 'tabIndex': 1}, preventDuplicates: false);
         break;
       case 'PDF、EPUB、TXT':
         logic.selectAsset();

@@ -50,28 +50,29 @@ class MinePage extends StatelessWidget {
 
   Widget _userInfo() {
     return InkWell(
-      onTap: ()=>_onClick('Account settings'),
+      onTap: () => _onClick('Account settings'),
       child: Obx(() {
-      var name = UserStore.to.userInfo.name?.isEmpty ?? false ? formatAddress(UserStore.to.userInfo.address) : UserStore.to.userInfo.name;
-      return Row(children: [
-        SizedBox(width: ScreenConfig.marginH),
-        Obx(() {
-          return AvatarX(UserStore.to.userInfo.avatarUrl, size: 130.r);
-        }),
-        SizedBox(width: 50.w),
-        UserStore.to.isLogin
-            ? Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          TextX(name, fontSize: FontSizeX.s16, color: ColorX.txtBrown),
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 10.w),
-            margin: EdgeInsets.only(top: 20.h),
-            decoration: BoxDecoration(color: ColorX.primaryBrown, borderRadius: BorderRadius.circular(100)),
-            child: TextX(formatAddress(UserStore.to.userInfo.address), fontSize: FontSizeX.s11, color: ColorX.txtYellow),
-          )
-        ])
-            : TextX('Not logged in', fontSize: FontSizeX.s16, color: ColorX.txtBrown)
-      ]);
-    }),);
+        var name = UserStore.to.userInfo.name?.isEmpty ?? false ? formatAddress(UserStore.to.userInfo.address) : UserStore.to.userInfo.name;
+        return Row(children: [
+          SizedBox(width: ScreenConfig.marginH),
+          Obx(() {
+            return AvatarX(UserStore.to.userInfo.avatarUrl, size: 130.r);
+          }),
+          SizedBox(width: 50.w),
+          UserStore.to.isLogin
+              ? Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                  TextX(name, fontSize: FontSizeX.s16, color: ColorX.txtBrown),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 10.w),
+                    margin: EdgeInsets.only(top: 20.h),
+                    decoration: BoxDecoration(color: ColorX.primaryBrown, borderRadius: BorderRadius.circular(100)),
+                    child: TextX(formatAddress(UserStore.to.userInfo.address), fontSize: FontSizeX.s11, color: ColorX.txtYellow),
+                  )
+                ])
+              : TextX('Not logged in', fontSize: FontSizeX.s16, color: ColorX.txtBrown)
+        ]);
+      }),
+    );
   }
 
   Widget _list() => Container(
@@ -93,6 +94,8 @@ class MinePage extends StatelessWidget {
           _item(title: 'Concern', icon: Assets.svgMineConcern),
           LineH(margin: EdgeInsets.symmetric(horizontal: 12.w)),
           _item(title: 'Writing', icon: Assets.svgMineWriting),
+          LineH(margin: EdgeInsets.symmetric(horizontal: 12.w)),
+          _item(title: 'Draft', icon: Assets.svgMineHistory),
           LineH(margin: EdgeInsets.symmetric(horizontal: 12.w)),
           _item(title: 'Publication management', icon: Assets.svgMinePublication),
           LineH(margin: EdgeInsets.symmetric(horizontal: 12.w)),
@@ -125,16 +128,19 @@ class MinePage extends StatelessWidget {
         Get.toNamed(AppRoutes.CreateBook);
         break;
       case 'Asset':
-        Get.toNamed(AppRoutes.Assets, arguments: {'title': 'My Assets', 'assetsType': AssetsType.MY_ASSETS, 'tabIndex': 0}, preventDuplicates: false);
+        Get.toNamed(AppRoutes.Wallet, arguments: {'index': 0});
         break;
       case 'Wallet activity':
-        Get.toNamed(AppRoutes.Wallet);
+        Get.toNamed(AppRoutes.Wallet, arguments: {'index': 1});
         break;
       case 'Concern':
         Get.toNamed(AppRoutes.Concern);
         break;
       case 'Writing':
         Get.toNamed(AppRoutes.Writing);
+        break;
+      case 'Draft':
+        Get.toNamed(AppRoutes.Assets, arguments: {'title': 'My Assets', 'assetsType': AssetsType.MY_ASSETS, 'tabIndex': 0}, preventDuplicates: false);
         break;
       case 'Publication management':
         Get.toNamed(AppRoutes.Assets, arguments: {'title': 'My Assets', 'assetsType': AssetsType.MY_ASSETS, 'tabIndex': 1}, preventDuplicates: false);

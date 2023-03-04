@@ -17,7 +17,7 @@ class CreateBookState extends BaseState {
   final tabs = ['Create a book', 'Draft books'];
 
   final asset = Rx<File?>(null);
-  final cover = Rx<File?>(null);
+  final cover = Rx<dynamic>(null);
   final buttonValid = false.obs;
   final drafts = <DraftsEntity>[].obs;
   final selectedDraftId = Rx<int?>(null);
@@ -35,6 +35,7 @@ class CreateBookState extends BaseState {
     if(editBook.value!=null){
       titleController.text = editBook.value?.title??'';
       descController.text = editBook.value?.desc??'';
+      cover.value = editBook.value?.coverUrl??'';
     }
   }
 }

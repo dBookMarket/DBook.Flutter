@@ -13,7 +13,6 @@ class AssetPublishState extends BaseState{
   late BookEntity? bookInfo;
   late IssuesEntity? issueInfo;
   TextEditingController countController = TextEditingController();
-  TextEditingController currencyController = TextEditingController();
   TextEditingController univalentController = TextEditingController();
   //版税
   TextEditingController royaltiesController = TextEditingController();
@@ -21,8 +20,10 @@ class AssetPublishState extends BaseState{
   TextEditingController limitController = TextEditingController();
 
   final publicChainList = [PublicChainType.polygon.name,PublicChainType.bnb.name];
+  final coinTypeList = [CoinType.usdc.name];
 
-  final publicChain = PublicChainType.bnb.name.obs;
+  final publicChain = PublicChainType.polygon.name.obs;
+  final coinType = CoinType.usdc.name.obs;
   final publishTime = Rx<DateTime?>(null);
   final buttonValid = false.obs;
 
@@ -32,21 +33,20 @@ class AssetPublishState extends BaseState{
     if(issueInfo!=null){
       bookInfo = BookEntity.fromJson(issueInfo!.book?.toJson()??{});
       countController.text = issueInfo!.quantity.toString();
-      currencyController.text = issueInfo!.token?.currency??'';
       univalentController.text = issueInfo?.price.toString()??'';
       royaltiesController.text = issueInfo?.royalty.toString()??'';
       periodController.text = issueInfo?.duration.toString()??'';
       limitController.text = issueInfo?.buyLimit.toString()??'';
       publicChain.value = issueInfo?.token?.blockChain.toString()??'';
+      coinType.value = issueInfo?.token?.currency.toString()??'';
       publishTime.value = DateUtil.getDateTime(issueInfo?.publishedAt??'')?.add(DateTime.now().timeZoneOffset);
     }else{
       bookInfo = Get.arguments?['bookInfo'];
-      countController.text = '1';
-      currencyController.text = 'USDC';
-      univalentController.text = '0';
-      royaltiesController.text = '0';
-      periodController.text = '60';
-      limitController.text = '1';
+      countController.text = '';
+      univalentController.text = '';
+      royaltiesController.text = '';
+      periodController.text = '';
+      limitController.text = '';
     }
 
 

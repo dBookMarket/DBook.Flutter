@@ -8,7 +8,7 @@ class WalletLogic extends GetxController with GetSingleTickerProviderStateMixin 
 
   @override
   void onInit() {
-    state.tabController  = TabController(vsync: this, length: state.filter.length,);
+    state.tabController  = TabController(vsync: this, length: state.filter.length,initialIndex: state.pageIndex.value);
     _tabListener();
     super.onInit();
   }

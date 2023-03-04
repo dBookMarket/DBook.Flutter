@@ -19,11 +19,6 @@ class AssetPublishLogic extends GetxController {
       logX.d('countController == null');
       return;
     }
-    if (state.currencyController.text.length == 0) {
-      state.buttonValid.value = false;
-      logX.d('currencyController == null');
-      return;
-    }
     if (state.univalentController.text.length == 0) {
       state.buttonValid.value = false;
       logX.d('univalentController == null');
@@ -53,6 +48,12 @@ class AssetPublishLogic extends GetxController {
     checkButtonValid();
   }
 
+  setCoin(value) {
+    state.coinType.value = value;
+    checkButtonValid();
+  }
+
+
   setTime(DateTime value) {
     state.publishTime.value = value;
     checkButtonValid();
@@ -65,15 +66,42 @@ class AssetPublishLogic extends GetxController {
       state.setError(t: 'invalid chain');
       return ;
     }
+
+    // 版税大于0，小于100的数字
+    var royalties = double.tryParse(state.royaltiesController.text)??0;
+    if(royalties == 0||royalties>100) {
+      state.setError(t: 'royalties must be between 0 and 100');
+      return ;
+    }
+
+    // 供应时间是大于零的整数
+    var period = int.tryParse(state.periodController.text)??0;
+    if(period == 0) {
+      state.setError(t: 'period must be greater than 0');
+      return ;
+    }
+
+    var limit = int.tryParse(state.limitController.text)??0;
+    var count = int.tryParse(state.countController.text)??0;
+    //总数量大于零的整数
+    if(count == 0) {
+      state.setError(t: 'count must be greater than 0');
+      return ;
+    }
+    //每人限制小于总数量
+    if(limit>count) {
+      state.setError(t: 'limit must be less than count');
+      return ;
+    }
+
+
+
     // 每次都需要授权
     bool isApproved = await Web3Store.to.isApprovedForAll(chainType);
     logX.d('是否授权>>>>>>$isApproved');
     if (!isApproved) {
       await Web3Store.to.setApprovalForAll(chainType);
     }
-
-    // state.setIdle();
-    // return;
 
     try {
       await Web3Store.to.setApprovalForAll(chainType);
@@ -93,7 +121,7 @@ class AssetPublishLogic extends GetxController {
             publishedAt: state.publishTime.value?.toUtc().toString(),
             duration: state.periodController.text,
             blockChain: state.publicChain.value,
-            currency: state.currencyController.text,
+            currency: state.coinType.value,
             isModify: state.issueInfo != null,
             issueId: state.issueInfo?.id)
         .onError((error, stackTrace) => state.setError(t: 'invalid info'));
@@ -104,7 +132,6 @@ class AssetPublishLogic extends GetxController {
   @override
   void onInit() {
     state.countController.addListener(checkButtonValid);
-    state.currencyController.addListener(checkButtonValid);
     state.univalentController.addListener(checkButtonValid);
     state.royaltiesController.addListener(checkButtonValid);
     state.periodController.addListener(checkButtonValid);
@@ -115,7 +142,6 @@ class AssetPublishLogic extends GetxController {
   @override
   void onClose() {
     state.countController.removeListener(() {});
-    state.currencyController.removeListener(() {});
     state.univalentController.removeListener(() {});
     state.royaltiesController.removeListener(() {});
     state.periodController.removeListener(() {});

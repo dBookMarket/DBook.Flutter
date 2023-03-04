@@ -97,6 +97,7 @@ class IssuesDetailPage extends StatelessWidget {
       ));
 
   Widget _contactItem({required String img, String? url}) {
+    if(url == null || url.isEmpty) return SizedBox();
     return Container(
       margin: EdgeInsets.only(right: 22.w),
       color: Colors.white,
