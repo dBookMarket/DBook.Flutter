@@ -18,7 +18,9 @@ import 'asset_publish_logic.dart';
 
 class AssetPublishPage extends StatelessWidget {
   final logic = Get.put(AssetPublishLogic());
-  final state = Get.find<AssetPublishLogic>().state;
+  final state = Get
+      .find<AssetPublishLogic>()
+      .state;
 
   @override
   Widget build(BuildContext context) {
@@ -31,26 +33,42 @@ class AssetPublishPage extends StatelessWidget {
     );
   }
 
-  Widget _body() => SingleChildScrollView(
+  Widget _body() =>
+      SingleChildScrollView(
         padding: EdgeInsets.symmetric(horizontal: ScreenConfig.marginH, vertical: 30.h),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          _bookInfo(),
-          _item(title: 'Number of publications', controller: state.countController, keyboardType: TextInputType.number, inputFormatter: FilteringTextInputFormatter.digitsOnly),
-          _inkItem(title: 'Public chain', value: state.publicChain),
-          _inkItem(title: 'Currency', value: state.coinType),
-          _item(title: 'Unit price', controller: state.univalentController, keyboardType: TextInputType.number),
-          _item(title: 'Royalties', controller: state.royaltiesController, keyboardType: TextInputType.number),
-          _inkItem(title: 'Pre-sale time', value: state.publishTime),
-          _item(title: 'Supply cycle/minute', controller: state.periodController, keyboardType: TextInputType.number, inputFormatter: FilteringTextInputFormatter.digitsOnly),
-          _item(title: 'Limit', controller: state.limitController, keyboardType: TextInputType.number, inputFormatter: FilteringTextInputFormatter.digitsOnly),
-          SizedBox(height: 20.h),
-          _hint(),
-          _commitButton(),
-          SizedBox(height: 20.h),
-        ]),
+        child: Obx(() {
+          return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            _bookInfo(),
+            _item(title: 'Number of publications',
+                controller: state.countController,
+                keyboardType: TextInputType.number,
+                inputFormatter: FilteringTextInputFormatter.digitsOnly,
+                legal: state.countLegal.value),
+            _inkItem(title: 'Public chain', value: state.publicChain),
+            _inkItem(title: 'Currency', value: state.coinType),
+            _item(title: 'Unit price', controller: state.univalentController, keyboardType: TextInputType.number),
+            _item(title: 'Royalties', controller: state.royaltiesController, keyboardType: TextInputType.number, legal: state.royaltiesLegal.value),
+            _inkItem(title: 'Pre-sale time', value: state.publishTime),
+            _item(title: 'Supply cycle/minute',
+                controller: state.periodController,
+                keyboardType: TextInputType.number,
+                inputFormatter: FilteringTextInputFormatter.digitsOnly,
+                legal: state.periodLegal.value),
+            _item(title: 'Limit',
+                controller: state.limitController,
+                keyboardType: TextInputType.number,
+                inputFormatter: FilteringTextInputFormatter.digitsOnly,
+                legal: state.limitLegal.value),
+            SizedBox(height: 20.h),
+            _hint(),
+            _commitButton(),
+            SizedBox(height: 20.h),
+          ]);
+        }),
       );
 
-  Widget _bookInfo() => Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+  Widget _bookInfo() =>
+      Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Image.network(state.bookInfo?.coverUrl ?? '', width: 1.sw - ScreenConfig.marginH * 2, height: (1.sw - ScreenConfig.marginH * 2) * 1.288, fit: BoxFit.cover),
         SizedBox(height: 30.h),
         TextX(state.bookInfo?.title, fontSize: FontSizeX.s16, color: ColorX.txtTitle, textAlign: TextAlign.start),
@@ -58,7 +76,8 @@ class AssetPublishPage extends StatelessWidget {
         TextX(state.bookInfo?.desc, fontSize: FontSizeX.s11, color: ColorX.txtHint, textAlign: TextAlign.start),
       ]);
 
-  Widget _inkItem({required String title, required var value}) => Column(
+  Widget _inkItem({required String title, required var value}) =>
+      Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _tag(title),
@@ -72,8 +91,9 @@ class AssetPublishPage extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Obx(() => TextX(!(value.value is String) ? DateUtil.formatDate(value.value, format: DateFormats.y_mo_d_h_m) : value.value.toString(),
-                        fontSize: FontSizeX.s11, color: ColorX.txtTitle)),
+                    Obx(() =>
+                        TextX(!(value.value is String) ? DateUtil.formatDate(value.value, format: DateFormats.y_mo_d_h_m) : value.value.toString(),
+                            fontSize: FontSizeX.s11, color: ColorX.txtTitle)),
                     Icon(Icons.chevron_right)
                   ],
                 ),
@@ -81,7 +101,8 @@ class AssetPublishPage extends StatelessWidget {
         ],
       );
 
-  Widget _item({required String title, required TextEditingController controller, String? hint, int? maxLines, TextInputType? keyboardType,TextInputFormatter? inputFormatter}) => Column(
+  Widget _item({required String title, required TextEditingController controller, String? hint, int? maxLines, TextInputType? keyboardType, TextInputFormatter? inputFormatter, bool legal = true}) =>
+      Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _tag(title),
@@ -91,7 +112,7 @@ class AssetPublishPage extends StatelessWidget {
             textAlignVertical: TextAlignVertical.bottom,
             textAlign: TextAlign.start,
             keyboardType: keyboardType,
-            inputFormatters: [inputFormatter??FilteringTextInputFormatter.allow(RegExp("[0-9.]"))],
+            inputFormatters: [inputFormatter ?? FilteringTextInputFormatter.allow(RegExp("[0-9.]"))],
             style: TextStyle(fontSize: FontSizeX.s11, color: ColorX.txtTitle),
             controller: controller,
             decoration: InputDecoration(
@@ -106,7 +127,7 @@ class AssetPublishPage extends StatelessWidget {
                 /*边角*/
                 borderRadius: BorderRadius.zero,
                 borderSide: BorderSide(
-                  color: ColorX.txtTitle,
+                  color: legal ? ColorX.txtTitle : ColorX.txtRed,
                   width: 1.r,
                 ),
               ),
@@ -114,7 +135,7 @@ class AssetPublishPage extends StatelessWidget {
                 /*边角*/
                 borderRadius: BorderRadius.zero,
                 borderSide: BorderSide(
-                  color: ColorX.txtTitle,
+                  color: legal ? ColorX.txtTitle : ColorX.txtRed,
                   width: 1.r,
                 ),
               ),
@@ -122,13 +143,13 @@ class AssetPublishPage extends StatelessWidget {
                 /*边角*/
                 borderRadius: BorderRadius.zero,
                 borderSide: BorderSide(
-                  color: ColorX.txtTitle,
+                  color: legal ? ColorX.txtTitle : ColorX.txtRed,
                   width: 1.r,
                 ),
               ),
               focusedBorder: OutlineInputBorder(
                 borderSide: BorderSide(
-                  color: ColorX.txtTitle,
+                  color: legal ? ColorX.txtTitle : ColorX.txtRed,
                   width: 1.r,
                 ),
                 borderRadius: BorderRadius.zero,
@@ -138,21 +159,24 @@ class AssetPublishPage extends StatelessWidget {
         ],
       );
 
-  Widget _tag(String title, {double? marginTop}) => Container(
+  Widget _tag(String title, {double? marginTop}) =>
+      Container(
         child: TextX(title, color: ColorX.txtTitle, fontSize: FontSizeX.s13),
         margin: EdgeInsets.only(top: marginTop ?? 30.h, bottom: 15.h),
       );
 
-  Widget _hint() => TextX(
+  Widget _hint() =>
+      TextX(
         'Books not purchased after the end of supply will be sold in full \nThere is no minting fee for the listing process, which will be automatically deducted'
-        ' when the first transaction is completed',
+            ' when the first transaction is completed',
         color: ColorX.txtHint,
         fontSize: FontSizeX.s11,
         maxLines: 100,
         textAlign: TextAlign.start,
       );
 
-  Widget _commitButton() => Obx(() {
+  Widget _commitButton() =>
+      Obx(() {
         return ButtonX(
           'Data encryption',
           margin: EdgeInsets.only(top: 60.h),
@@ -190,9 +214,9 @@ class AssetPublishPage extends StatelessWidget {
             }).showModal(Get.context!);
         break;
       case 'Pre-sale time':
-        // DatePicker.showDatePicker(Get.context!, showTitleActions: true, minTime: DateTime.now(), maxTime: DateTime.now().add(Duration(days: 365)), onConfirm: (date) {
-        //   logic.setTime(date);
-        // }, currentTime: DateTime.now());
+      // DatePicker.showDatePicker(Get.context!, showTitleActions: true, minTime: DateTime.now(), maxTime: DateTime.now().add(Duration(days: 365)), onConfirm: (date) {
+      //   logic.setTime(date);
+      // }, currentTime: DateTime.now());
 
         var now = DateUtil.getDateTimeByMs(GlobalTimeService.to.globalTime.value);
 
@@ -208,9 +232,11 @@ class AssetPublishPage extends StatelessWidget {
         DatePicker.showDateTimePicker(Get.context!,
             showTitleActions: true,
             minTime: DateTime(now.year, now.month, now.day, now.hour, now.minute).add(Duration(minutes: 3)),
-            maxTime: DateTime(now.year, now.month, now.day, now.hour, now.minute).add(Duration(days: 30)), onConfirm: (date) {
-          logic.setTime(date);
-        }, locale: LocaleType.en);
+            maxTime: DateTime(now.year, now.month, now.day, now.hour, now.minute).add(Duration(days: 30)),
+            onConfirm: (date) {
+              logic.setTime(date);
+            },
+            locale: LocaleType.en);
         break;
     }
   }

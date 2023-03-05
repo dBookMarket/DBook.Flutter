@@ -114,6 +114,7 @@ class VerifyPasswordPage extends StatelessWidget {
         maxLength: 64,
         // focusNode: state.commentFocus,
         textAlignVertical: TextAlignVertical.bottom,
+        obscureText: true,
         textAlign: TextAlign.center,
         onChanged: logic.onTextChanged,
         // controller: state.commentInputController,
@@ -149,7 +150,8 @@ class VerifyPasswordPage extends StatelessWidget {
   _onClick(event) {
     switch (event) {
       case 'close':
-        Get.back();
+        state.setError(t: 'Cancel');
+        Get.back(result: null);
         break;
       case 'confirm':
         logic.onConfirm(this.verifyType);

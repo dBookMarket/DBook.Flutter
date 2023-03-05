@@ -1,3 +1,4 @@
+import 'package:dbook/common/store/socket.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:dbook/common/services/services.dart';
@@ -25,6 +26,7 @@ class Global {
     await Get.putAsync<StorageService>(() => StorageService().init());
     await Get.putAsync(() async => GlobalTimeService().init());
 
+    Get.put<SocketStore>(SocketStore());
     Get.put<ConfigStore>(ConfigStore());
     Get.put<UserStore>(UserStore());
     Get.put<Web3Store>(Web3Store());

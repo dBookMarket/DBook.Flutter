@@ -50,7 +50,7 @@ class MarketApi {
   Future<List<TransactionsListEntity>> transactionsUser({required String? userId, int? page}) async {
     Map<String, dynamic> params = Map();
     if (userId != null) {
-      params['user'] = userId;
+      params['author'] = userId;
     }
     params['page'] = page;
 

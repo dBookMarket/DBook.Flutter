@@ -4,7 +4,6 @@ import 'dart:typed_data';
 
 import 'package:dbook/common/key_manager/keystore_manager.dart';
 import 'package:dbook/common/store/store.dart';
-import 'package:dbook/common/utils/loading.dart';
 import 'package:dbook/common/utils/logger.dart';
 import 'package:dbook/generated/assets.dart';
 import 'package:flutter/services.dart';
@@ -12,10 +11,10 @@ import 'package:get/get.dart';
 import 'package:http/http.dart';
 import 'package:web3dart/web3dart.dart';
 
-import '../../business/login/verify_password/verify_password_view.dart';
-
 enum PublicChainType { bnb, polygon }
+
 enum CoinType { usdc }
+
 enum AbiType { platform, nft, usdc }
 
 class Web3Store extends GetxController {
@@ -86,12 +85,13 @@ class Web3Store extends GetxController {
   /// Step 0，调用NFT合约[isApprovedForAll]查看是否授权，若false转step 1，若true，转step 2；
   /// Step 1，调用NFT合约[setApprovalForAll]进行授权给platform合约，若成功，转step 2；
   /// tep 2，调用issue接口发布书籍。
-  setApprovalForAll(PublicChainType type) async {
+  setApprovalForAll(PublicChainType type, pwd) async {
     var result = await _sendTransaction(
       client: _getClient(type),
       deployedContract: _deployedContract(type, AbiType.nft),
       func: 'setApprovalForAll',
       param: [_contractAddress(AbiType.platform, type), true],
+      pwd: pwd,
     );
     logX.d('授权结果>>>>>>$result');
   }
@@ -114,42 +114,49 @@ class Web3Store extends GetxController {
   //endregion
 
   //region 购买首发
-  payFirstTrade({required PublicChainType type, required int amount, required double price}) async {
+  payFirstTrade({required PublicChainType type, required int amount, required double price, required pwd}) async {
     var tradeValue = _toWei(amount * price);
     await _sendTransaction(
       client: _getClient(type),
       deployedContract: _deployedContract(type, AbiType.platform),
       func: 'payFirstTrade',
       param: [tradeValue],
+      pwd: pwd,
     );
   }
 
   //endregion
 
-  Future<bool> setApprovalForTrade(PublicChainType type, num amount) async {
+  Future<bool> setApprovalForTrade({required PublicChainType type, required num amount, required pwd}) async {
     var result = await _sendTransaction(
       client: _getClient(type),
       deployedContract: _deployedContract(type, AbiType.usdc),
       func: 'approve',
       param: [_contractAddress(AbiType.platform, type), _toWei(amount)],
+      pwd: pwd,
     );
     return result.toString().startsWith('0x');
   }
 
-  Future paySecondTrade({required PublicChainType chainType, required num tradeValue, required String? seller, required int? nftId, required nftAmount}) async {
+  Future paySecondTrade({required PublicChainType chainType, required num tradeValue, required String? seller, required int? nftId, required nftAmount, required pwd}) async {
     var receiver = EthereumAddress.fromHex(_userAddress!);
     var client = _getClient(chainType);
     var fee = await getTradeFee(chainType);
 
-    var result = await _sendTransaction(client: client, deployedContract: _deployedContract(chainType, AbiType.platform), func: 'trade', param: [
-      EthereumAddress.fromHex(seller ?? ''),
-      receiver,
-      BigInt.from(nftId ?? 0),
-      BigInt.from(nftAmount),
-      Uint8List.fromList([0x1234]),
-      _toWei(tradeValue),
-      fee
-    ]);
+    var result = await _sendTransaction(
+        client: client,
+        deployedContract: _deployedContract(chainType, AbiType.platform),
+        func: 'trade',
+        param: [
+          EthereumAddress.fromHex(seller ?? ''),
+          receiver,
+          BigInt.from(nftId ?? 0),
+          BigInt.from(nftAmount),
+          Uint8List.fromList([0x1234]),
+          _toWei(tradeValue),
+          fee
+        ],
+        pwd: pwd);
     logX.d('result>>>>>result: $result');
     return result;
   }
@@ -211,16 +218,8 @@ class Web3Store extends GetxController {
     }
   }
 
-  Future<dynamic> _sendTransaction({required Web3Client client, required DeployedContract deployedContract, required String func, param}) async {
+  Future<dynamic> _sendTransaction({required Web3Client client, required DeployedContract deployedContract, required String func, param, required pwd}) async {
     logX.d('请求合约$func>>>>>>>deployedContract ${deployedContract.address} \nparam $param');
-    dismissLoading();
-    var pwd = await Get.to(()=>VerifyPasswordPage(verifyType:VerifyType.verifyPassword),opaque: false,duration: Duration.zero,transition: Transition.noTransition,
-        fullscreenDialog: true);
-    showLoading();
-    if(pwd==null){
-      showInfo(t: 'Cancel');
-      return;
-    }
     Credentials credentials = await Web3KeychainManager.getInstance().getCredentials(EthereumAddress.fromHex(_userAddress!), pwd);
     final networkId = await client.getNetworkId();
 

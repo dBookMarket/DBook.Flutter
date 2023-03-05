@@ -12,12 +12,21 @@ import '../../../common/utils/logger.dart';
 class AssetPublishState extends BaseState{
   late BookEntity? bookInfo;
   late IssuesEntity? issueInfo;
+  //数量
   TextEditingController countController = TextEditingController();
+  //单价
   TextEditingController univalentController = TextEditingController();
   //版税
   TextEditingController royaltiesController = TextEditingController();
+  //周期
   TextEditingController periodController = TextEditingController();
+  //限购
   TextEditingController limitController = TextEditingController();
+
+  final countLegal = true.obs;
+  final royaltiesLegal = true.obs;
+  final periodLegal = true.obs;
+  final limitLegal = true.obs;
 
   final publicChainList = [PublicChainType.polygon.name,PublicChainType.bnb.name];
   final coinTypeList = [CoinType.usdc.name];

@@ -2,7 +2,6 @@ import 'dart:ui';
 
 import 'package:dbook/business/mine/profile_settings/twitterShare/twitter_share_view.dart';
 import 'package:dbook/common/config/app_config.dart';
-import 'package:dbook/common/store/store.dart';
 import 'package:dbook/common/widgets/appBar.dart';
 import 'package:dbook/common/widgets/avatar_widget.dart';
 import 'package:dbook/common/widgets/text.dart';
@@ -121,29 +120,25 @@ class AssetsPage extends StatelessWidget {
   }
 
   Widget _headerBg() {
-    var img;
-    if (UserStore.to.userInfo.bannerUrl == null || UserStore.to.userInfo.bannerUrl!.isEmpty) {
-      img = Image.asset(
+    return Obx(() {
+      var img = Image.network(
+        state.userInfo.value.bannerUrl ?? '',
+        width: 1.sw,
+        height: 0.65.sw,
+        fit: BoxFit.cover,
+        alignment: Alignment.topCenter,
+      );
+      var defaultImg  = Image.asset(
         Assets.imagesDefaultBookCover,
         width: 1.sw,
         height: 0.65.sw,
         fit: BoxFit.cover,
         alignment: Alignment.topCenter,
       );
-    } else {
-      img = Image.network(
-        UserStore.to.userInfo.bannerUrl ?? '',
-        width: 1.sw,
-        height: 0.65.sw,
-        fit: BoxFit.cover,
-        alignment: Alignment.topCenter,
-      );
-    }
-    return Obx(() {
-      if (UserStore.to.userInfo.bannerUrl == null || UserStore.to.userInfo.bannerUrl!.isEmpty) return SizedBox();
       return Stack(
         children: [
-          img,
+          defaultImg,
+          (state.userInfo.value.bannerUrl == null || state.userInfo.value.bannerUrl!.isEmpty)?SizedBox():img,
           Positioned.fill(
               child: BackdropFilter(
             child: Container(

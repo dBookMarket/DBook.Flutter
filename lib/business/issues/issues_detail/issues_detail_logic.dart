@@ -1,22 +1,40 @@
+import 'dart:async';
+
 import 'package:common_utils/common_utils.dart';
+import 'package:dbook/common/store/socket.dart';
 import 'package:dbook/common/store/web3.dart';
 import 'package:dbook/common/utils/logger.dart';
 import 'package:get/get.dart';
 
 import '../../../common/services/global_time.dart';
+import '../../login/verify_password/verify_password_view.dart';
 import '../../service_api/base/net_work.dart';
 import '../issues_state.dart';
 import 'issues_detail_state.dart';
 
-class IssuesDetailLogic extends GetxController {
+class IssuesDetailLogic extends FullLifeCycleController with FullLifeCycleMixin{
   final IssuesDetailState state = IssuesDetailState();
 
-  getBookDetail() async {
-    state.setBusy();
+  getBookDetail({bool enableLoad = true}) async {
+    if(enableLoad) state.setBusy();
     state.issuesInfo.value = await NetWork.getInstance().assets.issueDetail(issueId: state.issuesId).onError((error, stackTrace) => state.setError(t: 'load issue failed'));
-    logX.d('args>>>>>>${Get.arguments}');
-    Get.currentRoute;
-    state.setIdle();
+    refresh();
+    if(enableLoad) state.setIdle();
+  }
+
+  // 手动刷新 在售->售罄
+  refresh() async {
+    if(state.issuesInfo.value.status != IssuesStatus.on_sale.name) {
+      return;
+    }
+    DateTime? endTime = DateUtil.getDateTime(state.issuesInfo.value.publishedAt ?? '')?.add(DateTime.now().timeZoneOffset).add(Duration(minutes: state.issuesInfo.value.duration ?? 0));
+    DateTime? cTime = DateUtil.getDateTimeByMs(GlobalTimeService.to.globalTime.value);
+    Duration countDown = endTime?.difference(cTime) ?? Duration();
+    if (countDown.inSeconds >= 0) {
+      return;
+    }
+    await Future.delayed(Duration(minutes: 1));
+    getBookDetail();
   }
 
   Duration comingTime() {
@@ -91,8 +109,15 @@ class IssuesDetailLogic extends GetxController {
     }
     var price = state.issuesInfo.value.price ?? 0.0;
     var result = false;
+
+    var pwd = await Get.to(() => VerifyPasswordPage(verifyType: VerifyType.verifyPassword), opaque: false, duration: Duration.zero, transition: Transition.noTransition, fullscreenDialog: true);
+    if(pwd == null) {
+      state.setIdle();
+      return false;
+    }
+
     try {
-      await Web3Store.to.payFirstTrade(type: chainType, price: price, amount: state.buyAmount.value);
+      await Web3Store.to.payFirstTrade(type: chainType, price: price, amount: state.buyAmount.value,pwd: pwd);
       result = true;
       state.setIdle();
     } catch (e) {
@@ -133,9 +158,32 @@ class IssuesDetailLogic extends GetxController {
     state.setSuccess(t: 'pay success');
   }
 
+  socketListen(){
+    logX.d('IssuesDetailLogic>>>设置监听');
+    SocketStore.to.onChanged.listen((event)=>getBookDetail(enableLoad: false));
+  }
+
   @override
   void onInit() {
     getBookDetail();
+    socketListen();
     super.onInit();
+  }
+
+  @override
+  void onDetached() {
+  }
+
+  @override
+  void onInactive() {
+  }
+
+  @override
+  void onPaused() {
+  }
+
+  @override
+  void onResumed() {
+    getBookDetail(enableLoad: false);
   }
 }

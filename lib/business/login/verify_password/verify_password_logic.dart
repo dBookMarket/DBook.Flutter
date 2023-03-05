@@ -33,6 +33,7 @@ class VerifyPasswordLogic extends GetxController {
     }
     if(type == VerifyType.verifyPassword){
       Get.back(result: state.password);
+      state.setBusy();
       return;
     }
     _getNonce(Web3KeychainManager.getInstance().addresses()[0]);
@@ -61,5 +62,11 @@ class VerifyPasswordLogic extends GetxController {
     await UserStore.to.setToken(token);
     // Get.to(()=>AssetsPage());
     Get.back(result: true);
+  }
+
+  @override
+  void onInit() {
+    state.setIdle();
+    super.onInit();
   }
 }

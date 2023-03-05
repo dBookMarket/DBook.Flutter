@@ -6,6 +6,7 @@ import 'dart:math';
 import 'package:dbook/business/service_api/base/net_work.dart';
 import 'package:dbook/common/key_manager/keystore_manager.dart';
 import 'package:dbook/common/services/services.dart';
+import 'package:dbook/common/store/socket.dart';
 import 'package:dbook/common/values/values.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -40,6 +41,7 @@ class UserStore extends GetxController {
       var profileOffline = StorageService.to.getString(STORAGE_USER_INFO_KEY);
       if(profileOffline.isNotEmpty) _userInfo(UserInfoEntity.fromJson(jsonDecode(profileOffline)));
       getUserInfo();
+      Future.delayed(Duration(seconds: 1)).then((value) => SocketStore.to.init());
     }
   }
 
@@ -60,6 +62,7 @@ class UserStore extends GetxController {
       count++;
     }
     Get.close(count);
+    SocketStore.to.init();
   }
 
 

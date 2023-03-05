@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 
 import '../../../common/store/web3.dart';
 import '../../../common/utils/logger.dart';
+import '../../login/verify_password/verify_password_view.dart';
 import '../../service_api/base/net_work.dart';
 import 'issue_buy_state.dart';
 
@@ -34,13 +35,19 @@ class IssueBuyLogic extends GetxController {
 
     logX.d('amount>>>>>>$amount  quantity>>>>>>${state.quantity}  price>>>>>>${state.tradeInfo.price}');
 
-    var isApproved = await Web3Store.to.setApprovalForTrade(chainType,amount);
+    var pwd = await Get.to(() => VerifyPasswordPage(verifyType: VerifyType.verifyPassword), opaque: false, duration: Duration.zero, transition: Transition.noTransition, fullscreenDialog: true);
+    if(pwd == null) {
+      state.setIdle();
+      return false;
+    }
+
+    var isApproved = await Web3Store.to.setApprovalForTrade(type:chainType,amount:amount,pwd: pwd);
     if(!isApproved) {
       state.setError(t: 'approve failed');
       return ;
     }
 
-    var result = await Web3Store.to.paySecondTrade(nftAmount: state.quantity, seller: state.tradeInfo.user?.address, chainType: chainType, nftId: state.nftId, tradeValue: amount);
+    var result = await Web3Store.to.paySecondTrade(nftAmount: state.quantity, seller: state.tradeInfo.user?.address, chainType: chainType, nftId: state.nftId, tradeValue: amount,pwd: pwd);
 
     if(!result.toString().startsWith('0x')) {
       state.setError(t: 'trade failed\n${result.toString()}');
