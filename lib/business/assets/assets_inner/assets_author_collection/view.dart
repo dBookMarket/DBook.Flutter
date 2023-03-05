@@ -1,10 +1,10 @@
 import 'package:dbook/business/assets/assets_inner/assets_author_collection/state.dart';
+import 'package:dbook/business/issues/issue_item/issue_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
-import '../../../../common/config/app_config.dart';
 import '../../../../common/entities/collection_entity.dart';
 import '../../../../common/entities/issues_entity.dart';
 import '../../../../common/values/colors.dart';
@@ -42,10 +42,10 @@ class AssetsAuthorCollectionPage extends StatelessWidget {
         onLoading: logic.loadMore,
         enablePullUp: state.canLoadMore,
         child: ListView.builder(
-            padding: EdgeInsets.symmetric(horizontal:ScreenConfig.marginH,vertical: 20.h),
+            padding: EdgeInsets.symmetric(vertical: 20.h),
             itemCount: state.list.length,
             itemBuilder: (ctx, index) {
-              return _item(state.list[index]);
+              return IssuesItemView(state.list[index].issue);
             }),
       );
     });

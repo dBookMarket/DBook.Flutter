@@ -34,6 +34,7 @@ class CollectionIssue {
 	String? id;
 	CollectionIssueBook? book;
 	double? price;
+	double? duration;
 	int? quantity;
 	@JSONField(name: "n_circulations")
 	int? nCirculations;

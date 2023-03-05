@@ -45,6 +45,10 @@ CollectionIssue $CollectionIssueFromJson(Map<String, dynamic> json) {
 	if (price != null) {
 		collectionIssue.price = price;
 	}
+	final double? duration = jsonConvert.convert<double>(json['duration']);
+	if (duration != null) {
+		collectionIssue.duration = duration;
+	}
 	final int? quantity = jsonConvert.convert<int>(json['quantity']);
 	if (quantity != null) {
 		collectionIssue.quantity = quantity;
@@ -69,6 +73,7 @@ Map<String, dynamic> $CollectionIssueToJson(CollectionIssue entity) {
 	data['id'] = entity.id;
 	data['book'] = entity.book?.toJson();
 	data['price'] = entity.price;
+	data['duration'] = entity.duration;
 	data['quantity'] = entity.quantity;
 	data['n_circulations'] = entity.nCirculations;
 	data['published_at'] = entity.publishedAt;

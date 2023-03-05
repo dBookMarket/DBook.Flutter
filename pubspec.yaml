@@ -79,10 +79,6 @@ dependencies:
   # 日志
   logger: ^1.1.0
 
-  # 启动页快捷生成
-  flutter_native_splash: ^2.1.1
-
-
   # 网络图片加载
   extended_image: ^6.2.1
 
@@ -135,6 +131,12 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+  # 启动页快捷生成
+  flutter_native_splash: ^2.1.1
+
+  # 快速生成app图标
+  flutter_launcher_icons: ^0.9.2
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -195,3 +197,9 @@ flutter:
 #    - family: Iconfont
 #      fonts:
 #        - asset: assets/fonts/iconfont.ttf
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/logo.png"
+  #  flutter pub run flutter_launcher_icons:main

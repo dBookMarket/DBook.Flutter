@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
-import '../../../../common/config/app_config.dart';
 import '../../../../common/entities/issues_entity.dart';
 import '../../../../common/values/colors.dart';
 import '../../../../common/values/fontSize.dart';
@@ -12,6 +11,7 @@ import '../../../../common/widgets/avatar_widget.dart';
 import '../../../../common/widgets/line_widget.dart';
 import '../../../../common/widgets/text.dart';
 import '../../../../common/widgets/view_state/base_container_view.dart';
+import '../../../issues/issue_item/issue_item.dart';
 import '../../../issues/issues_detail/issues_detail_view.dart';
 import 'logic.dart';
 
@@ -41,10 +41,10 @@ class AssetsPublishBooksPage extends StatelessWidget {
         onLoading: logic.loadMore,
         enablePullUp: state.canLoadMore,
         child: ListView.builder(
-            padding: EdgeInsets.symmetric(horizontal:ScreenConfig.marginH,vertical: 20.h),
+            padding: EdgeInsets.symmetric(vertical: 20.h),
             itemCount: state.list.length,
             itemBuilder: (ctx, index) {
-              return _item(state.list[index]);
+              return IssuesItemView(state.list[index]);
             }),
       );
     });

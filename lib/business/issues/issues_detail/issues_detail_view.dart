@@ -3,6 +3,7 @@ import 'package:common_utils/common_utils.dart';
 import 'package:dbook/business/issues/secondary_market/secondary_market_view.dart';
 import 'package:dbook/common/config/app_config.dart';
 import 'package:dbook/common/store/store.dart';
+import 'package:dbook/common/utils/loading.dart';
 import 'package:dbook/common/utils/logger.dart';
 import 'package:dbook/common/utils/string_helper.dart';
 import 'package:dbook/common/values/values.dart';
@@ -187,7 +188,7 @@ class IssuesDetailPage extends StatelessWidget {
       SvgPicture.asset(Assets.svgComingTime, width: 20.w, color: ColorX.txtBrown),
       SizedBox(width: 11.w),
       Container(
-        child: TextX(bookPublicationTimeFormat(time), fontSize: FontSizeX.s11, color: ColorX.txtBrown),
+        child: TextX(bookPublicationTimeFormat(DateUtil.getDateTime(time)), fontSize: FontSizeX.s11, color: ColorX.txtBrown),
         decoration: BoxDecoration(color: ColorX.primaryYellow, borderRadius: BorderRadius.circular(100)),
         padding: EdgeInsets.symmetric(horizontal: 14.w),
       )
@@ -337,6 +338,8 @@ class IssuesDetailPage extends StatelessWidget {
         var s = logic.countDownAdd0(logic.comingTime().inSeconds % 60);
         var duration = '$d$h:$m:$s';
 
+        if((state.issuesInfo.value.nCirculations ?? 0) == 0) duration = 'Not started';
+
         count = 0;
         address = '~~~';
         stateStr = duration;
@@ -465,6 +468,11 @@ class IssuesDetailPage extends StatelessWidget {
       case '购买':
         if (!UserStore.to.isLogin) {
           Get.to(() => ImportMemoriesPage());
+          return;
+        }
+        var limit = (state.issuesInfo.value.buyLimit ?? 1)-(state.issuesInfo.value.nOwned??0);
+        if(limit == 0){
+          showInfo(t: 'You have reached the purchase limit');
           return;
         }
         Get.dialog(DialogX(

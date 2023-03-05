@@ -26,8 +26,7 @@ Widget btnFlatButtonWidget({
         )),
         foregroundColor: MaterialStateProperty.resolveWith(
           (states) {
-            if (states.contains(MaterialState.focused) &&
-                !states.contains(MaterialState.pressed)) {
+            if (states.contains(MaterialState.focused) && !states.contains(MaterialState.pressed)) {
               return Colors.blue;
             } else if (states.contains(MaterialState.pressed)) {
               return Colors.deepPurple;
@@ -125,51 +124,49 @@ class ButtonX extends StatelessWidget {
   LinearGradient? linearGradient;
 
   ButtonX(
-      this.txt, {
-        Key? key,
-        this.onPressed,
-        this.enable,
-        this.backgroundColor = ColorX.buttonValid,
-        this.textColor = ColorX.buttonText,
-        this.fontSize,
-        this.padding,
-        this.width,
-        this.margin,
-        this.borderRadius,
-        this.primary,
-        this.fontWeight,
-        this.autoWidth,
-        this.borderColor,
-        this.borderWidth,
-        this.linearGradient,
-      });
+    this.txt, {
+    Key? key,
+    this.onPressed,
+    this.enable,
+    this.backgroundColor = ColorX.buttonValid,
+    this.textColor = ColorX.buttonText,
+    this.fontSize,
+    this.padding,
+    this.width,
+    this.margin,
+    this.borderRadius,
+    this.primary,
+    this.fontWeight,
+    this.autoWidth,
+    this.borderColor,
+    this.borderWidth,
+    this.linearGradient,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: width,
-      margin: margin ?? EdgeInsets.all(0),
-      constraints: BoxConstraints(minWidth: autoWidth ?? false ? 0.1 : 1.sw-42.w*2),
-      padding: padding ??
-          EdgeInsets.symmetric(
-            horizontal: 20.h,
-            vertical: 26.h,
-          ),
-      decoration: BoxDecoration(
-          color: backgroundColor,
-          borderRadius: BorderRadius.circular(borderRadius ?? 20.r),
-          border: Border.all(color: borderColor ?? Colors.transparent, width: borderWidth ?? 1.r),
-          gradient: linearGradient
-      ),
-      child: GestureDetector(
-        child: TextX(txt, color: this.textColor, fontSize: this.fontSize ?? 36.sp, height: 1.1, fontWeight: fontWeight),
+    return GestureDetector(
+        child: Container(
+          width: width,
+          margin: margin ?? EdgeInsets.all(0),
+          constraints: BoxConstraints(minWidth: autoWidth ?? false ? 0.1 : 1.sw - 42.w * 2),
+          padding: padding ??
+              EdgeInsets.symmetric(
+                horizontal: 20.h,
+                vertical: 26.h,
+              ),
+          decoration: BoxDecoration(
+              color: backgroundColor,
+              borderRadius: BorderRadius.circular(borderRadius ?? 20.r),
+              border: Border.all(color: borderColor ?? Colors.transparent, width: borderWidth ?? 1.r),
+              gradient: linearGradient),
+          child: TextX(txt, color: this.textColor, fontSize: this.fontSize ?? 36.sp, height: 1.1, fontWeight: fontWeight),
+        ),
         onTap: () {
           if (this.enable ?? true && this.onPressed != null) {
             KeyboardX.keyboardBack();
             this.onPressed!();
           }
-        },
-      ),
-    );
+        });
   }
 }

@@ -3,6 +3,7 @@ import 'package:dbook/common/values/values.dart';
 import 'package:dbook/common/widgets/avatar_widget.dart';
 import 'package:dbook/common/widgets/line_widget.dart';
 import 'package:dbook/common/widgets/text.dart';
+import 'package:dbook/generated/assets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -42,13 +43,13 @@ class WalletAssetsPage extends StatelessWidget {
 
   Widget _balance() => Column(children: [
         _header('Polygon public chain'),
-        Obx(() => _balanceItem(value: state.polygonMainBalance.value, icon: '', unit: 'MATIC')),
+        Obx(() => _balanceItem(value: state.polygonMainBalance.value, icon: Assets.svgCoinMatic, unit: 'MATIC')),
         LineH(margin: EdgeInsets.symmetric(horizontal: ScreenConfig.marginH)),
-        Obx(() => _balanceItem(value: state.polygonTokenBalance.value, icon: '', unit: 'USDC-ERC20')),
+        Obx(() => _balanceItem(value: state.polygonTokenBalance.value, icon:Assets.svgCoinUsdc, unit: 'USDC-ERC20')),
         _header('BSC public chain'),
-        Obx(() => _balanceItem(value: state.bscMainBalance.value, icon: '', unit: 'BNB')),
+        Obx(() => _balanceItem(value: state.bscMainBalance.value, icon: Assets.svgCoinBnb, unit: 'BNB')),
         LineH(margin: EdgeInsets.symmetric(horizontal: ScreenConfig.marginH)),
-        Obx(() => _balanceItem(value: state.bscTokenBalance.value, icon: '', unit: 'USDC-BEP20')),
+        Obx(() => _balanceItem(value: state.bscTokenBalance.value, icon: Assets.svgCoinUsdc, unit: 'USDC-BEP20')),
       ]);
 
   Widget _header(String title) => Container(
@@ -63,7 +64,7 @@ class WalletAssetsPage extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: ScreenConfig.marginH, vertical: 20.h),
         child: Row(
           children: [
-            AvatarX('', size: 70.r),
+            AvatarX(icon, size: 70.r),
             SizedBox(width: 38.w),
             TextX(value + ' ' + unit, fontSize: FontSizeX.s13, color: Color(0xFF42392B)),
           ],

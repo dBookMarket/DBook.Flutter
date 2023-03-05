@@ -1,4 +1,3 @@
-import 'package:dbook/business/assets/assets_view.dart';
 import 'package:dbook/business/service_api/base/net_work.dart';
 import 'package:dbook/common/store/store.dart';
 import 'package:dbook/common/utils/logger.dart';
@@ -20,16 +19,17 @@ class SettingPasswordLogic extends GetxController {
   }
 
   Future importMemories() async {
-    logX.d('message',state.memories);
+    if (state.passwordController.text != state.passwordAgainController.text) {
+      showError(t: 'password is not same');
+      return;
+    }
     showLoading();
     if (!isPasswordValid()) {
       showError(t: 'Please enter the correct password');
       return;
     }
     await Future.delayed(Duration(milliseconds: 200));
-    var address = await Web3KeychainManager.getInstance()
-        .importMemories(state.memories, state.passwordController.text)
-        .onError((error, stackTrace) => showError(t: error.toString()));
+    var address = await Web3KeychainManager.getInstance().importMemories(state.memories, state.passwordController.text).onError((error, stackTrace) => showError(t: error.toString()));
     await getNonce(address);
     dismissLoading();
   }
@@ -57,6 +57,6 @@ class SettingPasswordLogic extends GetxController {
     String token = await NetWork.getInstance().user.login(address: address, signature: signature);
     await UserStore.to.setToken(token);
     Web3KeychainManager.getInstance().rescanStorage();
-    Get.offAll(()=>MainPage());
+    Get.offAll(() => MainPage());
   }
 }

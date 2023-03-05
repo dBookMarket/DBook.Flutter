@@ -27,8 +27,8 @@ String duTimeLineFormat(DateTime dt) {
   }
 }
 
-String bookPublicationTimeFormat(String time){
-  var date = DateUtil.getDateTime(time)?.add(DateTime.now().timeZoneOffset);
+String bookPublicationTimeFormat(DateTime? time){
+  var date = time?.add(DateTime.now().timeZoneOffset);
   String week = DateUtil.getWeekday(date,short: true);
   String dateStr = DateUtil.formatDate(date,format: 'MM/dd@HH:mm');
 

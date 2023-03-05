@@ -16,6 +16,7 @@ class IssuesDetailLogic extends FullLifeCycleController with FullLifeCycleMixin{
   final IssuesDetailState state = IssuesDetailState();
 
   getBookDetail({bool enableLoad = true}) async {
+    if(!state.alive) return;
     if(enableLoad) state.setBusy();
     state.issuesInfo.value = await NetWork.getInstance().assets.issueDetail(issueId: state.issuesId).onError((error, stackTrace) => state.setError(t: 'load issue failed'));
     refresh();
@@ -34,7 +35,8 @@ class IssuesDetailLogic extends FullLifeCycleController with FullLifeCycleMixin{
       return;
     }
     await Future.delayed(Duration(minutes: 1));
-    getBookDetail();
+    print('on_sale->off_sale:手动刷新了一遍1${state.issuesInfo.value.status}');
+    getBookDetail(enableLoad: false);
   }
 
   Duration comingTime() {
@@ -59,6 +61,7 @@ class IssuesDetailLogic extends FullLifeCycleController with FullLifeCycleMixin{
         state.issuesInfo.value.status = IssuesStatus.on_sale.name;
         Future.delayed(Duration(seconds: 1)).then((value) => {
               state.issuesInfo.refresh(),
+        print('pre_sale->on_sale:手动刷新了一遍'),
               getBookDetail(),
             });
       } else if (state.issuesInfo.value.status == IssuesStatus.on_sale.name) {
@@ -66,6 +69,7 @@ class IssuesDetailLogic extends FullLifeCycleController with FullLifeCycleMixin{
 
         Future.delayed(Duration(seconds: 1)).then((value) => {
               state.issuesInfo.refresh(),
+          print('on_sale->unsold:手动刷新了一遍'),
               getBookDetail(),
             });
       }
@@ -131,7 +135,7 @@ class IssuesDetailLogic extends FullLifeCycleController with FullLifeCycleMixin{
   }
 
   amountAdd() {
-    if (state.buyAmount.value < (state.issuesInfo.value.buyLimit ?? 1)) {
+    if (state.buyAmount.value < (state.issuesInfo.value.buyLimit ?? 1)-(state.issuesInfo.value.nOwned??0)) {
       state.buyAmount.value++;
     }
   }
@@ -160,7 +164,7 @@ class IssuesDetailLogic extends FullLifeCycleController with FullLifeCycleMixin{
 
   socketListen(){
     logX.d('IssuesDetailLogic>>>设置监听');
-    SocketStore.to.onChanged.listen((event)=>getBookDetail(enableLoad: false));
+    SocketStore.to.onChanged.listen((event)=>{getBookDetail(enableLoad: false),print('socketListen:手动刷新了一遍')});
   }
 
   @override
@@ -184,6 +188,13 @@ class IssuesDetailLogic extends FullLifeCycleController with FullLifeCycleMixin{
 
   @override
   void onResumed() {
+    print('onResumed:手动刷新了一遍');
     getBookDetail(enableLoad: false);
+  }
+
+  @override
+  void onClose() {
+    state.alive = false;
+    super.onClose();
   }
 }

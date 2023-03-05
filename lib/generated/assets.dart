@@ -51,7 +51,9 @@ class Assets {
   static const String imagesBgGuide = 'assets/images/bg_guide.png';
   static const String imagesDefaultAvatar = 'assets/images/default_avatar.png';
   static const String imagesDefaultBookCover = 'assets/images/default_book_cover.png';
+  static const String imagesIssueTag = 'assets/images/issue_tag.png';
   static const String imagesLogo = 'assets/images/logo.png';
+  static const String imagesSplash = 'assets/images/splash.png';
   static const String imagesTemp1 = 'assets/images/temp1.PNG';
   static const String imagesTemp2 = 'assets/images/temp2.PNG';
   static const String imagesTemp3 = 'assets/images/temp3.PNG';
@@ -64,6 +66,9 @@ class Assets {
   static const String svgBookCover = 'assets/svg/book_cover.svg';
   static const String svgBookDraft = 'assets/svg/book_draft.svg';
   static const String svgBookEncrypting = 'assets/svg/book_encrypting.svg';
+  static const String svgCoinBnb = 'assets/svg/coin_bnb.svg';
+  static const String svgCoinMatic = 'assets/svg/coin_matic.svg';
+  static const String svgCoinUsdc = 'assets/svg/coin_usdc.svg';
   static const String svgCollectSelected = 'assets/svg/collect_selected.svg';
   static const String svgCollectUnselect = 'assets/svg/collect_unselect.svg';
   static const String svgComingTime = 'assets/svg/coming_time.svg';
