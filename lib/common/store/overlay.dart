@@ -1,3 +1,4 @@
+import 'package:dbook/generated/assets.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -74,7 +75,7 @@ class OverlayStore extends GetxController with GetSingleTickerProviderStateMixin
         decoration: BoxDecoration(color: Colors.blue, borderRadius: BorderRadius.circular(menuSize / 2)),
         child: Container(
           decoration: BoxDecoration(
-              color: Colors.blue, image: const DecorationImage(image: AssetImage('assets/images/icon_head.webp')), borderRadius: BorderRadius.circular(menuSize / 2)),
+              color: Colors.blue, image: const DecorationImage(image: AssetImage(Assets.defaultAvatar1)), borderRadius: BorderRadius.circular(menuSize / 2)),
         ),
       ),
     ),
