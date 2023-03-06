@@ -1,3 +1,4 @@
+import 'package:dbook/common/store/overlay.dart';
 import 'package:dbook/common/store/socket.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -30,6 +31,7 @@ class Global {
     Get.put<ConfigStore>(ConfigStore());
     Get.put<UserStore>(UserStore());
     Get.put<Web3Store>(Web3Store());
+    Get.put<OverlayStore>(OverlayStore());
 
     DirectoryUtil.initAppDocDir();
   }

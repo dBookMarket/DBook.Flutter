@@ -1,6 +1,8 @@
 import 'package:dbook/business/assets/assets_state.dart';
 import 'package:dbook/common/config/app_config.dart';
+import 'package:dbook/common/store/overlay.dart';
 import 'package:dbook/common/store/user.dart';
+import 'package:dbook/common/utils/logger.dart';
 import 'package:dbook/common/utils/string_helper.dart';
 import 'package:dbook/common/values/values.dart';
 import 'package:dbook/common/widgets/appBar.dart';
@@ -102,6 +104,8 @@ class MinePage extends StatelessWidget {
           _item(title: 'Earnings', icon: Assets.svgMineEarnings),
           LineH(margin: EdgeInsets.symmetric(horizontal: 12.w)),
           _item(title: 'Profile settings', icon: Assets.svgMineProfile),
+          LineH(margin: EdgeInsets.symmetric(horizontal: 12.w)),
+          _item(title: 'test', icon: Assets.svgMineProfile),
         ]),
       );
 
@@ -154,6 +158,12 @@ class MinePage extends StatelessWidget {
       case 'Account settings':
         Get.toNamed(AppRoutes.AccountSetting);
         break;
+      case 'test':
+        logX.d('show>>>>');
+        // OverlayToolWrapper.of(Get.context!).showFloating();
+        OverlayStore.to.showFloating();
+        break;
     }
   }
 }
+
