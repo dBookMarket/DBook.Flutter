@@ -27,7 +27,7 @@ AppBar transparentAppBar({
 }
 
 AppBar appBar(
-    {required String title,
+    {String? title,
     bool? centerTitle,
     List<Widget>? actions,
     PreferredSizeWidget? bottom,
@@ -51,7 +51,7 @@ AppBar appBar(
           )
         : SizedBox(),
     title: appBarTitle(
-      title: title,
+      title: title??'',
       titleColor: txtColor,
     ),
     actions: actions ?? [],

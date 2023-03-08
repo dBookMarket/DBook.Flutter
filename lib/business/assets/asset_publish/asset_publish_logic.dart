@@ -1,9 +1,8 @@
 import 'package:dbook/business/service_api/base/net_work.dart';
-import 'package:dbook/common/store/web3.dart';
+import 'package:dbook/common/store/trade.dart';
 import 'package:dbook/common/utils/logger.dart';
 import 'package:get/get.dart';
 
-import '../../login/verify_password/verify_password_view.dart';
 import '../assets_state.dart';
 import '../assets_view.dart';
 import 'asset_publish_state.dart';
@@ -108,35 +107,12 @@ class AssetPublishLogic extends GetxController {
 
   publish() async {
     state.setBusy();
-    var chainType = Web3Store.to.formatChainType(state.publicChain.value);
-    if (chainType == null) {
-      state.setError(t: 'invalid chain');
-      return;
-    }
-
     if (!_checkLegality()) {
       return;
     }
 
-    // 每次都需要授权
-    bool isApproved = await Web3Store.to.isApprovedForAll(chainType);
-    logX.d('是否授权>>>>>>$isApproved');
-    // if (!isApproved) {
-    //   await Web3Store.to.setApprovalForAll(chainType);
-    // }
-
-    var pwd = await Get.to(() => VerifyPasswordPage(verifyType: VerifyType.verifyPassword), opaque: false, duration: Duration.zero, transition: Transition.noTransition, fullscreenDialog: true);
-    if (pwd == null) {
-      state.setIdle();
-      return;
-    }
-
-    try {
-      await Web3Store.to.setApprovalForAll(chainType, pwd);
-    } catch (e) {
-      state.setError(t: 'setApprovalForAll error');
-      return;
-    }
+    var result = await TradeStore.to.approveAll(state.publicChain.value);
+    if(!result) return;
 
     await NetWork.getInstance()
         .assets

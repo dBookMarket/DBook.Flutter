@@ -1,6 +1,6 @@
+import 'package:dbook/business/assets/asset_publish/publish_authorize/publish_authorize_view.dart';
 import 'package:dbook/business/assets/assets_state.dart';
 import 'package:dbook/common/config/app_config.dart';
-import 'package:dbook/common/store/overlay.dart';
 import 'package:dbook/common/store/user.dart';
 import 'package:dbook/common/utils/logger.dart';
 import 'package:dbook/common/utils/string_helper.dart';
@@ -161,7 +161,8 @@ class MinePage extends StatelessWidget {
       case 'test':
         logX.d('show>>>>');
         // OverlayToolWrapper.of(Get.context!).showFloating();
-        OverlayStore.to.showFloating();
+        // OverlayStore.to.showFloating();
+        Get.to(()=>PublishAuthorizePage());
         break;
     }
   }

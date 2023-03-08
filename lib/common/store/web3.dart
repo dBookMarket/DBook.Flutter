@@ -171,7 +171,7 @@ class Web3Store extends GetxController {
     return result.first;
   }
 
-  PublicChainType? formatChainType(String chainType) {
+  PublicChainType? formatChainType(String? chainType) {
     if (chainType == 'bnb') {
       return PublicChainType.bnb;
     } else if (chainType == 'polygon') {

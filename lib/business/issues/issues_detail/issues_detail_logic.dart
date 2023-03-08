@@ -2,12 +2,11 @@ import 'dart:async';
 
 import 'package:common_utils/common_utils.dart';
 import 'package:dbook/common/store/socket.dart';
-import 'package:dbook/common/store/web3.dart';
+import 'package:dbook/common/store/trade.dart';
 import 'package:dbook/common/utils/logger.dart';
 import 'package:get/get.dart';
 
 import '../../../common/services/global_time.dart';
-import '../../login/verify_password/verify_password_view.dart';
 import '../../service_api/base/net_work.dart';
 import '../issues_state.dart';
 import 'issues_detail_state.dart';
@@ -104,36 +103,6 @@ class IssuesDetailLogic extends FullLifeCycleController with FullLifeCycleMixin{
     state.setIdle();
   }
 
-  Future<bool> pay() async {
-    state.setBusy();
-    var chainType = Web3Store.to.formatChainType(state.issuesInfo.value.token?.blockChain ?? '');
-    if (chainType == null) {
-      state.setError(t: 'invalid chain');
-      return false;
-    }
-    var price = state.issuesInfo.value.price ?? 0.0;
-    var result = false;
-
-    var pwd = await Get.to(() => VerifyPasswordPage(verifyType: VerifyType.verifyPassword), opaque: false, duration: Duration.zero, transition: Transition.noTransition, fullscreenDialog: true);
-    if(pwd == null) {
-      state.setIdle();
-      return false;
-    }
-
-    try {
-      await Web3Store.to.payFirstTrade(type: chainType, price: price, amount: state.buyAmount.value,pwd: pwd);
-      result = true;
-      state.setIdle();
-    } catch (e) {
-      logX.d(e);
-      state.setError(t: 'pay failed');
-      result = false;
-    }
-
-    state.setSuccess(t: 'pay success');
-    return result;
-  }
-
   amountAdd() {
     if (state.buyAmount.value < (state.issuesInfo.value.buyLimit ?? 1)-(state.issuesInfo.value.nOwned??0)) {
       state.buyAmount.value++;
@@ -147,7 +116,8 @@ class IssuesDetailLogic extends FullLifeCycleController with FullLifeCycleMixin{
   }
 
   buy() async {
-    var result = await pay();
+    var price = state.issuesInfo.value.price ?? 0.0;
+    var result = await TradeStore.to.buyPrimaryMarket(publicChain: state.issuesInfo.value.token?.blockChain, amount: state.buyAmount.value, price: price);
     if (!result) return;
     if (state.issuesInfo.value.trade == null) {
       state.setError(t: 'invalid trade id');
