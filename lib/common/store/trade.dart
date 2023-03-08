@@ -3,6 +3,7 @@ import 'package:dbook/common/store/web3.dart';
 import 'package:dbook/common/utils/loading.dart';
 import 'package:get/get.dart';
 
+import '../../business/issues/issue_buy/buy_authorize/buy_authorize_view.dart';
 import '../../business/login/verify_password/verify_password_view.dart';
 import '../utils/logger.dart';
 
@@ -26,21 +27,23 @@ class TradeStore extends GetxController {
     bool isApproved = await Web3Store.to.isApprovedForAll(chainType);
     logX.d('是否授权>>>>>>$isApproved');
 
-    if (isApproved) {
+    if (!isApproved) {
       return true;
     }
-    var pwd = await Get.to(() => VerifyPasswordPage(verifyType: VerifyType.verifyPassword),
-        opaque: false, duration: Duration.zero, transition: Transition.noTransition, fullscreenDialog: true);
+    var pwd = await Get.to(() => VerifyPasswordPage(verifyType: VerifyType.verifyPassword), opaque: false, duration: Duration.zero, transition: Transition.noTransition, fullscreenDialog: true);
     if (pwd == null) {
       showError(t: 'Cancel');
       return false;
     }
 
-    bool? authorize = await Get.to(()=>PublishAuthorizePage());
-    if(authorize == null){
+    dismissLoading();
+    dismissLoading();
+    bool? authorize = await Get.to(() => PublishAuthorizePage(), arguments: {'chainType': chainType});
+    if (authorize == null) {
       showError(t: 'Cancel');
       return false;
     }
+    showLoading();
 
     try {
       await Web3Store.to.setApprovalForAll(chainType, pwd);
@@ -52,22 +55,29 @@ class TradeStore extends GetxController {
   }
 
   //购买一级市场的NFT
-  Future<bool> buyPrimaryMarket({required String? publicChain, required int amount, required double price}) async {
+  Future<bool> buyPrimaryMarket({required String? publicChain, required int quantity, required double price, required String? cover, required String? bookName}) async {
     var chainType = Web3Store.to.formatChainType(publicChain);
     if (chainType == null) {
       showError(t: 'invalid chain');
       return false;
     }
-    var pwd = await Get.to(() => VerifyPasswordPage(verifyType: VerifyType.verifyPassword),
-        opaque: false, duration: Duration.zero, transition: Transition.noTransition, fullscreenDialog: true);
+    var pwd = await Get.to(() => VerifyPasswordPage(verifyType: VerifyType.verifyPassword), opaque: false, duration: Duration.zero, transition: Transition.noTransition, fullscreenDialog: true);
     if (pwd == null) {
       showError(t: 'Cancel');
       return false;
     }
 
-    // todo 手续费
+    dismissLoading();
+    var buyConfirm = await Get.to(() => BuyAuthorizePage(),
+        arguments: {'chainType': chainType, 'to': Web3Store.to.contractAddress(AbiType.platform, chainType).hex, 'quantity': quantity, 'price':price, 'cover': cover, 'bookName': bookName});
+    if (buyConfirm == null) {
+      showError(t: 'Cancel');
+      return false;
+    }
+    showLoading();
+
     try {
-      await Web3Store.to.payFirstTrade(type: chainType, price: price, amount: amount, pwd: pwd);
+      await Web3Store.to.payFirstTrade(type: chainType, price: price, amount: quantity, pwd: pwd);
       return true;
     } catch (e) {
       showError(t: 'pay failed');
@@ -77,27 +87,33 @@ class TradeStore extends GetxController {
 
   //购买二级市场的NFT
   Future<String?> buySecondaryMarket(
-      {required String? publicChain, required num amount, required int quantity, required String seller, required int nftId}) async {
+      {required String? publicChain, required num amount, required int quantity, required String seller, required int nftId, required String? cover, required String? bookName}) async {
     var chainType = Web3Store.to.formatChainType(publicChain);
     if (chainType == null) {
       showError(t: 'invalid chain');
       return null;
     }
 
-    var pwd = await Get.to(() => VerifyPasswordPage(verifyType: VerifyType.verifyPassword),
-        opaque: false, duration: Duration.zero, transition: Transition.noTransition, fullscreenDialog: true);
+    var pwd = await Get.to(() => VerifyPasswordPage(verifyType: VerifyType.verifyPassword), opaque: false, duration: Duration.zero, transition: Transition.noTransition, fullscreenDialog: true);
     if (pwd == null) {
       showError(t: 'Cancel');
       return null;
     }
-    // todo 手续费
+
     var isApproved = await Web3Store.to.setApprovalForTrade(type: chainType, amount: amount, pwd: pwd);
     if (!isApproved) {
       showError(t: 'approve failed');
       return null;
     }
 
-    // todo 手续费
+    dismissLoading();
+    var buyConfirm = await Get.to(() => BuyAuthorizePage(), arguments: {'chainType': chainType, 'to': seller, 'quantity': quantity, 'price': amount, 'cover': cover, 'bookName': bookName});
+    if (buyConfirm == null) {
+      showError(t: 'Cancel');
+      return null;
+    }
+    showLoading();
+
     var payResult = await Web3Store.to.paySecondTrade(nftAmount: quantity, seller: seller, chainType: chainType, nftId: nftId, tradeValue: amount, pwd: pwd);
     if (!payResult.toString().startsWith('0x')) {
       showError(t: 'trade failed\n${false.toString()}');

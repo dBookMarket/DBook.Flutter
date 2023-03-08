@@ -90,7 +90,7 @@ class Web3Store extends GetxController {
       client: _getClient(type),
       deployedContract: _deployedContract(type, AbiType.nft),
       func: 'setApprovalForAll',
-      param: [_contractAddress(AbiType.platform, type), true],
+      param: [contractAddress(AbiType.platform, type), true],
       pwd: pwd,
     );
     logX.d('授权结果>>>>>>$result');
@@ -102,7 +102,7 @@ class Web3Store extends GetxController {
           client: _getClient(type),
           deployedContract: _deployedContract(type, AbiType.nft),
           func: 'isApprovedForAll',
-          param: [EthereumAddress.fromHex(_userAddress!), _contractAddress(AbiType.platform, type)]);
+          param: [EthereumAddress.fromHex(_userAddress!), contractAddress(AbiType.platform, type)]);
       print(' isApprovedForAll-result: $result');
       return result.first;
     } catch (err) {
@@ -132,7 +132,7 @@ class Web3Store extends GetxController {
       client: _getClient(type),
       deployedContract: _deployedContract(type, AbiType.usdc),
       func: 'approve',
-      param: [_contractAddress(AbiType.platform, type), _toWei(amount)],
+      param: [contractAddress(AbiType.platform, type), _toWei(amount)],
       pwd: pwd,
     );
     return result.toString().startsWith('0x');
@@ -141,7 +141,7 @@ class Web3Store extends GetxController {
   Future paySecondTrade({required PublicChainType chainType, required num tradeValue, required String? seller, required int? nftId, required nftAmount, required pwd}) async {
     var receiver = EthereumAddress.fromHex(_userAddress!);
     var client = _getClient(chainType);
-    var fee = await getTradeFee(chainType);
+    var fee = await getGasFee(chainType);
 
     var result = await _sendTransaction(
         client: client,
@@ -154,10 +154,28 @@ class Web3Store extends GetxController {
           BigInt.from(nftAmount),
           Uint8List.fromList([0x1234]),
           _toWei(tradeValue),
-          fee
+          _toWei(fee)
         ],
         pwd: pwd);
     logX.d('result>>>>>result: $result');
+    return result;
+  }
+
+  // 获取手续费
+  Future<double> getGasFee(PublicChainType type) async {
+    EtherAmount gasPrice = await _getClient(type).getGasPrice();
+    BigInt gasLimit;
+    if (type == PublicChainType.bnb) {
+      gasLimit = BigInt.from(45447);
+    } else {
+      gasLimit = BigInt.from(59597);
+    }
+
+
+    BigInt gasFee = gasPrice.getInWei * gasLimit;
+    var result = gasFee / BigInt.from(pow(10, gcDecimals));
+
+
     return result;
   }
 
@@ -255,10 +273,10 @@ class Web3Store extends GetxController {
   }
 
   DeployedContract _deployedContract(PublicChainType chainType, AbiType abiType) {
-    return DeployedContract(ContractAbi.fromJson(jsonEncode(contractJson[abiType.name]), contractJson['contractName'] as String), _contractAddress(abiType, chainType));
+    return DeployedContract(ContractAbi.fromJson(jsonEncode(contractJson[abiType.name]), contractJson['contractName'] as String), contractAddress(abiType, chainType));
   }
 
-  EthereumAddress _contractAddress(AbiType abiType, PublicChainType chainType) {
+  EthereumAddress contractAddress(AbiType abiType, PublicChainType chainType) {
     switch (abiType) {
       case AbiType.platform:
         if (chainType == PublicChainType.bnb)

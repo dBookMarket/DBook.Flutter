@@ -1,4 +1,3 @@
-import 'package:dbook/business/assets/asset_publish/publish_authorize/publish_authorize_view.dart';
 import 'package:dbook/business/assets/assets_state.dart';
 import 'package:dbook/common/config/app_config.dart';
 import 'package:dbook/common/store/user.dart';
@@ -104,8 +103,8 @@ class MinePage extends StatelessWidget {
           _item(title: 'Earnings', icon: Assets.svgMineEarnings),
           LineH(margin: EdgeInsets.symmetric(horizontal: 12.w)),
           _item(title: 'Profile settings', icon: Assets.svgMineProfile),
-          LineH(margin: EdgeInsets.symmetric(horizontal: 12.w)),
-          _item(title: 'test', icon: Assets.svgMineProfile),
+          // LineH(margin: EdgeInsets.symmetric(horizontal: 12.w)),
+          // _item(title: 'test', icon: Assets.svgMineProfile),
         ]),
       );
 
@@ -162,7 +161,8 @@ class MinePage extends StatelessWidget {
         logX.d('show>>>>');
         // OverlayToolWrapper.of(Get.context!).showFloating();
         // OverlayStore.to.showFloating();
-        Get.to(()=>PublishAuthorizePage());
+        // var result = await Get.to(()=>BuyAuthorizePage(),arguments: {'chainType':PublicChainType.polygon,'from':UserStore.to.address,'to':UserStore.to.address,'amount':1,'price':10.0});
+        // logX.d('result>>>>$result');
         break;
     }
   }

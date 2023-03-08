@@ -5,6 +5,7 @@ class ColorX {
   static const Color primaryBackground = Color.fromARGB(255, 255, 255, 255);
   static const Color primaryMain = Color(0xFF6783E9);
   static const Color primaryYellow = Color(0xFFFFE1B4);
+  static const Color primaryYellow2 = Color(0xFFFFF7E9);
   static const Color primaryBlack = Color(0xFF000000);
   static const Color primaryBrown = Color(0xFF7D5321);
   static final Color primaryHeader = Color(0xFF000000).withOpacity(0.03);

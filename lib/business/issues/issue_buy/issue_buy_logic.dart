@@ -23,7 +23,14 @@ class IssueBuyLogic extends GetxController {
     }
     num amount = state.quantity * state.tradeInfo.price!;
 
-    String? result = await TradeStore.to.buySecondaryMarket(publicChain: state.chainType ?? '', amount: amount, quantity: state.quantity, seller: state.tradeInfo.user?.address ?? '', nftId: state.nftId ?? 0);
+    String? result = await TradeStore.to.buySecondaryMarket(
+        publicChain: state.chainType ?? '',
+        amount: amount,
+        quantity: state.quantity,
+        seller: state.tradeInfo.user?.address ?? '',
+        nftId: state.nftId ?? 0,
+        cover: state.tradeInfo.issue?.book?.coverUrl,
+        bookName: state.tradeInfo.issue?.book?.title);
     if (result == null) {
       return;
     }

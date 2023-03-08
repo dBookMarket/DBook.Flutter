@@ -1,7 +1,7 @@
-String formatAddress(String? address) {
+String formatAddress(String? address,{int? startLength,int? endLength}) {
   if (address == null || address.isEmpty) return '';
   if (address.length < 10) return address;
-  return address.replaceRange(5, address.length - 4, '...');
+  return address.replaceRange(startLength??5, address.length - (endLength??4), '...');
 }
 
 String removeZero(String value) {

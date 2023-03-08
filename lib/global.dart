@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 
 import 'common/key_manager/keystore_manager.dart';
 import 'common/services/global_time.dart';
+import 'common/store/trade.dart';
 import 'common/store/web3.dart';
 
 /// 全局静态数据
@@ -32,6 +33,7 @@ class Global {
     Get.put<UserStore>(UserStore());
     Get.put<Web3Store>(Web3Store());
     Get.put<OverlayStore>(OverlayStore());
+    Get.put<TradeStore>(TradeStore());
 
     DirectoryUtil.initAppDocDir();
   }
