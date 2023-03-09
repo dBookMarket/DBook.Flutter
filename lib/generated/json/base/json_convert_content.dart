@@ -13,6 +13,7 @@ import 'package:dbook/common/entities/concern_opus_entity.dart';
 import 'package:dbook/common/entities/drafts_entity.dart';
 import 'package:dbook/common/entities/fans_entity.dart';
 import 'package:dbook/common/entities/issues_entity.dart';
+import 'package:dbook/common/entities/order_info_entity.dart';
 import 'package:dbook/common/entities/pending_order_entity.dart';
 import 'package:dbook/common/entities/read_info_entity.dart';
 import 'package:dbook/common/entities/trades_list_entity.dart';
@@ -63,6 +64,7 @@ class JsonConvert {
 		(IssuesTrade).toString(): IssuesTrade.fromJson,
 		(IssuesBookmark).toString(): IssuesBookmark.fromJson,
 		(IssuesToken).toString(): IssuesToken.fromJson,
+		(OrderInfoEntity).toString(): OrderInfoEntity.fromJson,
 		(PendingOrderEntity).toString(): PendingOrderEntity.fromJson,
 		(PendingOrderUser).toString(): PendingOrderUser.fromJson,
 		(PendingOrderIssue).toString(): PendingOrderIssue.fromJson,
@@ -78,6 +80,7 @@ class JsonConvert {
 		(TradesListIssueBookPreview).toString(): TradesListIssueBookPreview.fromJson,
 		(TransactionsListEntity).toString(): TransactionsListEntity.fromJson,
 		(TransactionsListIssue).toString(): TransactionsListIssue.fromJson,
+		(TransactionsListIssuesToken).toString(): TransactionsListIssuesToken.fromJson,
 		(TransactionsListIssueBook).toString(): TransactionsListIssueBook.fromJson,
 		(TransactionsListIssueBookAuthor).toString(): TransactionsListIssueBookAuthor.fromJson,
 		(TransactionsListIssueBookPreview).toString(): TransactionsListIssueBookPreview.fromJson,
@@ -278,6 +281,9 @@ class JsonConvert {
 		if(<IssuesToken>[] is M){
 			return data.map<IssuesToken>((Map<String, dynamic> e) => IssuesToken.fromJson(e)).toList() as M;
 		}
+		if(<OrderInfoEntity>[] is M){
+			return data.map<OrderInfoEntity>((Map<String, dynamic> e) => OrderInfoEntity.fromJson(e)).toList() as M;
+		}
 		if(<PendingOrderEntity>[] is M){
 			return data.map<PendingOrderEntity>((Map<String, dynamic> e) => PendingOrderEntity.fromJson(e)).toList() as M;
 		}
@@ -322,6 +328,9 @@ class JsonConvert {
 		}
 		if(<TransactionsListIssue>[] is M){
 			return data.map<TransactionsListIssue>((Map<String, dynamic> e) => TransactionsListIssue.fromJson(e)).toList() as M;
+		}
+		if(<TransactionsListIssuesToken>[] is M){
+			return data.map<TransactionsListIssuesToken>((Map<String, dynamic> e) => TransactionsListIssuesToken.fromJson(e)).toList() as M;
 		}
 		if(<TransactionsListIssueBook>[] is M){
 			return data.map<TransactionsListIssueBook>((Map<String, dynamic> e) => TransactionsListIssueBook.fromJson(e)).toList() as M;

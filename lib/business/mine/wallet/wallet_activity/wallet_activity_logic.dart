@@ -1,13 +1,20 @@
-import '../../../../common/entities/concern_opus_entity.dart';
+import 'package:dbook/common/store/order.dart';
+import '../../../../common/entities/transactions_list_entity.dart';
 import '../../../../common/widgets/refresh_list_view/logic.dart';
-import '../../../service_api/base/net_work.dart';
 import 'wallet_activity_state.dart';
 
-class WalletActivityLogic extends RefreshListViewLogic<ConcernOpusEntity>  {
+class WalletActivityLogic extends RefreshListViewLogic<TransactionsListEntity>  {
   final WalletActivityState refreshState = WalletActivityState();
 
   @override
-  Future<List<ConcernOpusEntity>?> loadData({int? pageNum}) async{
-    return NetWork.getInstance().assets.wishList(page: pageNum);
+  Future<List<TransactionsListEntity>?> loadData({int? pageNum}) async{
+    await OrderStore.to.refreshPendingOrder();
+    return OrderStore.to.orderList;
+  }
+
+  @override
+  void onInit() {
+    super.onInit();
+    OrderStore.to.refreshPendingOrder();
   }
 }

@@ -114,9 +114,9 @@ class Web3Store extends GetxController {
   //endregion
 
   //region 购买首发
-  payFirstTrade({required PublicChainType type, required int amount, required double price, required pwd}) async {
+  Future payFirstTrade({required PublicChainType type, required int amount, required double price, required pwd}) async {
     var tradeValue = _toWei(amount * price);
-    await _sendTransaction(
+    return await _sendTransaction(
       client: _getClient(type),
       deployedContract: _deployedContract(type, AbiType.platform),
       func: 'payFirstTrade',

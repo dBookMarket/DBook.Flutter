@@ -21,6 +21,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import '../../../common/services/global_time.dart';
+import '../../../common/store/web3.dart';
 import '../../../common/utils/date.dart';
 import '../../asset_detail/asset_detail_view.dart';
 import '../../assets/assets_state.dart';
@@ -98,7 +99,7 @@ class IssuesDetailPage extends StatelessWidget {
       ));
 
   Widget _contactItem({required String img, String? url}) {
-    if(url == null || url.isEmpty) return SizedBox();
+    if (url == null || url.isEmpty) return SizedBox();
     return Container(
       margin: EdgeInsets.only(right: 22.w),
       color: Colors.white,
@@ -325,6 +326,7 @@ class IssuesDetailPage extends StatelessWidget {
       var address = '~';
       var stateStr = '00:00:00';
       bool isRed = false;
+      bool clickAble = false;
       GlobalTimeService.to.globalTime.value;
       if (state.issuesInfo.value.status == IssuesStatus.pre_sale.name) {
         count = 0;
@@ -338,7 +340,7 @@ class IssuesDetailPage extends StatelessWidget {
         var s = logic.countDownAdd0(logic.comingTime().inSeconds % 60);
         var duration = '$d$h:$m:$s';
 
-        if((state.issuesInfo.value.nCirculations ?? 0) == 0) duration = 'Not started';
+        if ((state.issuesInfo.value.nCirculations ?? 0) == 0) duration = 'Not started';
 
         count = 0;
         address = '~~~';
@@ -347,6 +349,9 @@ class IssuesDetailPage extends StatelessWidget {
       } else if (state.issuesInfo.value.status == IssuesStatus.off_sale.name) {
         count = (state.issuesInfo.value.quantity ?? 0) - (state.issuesInfo.value.nCirculations ?? 0);
         address = formatAddress(state.issuesInfo.value.destroyLog);
+        if (address.length != 0) {
+          clickAble = true;
+        }
         stateStr = 'destroyed';
         isRed = false;
       } else {
@@ -359,17 +364,27 @@ class IssuesDetailPage extends StatelessWidget {
           title: 'Destroyed',
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [_destroyedItem('Quantity destroyed', '$count'), _destroyedItem('Execution logging', '$address'), _destroyedItem('State', '$stateStr', isValueRed: isRed)],
+            children: [_destroyedItem('Quantity destroyed', '$count'), _destroyedItem('Execution logging', '$address', clickAble: clickAble), _destroyedItem('State', '$stateStr', isValueRed: isRed)],
           ));
     });
   }
 
-  Widget _destroyedItem(String title, String value, {bool? isValueRed = false}) => Column(
+  Widget _destroyedItem(String title, String value, {bool? isValueRed = false, bool clickAble = false}) => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           TextX(title, fontSize: FontSizeX.s11, color: ColorX.txtHint),
           SizedBox(height: 10.h),
-          TextX(value, fontSize: FontSizeX.s13, color: isValueRed! ? ColorX.txtRed : ColorX.txtTitle),
+          InkWell(
+            onTap: () => _onClick('hash'),
+            child: TextX(
+              value,
+              fontSize: FontSizeX.s13,
+              color: isValueRed! ? ColorX.txtRed : ColorX.txtTitle,
+              style: clickAble
+                  ? TextStyle(fontSize: FontSizeX.s13, color: ColorX.txtBrown, decoration: TextDecoration.underline, decorationStyle: TextDecorationStyle.solid, decorationColor: ColorX.txtBrown)
+                  : null,
+            ),
+          ),
         ],
       );
 
@@ -470,8 +485,8 @@ class IssuesDetailPage extends StatelessWidget {
           Get.to(() => ImportMemoriesPage());
           return;
         }
-        var limit = (state.issuesInfo.value.buyLimit ?? 1)-(state.issuesInfo.value.nOwned??0);
-        if(limit == 0){
+        var limit = (state.issuesInfo.value.buyLimit ?? 1) - (state.issuesInfo.value.nOwned ?? 0);
+        if (limit == 0) {
           showInfo(t: 'You have reached the purchase limit');
           return;
         }
@@ -484,11 +499,19 @@ class IssuesDetailPage extends StatelessWidget {
         ));
         break;
       case 'author':
-        Get.to(() => AssetsPage(),
-            arguments: {'title': 'Author Detail', 'assetsType': AssetsType.AUTHOR, 'userId': state.issuesInfo.value.book?.author?.id.toString()}, preventDuplicates: false);
+        Get.to(() => AssetsPage(), arguments: {'title': 'Author Detail', 'assetsType': AssetsType.AUTHOR, 'userId': state.issuesInfo.value.book?.author?.id.toString()}, preventDuplicates: false);
         break;
       case 'wish':
         logic.wish();
+        break;
+      case 'hash':
+        var token = state.issuesInfo.value.token;
+        var hash = state.issuesInfo.value.destroyLog ?? '';
+        if (token?.blockChain == PublicChainType.bnb.name) {
+          Get.to(() => WebPageView('Transaction', ScanConfig.bnb + hash));
+        } else if (token?.blockChain == PublicChainType.polygon.name) {
+          Get.to(() => WebPageView('Transaction', ScanConfig.polygon + hash));
+        }
         break;
       case 'share':
         Get.to(() => TwitterShareView(

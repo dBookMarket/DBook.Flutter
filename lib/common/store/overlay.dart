@@ -1,3 +1,5 @@
+import 'package:dbook/business/mine/wallet/wallet_activity/wallet_activity_view.dart';
+import 'package:dbook/common/utils/logger.dart';
 import 'package:dbook/generated/assets.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -64,6 +66,7 @@ class OverlayStore extends GetxController with GetSingleTickerProviderStateMixin
   }
 
   Widget _buildCenter() => GestureDetector(
+    onTap: _onTap,
     onPanEnd: _onPanEnd,
     onPanUpdate: _updatePosition,
     child: Opacity(
@@ -82,6 +85,10 @@ class OverlayStore extends GetxController with GetSingleTickerProviderStateMixin
   );
 
   double endX = 0;
+
+  void _onTap() {
+    Get.to(()=>WalletActivityPage(),arguments: {'needAppBar': true});
+  }
 
   void _onPanEnd(details) {
     endX = offset.dx;
@@ -135,8 +142,9 @@ class OverlayStore extends GetxController with GetSingleTickerProviderStateMixin
 
   void showFloating() {
     if (!show && entry != null) {
-      Overlay.of(Get.context!)?.insert(entry!);
+      logX.d('showFloating>>>>$show');
       show = true;
+      Overlay.of(Get.context!)?.insert(entry!);
     }
   }
 

@@ -12,3 +12,6 @@ const String STORAGE_LANGUAGE_CODE = 'language_code';
 
 /// 冷启动加载页面
 const String PAGE_INDEX_STR = 'last_page_index';
+
+/// 订单存储key
+const String ORDER_KEY_STR = 'order_key';

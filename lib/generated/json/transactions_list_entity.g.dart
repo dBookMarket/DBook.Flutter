@@ -86,6 +86,10 @@ TransactionsListIssue $TransactionsListIssueFromJson(Map<String, dynamic> json) 
 	if (book != null) {
 		transactionsListIssue.book = book;
 	}
+	final TransactionsListIssuesToken? token = jsonConvert.convert<TransactionsListIssuesToken>(json['token']);
+	if (token != null) {
+		transactionsListIssue.token = token;
+	}
 	final double? price = jsonConvert.convert<double>(json['price']);
 	if (price != null) {
 		transactionsListIssue.price = price;
@@ -109,10 +113,51 @@ Map<String, dynamic> $TransactionsListIssueToJson(TransactionsListIssue entity) 
 	final Map<String, dynamic> data = <String, dynamic>{};
 	data['id'] = entity.id;
 	data['book'] = entity.book?.toJson();
+	data['token'] = entity.token?.toJson();
 	data['price'] = entity.price;
 	data['quantity'] = entity.quantity;
 	data['n_circulations'] = entity.nCirculations;
 	data['published_at'] = entity.publishedAt;
+	return data;
+}
+
+TransactionsListIssuesToken $TransactionsListIssuesTokenFromJson(Map<String, dynamic> json) {
+	final TransactionsListIssuesToken transactionsListIssuesToken = TransactionsListIssuesToken();
+	final int? id = jsonConvert.convert<int>(json['id']);
+	if (id != null) {
+		transactionsListIssuesToken.id = id;
+	}
+	final String? issue = jsonConvert.convert<String>(json['issue']);
+	if (issue != null) {
+		transactionsListIssuesToken.issue = issue;
+	}
+	final String? contractAddress = jsonConvert.convert<String>(json['contract_address']);
+	if (contractAddress != null) {
+		transactionsListIssuesToken.contractAddress = contractAddress;
+	}
+	final String? blockChain = jsonConvert.convert<String>(json['block_chain']);
+	if (blockChain != null) {
+		transactionsListIssuesToken.blockChain = blockChain;
+	}
+	final String? standard = jsonConvert.convert<String>(json['standard']);
+	if (standard != null) {
+		transactionsListIssuesToken.standard = standard;
+	}
+	final String? currency = jsonConvert.convert<String>(json['currency']);
+	if (currency != null) {
+		transactionsListIssuesToken.currency = currency;
+	}
+	return transactionsListIssuesToken;
+}
+
+Map<String, dynamic> $TransactionsListIssuesTokenToJson(TransactionsListIssuesToken entity) {
+	final Map<String, dynamic> data = <String, dynamic>{};
+	data['id'] = entity.id;
+	data['issue'] = entity.issue;
+	data['contract_address'] = entity.contractAddress;
+	data['block_chain'] = entity.blockChain;
+	data['standard'] = entity.standard;
+	data['currency'] = entity.currency;
 	return data;
 }
 

@@ -39,6 +39,7 @@ class TransactionsListIssue {
 
 	String? id;
 	TransactionsListIssueBook? book;
+	TransactionsListIssuesToken? token;
 	double? price;
 	int? quantity;
 	@JSONField(name: "n_circulations")
@@ -56,6 +57,40 @@ class TransactionsListIssue {
   String toString() {
     return jsonEncode(this);
   }
+}
+
+@JsonSerializable()
+class TransactionsListIssuesToken {
+
+	int? id;
+	String? issue;
+	@JSONField(name: "contract_address")
+	String? contractAddress;
+	@JSONField(name: "block_chain")
+	String? blockChain;
+	String? standard;
+	String? currency;
+
+	TransactionsListIssuesToken();
+
+	factory TransactionsListIssuesToken.fromJson(Map<String, dynamic> json) => $TransactionsListIssuesTokenFromJson(json);
+
+	Map<String, dynamic> toJson() => $TransactionsListIssuesTokenToJson(this);
+
+	TransactionsListIssuesToken copyWith({int? id, String? issue, String? contractAddress, String? blockChain, String? standard, String? currency}) {
+		return TransactionsListIssuesToken()..id= id ?? this.id
+			..issue= issue ?? this.issue
+			..contractAddress= contractAddress ?? this.contractAddress
+			..blockChain= contractAddress ?? this.blockChain
+			..standard= contractAddress ?? this.standard
+			..currency= contractAddress ?? this.currency
+		;
+	}
+
+	@override
+	String toString() {
+		return jsonEncode(this);
+	}
 }
 
 @JsonSerializable()

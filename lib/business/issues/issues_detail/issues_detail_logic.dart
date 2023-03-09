@@ -6,7 +6,9 @@ import 'package:dbook/common/store/trade.dart';
 import 'package:dbook/common/utils/logger.dart';
 import 'package:get/get.dart';
 
+import '../../../common/entities/transactions_list_entity.dart';
 import '../../../common/services/global_time.dart';
+import '../../../common/store/order.dart';
 import '../../service_api/base/net_work.dart';
 import '../issues_state.dart';
 import 'issues_detail_state.dart';
@@ -113,13 +115,15 @@ class IssuesDetailLogic extends FullLifeCycleController with FullLifeCycleMixin 
   }
 
   buy() async {
+    var blockChain = state.issuesInfo.value.token?.blockChain;
     var price = state.issuesInfo.value.price ?? 0.0;
     var result = await TradeStore.to.buyPrimaryMarket(
-      publicChain: state.issuesInfo.value.token?.blockChain,
+      publicChain: blockChain,
       quantity: state.buyAmount.value,
       price: price,
       cover: state.issuesInfo.value.book?.coverUrl,
       bookName: state.issuesInfo.value.book?.title,
+      issueId: state.issuesInfo.value.id,
     );
     if (!result) return;
     if (state.issuesInfo.value.trade == null) {
@@ -128,11 +132,13 @@ class IssuesDetailLogic extends FullLifeCycleController with FullLifeCycleMixin 
     }
 
     state.setBusy();
-    await NetWork.getInstance()
+    TransactionsListEntity tx = await NetWork.getInstance()
         .market
         .transaction(tradeId: state.issuesInfo.value.trade?.id ?? 0, quantity: state.buyAmount.value)
-        .onError((error, stackTrace) => {state.setError(t: 'buy failed'), result = false});
+        .onError((error, stackTrace) => state.setError(t: 'buy failed'));
     state.setSuccess(t: 'pay success');
+
+    OrderStore.to.saveOrder(tx);
   }
 
   socketListen() {

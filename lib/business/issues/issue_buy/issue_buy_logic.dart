@@ -1,6 +1,8 @@
 import 'package:dbook/common/store/trade.dart';
 import 'package:get/get.dart';
 
+import '../../../common/entities/transactions_list_entity.dart';
+import '../../../common/store/order.dart';
 import '../../service_api/base/net_work.dart';
 import 'issue_buy_state.dart';
 
@@ -30,16 +32,21 @@ class IssueBuyLogic extends GetxController {
         seller: state.tradeInfo.user?.address ?? '',
         nftId: state.nftId ?? 0,
         cover: state.tradeInfo.issue?.book?.coverUrl,
-        bookName: state.tradeInfo.issue?.book?.title);
+        bookName: state.tradeInfo.issue?.book?.title,
+        issueId: state.tradeInfo.issue?.id,
+    );
     if (result == null) {
       return;
     }
 
-    await NetWork.getInstance()
+    TransactionsListEntity tx = await NetWork.getInstance()
         .market
         .transaction(tradeId: state.tradeInfo.id, quantity: state.quantity, status: 'success', hash: result)
         .onError((error, stackTrace) => state.setError(t: 'trade failed\n${error.toString()}'));
     state.setSuccess(t: 'buy success');
+
+    OrderStore.to.saveOrder(tx);
+    Get.back();
   }
 
   updateQuantity(int value) {

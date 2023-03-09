@@ -9,3 +9,8 @@ class ScreenConfig{
   static final double marginH = 40.h;
 
 }
+
+class ScanConfig{
+  static final String bnb = 'https://testnet.bscscan.com/tx/';
+  static final String polygon = 'https://mumbai.polygonscan.com/tx/';
+}

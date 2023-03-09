@@ -55,7 +55,7 @@ class TradeStore extends GetxController {
   }
 
   //购买一级市场的NFT
-  Future<bool> buyPrimaryMarket({required String? publicChain, required int quantity, required double price, required String? cover, required String? bookName}) async {
+  Future<bool> buyPrimaryMarket({required String? publicChain, required int quantity, required double price, required String? cover, required String? bookName, required String? issueId}) async {
     var chainType = Web3Store.to.formatChainType(publicChain);
     if (chainType == null) {
       showError(t: 'invalid chain');
@@ -69,25 +69,32 @@ class TradeStore extends GetxController {
 
     dismissLoading();
     var buyConfirm = await Get.to(() => BuyAuthorizePage(),
-        arguments: {'chainType': chainType, 'to': Web3Store.to.contractAddress(AbiType.platform, chainType).hex, 'quantity': quantity, 'price':price, 'cover': cover, 'bookName': bookName});
+        arguments: {'chainType': chainType, 'to': Web3Store.to.contractAddress(AbiType.platform, chainType).hex, 'quantity': quantity, 'price': price, 'cover': cover, 'bookName': bookName});
     if (buyConfirm == null) {
       showError(t: 'Cancel');
       return false;
     }
     showLoading();
 
-    try {
-      await Web3Store.to.payFirstTrade(type: chainType, price: price, amount: quantity, pwd: pwd);
-      return true;
-    } catch (e) {
+    var hash = await Web3Store.to.payFirstTrade(type: chainType, price: price, amount: quantity, pwd: pwd);
+    print('hash>>>>>>$hash');
+    if (!hash.toString().startsWith('0x')) {
       showError(t: 'pay failed');
       return false;
     }
+    return true;
   }
 
   //购买二级市场的NFT
   Future<String?> buySecondaryMarket(
-      {required String? publicChain, required num amount, required int quantity, required String seller, required int nftId, required String? cover, required String? bookName}) async {
+      {required String? publicChain,
+      required num amount,
+      required int quantity,
+      required String seller,
+      required int nftId,
+      required String? cover,
+      required String? bookName,
+      required String? issueId}) async {
     var chainType = Web3Store.to.formatChainType(publicChain);
     if (chainType == null) {
       showError(t: 'invalid chain');

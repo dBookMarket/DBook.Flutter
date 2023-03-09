@@ -132,14 +132,14 @@ class VerifyPasswordPage extends StatelessWidget {
               Radius.circular(12.r),
             ),
             borderSide: BorderSide(
-              color: ColorX.border,
+              color: ColorX.shadow,
               width: 1,
             ),
           ),
-          disabledBorder: OutlineInputBorder(borderSide: BorderSide(color: ColorX.border, width: 1)),
-          border: OutlineInputBorder(borderSide: BorderSide(color: ColorX.border, width: 1)),
+          disabledBorder: OutlineInputBorder(borderSide: BorderSide(color: ColorX.shadow, width: 1)),
+          border: OutlineInputBorder(borderSide: BorderSide(color: ColorX.shadow, width: 1)),
           focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: ColorX.border, width: 1),
+            borderSide: BorderSide(color: ColorX.shadow, width: 1),
             borderRadius: BorderRadius.all(Radius.circular(12.r)),
           ),
         ),
