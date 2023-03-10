@@ -67,6 +67,12 @@ class TradeStore extends GetxController {
       return false;
     }
 
+    var isApproved = await Web3Store.to.setApprovalForTrade(type: chainType, amount: quantity * price, pwd: pwd);
+    if (!isApproved) {
+      showError(t: 'approve failed\n${isApproved.toString()}');
+      return false;
+    }
+
     dismissLoading();
     var buyConfirm = await Get.to(() => BuyAuthorizePage(),
         arguments: {'chainType': chainType, 'to': Web3Store.to.contractAddress(AbiType.platform, chainType).hex, 'quantity': quantity, 'price': price, 'cover': cover, 'bookName': bookName});
