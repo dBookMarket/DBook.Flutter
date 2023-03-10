@@ -446,17 +446,10 @@ class IssuesDetailPage extends StatelessWidget {
   }
 
   _onClick(String type, {param}) async {
-    logX.d('点击了>>>>$type');
+    logX.d('点击了>>>>$type  $param');
     switch (type) {
       case '试读':
-        Get.to(() => AssetDetailPage(),
-            arguments: Map.of({
-              'bookName': param.bookName.title,
-              'bookId': param.bookName.id,
-              'currentPage': 0,
-              'markId': 0,
-              'markIssue': 0,
-            }));
+        Get.to(() => AssetDetailPage(), arguments: {'downloadUrl': state.issuesInfo.value.book?.preview?.url});
         break;
 
       case '添加到日历':

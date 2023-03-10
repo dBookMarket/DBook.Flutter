@@ -1,7 +1,7 @@
 class ApiConstants {
   // ignore: non_constant_identifier_names
   // static final String BASE_URL = 'https://api.jidaoapp.com';//正式
-  static final String BASE_URL = 'http://dbookmarket.com:56789/api/v1/'; //测试
+  static final String BASE_URL = 'https://dbookmarket.com:56789/api/v1/'; //测试
   // static final String BASE_URL = 'http://test.ddid.info/api/v1/';//测试
 
   /// 测试接口

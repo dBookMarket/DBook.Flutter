@@ -1,56 +1,28 @@
-import 'dart:io';
-
 import 'package:dbook/common/entities/read_info_entity.dart';
-import 'package:dbook/common/utils/logger.dart';
-import 'package:flutter/foundation.dart';
+import 'package:dbook/common/widgets/view_state/view_state.dart';
+import 'package:epub_view/epub_view.dart';
 import 'package:get/get.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:pdfx/pdfx.dart';
 
-class AssetDetailState {
-  late final String bookName;
-  late final int bookId;
-  late final int currentPage;
-  late final int markId;
-  late final int markIssue;
-  late final Directory? decryptPath;
-  late final Directory? imagesPath;
+import '../../common/services/downloader.dart';
 
-  final currentIndex = 1.obs;
+
+
+class AssetDetailState extends BaseState{
+  int? assetId;
+  String? downloadUrl;
   final readInfo = ReadInfoEntity().obs;
+  final assetType = AssetFileType.unknown.obs;
+  String? fileName;
 
-  final localFile = <dynamic>[].obs;
+  late PdfController? pdfController;
+  late EpubController epubController;
+
+  final pdfCurrentIndex = 0.obs;
 
   AssetDetailState() {
-    bookName = Get.arguments?['bookName'] ?? '';
-    bookId = Get.arguments?['bookId'] ?? '';
-    currentPage = Get.arguments?['currentPage'] ?? '';
-    markId = Get.arguments?['markId'] ?? '';
-    markIssue = Get.arguments?['markIssue'] ?? '';
-    currentIndex.value = currentPage;
-    logX.d(Get.arguments);
-    initFilePath();
+    assetId = Get.arguments?['assetId'];
+    downloadUrl = Get.arguments?['downloadUrl'] ?? '';
   }
 
-  initFilePath() async {
-    var parentPath;
-    if (kDebugMode) {
-      parentPath = Directory('data/data/com.ddid.dbook/files');
-    } else {
-      parentPath = await getApplicationDocumentsDirectory();
-    }
-    // var parentPath = await getExternalStorageDirectory();
-    decryptPath = Directory('${parentPath?.path}/${bookName}_$bookId');
-
-    /// 判断文件夹是否存在
-    if (!decryptPath!.existsSync()) {
-      decryptPath!.createSync(recursive: true);
-    }
-
-    imagesPath = Directory('${parentPath?.path}/${bookName}_$bookId/images');
-
-    /// 判断文件夹是否存在
-    if (!imagesPath!.existsSync()) {
-      imagesPath!.createSync(recursive: true);
-    }
-  }
 }

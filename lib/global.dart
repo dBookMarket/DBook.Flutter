@@ -8,6 +8,7 @@ import 'package:dbook/common/utils/utils.dart';
 import 'package:get/get.dart';
 
 import 'common/key_manager/keystore_manager.dart';
+import 'common/services/downloader.dart';
 import 'common/services/global_time.dart';
 import 'common/store/order.dart';
 import 'common/store/trade.dart';
@@ -36,6 +37,7 @@ class Global {
     Get.put<OverlayStore>(OverlayStore());
     Get.put<TradeStore>(TradeStore());
     Get.put<OrderStore>(OrderStore());
+    Get.put<DownloaderStore>(DownloaderStore());
 
     DirectoryUtil.initAppDocDir();
   }

@@ -247,7 +247,7 @@ class AssetsApi {
   Future<List<BookEntity>> bookList({int? page}) async {
     Map<String, dynamic> params = Map();
     params['page'] = page;
-    var response = await httpX.get(ApiConstants.books, queryParameters: params);
+    var response = await httpX.get(ApiConstants.books, queryParameters: params,options: Options(headers: {"noToast": "true"}));
 
     List<BookEntity>? books;
     try {

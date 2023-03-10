@@ -1,5 +1,4 @@
-import 'dart:math';
-
+import 'package:dbook/common/values/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -12,6 +11,6 @@ class SplashPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(width: 1.sw,height: 1.sh,color: Color(0xFF6782E8),);
+    return Container(width: 1.sw,height: 1.sh,color: ColorX.primaryBackground);
   }
 }

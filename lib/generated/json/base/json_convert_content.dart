@@ -72,6 +72,7 @@ class JsonConvert {
 		(PendingOrderIssueBookAuthor).toString(): PendingOrderIssueBookAuthor.fromJson,
 		(PendingOrderIssueBookPreview).toString(): PendingOrderIssueBookPreview.fromJson,
 		(ReadInfoEntity).toString(): ReadInfoEntity.fromJson,
+		(ReadInfoBookmark).toString(): ReadInfoBookmark.fromJson,
 		(TradesListEntity).toString(): TradesListEntity.fromJson,
 		(TradesListUser).toString(): TradesListUser.fromJson,
 		(TradesListIssue).toString(): TradesListIssue.fromJson,
@@ -304,6 +305,9 @@ class JsonConvert {
 		}
 		if(<ReadInfoEntity>[] is M){
 			return data.map<ReadInfoEntity>((Map<String, dynamic> e) => ReadInfoEntity.fromJson(e)).toList() as M;
+		}
+		if(<ReadInfoBookmark>[] is M){
+			return data.map<ReadInfoBookmark>((Map<String, dynamic> e) => ReadInfoBookmark.fromJson(e)).toList() as M;
 		}
 		if(<TradesListEntity>[] is M){
 			return data.map<TradesListEntity>((Map<String, dynamic> e) => TradesListEntity.fromJson(e)).toList() as M;

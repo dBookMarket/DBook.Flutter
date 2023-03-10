@@ -233,11 +233,16 @@ Map<String, dynamic> $IssuesBookAuthorToJson(IssuesBookAuthor entity) {
 
 IssuesBookPreview $IssuesBookPreviewFromJson(Map<String, dynamic> json) {
 	final IssuesBookPreview issuesBookPreview = IssuesBookPreview();
+	final String? url = jsonConvert.convert<String>(json['file_url']);
+	if (url != null) {
+		issuesBookPreview.url = url;
+	}
 	return issuesBookPreview;
 }
 
 Map<String, dynamic> $IssuesBookPreviewToJson(IssuesBookPreview entity) {
 	final Map<String, dynamic> data = <String, dynamic>{};
+	data['file_url'] = entity.url;
 	return data;
 }
 

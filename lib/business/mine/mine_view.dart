@@ -16,6 +16,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import '../../common/routes/names.dart';
+import '../../common/store/overlay.dart';
 import 'mine_logic.dart';
 
 class MinePage extends StatelessWidget {
@@ -103,8 +104,8 @@ class MinePage extends StatelessWidget {
           _item(title: 'Earnings', icon: Assets.svgMineEarnings),
           LineH(margin: EdgeInsets.symmetric(horizontal: 12.w)),
           _item(title: 'Profile settings', icon: Assets.svgMineProfile),
-          // LineH(margin: EdgeInsets.symmetric(horizontal: 12.w)),
-          // _item(title: 'test', icon: Assets.svgMineProfile),
+          LineH(margin: EdgeInsets.symmetric(horizontal: 12.w)),
+          _item(title: 'test', icon: Assets.svgMineProfile),
         ]),
       );
 
@@ -160,7 +161,7 @@ class MinePage extends StatelessWidget {
       case 'test':
         logX.d('show>>>>');
         // OverlayToolWrapper.of(Get.context!).showFloating();
-        // OverlayStore.to.showFloating();
+        OverlayStore.to.showFloating();
         // var result = await Get.to(()=>BuyAuthorizePage(),arguments: {'chainType':PublicChainType.polygon,'from':UserStore.to.address,'to':UserStore.to.address,'amount':1,'price':10.0});
         // logX.d('result>>>>$result');
         break;

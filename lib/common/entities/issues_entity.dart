@@ -160,7 +160,8 @@ class IssuesBookAuthor {
 
 @JsonSerializable()
 class IssuesBookPreview {
-
+	@JSONField(name: "file_url")
+	String? url;
 
   
   IssuesBookPreview();

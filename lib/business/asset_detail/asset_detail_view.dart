@@ -1,14 +1,12 @@
-import 'dart:io';
-
-import 'package:carousel_slider/carousel_slider.dart';
-import 'package:dbook/common/utils/logger.dart';
 import 'package:dbook/common/values/colors.dart';
-import 'package:dbook/common/widgets/text.dart';
+import 'package:dbook/common/widgets/view_state/base_container_view.dart';
+import 'package:epub_view/epub_view.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:pdfx/pdfx.dart';
 
-import '../../common/utils/image_helper.dart';
+import '../../common/services/downloader.dart';
+import '../../common/widgets/appBar.dart';
 import 'asset_detail_logic.dart';
 
 class AssetDetailPage extends StatelessWidget {
@@ -17,86 +15,67 @@ class AssetDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: [
-          pages(),
-          Positioned(
-            child: _index(),
-            bottom: 10.h,
-            left: 10.w,
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _index() {
     return Obx(() {
-      if (state.localFile.length == 0) return SizedBox();
-      return Container(
-        // width: 1.sw,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(color: Colors.black.withOpacity(0.1), borderRadius: BorderRadius.circular(100)),
-        padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 20.w),
-        child: Center(
-          child: Obx(() {
-            return TextX(
-              '${state.currentIndex.value + 1}/${state.localFile.length}',
-              color: ColorX.primaryMain,
-            );
-          }),
-        ),
+      return Scaffold(
+        appBar: _appBar(),
+        body: BaseContainer(viewState: state.viewState, child: _asset(), background: ColorX.primaryYellow2),
+        drawer: _epubDrawer(),
       );
     });
   }
 
-  pages() {
-    return Obx(() {
-      if (state.localFile.length == 0) return SizedBox();
-      return CarouselSlider(
-          items: state.localFile.map(_item).toList(),
-          options: CarouselOptions(
-            height: 1.sh,
-            initialPage: state.currentIndex.value,
-            enableInfiniteScroll: false,
-            enlargeCenterPage: false,
-            disableCenter: false,
-            viewportFraction: 1,
-            autoPlay: false,
-            autoPlayInterval: Duration(seconds: 2),
-            autoPlayAnimationDuration: Duration(milliseconds: 800),
-            onPageChanged: logic.onPageChanged,
-            scrollDirection: Axis.horizontal,
-            // pageViewKey: PageStorageKey<String>(HOME_BANNER_INDEX),
-          ));
-    });
-  }
-
-  Widget _item(dynamic image) {
-    if (image is String) {
-      return Center(
-        child: TextX(
-          image,
-          color: Colors.blue,
-        ),
+  AppBar _appBar() {
+    if (state.assetType.value == AssetFileType.epub) {
+      return AppBar(
+        title: _appBarEpub(),
+        actions: [_close()],
       );
+    } else if (state.assetType.value == AssetFileType.pdf){
+      return appBar(title: logic.getPdfTag());
+    }else{
+      return appBar();
     }
-    // logX.d(image) ;
-    return SingleChildScrollView(
-      // child: ImageHelper.network(image, width: 1.sw, fit: BoxFit.fitWidth),
-      child: Image.file(
-        image,
-        width: 1.sw,
-        // height: 1.sw/1.78,
-        fit: BoxFit.fill,
-        errorBuilder: (c, o, e) => Container(
-          width: 1.sw,
-          height: 1.sh,
-          alignment: Alignment.center,
-          child: TextX('Something has wrong,back home and retry'),
-        ),
-      ),
-    );
   }
+
+  Widget _close() => IconButton(
+        icon: Icon(Icons.close),
+        onPressed: () {
+          Get.back();
+        },
+      );
+
+  Widget _appBarEpub() => EpubViewActualChapter(
+      controller: state.epubController,
+      builder: (chapterValue) => Text(
+            (chapterValue?.chapter?.Title?.replaceAll('\n', '').trim() ?? ''),
+            textAlign: TextAlign.start,
+          ));
+
+  Widget? _epubDrawer() {
+    if (state.assetType.value == AssetFileType.epub) {
+      return Drawer(
+        child: EpubViewTableOfContents(
+          controller: state.epubController,
+        ),
+      );
+    } else {
+      return null;
+    }
+  }
+
+  Widget _asset() {
+    return Obx(() {
+      if (state.assetType.value == AssetFileType.pdf) {
+        return _pdf();
+      } else if (state.assetType.value == AssetFileType.epub) {
+        return _epub();
+      } else {
+        return SizedBox();
+      }
+    });
+  }
+
+  Widget _pdf() => PdfView(controller: state.pdfController!,onPageChanged: logic.onPageChanged);
+
+  Widget _epub() => EpubView(controller: state.epubController,onChapterChanged: logic.onChapterChanged);
 }

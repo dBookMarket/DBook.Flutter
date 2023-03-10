@@ -1,10 +1,12 @@
 import 'package:dbook/business/mine/wallet/wallet_activity/wallet_activity_view.dart';
 import 'package:dbook/common/utils/logger.dart';
-import 'package:dbook/generated/assets.dart';
+import 'package:dbook/common/values/colors.dart';
+import 'package:dbook/common/values/fontSize.dart';
+import 'package:dbook/common/widgets/text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class OverlayStore extends GetxController with GetSingleTickerProviderStateMixin{
+class OverlayStore extends GetxController with GetSingleTickerProviderStateMixin {
   static OverlayStore get to => Get.find();
 
   bool show = false;
@@ -33,22 +35,21 @@ class OverlayStore extends GetxController with GetSingleTickerProviderStateMixin
 
     WidgetsBinding.instance.addPostFrameCallback((callback) {
       var px = MediaQuery.of(Get.context!).size.width - 100;
-      var py = MediaQuery.of(Get.context!).size.height*0.05;
+      var py = MediaQuery.of(Get.context!).size.height * 0.05;
       offset = Offset(px, py);
 
       entry = OverlayEntry(
           builder: (context) => Stack(
-            children: <Widget>[
-              Positioned(
-                left: offset.dx,
-                top: offset.dy,
-                child: _buildFloating(),
-              ),
-            ],
-          ));
+                children: <Widget>[
+                  Positioned(
+                    left: offset.dx,
+                    top: offset.dy,
+                    child: _buildFloating(),
+                  ),
+                ],
+              ));
     });
   }
-
 
   final double circleRadius = 80;
   final double menuSize = 36;
@@ -66,28 +67,36 @@ class OverlayStore extends GetxController with GetSingleTickerProviderStateMixin
   }
 
   Widget _buildCenter() => GestureDetector(
-    onTap: _onTap,
-    onPanEnd: _onPanEnd,
-    onPanUpdate: _updatePosition,
-    child: Opacity(
-      opacity: 0.9,
-      child: Container(
-        width: menuSize,
-        height: menuSize,
-        padding: const EdgeInsets.all(2),
-        decoration: BoxDecoration(color: Colors.blue, borderRadius: BorderRadius.circular(menuSize / 2)),
-        child: Container(
-          decoration: BoxDecoration(
-              color: Colors.blue, image: const DecorationImage(image: AssetImage(Assets.defaultAvatar1)), borderRadius: BorderRadius.circular(menuSize / 2)),
+        onTap: _onTap,
+        onPanEnd: _onPanEnd,
+        onPanUpdate: _updatePosition,
+        child: Opacity(
+          opacity: 0.8,
+          child: Container(
+            width: menuSize*2,
+            height: menuSize,
+            padding: const EdgeInsets.all(2),
+            decoration: BoxDecoration(color: ColorX.primaryYellow, borderRadius: BorderRadius.circular(menuSize / 2), boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.5),
+                blurRadius: 5,
+                spreadRadius: 1,
+                offset: Offset(0, 5),
+              )
+            ]),
+            child: Container(
+              alignment: Alignment.center,
+              decoration: BoxDecoration(color: ColorX.primaryBrown, borderRadius: BorderRadius.circular(menuSize / 2)),
+              child: TextX('paying',color: ColorX.primaryYellow,fontSize: FontSizeX.s13,),
+            ),
+          ),
         ),
-      ),
-    ),
-  );
+      );
 
   double endX = 0;
 
   void _onTap() {
-    Get.to(()=>WalletActivityPage(),arguments: {'needAppBar': true});
+    Get.to(() => WalletActivityPage(), arguments: {'needAppBar': true});
   }
 
   void _onPanEnd(details) {
@@ -106,7 +115,6 @@ class OverlayStore extends GetxController with GetSingleTickerProviderStateMixin
       double end = MediaQuery.of(Get.context!).size.width - menuSize / 2 - circleRadius;
       double t = _ctrl.value;
       px = begin + (end - begin) * t; // x = menuSize / 2 - circleRadius;
-
     } else {
       double begin = endX;
       double end = menuSize / 2 - circleRadius;
@@ -144,7 +152,7 @@ class OverlayStore extends GetxController with GetSingleTickerProviderStateMixin
     if (!show && entry != null) {
       logX.d('showFloating>>>>$show');
       show = true;
-      Overlay.of(Get.context!)?.insert(entry!);
+      Overlay.of(Get.context!).insert(entry!);
     }
   }
 

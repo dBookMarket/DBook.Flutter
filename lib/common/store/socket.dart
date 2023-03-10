@@ -27,7 +27,7 @@ class SocketStore extends GetxController {
       return;
     }
     var baseUri = Uri.parse(ApiConstants.BASE_URL);
-    var socketUri = Uri.parse('ws://${baseUri.host}:${baseUri.port}/ws/notifications?token=${UserStore.to.token}');
+    var socketUri = Uri.parse('wss://${baseUri.host}:${baseUri.port}/ws/notifications?token=${UserStore.to.token}');
     logX.d('初始化socket>>>>$socketUri');
     channel = new IOWebSocketChannel.connect(socketUri);
     channel?.stream.listen((event) {
@@ -53,6 +53,9 @@ class SocketStore extends GetxController {
 
   _reconnect() {
     logX.d('socket重新连接>>>>');
+    if(UserStore.to.token.isEmpty){
+      return;
+    }
     init();
   }
 

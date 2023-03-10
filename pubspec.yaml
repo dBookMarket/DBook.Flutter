@@ -126,8 +126,14 @@ dependencies:
 
   web_socket_channel: ^2.3.0
 
-  pdf: ^3.9.0
+  pdfx: ^2.3.0
 
+  epub_view: ^3.0.0
+
+
+dependency_overrides:
+  xml: ^6.2.2
+  image: ^3.0.8
 
 
 dev_dependencies:

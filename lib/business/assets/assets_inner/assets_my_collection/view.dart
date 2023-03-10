@@ -15,6 +15,7 @@ import '../../../../common/values/fontSize.dart';
 import '../../../../common/widgets/text.dart';
 import '../../../../common/widgets/view_state/base_container_view.dart';
 import '../../../../generated/assets.dart';
+import '../../../asset_detail/asset_detail_view.dart';
 import '../../../issues/issues_detail/issues_detail_view.dart';
 import 'logic.dart';
 
@@ -122,8 +123,7 @@ class AssetsMyCollectionPage extends StatelessWidget {
   _onClick(type, {CollectionEntity? param}) async {
     switch (type) {
       case 'Read':
-        // await Get.to(() => WritingPage(), arguments: {'draftInfo': param});
-        // logic.refresh();
+        Get.to(() => AssetDetailPage(), arguments: {'assetId':param?.id});
         break;
       case 'Sell':
         if (param?.issue?.status != IssuesStatus.off_sale.name) {
