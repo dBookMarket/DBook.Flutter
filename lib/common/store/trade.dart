@@ -36,7 +36,7 @@ class TradeStore extends GetxController {
       return false;
     }
 
-    dismissLoading();
+    await Future.delayed(Duration(milliseconds: 200));
     dismissLoading();
     bool? authorize = await Get.to(() => PublishAuthorizePage(), arguments: {'chainType': chainType});
     if (authorize == null) {
@@ -79,7 +79,7 @@ class TradeStore extends GetxController {
     var hash = await Web3Store.to.payFirstTrade(type: chainType, price: price, amount: quantity, pwd: pwd);
     print('hash>>>>>>$hash');
     if (!hash.toString().startsWith('0x')) {
-      showError(t: 'pay failed');
+      showError(t: 'pay failed\n${hash.toString()}');
       return false;
     }
     return true;
@@ -109,7 +109,7 @@ class TradeStore extends GetxController {
 
     var isApproved = await Web3Store.to.setApprovalForTrade(type: chainType, amount: amount, pwd: pwd);
     if (!isApproved) {
-      showError(t: 'approve failed');
+      showError(t: 'approve failed\n${isApproved.toString()}');
       return null;
     }
 
@@ -123,7 +123,7 @@ class TradeStore extends GetxController {
 
     var payResult = await Web3Store.to.paySecondTrade(nftAmount: quantity, seller: seller, chainType: chainType, nftId: nftId, tradeValue: amount, pwd: pwd);
     if (!payResult.toString().startsWith('0x')) {
-      showError(t: 'trade failed\n${false.toString()}');
+      showError(t: 'trade failed\n${payResult.toString()}');
       return null;
     }
 

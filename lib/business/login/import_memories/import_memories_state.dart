@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:dbook/common/widgets/view_state/view_state.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -13,7 +11,7 @@ class ImportMemoriesState extends BaseState{
 
   final memories = ''.obs;
 
-  final testM = 'upon session bone daughter blue surge reason rigid rally party inform state';
+  final testM = kReleaseMode?'':'upon session bone daughter blue surge reason rigid rally party inform state';
 
   // final testM = '';
   TextEditingController controller = TextEditingController();

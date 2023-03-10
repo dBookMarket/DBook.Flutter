@@ -85,7 +85,7 @@ class Web3Store extends GetxController {
   /// Step 0，调用NFT合约[isApprovedForAll]查看是否授权，若false转step 1，若true，转step 2；
   /// Step 1，调用NFT合约[setApprovalForAll]进行授权给platform合约，若成功，转step 2；
   /// tep 2，调用issue接口发布书籍。
-  setApprovalForAll(PublicChainType type, pwd) async {
+  Future setApprovalForAll(PublicChainType type, pwd) async {
     var result = await _sendTransaction(
       client: _getClient(type),
       deployedContract: _deployedContract(type, AbiType.nft),
@@ -94,6 +94,7 @@ class Web3Store extends GetxController {
       pwd: pwd,
     );
     logX.d('授权结果>>>>>>$result');
+    return result;
   }
 
   Future<bool> isApprovedForAll(PublicChainType type) async {
