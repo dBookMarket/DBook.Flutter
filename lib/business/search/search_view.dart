@@ -37,11 +37,11 @@ class SearchPage extends StatelessWidget {
         width: 1.sw,
         padding: EdgeInsets.only(top: 60.h, bottom: 20.h),
         color: ColorX.primaryYellow,
-        child: SvgPicture.asset(
-          Assets.svgHomeLogo,
-          width: 42.w,
-          height: 46.h,
-        ),
+        // child: SvgPicture.asset(
+        //   Assets.svgHomeLogo,
+        //   width: 42.w,
+        //   height: 46.h,
+        // ),
         height: 128.h,
       );
 
