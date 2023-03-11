@@ -27,7 +27,7 @@ class TradeStore extends GetxController {
     bool isApproved = await Web3Store.to.isApprovedForAll(chainType);
     logX.d('是否授权>>>>>>$isApproved');
 
-    if (!isApproved) {
+    if (isApproved) {
       return true;
     }
     var pwd = await Get.to(() => VerifyPasswordPage(verifyType: VerifyType.verifyPassword), opaque: false, duration: Duration.zero, transition: Transition.noTransition, fullscreenDialog: true);
@@ -46,10 +46,14 @@ class TradeStore extends GetxController {
     showLoading();
 
     try {
-      await Web3Store.to.setApprovalForAll(chainType, pwd);
+      var tx = await Web3Store.to.setApprovalForAll(chainType, pwd);
+      if (!tx.toString().startsWith('0x')) {
+        showError(t: 'approveAll failed\n${tx.toString()}');
+        return false;
+      }
       return true;
     } catch (e) {
-      showError(t: 'setApprovalForAll error');
+      showError(t: 'setApprovalForAll error$e');
       return false;
     }
   }
@@ -67,9 +71,9 @@ class TradeStore extends GetxController {
       return false;
     }
 
-    var isApproved = await Web3Store.to.setApprovalForTrade(type: chainType, amount: quantity * price, pwd: pwd);
-    if (!isApproved) {
-      showError(t: 'approve failed\n${isApproved.toString()}');
+    var tx = await Web3Store.to.setApprovalForTrade(type: chainType, amount: quantity * price, pwd: pwd);
+    if (!tx.toString().startsWith('0x')) {
+      showError(t: 'approve failed\n${tx.toString()}');
       return false;
     }
 
@@ -113,9 +117,9 @@ class TradeStore extends GetxController {
       return null;
     }
 
-    var isApproved = await Web3Store.to.setApprovalForTrade(type: chainType, amount: amount, pwd: pwd);
-    if (!isApproved) {
-      showError(t: 'approve failed\n${isApproved.toString()}');
+    var tx = await Web3Store.to.setApprovalForTrade(type: chainType, amount: amount, pwd: pwd);
+    if (!tx.toString().startsWith('0x')) {
+      showError(t: 'approve failed\n${tx.toString()}');
       return null;
     }
 

@@ -128,7 +128,7 @@ class Web3Store extends GetxController {
 
   //endregion
 
-  Future<bool> setApprovalForTrade({required PublicChainType type, required num amount, required pwd}) async {
+  Future<String> setApprovalForTrade({required PublicChainType type, required num amount, required pwd}) async {
     var result = await _sendTransaction(
       client: _getClient(type),
       deployedContract: _deployedContract(type, AbiType.usdc),
@@ -136,7 +136,7 @@ class Web3Store extends GetxController {
       param: [contractAddress(AbiType.platform, type), _toWei(amount)],
       pwd: pwd,
     );
-    return result.toString().startsWith('0x');
+    return result.toString();
   }
 
   Future paySecondTrade({required PublicChainType chainType, required num tradeValue, required String? seller, required int? nftId, required nftAmount, required pwd}) async {
