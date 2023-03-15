@@ -11,6 +11,7 @@ class WalletAssetsState extends BaseState{
   final bscMainBalance = "--".obs;
   final bscTokenBalance = "--".obs;
 
-  WalletAssetsState() {
-  }
+  final fileCoinBalance = "--".obs;
+  final fileCoinTokenBalance = "--".obs;
+
 }

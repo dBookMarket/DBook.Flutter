@@ -11,7 +11,9 @@ import 'package:get/get.dart';
 import 'package:http/http.dart';
 import 'package:web3dart/web3dart.dart';
 
-enum PublicChainType { bnb, polygon }
+import '../config/app_config.dart';
+
+enum PublicChainType { bnb, polygon,filecoin }
 
 enum CoinType { usdc }
 
@@ -19,16 +21,7 @@ enum AbiType { platform, nft, usdc }
 
 class Web3Store extends GetxController {
   static Web3Store get to => Get.find();
-  final String BSC_RPC = 'https://endpoints.omniatech.io/v1/bsc/testnet/public';
-  final String POLYGON_RPC = 'https://matic-mumbai.chainstacklabs.com';
 
-  final String BNB_USDC_ADDRESS = '0x425F41d0F330021E72Ff70CB218fbD26559C509a';
-  final String BNB_NFT_ADDRESS = '0xcf0b52b899Ac7ec7cfBdB022C2382bBb050C6Fc3';
-  final String PLATFORM_BNB_ADDRESS = '0xc3a3cD2c77CE4a7c3aBee9f2eA9E37F058C5fbe8';
-
-  final String POLYGON_USDC_ADDRESS = '0x93d633d2E5c2312A4d53f03C517C86563C9FC8fb';
-  final String POLYGON_NFT_ADDRESS = '0x7C850235538410e46045873c6F7e86458F942136';
-  final String PLATFORM_POLYGON_ADDRESS = '0xE344D7e81d04e77014f9e31423c59c8deb7f5Ff4';
 
   final gcDecimals = 18;
 
@@ -36,6 +29,7 @@ class Web3Store extends GetxController {
 
   // late Web3Client client;
   late Web3Client bcsClient;
+  late Web3Client fileCoinClient;
   late Web3Client polygonClient;
 
   late var contractJson;
@@ -43,8 +37,9 @@ class Web3Store extends GetxController {
   String? get _userAddress => UserStore.to.address;
 
   initClient() async {
-    bcsClient = Web3Client(BSC_RPC, Client())..printErrors = true;
-    polygonClient = Web3Client(POLYGON_RPC, Client())..printErrors = true;
+    fileCoinClient = Web3Client(BlockChainConfig.FILECOIN_RPC, Client())..printErrors = true;
+    bcsClient = Web3Client(BlockChainConfig.BSC_RPC, Client())..printErrors = true;
+    polygonClient = Web3Client(BlockChainConfig.POLYGON_RPC, Client())..printErrors = true;
     contractJson = jsonDecode(await rootBundle.loadString(Assets.filesContract));
   }
 
@@ -165,11 +160,13 @@ class Web3Store extends GetxController {
   // 获取手续费
   Future<double> getGasFee(PublicChainType type) async {
     EtherAmount gasPrice = await _getClient(type).getGasPrice();
-    BigInt gasLimit;
+    BigInt gasLimit = BigInt.from(0);
     if (type == PublicChainType.bnb) {
-      gasLimit = BigInt.from(45447);
-    } else {
-      gasLimit = BigInt.from(59597);
+      gasLimit = BlockChainConfig.BNB_GAS_PRICE ;
+    } else if (type == PublicChainType.polygon) {
+      gasLimit = BlockChainConfig.POLYGON_GAS_PRICE;
+    }else if (type == PublicChainType.filecoin){
+      gasLimit = BlockChainConfig.FILECOIN_GAS_PRICE;
     }
 
 
@@ -195,6 +192,8 @@ class Web3Store extends GetxController {
       return PublicChainType.bnb;
     } else if (chainType == 'polygon') {
       return PublicChainType.polygon;
+    } else if (chainType == 'filecoin') {
+      return PublicChainType.filecoin;
     } else {
       return null;
     }
@@ -208,7 +207,9 @@ class Web3Store extends GetxController {
   Web3Client _getClient(PublicChainType type) {
     if (type == PublicChainType.bnb) {
       return bcsClient;
-    } else {
+    } else if (type == PublicChainType.filecoin) {
+      return fileCoinClient;
+    } else{
       return polygonClient;
     }
   }
@@ -281,23 +282,29 @@ class Web3Store extends GetxController {
     switch (abiType) {
       case AbiType.platform:
         if (chainType == PublicChainType.bnb)
-          return EthereumAddress.fromHex(PLATFORM_BNB_ADDRESS);
+          return EthereumAddress.fromHex(BlockChainConfig.BNB_PLATFORM_ADDRESS);
         else if (chainType == PublicChainType.polygon)
-          return EthereumAddress.fromHex(PLATFORM_POLYGON_ADDRESS);
+          return EthereumAddress.fromHex(BlockChainConfig.POLYGON_PLATFORM_ADDRESS);
+        else if (chainType == PublicChainType.filecoin)
+          return EthereumAddress.fromHex(BlockChainConfig.FILECOIN_PLATFORM_ADDRESS);
         else
           return EthereumAddress.fromHex('');
       case AbiType.usdc:
         if (chainType == PublicChainType.bnb)
-          return EthereumAddress.fromHex(BNB_USDC_ADDRESS);
+          return EthereumAddress.fromHex(BlockChainConfig.BNB_USDC_ADDRESS);
         else if (chainType == PublicChainType.polygon)
-          return EthereumAddress.fromHex(POLYGON_USDC_ADDRESS);
+          return EthereumAddress.fromHex(BlockChainConfig.POLYGON_USDC_ADDRESS);
+        else if (chainType == PublicChainType.filecoin)
+          return EthereumAddress.fromHex(BlockChainConfig.FILECOIN_USDC_ADDRESS);
         else
           return EthereumAddress.fromHex('');
       case AbiType.nft:
         if (chainType == PublicChainType.bnb)
-          return EthereumAddress.fromHex(BNB_NFT_ADDRESS);
+          return EthereumAddress.fromHex(BlockChainConfig.BNB_NFT_ADDRESS);
         else if (chainType == PublicChainType.polygon)
-          return EthereumAddress.fromHex(POLYGON_NFT_ADDRESS);
+          return EthereumAddress.fromHex(BlockChainConfig.POLYGON_NFT_ADDRESS);
+        else if (chainType == PublicChainType.filecoin)
+          return EthereumAddress.fromHex(BlockChainConfig.FILECOIN_NFT_ADDRESS);
         else
           return EthereumAddress.fromHex('');
       default:

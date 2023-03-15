@@ -21,6 +21,8 @@ class WalletAssetsLogic extends GetxController {
       state.polygonTokenBalance.value = await Web3Store.to.getTokenBalance(PublicChainType.polygon);
       state.bscMainBalance.value = await Web3Store.to.getBalance(PublicChainType.bnb);
       state.bscTokenBalance.value = await Web3Store.to.getTokenBalance(PublicChainType.bnb);
+      state.fileCoinBalance.value = await Web3Store.to.getBalance(PublicChainType.filecoin);
+      state.fileCoinTokenBalance.value = await Web3Store.to.getTokenBalance(PublicChainType.filecoin);
     } catch (e) {
       state.refreshController.refreshFailed();
     }

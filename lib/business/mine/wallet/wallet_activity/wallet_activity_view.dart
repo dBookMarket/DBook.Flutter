@@ -123,6 +123,8 @@ class WalletActivityPage extends StatelessWidget {
       Get.to(()=>WebPageView('Transaction', ScanConfig.bnb+info.hash!));
     }else if(info.issue?.token?.blockChain == PublicChainType.polygon.name){
       Get.to(()=>WebPageView('Transaction', ScanConfig.polygon+info.hash!));
+    }else if(info.issue?.token?.blockChain == PublicChainType.filecoin.name){
+      Get.to(()=>WebPageView('Message', ScanConfig.fileCoin+info.hash!));
     }
 
   }

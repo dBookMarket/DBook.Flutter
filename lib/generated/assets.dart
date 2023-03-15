@@ -67,6 +67,7 @@ class Assets {
   static const String svgBookDraft = 'assets/svg/book_draft.svg';
   static const String svgBookEncrypting = 'assets/svg/book_encrypting.svg';
   static const String svgCoinBnb = 'assets/svg/coin_bnb.svg';
+  static const String svgCoinFil = 'assets/svg/coin_fil.svg';
   static const String svgCoinMatic = 'assets/svg/coin_matic.svg';
   static const String svgCoinUsdc = 'assets/svg/coin_usdc.svg';
   static const String svgCollectSelected = 'assets/svg/collect_selected.svg';

@@ -504,6 +504,8 @@ class IssuesDetailPage extends StatelessWidget {
           Get.to(() => WebPageView('Transaction', ScanConfig.bnb + hash));
         } else if (token?.blockChain == PublicChainType.polygon.name) {
           Get.to(() => WebPageView('Transaction', ScanConfig.polygon + hash));
+        } else if (token?.blockChain == PublicChainType.filecoin.name) {
+          Get.to(() => WebPageView('Message', ScanConfig.fileCoin + hash));
         }
         break;
       case 'share':

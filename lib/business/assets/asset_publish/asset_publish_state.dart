@@ -28,10 +28,10 @@ class AssetPublishState extends BaseState{
   final periodLegal = true.obs;
   final limitLegal = true.obs;
 
-  final publicChainList = [PublicChainType.polygon.name,PublicChainType.bnb.name];
+  final publicChainList = [PublicChainType.filecoin.name,PublicChainType.polygon.name,PublicChainType.bnb.name];
   final coinTypeList = [CoinType.usdc.name];
 
-  final publicChain = PublicChainType.polygon.name.obs;
+  final publicChain = PublicChainType.filecoin.name.obs;
   final coinType = CoinType.usdc.name.obs;
   final publishTime = Rx<DateTime?>(null);
   final buttonValid = false.obs;

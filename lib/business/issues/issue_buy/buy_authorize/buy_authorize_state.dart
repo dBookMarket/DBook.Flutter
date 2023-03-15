@@ -31,7 +31,10 @@ class BuyAuthorizeState extends BaseState {
     if (chainType == PublicChainType.bnb) {
       chainTitle = 'BNB Smart Chain';
       coinCover = Assets.svgCoinBnb;
-    } else {
+    } else if (chainType == PublicChainType.filecoin) {
+      chainTitle = 'Hyperspace';
+      coinCover = Assets.svgCoinFil;
+    }else if(chainType == PublicChainType.polygon){
       chainTitle = 'Polygon MainNet';
       coinCover = Assets.svgCoinMatic;
     }

@@ -42,10 +42,14 @@ class WalletAssetsPage extends StatelessWidget {
   }
 
   Widget _balance() => Column(children: [
+        _header('FileCoin public chain'),
+        Obx(() => _balanceItem(value: state.fileCoinBalance.value, icon: Assets.svgCoinFil, unit: 'FIL')),
+        LineH(margin: EdgeInsets.symmetric(horizontal: ScreenConfig.marginH)),
+        Obx(() => _balanceItem(value: state.fileCoinTokenBalance.value, icon: Assets.svgCoinUsdc, unit: 'USDC-BEP20')),
         _header('Polygon public chain'),
         Obx(() => _balanceItem(value: state.polygonMainBalance.value, icon: Assets.svgCoinMatic, unit: 'MATIC')),
         LineH(margin: EdgeInsets.symmetric(horizontal: ScreenConfig.marginH)),
-        Obx(() => _balanceItem(value: state.polygonTokenBalance.value, icon:Assets.svgCoinUsdc, unit: 'USDC-ERC20')),
+        Obx(() => _balanceItem(value: state.polygonTokenBalance.value, icon: Assets.svgCoinUsdc, unit: 'USDC-ERC20')),
         _header('BSC public chain'),
         Obx(() => _balanceItem(value: state.bscMainBalance.value, icon: Assets.svgCoinBnb, unit: 'BNB')),
         LineH(margin: EdgeInsets.symmetric(horizontal: ScreenConfig.marginH)),
