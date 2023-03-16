@@ -5,13 +5,14 @@ import 'package:get/get.dart';
 
 class ImportMemoriesState extends BaseState{
   ImportMemoriesState() {
-    if(kDebugMode) controller.text = testM;
+    if(kDebugMode) controller.text = testM2;
     // controller.text = testM;
   }
 
   final memories = ''.obs;
 
-  final testM = kReleaseMode?'':'upon session bone daughter blue surge reason rigid rally party inform state';
+  final testM = 'upon session bone daughter blue surge reason rigid rally party inform state';
+  final testM2 = 'consider surround gloom coral near clump swim axis renew dolphin video catalog';
 
   // final testM = '';
   TextEditingController controller = TextEditingController();

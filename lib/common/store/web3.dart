@@ -87,6 +87,7 @@ class Web3Store extends GetxController {
       func: 'setApprovalForAll',
       param: [contractAddress(AbiType.platform, type), true],
       pwd: pwd,
+      isEIP1559: type == PublicChainType.filecoin,
     );
     logX.d('授权结果>>>>>>$result');
     return result;
@@ -118,6 +119,7 @@ class Web3Store extends GetxController {
       func: 'payFirstTrade',
       param: [tradeValue],
       pwd: pwd,
+      isEIP1559: type == PublicChainType.filecoin,
     );
   }
 
@@ -130,6 +132,7 @@ class Web3Store extends GetxController {
       func: 'approve',
       param: [contractAddress(AbiType.platform, type), _toWei(amount)],
       pwd: pwd,
+      isEIP1559: type == PublicChainType.filecoin,
     );
     return result.toString();
   }
@@ -152,7 +155,9 @@ class Web3Store extends GetxController {
           _toWei(tradeValue),
           _toWei(fee)
         ],
-        pwd: pwd);
+        pwd: pwd,
+        isEIP1559: chainType == PublicChainType.filecoin,
+    );
     logX.d('result>>>>>result: $result');
     return result;
   }
@@ -160,6 +165,16 @@ class Web3Store extends GetxController {
   // 获取手续费
   Future<double> getGasFee(PublicChainType type) async {
     EtherAmount gasPrice = await _getClient(type).getGasPrice();
+    BigInt gasLimit = getGasLimit(type);
+
+    BigInt gasFee = gasPrice.getInWei * gasLimit;
+    var result = gasFee / BigInt.from(pow(10, gcDecimals));
+
+
+    return result;
+  }
+
+  BigInt getGasLimit(PublicChainType type){
     BigInt gasLimit = BigInt.from(0);
     if (type == PublicChainType.bnb) {
       gasLimit = BlockChainConfig.BNB_GAS_PRICE ;
@@ -168,13 +183,7 @@ class Web3Store extends GetxController {
     }else if (type == PublicChainType.filecoin){
       gasLimit = BlockChainConfig.FILECOIN_GAS_PRICE;
     }
-
-
-    BigInt gasFee = gasPrice.getInWei * gasLimit;
-    var result = gasFee / BigInt.from(pow(10, gcDecimals));
-
-
-    return result;
+    return gasLimit;
   }
 
   Future<dynamic> getTradeFee(PublicChainType type) async {
@@ -238,15 +247,18 @@ class Web3Store extends GetxController {
     }
   }
 
-  Future<dynamic> _sendTransaction({required Web3Client client, required DeployedContract deployedContract, required String func, param, required pwd}) async {
+  Future<dynamic> _sendTransaction({required Web3Client client, required DeployedContract deployedContract, required String func, param, required pwd,bool isEIP1559 = false}) async {
     logX.d('请求合约$func>>>>>>>deployedContract ${deployedContract.address} \nparam $param');
     Credentials credentials = await Web3KeychainManager.getInstance().getCredentials(EthereumAddress.fromHex(_userAddress!), pwd);
     final networkId = await client.getNetworkId();
+    EtherAmount gasPrice = await _getClient(PublicChainType.filecoin).getGasPrice();
 
     var transaction = Transaction.callContract(
       contract: deployedContract,
       function: deployedContract.function(func),
       parameters: param ?? [],
+      maxFeePerGas: isEIP1559?gasPrice:null,
+      maxPriorityFeePerGas: isEIP1559?gasPrice:null,
     );
 
     try {
