@@ -28,7 +28,7 @@ class MinePage extends StatelessWidget {
     return BaseContainer(
         viewState: state.viewState,
         child: Scaffold(
-          appBar: appBar(title: 'Personal Center', canPop: false, backgroundColor: ColorX.primaryYellow, actions: [_action()]),
+          appBar: appBar(title: 'My account', canPop: false, backgroundColor: ColorX.primaryYellow, actions: [_action()]),
           body: _body(),
         ));
   }
@@ -71,7 +71,17 @@ class MinePage extends StatelessWidget {
                     child: TextX(formatAddress(UserStore.to.userInfo.address), fontSize: FontSizeX.s11, color: ColorX.txtYellow),
                   )
                 ])
-              : TextX('Not logged in', fontSize: FontSizeX.s16, color: ColorX.txtBrown)
+              : TextX(
+                  'Not logged in',
+                  style: TextStyle(
+                    fontSize: FontSizeX.s16,
+                    color: ColorX.txtBrown,
+                    decoration: TextDecoration.underline,
+                    decorationStyle: TextDecorationStyle.solid,
+                    decorationColor:Colors.red,
+                    decorationThickness: 1,
+                  ),
+                )
         ]);
       }),
     );
@@ -89,23 +99,23 @@ class MinePage extends StatelessWidget {
         clipBehavior: Clip.hardEdge,
         margin: EdgeInsets.symmetric(horizontal: ScreenConfig.marginH, vertical: 45.h),
         child: Column(children: [
-          _item(title: 'Asset', icon: Assets.svgMineAssets),
+          _item(title: 'Wallet assets', icon: Assets.svgMineAssets),
           LineH(margin: EdgeInsets.symmetric(horizontal: 12.w)),
           _item(title: 'Wallet activity', icon: Assets.svgMineWalletActivity),
           LineH(margin: EdgeInsets.symmetric(horizontal: 12.w)),
-          _item(title: 'Concern', icon: Assets.svgMineConcern),
+          _item(title: 'Watchlist', icon: Assets.svgMineConcern),
           LineH(margin: EdgeInsets.symmetric(horizontal: 12.w)),
           _item(title: 'Writing', icon: Assets.svgMineWriting),
           LineH(margin: EdgeInsets.symmetric(horizontal: 12.w)),
           _item(title: 'Draft', icon: Assets.svgMineHistory),
           LineH(margin: EdgeInsets.symmetric(horizontal: 12.w)),
-          _item(title: 'Publication management', icon: Assets.svgMinePublication),
+          _item(title: 'Unlisted', icon: Assets.svgMinePublication),
           LineH(margin: EdgeInsets.symmetric(horizontal: 12.w)),
           _item(title: 'Earnings', icon: Assets.svgMineEarnings),
           LineH(margin: EdgeInsets.symmetric(horizontal: 12.w)),
-          _item(title: 'Profile settings', icon: Assets.svgMineProfile),
-          LineH(margin: EdgeInsets.symmetric(horizontal: 12.w)),
-          _item(title: 'test', icon: Assets.svgMineProfile),
+          _item(title: 'Settings', icon: Assets.svgMineProfile),
+          // LineH(margin: EdgeInsets.symmetric(horizontal: 12.w)),
+          // _item(title: 'test', icon: Assets.svgMineProfile),
         ]),
       );
 
@@ -131,28 +141,28 @@ class MinePage extends StatelessWidget {
       case 'create':
         Get.toNamed(AppRoutes.CreateBook);
         break;
-      case 'Asset':
+      case 'Wallet assets':
         Get.toNamed(AppRoutes.Wallet, arguments: {'index': 0});
         break;
       case 'Wallet activity':
         Get.toNamed(AppRoutes.Wallet, arguments: {'index': 1});
         break;
-      case 'Concern':
+      case 'Watchlist':
         Get.toNamed(AppRoutes.Concern);
         break;
       case 'Writing':
         Get.toNamed(AppRoutes.Writing);
         break;
       case 'Draft':
-        Get.toNamed(AppRoutes.Assets, arguments: {'title': 'My Assets', 'assetsType': AssetsType.MY_ASSETS, 'tabIndex': 0}, preventDuplicates: false);
+        Get.toNamed(AppRoutes.Assets, arguments: {'title': 'Author', 'assetsType': AssetsType.MY_ASSETS, 'tabIndex': 0}, preventDuplicates: false);
         break;
-      case 'Publication management':
-        Get.toNamed(AppRoutes.Assets, arguments: {'title': 'My Assets', 'assetsType': AssetsType.MY_ASSETS, 'tabIndex': 1}, preventDuplicates: false);
+      case 'Unlisted':
+        Get.toNamed(AppRoutes.Assets, arguments: {'title': 'Author', 'assetsType': AssetsType.MY_ASSETS, 'tabIndex': 1}, preventDuplicates: false);
         break;
       case 'Earnings':
-        Get.toNamed(AppRoutes.Assets, arguments: {'title': 'My Assets', 'assetsType': AssetsType.MY_ASSETS, 'tabIndex': 3}, preventDuplicates: false);
+        Get.toNamed(AppRoutes.Assets, arguments: {'title': 'Author', 'assetsType': AssetsType.MY_ASSETS, 'tabIndex': 3}, preventDuplicates: false);
         break;
-      case 'Profile settings':
+      case 'Settings':
         Get.toNamed(AppRoutes.ProfileSettings);
         break;
       case 'Account settings':
@@ -168,4 +178,3 @@ class MinePage extends StatelessWidget {
     }
   }
 }
-

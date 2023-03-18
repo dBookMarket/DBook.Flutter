@@ -42,15 +42,15 @@ class WalletAssetsPage extends StatelessWidget {
   }
 
   Widget _balance() => Column(children: [
-        _header('FileCoin public chain'),
+        _header('FileCoin'),
         Obx(() => _balanceItem(value: state.fileCoinBalance.value, icon: Assets.svgCoinFil, unit: 'FIL')),
         LineH(margin: EdgeInsets.symmetric(horizontal: ScreenConfig.marginH)),
-        Obx(() => _balanceItem(value: state.fileCoinTokenBalance.value, icon: Assets.svgCoinUsdc, unit: 'USDC-BEP20')),
-        _header('Polygon public chain'),
+        Obx(() => _balanceItem(value: state.fileCoinTokenBalance.value, icon: Assets.svgCoinUsdc, unit: 'USDC-ERC20')),
+        _header('Polygon'),
         Obx(() => _balanceItem(value: state.polygonMainBalance.value, icon: Assets.svgCoinMatic, unit: 'MATIC')),
         LineH(margin: EdgeInsets.symmetric(horizontal: ScreenConfig.marginH)),
         Obx(() => _balanceItem(value: state.polygonTokenBalance.value, icon: Assets.svgCoinUsdc, unit: 'USDC-ERC20')),
-        _header('BSC public chain'),
+        _header('BNB Smart Chain'),
         Obx(() => _balanceItem(value: state.bscMainBalance.value, icon: Assets.svgCoinBnb, unit: 'BNB')),
         LineH(margin: EdgeInsets.symmetric(horizontal: ScreenConfig.marginH)),
         Obx(() => _balanceItem(value: state.bscTokenBalance.value, icon: Assets.svgCoinUsdc, unit: 'USDC-BEP20')),

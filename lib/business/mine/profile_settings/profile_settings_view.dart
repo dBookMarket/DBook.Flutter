@@ -29,7 +29,7 @@ class ProfileSettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBar(title: 'Profile settings'),
+      appBar: appBar(title: 'Settings'),
       body: BaseContainer(
         viewState: state.viewState,
         child: _body(),
@@ -47,11 +47,11 @@ class ProfileSettingsPage extends StatelessWidget {
             _twitter(),
             _bannerSelect(),
             // _item(title: 'Banners', controller: state.bannerController),
-            _item(title: 'User name', controller: state.nameController, hint: ''),
+            _item(title: 'Name', controller: state.nameController, hint: ''),
             _item(title: 'Description', controller: state.descController, maxLines: 3, hint: 'Introduce yourself...'),
 
-            _item(title: 'Site', controller: state.siteController, hint: 'https://'),
-            _item(title: 'Discord community', controller: state.discordController, hint: 'https://'),
+            _item(title: 'Website', controller: state.siteController, hint: 'https://'),
+            _item(title: 'Discord', controller: state.discordController, hint: 'https://'),
             _address(),
             _commitButton()
           ],
@@ -60,7 +60,7 @@ class ProfileSettingsPage extends StatelessWidget {
 
   Widget _avatar() =>
       Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        TextX('Avatar', fontSize: FontSizeX.s13, color: ColorX.txtTitle),
+        TextX('Profile picture', fontSize: FontSizeX.s13, color: ColorX.txtTitle),
         GestureDetector(
           onTap: () => _onClick('avatar'),
           child: Obx(() {
@@ -113,7 +113,7 @@ class ProfileSettingsPage extends StatelessWidget {
   Widget _commitButton() =>
       Obx(() {
         return ButtonX(
-          'Commit',
+          'Save',
           margin: EdgeInsets.only(top: 60.h),
           backgroundColor: state.buttonValid.value ? Color(0xFF42392B) : ColorX.buttonInValid,
           borderRadius: 0,
@@ -133,7 +133,7 @@ class ProfileSettingsPage extends StatelessWidget {
           children: [
             Row(
               children: [
-                TextX('Authentication', color: ColorX.txtTitle, fontSize: FontSizeX.s13),
+                TextX('Social accounts', color: ColorX.txtTitle, fontSize: FontSizeX.s13),
                 Expanded(child: SizedBox()),
                 SvgPicture.asset(Assets.svgLogoTwitter, width: 30.w),
                 TextX(
@@ -143,7 +143,7 @@ class ProfileSettingsPage extends StatelessWidget {
                 ),
                 SizedBox(width: 40.w),
                 ButtonX(
-                  'Go',
+                  (UserStore.to.userInfo.isVerified ?? false)?'ReVerify':'Verify',
                   autoWidth: true,
                   backgroundColor: Color(0xFF42392B),
                   borderRadius: 0,

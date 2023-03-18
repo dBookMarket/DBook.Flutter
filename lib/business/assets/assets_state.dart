@@ -45,7 +45,7 @@ class AssetsState extends BaseState{
       pages.add(AssetsPendingOrdersPage());
       pages.add(AssetsEarningsPage());
     } else if (assetsType == AssetsType.MY_ASSETS) {
-      filter = ['Draft', 'Pending', 'Shelved', 'Earnings'];
+      filter = ['Draft', 'Unlisted', 'Listed', 'Earnings'];
       pages.add(AssetsDraftPage());
       pages.add(AssetsPendingPage());
       pages.add(AssetsShelvedPage());

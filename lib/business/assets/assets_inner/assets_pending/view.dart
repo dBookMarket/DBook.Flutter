@@ -114,7 +114,7 @@ class AssetsPendingPage extends StatelessWidget {
   Widget _action(info) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       _button(icon: Assets.svgDraftModify, title: 'Edit', info: info),
-      _button(icon: Assets.svgDraftPublish, title: 'Push', info: info),
+      _button(icon: Assets.svgDraftPublish, title: 'Issue', info: info),
       _button(icon: Assets.svgDraftDelete, title: 'Delete', fontSize: FontSizeX.s9, info: info),
     ]);
   }
@@ -152,7 +152,7 @@ class AssetsPendingPage extends StatelessWidget {
         await Get.to(() => CreateBookPage(), arguments: {'bookInfo': param,'draftId': param.id});
         logic.refresh();
         break;
-      case 'Push':
+      case 'Issue':
         if (param.status != 'success') {
           Get.snackbar('warning', 'Please wait for the data to be processed');
           return;

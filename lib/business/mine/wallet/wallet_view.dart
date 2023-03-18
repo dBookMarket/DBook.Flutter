@@ -17,7 +17,7 @@ class WalletPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appBar(
-        title: 'Purse',
+        title: 'Wallet',
         bottom: _filter(),
       ),
       body: _pageView(),

@@ -55,7 +55,7 @@ class CreateBookPage extends StatelessWidget {
         _tag('Book', marginTop: 0),
         Row(
           children: [
-            _fileSelectBox('PDF、EPUB、TXT'),
+            _fileSelectBox('PDF、EPUB'),
             SizedBox(width: 20.w),
             Expanded(
               child: Container(
@@ -73,7 +73,7 @@ class CreateBookPage extends StatelessWidget {
                         textAlign: TextAlign.start,
                       );
                     }),
-                    TextX('Supported file formats PDF、EPUB、TXT，File < 200M', fontSize: FontSizeX.s11, color: ColorX.txtHint, maxLines: 10, textAlign: TextAlign.start),
+                    TextX('Supported file formats PDF、EPUB，File < 200M', fontSize: FontSizeX.s11, color: ColorX.txtHint, maxLines: 10, textAlign: TextAlign.start),
                   ],
                 ),
               ),
@@ -347,9 +347,9 @@ class CreateBookPage extends StatelessWidget {
         if (result == null) return;
         await Get.dialog(_headerForDialog(callback: () => Get.back()), barrierDismissible: false, arguments: {'detail': null});
         Get.until((route) => route.isFirst);
-        Get.to(() => AssetsPage(), arguments: {'title': 'My Assets', 'assetsType': AssetsType.MY_ASSETS, 'tabIndex': 1}, preventDuplicates: false);
+        Get.to(() => AssetsPage(), arguments: {'title': 'Author', 'assetsType': AssetsType.MY_ASSETS, 'tabIndex': 1}, preventDuplicates: false);
         break;
-      case 'PDF、EPUB、TXT':
+      case 'PDF、EPUB':
         logic.selectAsset();
         break;
       case 'JPG、PNG':

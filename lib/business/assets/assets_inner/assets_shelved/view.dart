@@ -66,9 +66,9 @@ class AssetsShelvedPage extends StatelessWidget {
     return Container(
         margin: EdgeInsets.only(right: 40.w, top: 50.h),
         child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-          _button(icon: Assets.svgIssueTakeDown, title: 'Take Down', info: info),
+          _button(icon: Assets.svgIssueTakeDown, title: 'Delisting', info: info),
           SizedBox(width: 18.w),
-          _button(icon: Assets.svgIssueEdit, title: 'Revise', bgColor: Color(0XFFFFB4B4), info: info),
+          _button(icon: Assets.svgIssueEdit, title: 'Relist', bgColor: Color(0XFFFFB4B4), info: info),
         ]));
   }
 
@@ -86,16 +86,16 @@ class AssetsShelvedPage extends StatelessWidget {
 
   _onClick(type, {IssuesEntity? param}) async {
     switch (type) {
-      case 'Take Down':
+      case 'Delisting':
         Get.dialog(DialogX(
           title: 'warning',
-          content: 'Are you sure you want to take down it?',
+          content: 'Are you sure you want to delisting it?',
           left: 'cancel',
           right: 'OK',
           rightCallback: () => logic.delete(param?.id),
         ));
         break;
-      case 'Revise':
+      case 'Relist':
         await Get.to(() => AssetPublishPage(), arguments: {'issueInfo': param});
         logic.refresh();
         break;

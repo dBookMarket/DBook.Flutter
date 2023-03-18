@@ -16,7 +16,7 @@ class ConcernPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appBar(
-        title: 'Concern',
+        title: 'Watchlist',
         bottom: _filter(),
       ),
       body: _pageView(),

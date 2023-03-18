@@ -110,7 +110,7 @@ class IssuesDetailPage extends StatelessWidget {
             colorBlendMode: BlendMode.clear,
           ),
           onTap: () {
-            if (url == null || url.isEmpty) {
+            if (url.isEmpty) {
               state.setError(t: 'no yet');
               return;
             }
@@ -136,7 +136,7 @@ class IssuesDetailPage extends StatelessWidget {
       ]);
 
   Widget _trialButton() => ButtonX(
-        'Trial reading',
+        'Free reading',
         backgroundColor: Color(0xFF50483B),
         borderRadius: 0,
         textColor: Color(0xFFFFE1B4),
@@ -162,7 +162,7 @@ class IssuesDetailPage extends StatelessWidget {
                         decoration: BoxDecoration(color: Colors.black, borderRadius: BorderRadius.circular(100)),
                       ),
                       SizedBox(width: 20.w),
-                      TextX('Publication', fontSize: FontSizeX.s16, color: Color(0xFF42392B), fontWeight: TextX.bold)
+                      TextX('Issued', fontSize: FontSizeX.s16, color: Color(0xFF42392B), fontWeight: TextX.bold)
                     ],
                   ),
                   SizedBox(height: 12.h),
@@ -249,13 +249,13 @@ class IssuesDetailPage extends StatelessWidget {
             _publicCountItem(
               t1: 'Supply',
               v1: state.issuesInfo.value.quantity.toString(),
-              t2: 'Available',
+              t2: 'RN',
               v2: ((state.issuesInfo.value.quantity ?? 0) - (state.issuesInfo.value.nCirculations ?? 0)).toString(),
             ),
             _publicCountItem(
               t1: 'Selling Price',
               v1: '${removeZero(state.issuesInfo.value.price.toString())} USDC',
-              t2: 'Limited per person',
+              t2: 'Purchase / Person',
               v2: state.issuesInfo.value.buyLimit.toString(),
             ),
             _publicCountItem(
@@ -357,14 +357,14 @@ class IssuesDetailPage extends StatelessWidget {
       } else {
         count = (state.issuesInfo.value.quantity ?? 0) - (state.issuesInfo.value.nCirculations ?? 0);
         address = '~~';
-        stateStr = 'unsold';
+        stateStr = 'burned';
         isRed = true;
       }
       return _boxContainer(
-          title: 'Destroyed',
+          title: 'Burn',
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [_destroyedItem('Quantity destroyed', '$count'), _destroyedItem('Execution logging', '$address', clickAble: clickAble), _destroyedItem('State', '$stateStr', isValueRed: isRed)],
+            children: [_destroyedItem('Quantity burned', '$count'), _destroyedItem('Execution logging', '$address', clickAble: clickAble), _destroyedItem('State', '$stateStr', isValueRed: isRed)],
           ));
     });
   }

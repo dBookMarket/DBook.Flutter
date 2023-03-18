@@ -4,8 +4,8 @@ import 'package:get/get.dart';
 class PublishAuthorizeLogic extends GetxController {
   final String content = 'Allow dBookMarket to access your NFT?';
   final String desc =
-      'To publish a book for the first time, you must agree to this authorization. After agreeing to the authorization, if you need to purchase books from other authors, it is recommended to change the account. This account is only recommended for publishing/receiving purposes.';
-  final String feeDesc = 'There is a processing fee for this request';
+      'First book release/first order must agree to this license.';
+  final String feeDesc = 'Expect to pay the gas fee:';
   final String bnbGasPrice = '≈0.00067757 BNB';
   final String maticGasPrice = '≈0.00026847 MATIC';
   final String fileCoinGasPrice = '≈0.00026847 attoFIL';

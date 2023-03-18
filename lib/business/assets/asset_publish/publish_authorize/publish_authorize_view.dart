@@ -71,12 +71,12 @@ class PublishAuthorizePage extends StatelessWidget {
   Widget _action() => Row(children: [
         Expanded(child: ButtonX('Cancel', borderRadius: 0, fontSize: FontSizeX.s13, textColor: ColorX.txtDesc, backgroundColor: ColorX.buttonYellow, autoWidth: true, onPressed: () => _onClick('Cancel'))),
         SizedBox(width: 22.w),
-        Expanded(child: ButtonX('OK', borderRadius: 0, fontSize: FontSizeX.s13, textColor: ColorX.txtYellow, backgroundColor: ColorX.buttonBrown, autoWidth: true, onPressed: () => _onClick('OK'))),
+        Expanded(child: ButtonX('Confirm', borderRadius: 0, fontSize: FontSizeX.s13, textColor: ColorX.txtYellow, backgroundColor: ColorX.buttonBrown, autoWidth: true, onPressed: () => _onClick('OK'))),
       ]);
 
   _onClick(action) {
     switch (action) {
-      case 'OK':
+      case 'Confirm':
         Get.back(result: true);
         break;
       case 'Cancel':

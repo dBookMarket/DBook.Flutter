@@ -122,7 +122,7 @@ class BuyAuthorizePage extends StatelessWidget {
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _title('Description'),
+          _title('Detail'),
           SizedBox(height: 30.h),
           _gasFee(),
           SizedBox(height: 30.h),
@@ -136,7 +136,7 @@ class BuyAuthorizePage extends StatelessWidget {
     alignment: Alignment.center,
     color: ColorX.primaryYellow2,
     child: Row(children: [
-      TextX('Gas Fee', color: ColorX.txtTitle, fontSize: FontSizeX.s13),
+      TextX('Expect to pay the gas fee:', color: ColorX.txtTitle, fontSize: FontSizeX.s13),
       Spacer(),
       TextX('≈${state.transactionFee.value}', color: ColorX.txtTitle, fontSize: FontSizeX.s13),
     ],),
@@ -147,7 +147,7 @@ class BuyAuthorizePage extends StatelessWidget {
         margin: EdgeInsets.symmetric(vertical: 15.h),
         child: Row(
           children: [
-            TextX('Total', color: ColorX.txtTitle, fontSize: FontSizeX.s13),
+            TextX('Total payment', color: ColorX.txtTitle, fontSize: FontSizeX.s13),
             Spacer(),
             TextX(state.total.toString(), color: ColorX.txtTitle, fontSize: FontSizeX.s13),
           ],

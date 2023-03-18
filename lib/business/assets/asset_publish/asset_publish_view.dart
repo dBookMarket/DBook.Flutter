@@ -25,7 +25,7 @@ class AssetPublishPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBar(title: 'Listing settings'),
+      appBar: appBar(title: 'Issued setting'),
       body: BaseContainer(
         viewState: state.viewState,
         child: _body(),
@@ -39,22 +39,22 @@ class AssetPublishPage extends StatelessWidget {
         child: Obx(() {
           return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             _bookInfo(),
-            _item(title: 'Number of publications',
+            _item(title: 'Supply',
                 controller: state.countController,
                 keyboardType: TextInputType.number,
                 inputFormatter: FilteringTextInputFormatter.digitsOnly,
                 legal: state.countLegal.value),
-            _inkItem(title: 'Public chain', value: state.publicChain),
+            _inkItem(title: 'Chain', value: state.publicChain),
             _inkItem(title: 'Currency', value: state.coinType),
-            _item(title: 'Unit price', controller: state.univalentController, keyboardType: TextInputType.number),
-            _item(title: 'Royalties', controller: state.royaltiesController, keyboardType: TextInputType.number, legal: state.royaltiesLegal.value),
-            _inkItem(title: 'Pre-sale time', value: state.publishTime),
-            _item(title: 'Supply cycle/minute',
+            _item(title: 'Price', controller: state.univalentController, keyboardType: TextInputType.number),
+            _item(title: 'Royalties rate(%)', controller: state.royaltiesController, keyboardType: TextInputType.number, legal: state.royaltiesLegal.value),
+            _inkItem(title: 'Set the sales start time', value: state.publishTime),
+            _item(title: 'Supply time range(Minute)',
                 controller: state.periodController,
                 keyboardType: TextInputType.number,
                 inputFormatter: FilteringTextInputFormatter.digitsOnly,
                 legal: state.periodLegal.value),
-            _item(title: 'Limit',
+            _item(title: 'Purchase / Person',
                 controller: state.limitController,
                 keyboardType: TextInputType.number,
                 inputFormatter: FilteringTextInputFormatter.digitsOnly,
@@ -167,8 +167,7 @@ class AssetPublishPage extends StatelessWidget {
 
   Widget _hint() =>
       TextX(
-        'Books not purchased after the end of supply will be sold in full \nThere is no minting fee for the listing process, which will be automatically deducted'
-            ' when the first transaction is completed',
+        'All unsold books will be burned at the end of supply.There is no mintage fee for listed books, which is deducted automatically after the initial transaction.',
         color: ColorX.txtHint,
         fontSize: FontSizeX.s11,
         maxLines: 100,
@@ -178,7 +177,7 @@ class AssetPublishPage extends StatelessWidget {
   Widget _commitButton() =>
       Obx(() {
         return ButtonX(
-          'Data encryption',
+          'Issued',
           margin: EdgeInsets.only(top: 60.h),
           backgroundColor: state.buttonValid.value ? Color(0xFF42392B) : ColorX.buttonInValid,
           borderRadius: 0,

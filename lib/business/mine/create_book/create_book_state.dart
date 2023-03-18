@@ -14,7 +14,7 @@ class CreateBookState extends BaseState {
 
   set tabIndex(value) => _tabIndex.value = value;
 
-  final tabs = ['Create a book', 'Draft books'];
+  final tabs = ['Select from the file', 'Select from the draft'];
 
   final asset = Rx<File?>(null);
   final cover = Rx<dynamic>(null);

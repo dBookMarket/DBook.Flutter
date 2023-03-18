@@ -131,7 +131,7 @@ class AssetPublishLogic extends GetxController {
         .onError((error, stackTrace) => state.setError(t: 'invalid info'));
     state.setSuccess(t: 'success');
     Get.until((route) => route.isFirst);
-    Get.to(() => AssetsPage(), arguments: {'title': 'My Assets', 'assetsType': AssetsType.MY_ASSETS, 'tabIndex': 2}, preventDuplicates: false);
+    Get.to(() => AssetsPage(), arguments: {'title': 'Author', 'assetsType': AssetsType.MY_ASSETS, 'tabIndex': 2}, preventDuplicates: false);
   }
 
   @override

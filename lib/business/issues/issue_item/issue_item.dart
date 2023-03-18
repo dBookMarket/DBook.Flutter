@@ -110,11 +110,11 @@ class IssuesItemView extends StatelessWidget {
   Widget _issueTag() {
     var tag;
     if (itemInfo.status == IssuesStatus.on_sale.name) {
-      tag = 'On sale';
+      tag = 'IPO';
     } else if (itemInfo.status == IssuesStatus.pre_sale.name) {
-      tag = 'Pre sale';
+      tag = 'Coming Soon';
     } else if (itemInfo.status == IssuesStatus.unsold.name) {
-      tag = 'Unsold';
+      tag = 'Bought-In';
     } else {
       return SizedBox();
     }

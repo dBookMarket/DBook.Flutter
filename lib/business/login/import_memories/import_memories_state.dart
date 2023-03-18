@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 
 class ImportMemoriesState extends BaseState{
   ImportMemoriesState() {
-    if(kDebugMode) controller.text = testM2;
+    if(kDebugMode) controller.text = testM;
     // controller.text = testM;
   }
 

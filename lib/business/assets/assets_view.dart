@@ -50,7 +50,7 @@ class AssetsPage extends StatelessWidget {
                 leading: state.assetsType == AssetsType.MY_BOOKS ? SizedBox() : appBarLeading(onTap: () => Get.back()),
                 elevation: 0,
                 // automaticallyImplyLeading: false,
-                title: appBarTitle(title: Get.arguments?['title'] ?? 'My Books'),
+                title: appBarTitle(title: Get.arguments?['title'] ?? 'My collection'),
                 centerTitle: true,
                 expandedHeight: state.flexibleSpaceH.value,
                 floating: false,
@@ -256,21 +256,21 @@ class AssetsPage extends StatelessWidget {
                 children: [
                   _statisticItem(title: 'Total volume', value: state.userInfo.value.statistic?.totalVolume ?? '0'),
                   SizedBox(height: 30.h),
-                  _statisticItem(title: 'Count of books', value: state.userInfo.value.statistic?.totalBooks ?? '0'),
+                  _statisticItem(title: 'Total issuance', value: state.userInfo.value.statistic?.totalBooks ?? '0'),
                 ],
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _statisticItem(title: 'Upset', value: state.userInfo.value.statistic?.minPrice ?? '0'),
+                  _statisticItem(title: 'Floor price', value: state.userInfo.value.statistic?.minPrice ?? '0'),
                   SizedBox(height: 30.h),
-                  _statisticItem(title: 'Sales', value: state.userInfo.value.statistic?.sales ?? '0'),
+                  _statisticItem(title: 'Burn', value: state.userInfo.value.statistic?.sales ?? '0'),
                 ],
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _statisticItem(title: 'Highest price', value: state.userInfo.value.statistic?.maxPrice ?? '0'),
+                  _statisticItem(title: 'Best price', value: state.userInfo.value.statistic?.maxPrice ?? '0'),
                   SizedBox(height: 30.h),
                   _statisticItem(title: 'Owner', value: state.userInfo.value.statistic?.nOwners ?? '0'),
                 ],

@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'concern_opus/concern_opus_view.dart';
 
 class ConcernState extends BaseState{
-  final filter = ['Opus', 'Author'];
+  final filter = ['Books', 'Author'];
   final PageController pageController = PageController();
   late TabController tabController;
   List<Widget> pages = [];

@@ -84,7 +84,7 @@ class WalletActivityPage extends StatelessWidget {
                           TextX(info.issue?.book?.author?.name, fontSize: FontSizeX.s11, color: ColorX.txtHint),
                           Spacer(),
                           TextX(
-                            DateUtil.formatDate(DateUtil.getDateTime(info.createdAt!)),
+                            DateUtil.formatDate(DateUtil.getDateTime(info.createdAt!)?.add(DateTime.now().timeZoneOffset)),
                             color: ColorX.txtDesc,
                             fontSize: FontSizeX.s11,
                           )
