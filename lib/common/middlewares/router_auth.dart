@@ -5,6 +5,7 @@ import 'package:dbook/common/store/store.dart';
 import 'package:get/get.dart';
 
 import '../utils/logger.dart';
+import '../widgets/tips_page/tips_state.dart';
 
 /// 检查是否登录
 class RouteAuthMiddleware extends GetMiddleware {
@@ -20,7 +21,7 @@ class RouteAuthMiddleware extends GetMiddleware {
     if (UserStore.to.isLogin || route == AppRoutes.ImportMemories || route == AppRoutes.SettingPassword) {
       return null;
     } else {
-      return RouteSettings(name: AppRoutes.ImportMemories);
+      return RouteSettings(name: AppRoutes.TipsPage,arguments: {'type': TipsType.login});
     }
   }
 }

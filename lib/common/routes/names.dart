@@ -14,6 +14,7 @@ class AppRoutes {
   static const ProfileSettings = '/ProfileSettingsPage';
   static const AccountSetting = '/AccountSettingPage';
   static const TwitterAuth = '/TwitterAuthView';
+  static const TipsPage = '/TipsPage';
 
 
 

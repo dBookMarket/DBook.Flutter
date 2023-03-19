@@ -15,6 +15,7 @@ import '../../business/mine/wallet/wallet_view.dart';
 import '../../business/mine/writing/view.dart';
 import '../middlewares/router_auth.dart';
 import '../middlewares/router_twitter_auth.dart';
+import '../widgets/tips_page/tips_view.dart';
 import 'routes.dart';
 
 class AppPages {
@@ -42,6 +43,12 @@ class AppPages {
     GetPage(
       name: AppRoutes.SettingPassword,
       page: () => SettingPasswordPage(),
+    ),
+    GetPage(
+      name: AppRoutes.TipsPage,
+      page: () => TipsPage(),
+      opaque: false,
+      transitionDuration: Duration.zero
     ),
     GetPage(
       name: AppRoutes.CreateBook,

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../utils/logger.dart';
+import '../widgets/tips_page/tips_state.dart';
 
 /// 检查是否登录
 class RouteTwitterAuthMiddleware extends GetMiddleware {
@@ -19,7 +20,7 @@ class RouteTwitterAuthMiddleware extends GetMiddleware {
     if (UserStore.to.userInfo.isVerified??false){
       return null;
     } else {
-      return RouteSettings(name: AppRoutes.TwitterAuth);
+      return RouteSettings(name: AppRoutes.TipsPage,arguments: {'type': TipsType.twitter});
     }
   }
 }
