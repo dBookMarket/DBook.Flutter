@@ -194,7 +194,7 @@ class AssetPublishPage extends StatelessWidget {
       case 'commit':
         logic.publish();
         break;
-      case 'Public chain':
+      case 'Chain':
         new Picker(
             adapter: PickerDataAdapter<String>(pickerData: state.publicChainList),
             changeToFirst: true,
@@ -212,7 +212,7 @@ class AssetPublishPage extends StatelessWidget {
               logic.setCoin(picker.adapter.text.replaceAll('[', '').replaceAll(']', ''));
             }).showModal(Get.context!);
         break;
-      case 'Pre-sale time':
+      case 'Set the sales start time':
       // DatePicker.showDatePicker(Get.context!, showTitleActions: true, minTime: DateTime.now(), maxTime: DateTime.now().add(Duration(days: 365)), onConfirm: (date) {
       //   logic.setTime(date);
       // }, currentTime: DateTime.now());

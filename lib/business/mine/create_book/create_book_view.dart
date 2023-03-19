@@ -144,7 +144,7 @@ class CreateBookPage extends StatelessWidget {
           _tag('Book title'),
           TextField(
             maxLines: 1,
-            maxLength: 20,
+            maxLength: 100,
             textAlignVertical: TextAlignVertical.bottom,
             textAlign: TextAlign.start,
             style: TextStyle(fontSize: FontSizeX.s11, color: ColorX.txtTitle),

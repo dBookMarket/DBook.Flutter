@@ -264,7 +264,7 @@ class AssetsPage extends StatelessWidget {
                 children: [
                   _statisticItem(title: 'Floor price', value: state.userInfo.value.statistic?.minPrice ?? '0'),
                   SizedBox(height: 30.h),
-                  _statisticItem(title: 'Burn', value: state.userInfo.value.statistic?.sales ?? '0'),
+                  _statisticItem(title: 'Burn', value: state.userInfo.value.statistic?.nDestroyed ?? '0'),
                 ],
               ),
               Column(
