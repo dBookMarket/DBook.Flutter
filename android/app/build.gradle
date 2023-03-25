@@ -69,10 +69,9 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.ddid.dbook_testnet"
-//        applicationId "com.ddid.dbook"
+        applicationId "com.ddid.dbook_market_testnet"
         minSdkVersion 21
-        targetSdkVersion 30
+        targetSdkVersion 31
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         multiDexEnabled true

@@ -1,4 +1,4 @@
-package com.example.dbook
+package com.ddid.dbook_market_testnet
 
 import io.flutter.embedding.android.FlutterActivity
 
