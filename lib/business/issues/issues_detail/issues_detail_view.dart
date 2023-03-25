@@ -23,10 +23,11 @@ import 'package:get/get.dart';
 import '../../../common/services/global_time.dart';
 import '../../../common/store/web3.dart';
 import '../../../common/utils/date.dart';
+import '../../../common/widgets/tips_page/tips_state.dart';
+import '../../../common/widgets/tips_page/tips_view.dart';
 import '../../asset_detail/asset_detail_view.dart';
 import '../../assets/assets_state.dart';
 import '../../assets/assets_view.dart';
-import '../../login/import_memories/import_memories_view.dart';
 import '../../mine/profile_settings/twitterShare/twitter_share_view.dart';
 import '../issues_state.dart';
 import 'issues_detail_logic.dart';
@@ -352,7 +353,7 @@ class IssuesDetailPage extends StatelessWidget {
         if (address.length != 0) {
           clickAble = true;
         }
-        stateStr = 'destroyed';
+        stateStr = 'burned';
         isRed = false;
       } else {
         count = (state.issuesInfo.value.quantity ?? 0) - (state.issuesInfo.value.nCirculations ?? 0);
@@ -475,7 +476,7 @@ class IssuesDetailPage extends StatelessWidget {
         break;
       case '购买':
         if (!UserStore.to.isLogin) {
-          Get.to(() => ImportMemoriesPage());
+          Get.to(()=>TipsPage(),arguments: {'type': TipsType.login},opaque: false,duration: Duration.zero);
           return;
         }
         var limit = (state.issuesInfo.value.buyLimit ?? 1) - (state.issuesInfo.value.nOwned ?? 0);
@@ -495,6 +496,10 @@ class IssuesDetailPage extends StatelessWidget {
         Get.to(() => AssetsPage(), arguments: {'title': 'Author Detail', 'assetsType': AssetsType.AUTHOR, 'userId': state.issuesInfo.value.book?.author?.id.toString()}, preventDuplicates: false);
         break;
       case 'wish':
+        if(!UserStore.to.isLogin){
+          Get.to(()=>TipsPage(),arguments: {'type': TipsType.login},opaque: false,duration: Duration.zero);
+          return;
+        }
         logic.wish();
         break;
       case 'hash':

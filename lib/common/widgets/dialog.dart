@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
 import '../values/values.dart';
 import 'button.dart';
@@ -101,7 +102,7 @@ class DialogX extends StatelessWidget {
                     fontSize: FontSizeX.s14,
                     onPressed: () {
                       if(needPop??true){
-                        Navigator.pop(context);
+                        Get.back(result: false);
                       }
                       if (leftCallback != null) {
                         leftCallback!();
@@ -123,7 +124,7 @@ class DialogX extends StatelessWidget {
                     fontSize: FontSizeX.s14,
                     onPressed: () {
                       if(needPop??true){
-                        Navigator.pop(context);
+                        Get.back(result: true);
                       }
 
                       if (rightCallback != null) {

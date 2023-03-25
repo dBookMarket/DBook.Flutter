@@ -4,6 +4,8 @@ import 'package:dbook/common/store/store.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:get/get.dart';
 
+import '../../../../common/widgets/dialog.dart';
+
 
 class TwitterAuthLogic extends GetxController {
   final TwitterAuthState state = TwitterAuthState();
@@ -18,19 +20,24 @@ class TwitterAuthLogic extends GetxController {
     }else{
       state.setError(t: 'failed');
     }
-
   }
 
-  authResult(Uri? uri) async{
-    if (uri == null) return;
-    final param = uri.queryParameters;
-    if (param['type'] == 'twitter' && param['isAuth'] == 'true' && param.containsKey('oauth_token') && param.containsKey('oauth_verifier')) {
-      state.setBusy();
-      await UserStore.to.getUserInfo();
-      state.setIdle();
-      Get.back(result: param);
-    }
+  Future<bool> sendTwitter({required String? token, required String? verifier}) async {
+    if(state.twitterController.text.isEmpty) return false;
+    // 取消对话框
+    // Get.back();
+    state.setBusy();
+    var result = await NetWork.getInstance()
+        .user
+        .sendTwitter(token: token, verifier: verifier, content: state.twitterController.text)
+        .onError((error, stackTrace) => state.setError(t: 'send failed'));
+    state.setBusy();
+    await UserStore.to.getUserInfo();
+    state.setSuccess(t: result);
+    return true;
   }
+
+
 
   @override
   void onInit() {

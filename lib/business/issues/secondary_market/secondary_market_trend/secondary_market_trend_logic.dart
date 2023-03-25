@@ -1,4 +1,5 @@
 import 'package:dbook/common/entities/trend_list_entity.dart';
+import 'package:fl_chart/fl_chart.dart';
 
 import '../../../../common/widgets/refresh_list_view/logic.dart';
 import '../../../service_api/base/net_work.dart';

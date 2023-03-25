@@ -125,8 +125,9 @@ class MarketApi {
     try {
       List d = (response['dates'] as List);
       List q = (response['quantities'] as List);
+      List p = (response['prices'] as List);
 
-      t = d.asMap().keys.map((index) => TrendListEntity.fromJson({'date': d[index], 'quantities': q[index]})).toList();
+      t = d.asMap().keys.map((index) => TrendListEntity.fromJson({'date': d[index], 'quantity': q[index],'price':p[index]})).toList();
     } catch (e) {
       logX.e(e);
       throw DataParseException();

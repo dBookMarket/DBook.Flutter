@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
    <application
-        android:label="dbook testnet(Mumbai)"
+        android:label="dBookMarket(testnet)"
         android:usesCleartextTraffic="true"
         android:icon="@mipmap/ic_launcher">
         <activity

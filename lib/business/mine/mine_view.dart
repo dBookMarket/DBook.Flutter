@@ -72,7 +72,7 @@ class MinePage extends StatelessWidget {
                   )
                 ])
               : TextX(
-                  'Not logged in',
+                  'Log in',
                   style: TextStyle(
                     fontSize: FontSizeX.s16,
                     color: ColorX.txtBrown,

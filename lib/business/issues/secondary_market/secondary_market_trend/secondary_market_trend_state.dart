@@ -1,3 +1,4 @@
+import 'package:dbook/common/values/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -8,8 +9,8 @@ class SecondaryMarketTrendState extends RefreshListViewState{
   late IssuesEntity issuesInfo;
 
   List<Color> gradientColors = [
-    const Color(0xff00A0E9),
-    const Color(0xff4D85D0),
+    ColorX.primaryYellow,
+    ColorX.primaryYellow,
   ];
 
   SecondaryMarketTrendState() {

@@ -4,8 +4,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
+import '../../common/routes/names.dart';
 import '../../common/store/user.dart';
 import '../../common/values/colors.dart';
+import '../../common/widgets/tips_page/tips_state.dart';
+import '../../common/widgets/tips_page/tips_view.dart';
 import '../../common/widgets/view_state/base_container_view.dart';
 import '../login/import_memories/import_memories_view.dart';
 import 'logic.dart';
@@ -50,7 +53,7 @@ class MainPage extends StatelessWidget {
       onTap: () {
         if (!isSelect) {
           if(index == 1 && !UserStore.to.isLogin){
-            Get.to(()=>ImportMemoriesPage());
+            Get.to(()=>TipsPage(),arguments: {'type': TipsType.login},opaque: false,duration: Duration.zero);
             return;
           }
           state.pageController.jumpToPage(index);

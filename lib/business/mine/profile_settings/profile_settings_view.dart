@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:dbook/business/mine/profile_settings/twitterAuth/twitter_auth_view.dart';
 import 'package:dbook/common/config/app_config.dart';
 import 'package:dbook/common/store/user.dart';
 import 'package:dbook/common/widgets/appBar.dart';
@@ -292,17 +293,7 @@ class ProfileSettingsPage extends StatelessWidget {
         logic.commit();
         break;
       case 'twitter':
-        Map<String, String>? result = await logic.twitterAuth();
-
-        Get.dialog(DialogX(
-          title: 'warning',
-          contentWidget: _textField(controller: state.twitterController, hint: '', maxLines: 3),
-          left: 'cancel',
-          right: 'OK',
-          needPop: false,
-          leftCallback: () => Get.back(),
-          rightCallback: () => logic.sendTwitter(token: result?['oauth_token'], verifier: result?['oauth_verifier']),
-        ));
+        Get.to(() => TwitterAuthView());
         break;
     }
   }

@@ -6,7 +6,8 @@ import 'dart:convert';
 class TrendListEntity {
 
 	String? date;
-	int? quantities;
+	int? quantity;
+  double? price;
   
   TrendListEntity();
 

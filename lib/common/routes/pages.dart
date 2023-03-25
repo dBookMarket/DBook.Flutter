@@ -58,7 +58,7 @@ class AppPages {
     GetPage(
       name: AppRoutes.Assets,
       page: () => AssetsPage(),
-      middlewares: [RouteAuthMiddleware()],
+      middlewares: [RouteAuthMiddleware(), RouteTwitterAuthMiddleware()],
     ),
     GetPage(
       name: AppRoutes.Wallet,

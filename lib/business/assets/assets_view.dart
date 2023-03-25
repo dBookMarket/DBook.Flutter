@@ -128,7 +128,7 @@ class AssetsPage extends StatelessWidget {
         fit: BoxFit.cover,
         alignment: Alignment.topCenter,
       );
-      var defaultImg  = Image.asset(
+      var defaultImg = Image.asset(
         Assets.imagesDefaultBookCover,
         width: 1.sw,
         height: 0.65.sw,
@@ -138,7 +138,7 @@ class AssetsPage extends StatelessWidget {
       return Stack(
         children: [
           defaultImg,
-          (state.userInfo.value.bannerUrl == null || state.userInfo.value.bannerUrl!.isEmpty)?SizedBox():img,
+          (state.userInfo.value.bannerUrl == null || state.userInfo.value.bannerUrl!.isEmpty) ? SizedBox() : img,
           Positioned.fill(
               child: BackdropFilter(
             child: Container(
@@ -167,6 +167,7 @@ class AssetsPage extends StatelessWidget {
   Widget _flexTag() => Container(key: state.flexibleSpaceKey, width: 1.sw, height: 1.h);
 
   Widget _userInfo() => Obx(() {
+        var name = state.userInfo.value.name?.isEmpty ?? false ? formatAddress(state.userInfo.value.address) : state.userInfo.value.name;
         return Container(
           margin: EdgeInsets.symmetric(horizontal: ScreenConfig.marginH, vertical: 15.h),
           child: Row(
@@ -185,9 +186,7 @@ class AssetsPage extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Obx(() {
-                        return TextX(state.userInfo.value.name, color: ColorX.txtWhite, fontSize: FontSizeX.s16);
-                      }),
+                      TextX(name, color: ColorX.txtWhite, fontSize: FontSizeX.s16),
                       Container(
                         padding: EdgeInsets.symmetric(horizontal: 10.w),
                         margin: EdgeInsets.only(left: 20.h),
@@ -203,14 +202,14 @@ class AssetsPage extends StatelessWidget {
                       state.userInfo.value.desc,
                       fontSize: FontSizeX.s11,
                       color: ColorX.txtYellow,
-                      maxLines: 3,
+                      maxLines: state.desLine.value,
                       textAlign: TextAlign.start,
                     );
                   }),
                   SizedBox(height: 18.h),
                   Row(
                     children: [
-                      TextX('read more', style: TextStyle(fontSize: FontSizeX.s11, decoration: TextDecoration.underline, color: ColorX.txtYellow)),
+                      state.userInfo.value.desc?.isEmpty??false?SizedBox():GestureDetector(child: TextX('read more', style: TextStyle(fontSize: FontSizeX.s11, decoration: TextDecoration.underline, color: ColorX.txtYellow)),onTap: ()=>logic.readMore(),),
                       Expanded(child: SizedBox()),
                       _websiteBox(Assets.svgLogoWeb, 'website', state.userInfo.value.websiteUrl ?? ''),
                       _websiteBox(Assets.svgLogoDiscord, 'discord', state.userInfo.value.discordUrl ?? ''),

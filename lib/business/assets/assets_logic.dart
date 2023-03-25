@@ -1,5 +1,6 @@
 import 'package:dbook/business/service_api/base/net_work.dart';
 import 'package:dbook/common/store/user.dart';
+import 'package:dbook/common/utils/logger.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -38,6 +39,7 @@ class AssetsLogic extends GetxController with GetSingleTickerProviderStateMixin 
     final RenderBox box = state.flexibleSpaceKey.currentContext?.findRenderObject() as RenderBox;
     Offset offset = box.localToGlobal(Offset(0.0, 20));
     state.flexibleSpaceH.value = offset.dy;
+    logX.d('高度>>>>>>${state.flexibleSpaceH.value}');
   }
 
   collect() async {
@@ -48,6 +50,16 @@ class AssetsLogic extends GetxController with GetSingleTickerProviderStateMixin 
     state.userInfo.value.isFans = result;
     state.userInfo.refresh();
     state.setIdle();
+  }
+
+  readMore() async{
+    if(state.desLine.value == 2){
+      state.desLine.value = 5;
+    }else{
+      state.desLine.value = 2;
+    }
+    await Future.delayed(Duration(milliseconds: 100));
+    getFlexibleSpaceH();
   }
 
   @override

@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:common_utils/common_utils.dart';
 import 'package:dbook/common/utils/logger.dart';
 import 'package:dbook/common/values/values.dart';
 import 'package:dbook/common/widgets/text.dart';
@@ -26,29 +27,32 @@ class SecondaryMarketTrendPage extends StatelessWidget {
     );
   }
 
-
   Widget _list() {
     return Obx(() {
-      if (state.list.length == 0) return Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-        SvgPicture.asset(Assets.svgIssuesDetailNoData, width: 50.w),
-        SizedBox(height: 20.h),
-        TextX('no data',color: ColorX.txtHint),
-      ],);
+      if (state.list.length == 0)
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SvgPicture.asset(Assets.svgIssuesDetailNoData, width: 50.w),
+            SizedBox(height: 20.h),
+            TextX('no data', color: ColorX.txtHint),
+          ],
+        );
       return Container(
-        padding: EdgeInsets.only(top: 10, right: 20),
-        child: LineChart(mainData()),);
+          padding: EdgeInsets.only(top: 4, right: 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [TextX(' USDC', color: ColorX.txtHint, fontSize: FontSizeX.s9), SizedBox(height: 6), Expanded(child: LineChart(mainData()))],
+          ));
     });
   }
 
-
   LineChartData mainData() {
-    var dataMax = state.list.map((element) => element.quantities).toList().reduce((a, b) => max<int>(a, b));
+    var dataMax = state.list.map((element) => element.price).toList().reduce((a, b) => max<double>(a, b));
+    var dataMin = state.list.map((element) => element.price).toList().reduce((a, b) => min<double>(a, b));
     double leftInterval = dataMax / 8 < 1 ? 1.0 : dataMax / 8;
     var bottomInterval = state.list.length / 8 < 1 ? 1.0 : state.list.length / 8;
 
-    logX.d('最大值>>>$leftInterval');
     double leftReservedSize = 28;
     if (dataMax < 1000) {
       leftReservedSize = 22;
@@ -59,7 +63,6 @@ class SecondaryMarketTrendPage extends StatelessWidget {
     } else {
       leftReservedSize = 46;
     }
-    logX.d('最大值11>>>$leftReservedSize');
 
     return LineChartData(
       gridData: FlGridData(
@@ -105,23 +108,25 @@ class SecondaryMarketTrendPage extends StatelessWidget {
       ),
       // minX: 0,
       // maxX: 11,
-      // minY: 0,
-      // maxY: 18,
+      minY: dataMin * 0.9,
+      maxY: dataMax + ((dataMax * 0.1).floor()),
+      // lineTouchData: ,
+      lineTouchData: LineTouchData(touchTooltipData: LineTouchTooltipData(tooltipPadding: EdgeInsets.symmetric(horizontal: 4, vertical: 2))),
       lineBarsData: [
         LineChartBarData(
-          spots: state.list.asMap().keys.map((index) => FlSpot(index.toDouble(), (state.list[index].quantities as int).toDouble())).toList(),
+          spots: state.list.asMap().keys.map((index) => FlSpot(index.toDouble(), (state.list[index].price as double).toDouble())).toList(),
           isCurved: true,
           gradient: LinearGradient(
             colors: state.gradientColors,
           ),
           barWidth: 2,
-          color: Color(0xFF4D85D0),
+          color: ColorX.primaryYellow,
           isStrokeCapRound: true,
           dotData: FlDotData(show: true, getDotPainter: _defaultGetDotPainter),
           belowBarData: BarAreaData(
             show: true,
             gradient: LinearGradient(
-              colors: state.gradientColors.map((color) => color.withOpacity(0.3)).toList(),
+              colors: state.gradientColors.map((color) => color.withOpacity(0.1)).toList(),
             ),
           ),
         ),
@@ -131,28 +136,21 @@ class SecondaryMarketTrendPage extends StatelessWidget {
 
   Widget bottomTitleWidgets(double value, TitleMeta meta) {
     String date = state.list[value.toInt()].date;
-    var dateList = date.split('-');
-
-    var dateStr;
-
-    if (dateList.length == 3) {
-      dateStr = '${dateList[1]}/${dateList[2]}';
-    } else {
-      dateStr = date;
-    }
+    var dateStr = DateUtil.formatDateStr(date, format: 'MM/dd \nHH:mm');
 
     return SideTitleWidget(
       axisSide: meta.axisSide,
+      space: 3,
       child: TextX(
         dateStr,
-        fontSize: FontSizeX.s11,
+        fontSize: FontSizeX.s9,
         color: ColorX.txtDesc,
       ),
     );
   }
 
   FlDotPainter _defaultGetDotPainter(FlSpot spot, double xPercentage, LineChartBarData bar, int index, {double? size}) {
-    return FlDotCirclePainter(radius: size, color: Colors.white, strokeColor: Color(0xFF4D85D0), strokeWidth: 2);
+    return FlDotCirclePainter(radius: size, color: Colors.white, strokeColor: ColorX.primaryYellow, strokeWidth: 2);
   }
 
   Widget leftTitleWidgets(double value, TitleMeta meta) {

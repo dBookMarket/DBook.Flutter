@@ -13,6 +13,8 @@ import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
 import '../../../../common/entities/trades_list_entity.dart';
 import '../../../../common/utils/string_helper.dart';
+import '../../../../common/widgets/tips_page/tips_state.dart';
+import '../../../../common/widgets/tips_page/tips_view.dart';
 import '../../../../common/widgets/view_state/base_container_view.dart';
 import '../../../login/import_memories/import_memories_view.dart';
 import 'secondary_market_list_logic.dart';
@@ -71,11 +73,7 @@ class SecondaryMarketListPage extends StatelessWidget {
                 Expanded(child: SizedBox()),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    TextX('${info.price}USDC', fontSize: FontSizeX.s13, color: ColorX.txtTitle),
-                    SizedBox(height: 10.h),
-                    _buyButton(info)
-                  ],
+                  children: [TextX('${info.price}USDC', fontSize: FontSizeX.s13, color: ColorX.txtTitle), SizedBox(height: 10.h), _buyButton(info)],
                 ),
                 SizedBox(width: 25.w),
               ],
@@ -86,9 +84,9 @@ class SecondaryMarketListPage extends StatelessWidget {
         ),
       );
 
-  Widget _buyButton(TradesListEntity info){
+  Widget _buyButton(TradesListEntity info) {
     var buttonValid = info.user?.id != UserStore.to.userInfo.id;
-    if(!buttonValid){
+    if (!buttonValid) {
       return SizedBox();
     }
     return ButtonX(
@@ -102,13 +100,12 @@ class SecondaryMarketListPage extends StatelessWidget {
     );
   }
 
-
-  _onClick(TradesListEntity info){
+  _onClick(TradesListEntity info) {
     if (!UserStore.to.isLogin) {
-      Get.to(() => ImportMemoriesPage());
+      Get.to(() => TipsPage(), arguments: {'type': TipsType.login}, opaque: false, duration: Duration.zero);
       return;
     }
     logX.d('chainType:${state.issuesInfo.token?.blockChain}');
-    Get.to(()=>IssueBuyPage(),opaque: false,arguments: {'tradeDetail':info},duration: Duration(milliseconds: 0),fullscreenDialog: true);
+    Get.to(() => IssueBuyPage(), opaque: false, arguments: {'tradeDetail': info}, duration: Duration(milliseconds: 0), fullscreenDialog: true);
   }
 }

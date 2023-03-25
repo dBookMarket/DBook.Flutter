@@ -1,5 +1,4 @@
 import 'package:dbook/common/widgets/view_state/view_state.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -34,6 +33,8 @@ class AssetsState extends BaseState{
   late TabController tabController;
   late List<String> filter;
   List<Widget> pages = [];
+
+  final desLine = 2.obs;
 
   AssetsState() {
     userId = Get.arguments?['userId']??'';

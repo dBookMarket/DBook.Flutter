@@ -7,9 +7,13 @@ TrendListEntity $TrendListEntityFromJson(Map<String, dynamic> json) {
 	if (date != null) {
 		trendListEntity.date = date;
 	}
-	final int? quantities = jsonConvert.convert<int>(json['quantities']);
-	if (quantities != null) {
-		trendListEntity.quantities = quantities;
+	final int? quantity = jsonConvert.convert<int>(json['quantity']);
+	if (quantity != null) {
+		trendListEntity.quantity = quantity;
+	}
+	final double? price = jsonConvert.convert<double>(json['price']);
+	if (price != null) {
+		trendListEntity.price = price;
 	}
 	return trendListEntity;
 }
@@ -17,6 +21,7 @@ TrendListEntity $TrendListEntityFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> $TrendListEntityToJson(TrendListEntity entity) {
 	final Map<String, dynamic> data = <String, dynamic>{};
 	data['date'] = entity.date;
-	data['quantities'] = entity.quantities;
+	data['quantity'] = entity.quantity;
+	data['price'] = entity.price;
 	return data;
 }
