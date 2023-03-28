@@ -28,6 +28,7 @@ class UserStore extends GetxController {
 
   final _userInfo = UserInfoEntity().obs;
   UserInfoEntity get userInfo => _userInfo.value;
+  final refreshCount = 0.obs;
 
   bool get isLogin => _isLogin.value;
   String? get address => _userInfo.value.address;
@@ -92,6 +93,7 @@ class UserStore extends GetxController {
   updateUserInfo(UserInfoEntity info){
     _userInfo.value = info;
     StorageService.to.setString(STORAGE_USER_INFO_KEY, jsonEncode(_userInfo.value.toJson()));
+    refreshCount.value++;
   }
 
   setDefaultAvatar()async{

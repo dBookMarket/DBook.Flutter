@@ -370,17 +370,17 @@ class IssuesDetailPage extends StatelessWidget {
     });
   }
 
-  Widget _destroyedItem(String title, String value, {bool? isValueRed = false, bool clickAble = false}) => Column(
+  Widget _destroyedItem(String title, String value, {bool isValueRed = false, bool clickAble = false}) => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           TextX(title, fontSize: FontSizeX.s11, color: ColorX.txtHint),
           SizedBox(height: 10.h),
           InkWell(
-            onTap: () => _onClick('hash'),
+            onTap: () => _onClick('hash', param: clickAble),
             child: TextX(
               value,
               fontSize: FontSizeX.s13,
-              color: isValueRed! ? ColorX.txtRed : ColorX.txtTitle,
+              color: isValueRed ? ColorX.txtRed : ColorX.txtTitle,
               style: clickAble
                   ? TextStyle(fontSize: FontSizeX.s13, color: ColorX.txtBrown, decoration: TextDecoration.underline, decorationStyle: TextDecorationStyle.solid, decorationColor: ColorX.txtBrown)
                   : null,
@@ -476,7 +476,7 @@ class IssuesDetailPage extends StatelessWidget {
         break;
       case '购买':
         if (!UserStore.to.isLogin) {
-          Get.to(()=>TipsPage(),arguments: {'type': TipsType.login},opaque: false,duration: Duration.zero);
+          Get.to(() => TipsPage(), arguments: {'type': TipsType.login}, opaque: false, duration: Duration.zero);
           return;
         }
         var limit = (state.issuesInfo.value.buyLimit ?? 1) - (state.issuesInfo.value.nOwned ?? 0);
@@ -496,13 +496,14 @@ class IssuesDetailPage extends StatelessWidget {
         Get.to(() => AssetsPage(), arguments: {'title': 'Author Detail', 'assetsType': AssetsType.AUTHOR, 'userId': state.issuesInfo.value.book?.author?.id.toString()}, preventDuplicates: false);
         break;
       case 'wish':
-        if(!UserStore.to.isLogin){
-          Get.to(()=>TipsPage(),arguments: {'type': TipsType.login},opaque: false,duration: Duration.zero);
+        if (!UserStore.to.isLogin) {
+          Get.to(() => TipsPage(), arguments: {'type': TipsType.login}, opaque: false, duration: Duration.zero);
           return;
         }
         logic.wish();
         break;
       case 'hash':
+        if (!param) return;
         var token = state.issuesInfo.value.token;
         var hash = state.issuesInfo.value.destroyLog ?? '';
         if (token?.blockChain == PublicChainType.bnb.name) {

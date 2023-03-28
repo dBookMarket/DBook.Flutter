@@ -27,7 +27,6 @@ class AssetsLogic extends GetxController with GetSingleTickerProviderStateMixin 
 
   getSelfUserInfo() async {
     state.userInfo.value = UserStore.to.userInfo;
-    state.userInfo.value = await UserStore.to.getUserInfo();
   }
 
   getOtherUserInfo() async {
@@ -65,6 +64,11 @@ class AssetsLogic extends GetxController with GetSingleTickerProviderStateMixin 
   @override
   void onInit() {
     state.tabController = TabController(vsync: this, length: state.filter.length, initialIndex: state.tabIndex);
+    ever(UserStore.to.refreshCount, (callback) {
+      if (state.assetsType == AssetsType.MY_BOOKS) {
+        getSelfUserInfo();
+      }
+    });
     super.onInit();
   }
 }
