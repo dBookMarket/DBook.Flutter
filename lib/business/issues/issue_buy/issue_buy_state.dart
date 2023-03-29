@@ -9,6 +9,7 @@ class IssueBuyState extends BaseState{
   String? chainType;
   int? nftId;
   int quantity = 1;
+  final royalty = 0.0.obs;
   IssueBuyState() {
     tradeInfo = Get.arguments?['tradeDetail'] ?? '';
   }

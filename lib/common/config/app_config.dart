@@ -38,3 +38,7 @@ class BlockChainConfig{
   static final BigInt POLYGON_GAS_PRICE = BigInt.from(59597);
   static final BigInt FILECOIN_GAS_PRICE = BigInt.from(59597);
 }
+
+class RoyaltyConfig{
+  static final String platform = '3%';
+}

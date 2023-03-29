@@ -14,7 +14,9 @@ import 'issue_buy_logic.dart';
 
 class IssueBuyPage extends StatelessWidget {
   final logic = Get.put(IssueBuyLogic());
-  final state = Get.find<IssueBuyLogic>().state;
+  final state = Get
+      .find<IssueBuyLogic>()
+      .state;
 
   @override
   Widget build(BuildContext context) {
@@ -82,13 +84,23 @@ class IssueBuyPage extends StatelessWidget {
           ],
         ),
         SizedBox(height: 60.h),
+        Row(children: [
+          Spacer(),
+          Obx(() {
+            return TextX('Author Royalties：${removeZero(state.royalty.value.toString())}%', color: ColorX.txtHint, fontSize: FontSizeX.s11);
+          }),
+          SizedBox(width: 40.w),
+          TextX('Platform Royalty：${RoyaltyConfig.platform}', color: ColorX.txtHint, fontSize: FontSizeX.s11),
+        ]),
+        SizedBox(height: 20.h),
         _action(),
         SizedBox(height: 30.h),
       ],
     );
   }
 
-  Widget _action() => Row(children: [
+  Widget _action() =>
+      Row(children: [
         Expanded(
           child: ButtonX('Cancel',
               borderRadius: 0,
@@ -109,7 +121,8 @@ class IssueBuyPage extends StatelessWidget {
                 onPressed: () => _onClick('Buy'))),
       ]);
 
-  Widget _title(String? title) => Container(
+  Widget _title(String? title) =>
+      Container(
         margin: EdgeInsets.only(bottom: 10.h),
         child: TextX(title, fontSize: FontSizeX.s13, color: ColorX.txtHint),
       );

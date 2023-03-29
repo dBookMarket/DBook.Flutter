@@ -418,6 +418,7 @@ class IssuesDetailPage extends StatelessWidget {
       );
 
   Widget _buyDialog() {
+    var authRoyalty = state.issuesInfo.value.royalty ?? 0;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -442,6 +443,9 @@ class IssuesDetailPage extends StatelessWidget {
             InkWell(child: Container(child: Icon(Icons.chevron_right), color: Color(0xFFFFF7E9), margin: EdgeInsets.only(left: 20.w)), onTap: () => logic.amountAdd()),
           ],
         ),
+        SizedBox(height: 20.h),
+        TextX('Author Royalties：${removeZero(authRoyalty.toString())}%',color: ColorX.txtHint,fontSize: FontSizeX.s11),
+        TextX('Platform Royalty：${RoyaltyConfig.platform}',color: ColorX.txtHint,fontSize: FontSizeX.s11)
       ],
     );
   }

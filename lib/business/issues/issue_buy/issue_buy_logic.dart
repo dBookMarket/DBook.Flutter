@@ -15,6 +15,7 @@ class IssueBuyLogic extends GetxController {
     state.setIdle();
     state.chainType = result.token?.blockChain;
     state.nftId = result.token?.id;
+    state.royalty.value = result.royalty??0.0;
   }
 
   buy() async {

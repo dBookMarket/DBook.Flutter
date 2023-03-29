@@ -102,6 +102,16 @@ class AssetsSellPage extends StatelessWidget {
             ],
           ),
           SizedBox(height: 30.h),
+          Row(children: [
+            Spacer(),
+            Obx(() {
+              var royalty = state.issuesInfo.value.royalty == null?'-':removeZero((state.issuesInfo.value.royalty).toString());
+              return TextX('Author Royalties：$royalty%', color: ColorX.txtHint, fontSize: FontSizeX.s11);
+            }),
+            SizedBox(width: 40.w),
+            TextX('Platform Royalty：${RoyaltyConfig.platform}', color: ColorX.txtHint, fontSize: FontSizeX.s11),
+          ]),
+          SizedBox(height: 20.h),
           _action(),
           SizedBox(height: 30.h),
         ],
