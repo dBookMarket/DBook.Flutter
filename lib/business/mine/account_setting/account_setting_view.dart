@@ -20,7 +20,9 @@ import 'change_password/change_password_view.dart';
 
 class AccountSettingPage extends StatelessWidget {
   final logic = Get.put(AccountSettingLogic());
-  final state = Get.find<AccountSettingLogic>().state;
+  final state = Get
+      .find<AccountSettingLogic>()
+      .state;
 
   @override
   Widget build(BuildContext context) {
@@ -33,11 +35,12 @@ class AccountSettingPage extends StatelessWidget {
   Widget _body() {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: ScreenConfig.marginH, vertical: 24.h),
-      child: Column(children: [_userInfo(), SizedBox(height: 40.h), _action(), Spacer(), _quitButton()]),
+      child: Column(children: [_userInfo(), SizedBox(height: 40.h), _action(), Spacer(), _version(), _quitButton()]),
     );
   }
 
-  Widget _userInfo() => Row(children: [
+  Widget _userInfo() =>
+      Row(children: [
         AvatarX(UserStore.to.userInfo.avatarUrl, size: 130.r),
         Spacer(),
         TextX(formatAddress(UserStore.to.userInfo.address), color: ColorX.txtTitle, fontSize: FontSizeX.s16),
@@ -51,7 +54,8 @@ class AccountSettingPage extends StatelessWidget {
         )
       ]);
 
-  Widget _action() => Container(
+  Widget _action() =>
+      Container(
         padding: EdgeInsets.symmetric(horizontal: 12.w),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20.r),
@@ -61,7 +65,7 @@ class AccountSettingPage extends StatelessWidget {
                   offset: Offset(0, 0), //阴影位置,从什么位置开始
                   blurRadius: 18.r, // 阴影模糊层度
                   spreadRadius: 1 // 阴影扩散程度
-                  )
+              )
             ],
             color: Colors.white),
         child: Column(
@@ -73,12 +77,22 @@ class AccountSettingPage extends StatelessWidget {
         ),
       );
 
-  Widget _actionItem(String title) => InkWell(
+  Widget _actionItem(String title) =>
+      InkWell(
         onTap: () => _onClick(title),
         child: Container(
           margin: EdgeInsets.symmetric(horizontal: ScreenConfig.marginH, vertical: 30.h),
           child: Row(children: [TextX(title, color: ColorX.txtTitle, fontSize: FontSizeX.s16), Spacer(), Icon(Icons.chevron_right)]),
         ),
+      );
+
+  Widget _version() =>
+      Container(
+        width: 1.sw,
+        margin: EdgeInsets.symmetric(horizontal: ScreenConfig.marginH, vertical: 30.h),
+        child: Obx(() {
+          return TextX('v${state.versionName.value}', color: ColorX.txtHint, fontSize: FontSizeX.s16);
+        }),
       );
 
   Widget _quitButton() => ButtonX('Quit', borderRadius: 0, margin: EdgeInsets.only(bottom: 46.h), onPressed: () => _onClick('quit'));
