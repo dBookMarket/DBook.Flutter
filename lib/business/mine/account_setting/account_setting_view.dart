@@ -91,7 +91,7 @@ class AccountSettingPage extends StatelessWidget {
         width: 1.sw,
         margin: EdgeInsets.symmetric(horizontal: ScreenConfig.marginH, vertical: 30.h),
         child: Obx(() {
-          return TextX('v${state.versionName.value}', color: ColorX.txtHint, fontSize: FontSizeX.s16);
+          return TextX('v${state.versionName.value}', color: ColorX.txtHint, fontSize: FontSizeX.s13);
         }),
       );
 
